@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<style>
+  .tile {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+  }
+  body {
+    font-family: "Courier New",monospace;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+  }
+  #mapContainer   {
+    height: 62vh;
+    width:44vw;
+    position: absolute;
+    left: 1px;
+    font-size: 2vh;
+    cursor:default;
+    border: 1px solid gray;
+  }
+  #contextMenuContainer   {
+    height: 62vh;
+    width:55vw;
+    position: absolute;
+    right: 1px;
+    border: 1px solid gray;
+  }
+  #textLogContainer   {
+    height: 37vh;
+    width:99vw;
+    position: absolute;
+    bottom: 1px;
+    border: 1px solid gray;
+  }
+</style>
+<head>
+  <title>Dagu | {{status}}</title>
+  <link rel="shortcut icon" href="logo.png">
+</head>
+<body>
+  <div id="app">
+    <div id="mapContainer">
+      <table id="tilesContainer">
+        <tr v-for="row in map">
+          <td class="tile" v-for="tile in row">
+            <img src="{{tile.icon}}">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="contextMenuContainer">
+      <button type="button" v-on:click="util.saveGame">Save Game</button>
+      <button type="button" v-on:click="util.loadGame">Load Game</button>
+    </div>
+    <div id="textLogContainer">
+      <div v-for="output_text in game.output">
+        <span>{{output_text}}</span>
+      </div>
+    </div>
+  </div>
+  <script src="constants.js"></script>
+  <script src="game.js"></script>
+  <script src="util.js"></script>
+  <script src="characterAttack.js"></script>
+  <script src="monsterAttack.js"></script>
+  <script src="main.js"></script>
+
+  <script src="https://unpkg.com/vue"></script>
+</body>
+</html>
