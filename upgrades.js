@@ -1,8 +1,8 @@
 var upgrades = [
     {
-        name:"Blade Mastery",
-        effect:function(){
-            game.character.attack_speed += 5;
-        },
+        name:"Go to the Gym!",
+        description:"You went to the gym and got stronger",
+        skill_point_cost:1,
     },
+
 ];

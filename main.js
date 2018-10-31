@@ -7,5 +7,9 @@ var app = new Vue({
     },
     methods: {
         util: util,
+        user_interface: user_interface,
+        character_attack:character_attack,
+        monster_attack:monster_attack,
+        
     }
 });

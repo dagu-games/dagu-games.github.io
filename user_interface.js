@@ -1,4 +1,4 @@
-var util = {
+var user_interface = {
     selectSpell : function(spell_name){
         //Highlights and adds onclick methods to each object on the map.
         // Uses findSquare to select bounds, then isinrange to
