@@ -1,5 +1,19 @@
 const GRASS_ICON = "grass.png";
 
+const WALKABLE_TILES = [
+    "grass",
+    "stone",
+    "dirt",
+];
+
+const ZOOM_MAX = 100;
+
+const VISION_BLOCKING_TILES = [
+    "tree",
+    "bush",
+    "wall",
+];
+
 const NPC_FIRST_NAMES = [
     "Jim",
     "Dave",

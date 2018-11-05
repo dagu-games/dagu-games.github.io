@@ -35,23 +35,24 @@
   }
 </style>
 <head>
-  <title>Dagu | {{status}}</title>
   <script src="https://unpkg.com/vue"></script>
+
+  <title>Dagu</title>
 </head>
 <body>
   <div id="app">
     <div id="mapContainer">
       <table id="tilesContainer">
-        <tr v-for="row in map">
-          <td class="tile" v-for="tile in row">
-            <img src="{{tile.icon}}">
+        <tr v-for="x in game.settings.zoom_factor">
+          <td class="tile" v-for="y in game.settings.zoom_factor">
+            <img :src="tile.icon">
           </td>
         </tr>
       </table>
     </div>
     <div id="contextMenuContainer">
-      <button type="button" v-on:click="util.saveGame">Save Game</button>
-      <button type="button" v-on:click="util.loadGame">Load Game</button>
+      <button type="button" v-on:click="saveGame">Save Game</button>
+      <button type="button" v-on:click="loadGame">Load Game</button>
     </div>
     <div id="textLogContainer">
       <div v-for="output_text in game.output">
@@ -59,10 +60,12 @@
       </div>
     </div>
   </div>
+  <script src="lodash.js"></script>
   <script src="constants.js"></script>
   <script src="game.js"></script>
+  <script src="world.js"></script>
+  <script src="pathfinder.js"></script>
   <script src="util.js"></script>
-  <script src="user_interface.js"></script>
   <script src="upgrades.js"></script>
   <script src="character_attack.js"></script>
   <script src="monster_attack.js"></script>
