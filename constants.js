@@ -61,3 +61,59 @@ const TOWN_NAMES = [
     "Placeburg",
     "CityVillage"
 ];
+
+const ITEM_NAMES = {
+    helmets:[
+        "helm of cool",
+    ],
+    shoulders:[
+        "shoulder guards of cool",
+    ],
+    gauntlets:[
+        "gauntlets of cool",
+    ],
+    chests:[
+        "chest of cool",
+    ],
+    belts:[
+        "belt of cool",
+    ],
+    pants:[
+        "pants of cool",
+    ],
+    boots:[
+        "boots of cool",
+    ],
+    main_hands:[
+        "sword of cool",
+    ],
+    off_hands:[
+        "shield of cool",
+    ],
+    necklaces:[
+        "necklace of cool",
+    ],
+    rings:[
+        "ring of cool",
+    ],
+};
+
+const ITEM_DESCRIPTIONS = [
+    "old and worn",
+    "good as new",
+    "made by the finest craftsmen",
+];
+
+const ITEM_SLOTS = [
+    "helmet",
+    "shoulders",
+    "gauntlets",
+    "chest",
+    "belt",
+    "pants",
+    "boots",
+    "main_hand",
+    "off_hand",
+    "necklace",
+    "ring",
+];

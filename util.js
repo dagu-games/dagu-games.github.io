@@ -9,9 +9,11 @@ var util = {
         );
         return false;
     },
+
     isInRange: function (x1, y1, x2, y2, max) {
         return util.getAllPointsBetween(x1, y1, x2, y2).length < max;
     },
+
     hasLineOfSight: function (x1, y1, x2, y2) {
         var points = util.getAllPointsBetween(x1, y1, x2, y2);
         VISION_BLOCKING_TILES.forEach(
@@ -27,6 +29,7 @@ var util = {
         );
         return true;
     },
+
     slope: function(a, b){
         if (a.x === b.x) {
             return null;
@@ -34,6 +37,7 @@ var util = {
 
         return (b.y - a.y) / (b.x - a.x);
     },
+
     intercept: function(point, slope){
         if (slope === null) {
             return point.x;
@@ -41,6 +45,7 @@ var util = {
 
         return point.y - slope * point.y;
     },
+
     getAllPointsBetween: function(x1, y1, x2, y2){
         var A = {
             x:x1,
@@ -62,9 +67,11 @@ var util = {
         }
         return coordinates;
     },
+
     findDirection: function (x1, y1, x2, y2) {
         return pathfinder.findShortestPath(x1,y1,x2,y2)[0];
     },
+
     findSquare: function (x, y, length) {
         return {
             x1:x+(length/2),
@@ -73,6 +80,7 @@ var util = {
             y2:y-(length/2),
         };
     },
+
     getAllInRange: function (x, y, range) {
         var ans = [];
         for(var i=x-range; i<x+range; i++){
@@ -87,15 +95,19 @@ var util = {
         }
         return ans;
     },
+
     isAround: function (x, y, npc_type) {
 
     },
+
     loadGame: function (index) {
         //Reads index and storage. If storage is null, it runs init to init the storage objects and game data
     },
+
     saveGame: function () {
         //reads the game data and stores it into the storage space, moving the current data into backups
     },
+
     init: function () {
         game.settings = {
             zoom_factor : 25,
@@ -110,12 +122,14 @@ var util = {
         util.generateChunk(0,-1);
         util.generateChunk(1,-1);
     },
+
     getChunk: function (x,y){
         return {
             x:x/100,
             y:y/100,
-        }
+        };
     },
+
     generateChunk: function (x, y) {
         var r = Math.floor(Math.random() * 100); //generates random number 0-99
         r=70;
@@ -147,29 +161,68 @@ var util = {
         //dungeon       generates enemies and a quest item for an accepted quest
         //wilderness    will contain either enemies, nothing, or loot contains a quest item needed for accepted quest and enemies fill in holes with random grass, trees, sand, snow, or dirt
     },
+
     generateChunkEnemies: function () {
         return [
             {
-
+                name:"HellHound",
+                max_health:100,
+                armor:10,
+                magic_resistance:10,
+                attack_power:10,
+                attack_lifesteal:10,
+                ability_power:10,
+                magic_lifesteal:10,
+                monster_attacks:[
+                    "bite",
+                    "scratch",
+                ],
             }
         ];
-        //determines character level and generates an appropriate encounter
-        //monsters[]
-        //name
-        // max_health
-        // armor
-        // magic_resistance
-        // attack_power
-        // attack_lifesteal
-        // ability_power
-        // magic_lifesteal
-        // Monster_attacks[monster_attack]
     },
+
     tick: function (x, y) {
         //simulates and makes moves for all monsters withing 500 tiles, if they exist.
     },
+
     generateLoot: function () {
-        //generate appropriate loot for current player level
-        //return items[]
+        var n = util.randomInt(10);
+        var items = [];
+        for(var i = 0; i<n; i++){
+            var item = {
+                name:null,
+                slot:util.randomItemInArray(ITEM_SLOTS),
+                stats:{
+                    max_health:10,
+                    armor:10,
+                    magic_resistance:10,
+                    attack_power:10,
+                    attack_lifesteal:10,
+                    ability_power:10,
+                    magic_lifesteal:10,
+                    cooldown_reduction:10,
+                    mana_regeneration:2,
+                    max_mana:10,
+                },
+                description:util.randomItemInArray(ITEM_DESCRIPTIONS),
+                value:util.randomInt(100),
+            };
+            item.name = util.randomItemInArray(ITEM_NAMES[item.slot]);
+
+            items.push(item);
+        }
+        return items;
     },
-}
+
+    randomInt: function(max){
+        if(max=null){
+            return Math.floor(Math.random() * 2);
+        }
+        return Math.floor(Math.random() * max);
+    },
+
+    randomItemInArray: function(arr){
+        return arr[util.randomInt(arr.length)];
+    },
+
+};
