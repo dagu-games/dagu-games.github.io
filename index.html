@@ -35,17 +35,17 @@
   }
 </style>
 <head>
-  <script src="https://unpkg.com/vue"></script>
-
+  <script src="vue.js"></script>
+  <script src="lodash.js"></script>
   <title>Dagu</title>
 </head>
 <body>
   <div id="app">
-    <div id="mapContainer">
-      <table id="tilesContainer">
+    <div id="map_container">
+      <table id="tiles_container">
         <tr v-for="x in game.settings.zoom_factor">
-          <td class="tile" v-for="y in game.settings.zoom_factor">
-            <img :src="tile.icon">
+          <td class="tile_container" v-for="y in game.settings.zoom_factor">
+            <img class="tile_img" v-bind:src="tile.icon">
           </td>
         </tr>
       </table>
@@ -60,7 +60,6 @@
       </div>
     </div>
   </div>
-  <script src="lodash.js"></script>
   <script src="constants.js"></script>
   <script src="game.js"></script>
   <script src="world.js"></script>
