@@ -1,4 +1,5 @@
 const GRASS_ICON = "grass.png";
+const WALL_ICON = "wall.png";
 
 const WALKABLE_TILES = [
     "grass",
