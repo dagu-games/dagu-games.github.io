@@ -169,15 +169,22 @@ var util = {
     getSavesList: function(){
         var ans = [];
         var saves = JSON.parse(localStorage.getItem(STORAGE_STRING));
-        saves.forEach(function (save) {
-            var d = new Date(save.save_time);
-            ans.push(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
-        });
+        for(var i = 0; i < saves.length; i++){
+            ans.push({
+                time:saves[i].save_time,
+                index:i,
+            });
+        }
         return ans;
     },
 
     canCast: function(spell_name){
         return game.character.current_mana < character_attack.getAttack(spell_name)
+    },
+
+    formatTime: function(time){
+        var d = new Date(time);
+        return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
     },
 
 };

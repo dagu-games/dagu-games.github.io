@@ -50,15 +50,22 @@ var user_interface = {
 
         map_controller.render_map();
     },
-    loadGame: function (index) {
+    loadGame: function (index){
         //Reads index and storage. If storage is null, it runs init to init the storage objects and game data
         var i = document.getElementById("load_game_select");
         util.loadGame(i);
         map_controller.render_map();
     },
-    saveGame: function () {
+    saveGame: function (){
         //reads the game data and stores it into the storage space, moving the current data into backups
         util.saveGame();
         map_controller.render_map();
+    },
+    printCredits: function(){
+        game.output.push("Game by Douglas Kihlken");
+        game.output.push("Special Thanks and Donators:");
+        DONATORS.forEach(function (donator) {
+            game.output.push(donator);
+        });
     },
 };
