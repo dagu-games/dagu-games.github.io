@@ -1,12 +1,12 @@
 var user_interface = {
-    selectSpell : function(spell_name){
+    selectSpell : function(event){
         //Highlights and adds onclick methods to each object on the map.
         // Uses findSquare to select bounds, then isinrange to
         // verify the places that can be hit.
 
         map_controller.render_map();
     },
-    buyUpgrade : function(){
+    buyUpgrade : function(event){
         //Changes character information to reflect the purchased upgrade and deducts a skill point
 
         map_controller.render_map();
@@ -31,33 +31,71 @@ var user_interface = {
         map_controller.render_map();
     },
     moveLeft : function(){
-        //moves the character left if possible
-
+        if(util.isWalkable(game.character.x-1,game.character.y)){
+            game.character.x -= 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
         map_controller.render_map();
     },
-    moveRight : function(){
-        //moves the character right if possible
-
+    moveUpLeft : function(){
+        if(util.isWalkable(game.character.x-1,game.character.y+1)){
+            game.character.x -= 1;
+            game.character.y += 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
         map_controller.render_map();
     },
     moveUp : function(){
-        //moves the character up if possible
-
+        if(util.isWalkable(game.character.x,game.character.y+1)){
+            game.character.y += 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
+        map_controller.render_map();
+    },
+    moveUpRight : function(){
+        if(util.isWalkable(game.character.x+1,game.character.y+1)){
+            game.character.x += 1;
+            game.character.y += 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
+        map_controller.render_map();
+    },
+    moveRight : function(){
+        if(util.isWalkable(game.character.x+1,game.character.y)){
+            game.character.x += 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
+        map_controller.render_map();
+    },
+    moveDownRight : function(){
+        if(util.isWalkable(game.character.x+1,game.character.y-1)){
+            game.character.x += 1;
+            game.character.y -= 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
         map_controller.render_map();
     },
     moveDown : function(){
-        //moves the character down if possible
-
+        if(util.isWalkable(game.character.x,game.character.y-1)){
+            game.character.y -= 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
         map_controller.render_map();
     },
-    loadGame: function (index){
-        //Reads index and storage. If storage is null, it runs init to init the storage objects and game data
-        var i = document.getElementById("load_game_select");
+    moveDownLeft : function(){
+        if(util.isWalkable(game.character.x-1,game.character.y-1)){
+            game.character.x -= 1;
+            game.character.y -= 1;
+        }
+        game_logic.tick(game.character.x,game.character.y);
+        map_controller.render_map();
+    },
+    loadGame: function (){
+        var i = document.getElementById("load_game_select").value;
         util.loadGame(i);
         map_controller.render_map();
     },
     saveGame: function (){
-        //reads the game data and stores it into the storage space, moving the current data into backups
         util.saveGame();
         map_controller.render_map();
     },

@@ -55,7 +55,7 @@
     </div>
     <div id="context_menu_container">
       <button type="button" onclick=user_interface.saveGame()>Save Game</button>
-      <select v-model="game.save_selected" id="save_select">
+      <select v-model="game.save_selected" id="load_save_select">
         <option v-for="save in util.getSavesList" value="save.index">{{util.formatTime(save.time)}}</option>
       </select>
       <button type="button" onclick=user_interface.loadGame()>Load Game</button>
