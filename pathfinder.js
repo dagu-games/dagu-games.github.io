@@ -1,5 +1,7 @@
 var pathfinder = {
     findShortestPath:function(x1,y1,x2,y2) {
+        var limit = pathfinder.getAll().length;
+        var count = 0;
         var location = {
             x: x1,
             y: y1,
@@ -7,7 +9,8 @@ var pathfinder = {
             status: 'Start'
         };
         var queue = [location];
-        while(queue.length > 0){
+        while(queue.length > 0 && count < limit){
+            count++;
             var currentLocation = queue.shift();
             for(var i = 0; i < 8; i++){
                 var newLocation = this.exploreInDirection(currentLocation, i ,x1,y1,x2,y2);

@@ -63,24 +63,56 @@ var game_logic = {
     generateChunk: function (chunk_x, chunk_y) {
         var r = util.randomInt(100);
         r=70;
-        if(r<75){
-            //generate wilderness
+        if(r<75){   //generate wilderness
             var monsters = game_logic.generateChunkEnemies();
-            var monster_i = 0;
 
             for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
                 for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     if(util.randomInt(100) < 30){
                         world.get(i,j).type = 'wall';
                     }else{
-                        world.get(i,j).type = 'grass';
+                        if(util.randomInt(100) < 30){
+                            world.get(i,j).type = 'dirt';
+                        }else{
+                            world.get(i,j).type = 'grass';
+                        }
                     }
                 }
             }
-        }else if(r>=75 && r<85){
-            //generate dungeon
-        }else if(r>=85){
-            //generate town
+
+            for(i = 0; i < monsters.length; i++){
+                var points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                var point = util.randomItemInArray(points);
+                world.get(point.x,point.y).npc = monsters[i];
+            }
+        }else if(r>=75 && r<85){    //generate dungeon
+            var monsters = game_logic.generateChunkEnemies();
+
+            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+                    if(util.randomInt(100) < 30){
+                        world.get(i,j).type = 'wall';
+                    }else{
+                        world.get(i,j).type = 'stone';
+                    }
+                }
+            }
+
+            for(i = 0; i < monsters.length; i++){
+                var points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                var point = util.randomItemInArray(points);
+                world.get(point.x,point.y).npc = monsters[i];
+            }
+        }else if(r>=85){    //generate town
+
+            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+                    world.get(i,j).type = 'grass';
+                    if(util.randomInt(100) < 8){
+                        world.get(i,j).npc = game_logic.generateNPC();
+                    }
+                }
+            }
         }
         //clears whatever is in the current map object and fills the hole with new terrain in the given coordinates chunk.
         //determine chunk with (x/CHUNK_SIZE - x%CHUNK_SIZE - 1). then multiply by CHUNK_SIZE to get the starting x.
@@ -96,6 +128,8 @@ var game_logic = {
         return [
             {
                 name:"HellHound",
+                type:"monster",
+                quest_item:game.character.quests.length>0 ? util.randomItemInArray(game.character.quests).goal_item:null,
                 max_health:100,
                 armor:10,
                 magic_resistance:10,
@@ -113,7 +147,10 @@ var game_logic = {
     },
 
     tick: function (x, y) {
-        //simulates and makes moves for all monsters withing 500 tiles, if they exist.
+        var monsters = util.getAllMonsters();
+        for(var i = 0; i < monsters.length; i++){
+
+        }
     },
 
     generateLoot: function () {
@@ -152,6 +189,8 @@ var game_logic = {
             npc.type="shop";
         }else{
             npc.type="quest_giver";
+            npc.quest=util.randomItemInArray(QUESTS);
         }
+        return npc;
     },
 };

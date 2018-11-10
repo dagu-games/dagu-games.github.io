@@ -1,5 +1,9 @@
 const GRASS_ICON = "grass.png";
 const WALL_ICON = "wall.png";
+const STONE_ICON = "stone.png";
+const DIRT_ICON = "dirt.png";
+const NPC_ICON = "npc.png";
+const HELLHOUND_ICON = "hellhound.png";
 
 const STATUS = {
     COMBAT:"combat",

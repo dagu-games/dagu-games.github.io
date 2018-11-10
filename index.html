@@ -59,14 +59,22 @@
         <option v-for="save in util.getSavesList" value="save.index">{{util.formatTime(save.time)}}</option>
       </select>
       <button type="button" onclick=user_interface.loadGame()>Load Game</button>
+
       <button type="button" onclick=user_interface.printCredits()>Show Credits</button>
+
       <button type="button" onclick=user_interface.zoomIncrease()>Zoom Increase</button>
       <button type="button" onclick=user_interface.zoomDecrease()>Zoom Decrease</button>
+
       <button type="button" onclick=user_interface.cancelSpell() v-if="(game.status===STATUS.COMBAT_SPELL_SELECTED)">Cancel Spell</button>
+
       <button type="button" onclick=user_interface.moveLeft()>Move Left</button>
-      <button type="button" onclick=user_interface.moveRight()>Move Right</button>
-      <button type="button" onclick=user_interface.moveDown()>Move Down</button>
+      <button type="button" onclick=user_interface.moveUpLeft()>Move Up and Left</button>
       <button type="button" onclick=user_interface.moveUp()>Move Up</button>
+      <button type="button" onclick=user_interface.moveUpRight()>Move Up and Right</button>
+      <button type="button" onclick=user_interface.moveRight()>Move Right</button>
+      <button type="button" onclick=user_interface.moveDownRight()>Move Down and Right</button>
+      <button type="button" onclick=user_interface.moveDown()>Move Down</button>
+      <button type="button" onclick=user_interface.moveDownLeft()>Move Down and Left</button>
     </div>
     <div id="text_log_container">
       <div v-for="output_text in game.output">

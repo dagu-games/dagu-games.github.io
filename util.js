@@ -2,7 +2,10 @@ var util = {
     isWalkable: function(x, y){
         WALKABLE_TILES.forEach(
             function (type) {
-                if (world.get(x,y).type === type){
+                if (world.get(x,y).type === type
+                    && world.get(x,y).npc.type!=="monster"
+                    && world.get(x,y).npc.type!=="quest_giver"
+                    && world.get(x,y).npc.type!=="shop"){
                     return true;
                 }
             }
@@ -164,6 +167,18 @@ var util = {
         if(type==="wall"){
             return WALL_ICON;
         }
+        if(type==="dirt"){
+            return DIRT_ICON;
+        }
+        if(type==="stone"){
+            return STONE_ICON;
+        }
+        if(type==="npc"){
+            return NPC_ICON;
+        }
+        if(type==="hellhound"){
+            return HELLHOUND_ICON;
+        }
     },
 
     getSavesList: function(){
@@ -185,6 +200,34 @@ var util = {
     formatTime: function(time){
         var d = new Date(time);
         return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+    },
+
+    getAllPathableTilesInChunk: function(chunk_x,chunk_y){
+        var ans = [];
+        for(var i = chunk_x*CHUNK_SIZE; i < (chunk_x+1)*CHUNK_SIZE; i++){
+            for(var j = chunk_y*CHUNK_SIZE; j < (chunk_y+1)*CHUNK_SIZE; j++){
+                if(util.isWalkable(chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE) && pathfinder.findShortestPath(0,0,chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE) !== false){
+                    ans.push({
+                        x: i,
+                        y: j,
+                    });
+                }
+            }
+        }
+    },
+
+    getAllMonsters: function(){
+        var monsters = [];
+        var points = world.getAll();
+        for(var i = 0; i < points.length; i++){
+            if(world.get(points[i].x,points[i].y).npc.type === "monster"){
+                monsters.push({
+                    x:points[i].x,
+                    y:points[i].y,
+                });
+            }
+        }
+        return monsters;
     },
 
 };
