@@ -3,6 +3,53 @@ var game_logic = {
         game.settings = {
             zoom_factor : 25,
         };
+        game.world1 = [[]];
+        game.world2 = [[]];
+        game.world3 = [[]];
+        game.world4 = [[]];
+        game.character = {
+            x:0,
+            y:0,
+            level:1,
+            experience:0,
+            unspent_skill_points:0,
+            current_health:100,
+            max_health:100,
+            health_regeneration:1,
+            current_mana:100,
+            max_mana:100,
+            mana_regeneration:1,
+            cooldown_reduction:0,
+            armor:0,
+            magic_resistance:0,
+            attack_power:1,
+            attack_lifesteal:0,
+            ability_power:0,
+            magic_lifesteal:0,
+            equipped_items:{
+                helmet:null,
+                shoulders:null,
+                gauntlets:null,
+                chest:null,
+                belt:null,
+                pants:null,
+                boots:null,
+                main_hand:null,
+                off_hand:null,
+                necklace:null,
+                ring1:null,
+                ring2:null,
+            },
+            inventory:{
+                gold:0,
+                equipment:[],
+                quest_items:[],
+            },
+            quests:[],
+            upgrades:[],
+            spells:[],
+        };
+        game.status = STATUS.COMBAT;
         game_logic.generateChunk(0,0);
         game_logic.generateChunk(1,0);
         game_logic.generateChunk(1,1);
@@ -13,17 +60,17 @@ var game_logic = {
         game_logic.generateChunk(0,-1);
         game_logic.generateChunk(1,-1);
     },
-    generateChunk: function (x, y) {
-        var r = Math.floor(Math.random() * 100); //generates random number 0-99
+    generateChunk: function (chunk_x, chunk_y) {
+        var r = util.randomInt(100);
         r=70;
         if(r<75){
             //generate wilderness
             var monsters = game_logic.generateChunkEnemies();
             var monster_i = 0;
 
-            for(var i=100*x; i<100+(100*x); i++){
-                for(var j=100*y; j<100+(100*y); j++){
-                    if(Math.floor(Math.random() * 100) < 30){
+            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+                    if(util.randomInt(100) < 30){
                         world.get(i,j).type = 'wall';
                     }else{
                         world.get(i,j).type = 'grass';
@@ -36,7 +83,7 @@ var game_logic = {
             //generate town
         }
         //clears whatever is in the current map object and fills the hole with new terrain in the given coordinates chunk.
-        //determine chunk with (x/100 - x%100 - 1). then multiply by 100 to get the starting x.
+        //determine chunk with (x/CHUNK_SIZE - x%CHUNK_SIZE - 1). then multiply by CHUNK_SIZE to get the starting x.
         //choose either (town, wilderness, dungeon) if >=1 quest accepted then 10% dungeon, 15% town, 75% wilderness,
         //if not then 15% town 85% wilderness
         //town          will contain npc shops and quests, spawning in given positions.
@@ -56,6 +103,7 @@ var game_logic = {
                 attack_lifesteal:10,
                 ability_power:10,
                 magic_lifesteal:10,
+                loot:game_logic.generateLoot(),
                 monster_attacks:[
                     "bite",
                     "scratch",

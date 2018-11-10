@@ -10,7 +10,7 @@
     padding: 0 0 0 0;
     margin: 0 0 0 0;
   }
-  #mapContainer   {
+  #map_container   {
     height: 62vh;
     width:44vw;
     position: absolute;
@@ -35,31 +35,8 @@
   }
 </style>
 <head>
-  <script src="vue.js"></script>
   <script src="lodash.js"></script>
-  <title>Dagu</title>
-</head>
-<body>
-  <div id="app">
-    <div id="map_container">
-      <table id="tiles_container">
-        <tr v-for="x in game.settings.zoom_factor">
-          <td class="tile_container" v-for="y in game.settings.zoom_factor">
-            <img class="tile_img" v-bind:src="tile.icon">
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div id="contextMenuContainer">
-      <button type="button" v-on:click="saveGame">Save Game</button>
-      <button type="button" v-on:click="loadGame">Load Game</button>
-    </div>
-    <div id="textLogContainer">
-      <div v-for="output_text in game.output">
-        <span>{{output_text}}</span>
-      </div>
-    </div>
-  </div>
+  <script src="vue.js"></script>
   <script src="constants.js"></script>
   <script src="game.js"></script>
   <script src="world.js"></script>
@@ -68,6 +45,31 @@
   <script src="upgrades.js"></script>
   <script src="character_attack.js"></script>
   <script src="monster_attack.js"></script>
+  <script src="user_interface.js"></script>
   <script src="main.js"></script>
+  <title>Dagu</title>
+</head>
+<body>
+  <div id="app">
+    <div id="map_container">
+    </div>
+    <div id="context_menu_container">
+      <button type="button" onclick=user_interface.saveGame()>Save Game</button>
+
+      <button type="button" onclick=user_interface.loadGame()>Load Game</button>
+      <button type="button" onclick=user_interface.zoomIncrease()>Zoom Increase</button>
+      <button type="button" onclick=user_interface.zoomDecrease()>Zoom Decrease</button>
+      <button type="button" onclick=user_interface.cancelSpell() v-if="(game.status===STATUS.COMBAT_SPELL_SELECTED)">Cancel Spell</button>
+      <button type="button" onclick=user_interface.moveLeft()>Move Left</button>
+      <button type="button" onclick=user_interface.moveRight()>Move Right</button>
+      <button type="button" onclick=user_interface.moveDown()>Move Down</button>
+      <button type="button" onclick=user_interface.moveUp()>Move Up</button>
+    </div>
+    <div id="text_log_container">
+      <div v-for="output_text in game.output">
+        <span>{{output_text}}</span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

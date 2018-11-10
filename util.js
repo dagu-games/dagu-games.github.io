@@ -1,5 +1,5 @@
 var util = {
-    isWalkable: function (x, y) {
+    isWalkable: function(x, y){
         WALKABLE_TILES.forEach(
             function (type) {
                 if (world.get(x,y).type === type){
@@ -10,11 +10,11 @@ var util = {
         return false;
     },
 
-    isInRange: function (x1, y1, x2, y2, max) {
+    isInRange: function(x1, y1, x2, y2, max){
         return util.getAllPointsBetween(x1, y1, x2, y2).length < max;
     },
 
-    hasLineOfSight: function (x1, y1, x2, y2) {
+    hasLineOfSight: function(x1, y1, x2, y2){
         var points = util.getAllPointsBetween(x1, y1, x2, y2);
         VISION_BLOCKING_TILES.forEach(
             function (type) {
@@ -68,11 +68,11 @@ var util = {
         return coordinates;
     },
 
-    findDirection: function (x1, y1, x2, y2) {
+    findDirection: function(x1, y1, x2, y2){
         return pathfinder.findShortestPath(x1,y1,x2,y2)[0];
     },
 
-    findSquare: function (x, y, length) {
+    findSquare: function(x, y, length){
         return {
             x1:x+(length/2),
             x2:x-(length/2),
@@ -81,7 +81,7 @@ var util = {
         };
     },
 
-    getAllInRange: function (x, y, range) {
+    getAllInRange: function(x, y, range){
         var ans = [];
         for(var i=x-range; i<x+range; i++){
             for(var j=y-range; j<y+range; j++){
@@ -96,7 +96,7 @@ var util = {
         return ans;
     },
 
-    isAround: function (x, y, npc_type) {
+    isAround: function(x, y, npc_type){
         return( world.get(x+1,y).type === npc_type ||
             world.get(x+1,y+1).type === npc_type ||
             world.get(x,y+1).type === npc_type ||
@@ -108,12 +108,13 @@ var util = {
         );
     },
 
-    loadGame: function (index) {
-        var str = localStorage.getItem("dagu_saves_array");
+    loadGame: function(index){
+        localStorage.removeItem(STORAGE_STRING);
+        var str = localStorage.getItem(STORAGE_STRING);
         if(str == null){
             game_logic.init();
             util.saveGame();
-            str = localStorage.getItem("dagu_saves_array");
+            str = localStorage.getItem(STORAGE_STRING);
         }
         var saves = JSON.parse(str);
         if(index==null){
@@ -123,23 +124,25 @@ var util = {
         }
     },
 
-    saveGame: function () {
-        var str = localStorage.getItem("dagu_saves_array");
+    saveGame: function(){
+        var str = localStorage.getItem(STORAGE_STRING);
         var saves;
         if(str == null){
             saves = [];
         }else{
             saves = JSON.parse(str);
         }
+        var d = new Date();
+        game.save_time = d.getTime();
         saves.push(game);
 
-        localStorage.setItem("dagu_saves_array",JSON.stringify(saves));
+        localStorage.setItem(STORAGE_STRING,JSON.stringify(saves));
     },
 
     getChunk: function (x,y){
         return {
-            x:x/100,
-            y:y/100,
+            x:x/CHUNK_SIZE,
+            y:y/CHUNK_SIZE,
         };
     },
 
@@ -154,13 +157,27 @@ var util = {
         return arr[util.randomInt(arr.length)];
     },
 
-    typeToTile: function (type) {
+    typeToTile: function (type){
         if(type==="grass"){
             return GRASS_ICON;
         }
         if(type==="wall"){
             return WALL_ICON;
         }
+    },
+
+    getSavesList: function(){
+        var ans = [];
+        var saves = JSON.parse(localStorage.getItem(STORAGE_STRING));
+        saves.forEach(function (save) {
+            var d = new Date(save.save_time);
+            ans.push(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
+        });
+        return ans;
+    },
+
+    canCast: function(spell_name){
+        return game.character.current_mana < character_attack.getAttack(spell_name)
     },
 
 };

@@ -1,6 +1,16 @@
 const GRASS_ICON = "grass.png";
 const WALL_ICON = "wall.png";
 
+const STATUS = {
+    COMBAT:"combat",
+    COMBAT_SPELL_SELECTED:"combat_spell_selected",
+    NPC_QUEST:"npc_quest",
+    NPC_SHOP:"npc_shop",
+};
+
+const CHUNK_SIZE = 100;
+const STORAGE_STRING = "dagu_saves_array";
+
 const WALKABLE_TILES = [
     "grass",
     "stone",
