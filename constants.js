@@ -1,9 +1,11 @@
 const GRASS_ICON = "grass.png";
-const WALL_ICON = "wall.png";
+const TREE_ICON = "tree.png";
 const STONE_ICON = "stone.png";
 const DIRT_ICON = "dirt.png";
 const NPC_ICON = "npc.png";
 const HELLHOUND_ICON = "hellhound.png";
+const WALL_ICON = "wall.png";
+const HERO_ICON = "hero.png";
 
 const STATUS = {
     COMBAT:"combat",
@@ -63,6 +65,11 @@ const PROFESSIONS = [
     "Farmer",
     "Adventurer",
     "Guard"
+];
+
+const NPC_DESCRIPTIONS = [
+    "Gross, dirty, and worn from constant work.",
+    "Neat and clean, as if from wealth."
 ];
 
 const QUESTS = [

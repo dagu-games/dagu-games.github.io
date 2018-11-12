@@ -69,7 +69,7 @@ var game_logic = {
             for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
                 for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     if(util.randomInt(100) < 30){
-                        world.get(i,j).type = 'wall';
+                        world.get(i,j).type = 'tree';
                     }else{
                         if(util.randomInt(100) < 30){
                             world.get(i,j).type = 'dirt';
@@ -91,7 +91,7 @@ var game_logic = {
             for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
                 for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     if(util.randomInt(100) < 30){
-                        world.get(i,j).type = 'wall';
+                        world.get(i,j).type = 'tree';
                     }else{
                         world.get(i,j).type = 'stone';
                     }
@@ -153,7 +153,7 @@ var game_logic = {
         }
     },
 
-    generateLoot: function () {
+    generateLoot: function(){
         var n = util.randomInt(10);
         var items = [];
         for(var i = 0; i<n; i++){
@@ -181,10 +181,13 @@ var game_logic = {
         }
         return items;
     },
-    generateNPC: function () {
+
+    generateNPC: function(){
         var npc = {
-            name:util.randomItemInArray(NPC_FIRST_NAMES) + " " + util.randomItemInArray(NPC_LAST_NAMES),
+            name: util.randomItemInArray(NPC_FIRST_NAMES) + " " + util.randomItemInArray(NPC_LAST_NAMES),
+            description: util.randomItemInArray(RACES) + " " + util.randomItemInArray(PROFESSIONS) + " - " + util.randomItemInArray(NPC_DESCRIPTIONS),
         };
+
         if(util.randomInt()===0){
             npc.type="shop";
         }else{

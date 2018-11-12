@@ -164,8 +164,8 @@ var util = {
         if(type==="grass"){
             return GRASS_ICON;
         }
-        if(type==="wall"){
-            return WALL_ICON;
+        if(type==="tree"){
+            return TREE_ICON;
         }
         if(type==="dirt"){
             return DIRT_ICON;
@@ -178,6 +178,12 @@ var util = {
         }
         if(type==="hellhound"){
             return HELLHOUND_ICON;
+        }
+        if(type==="wall"){
+            return WALL_ICON;
+        }
+        if(type==="hero"){
+            return HERO_ICON;
         }
     },
 
@@ -194,7 +200,7 @@ var util = {
     },
 
     canCast: function(spell_name){
-        return game.character.current_mana < character_attack.getAttack(spell_name)
+        return game.character.current_mana <= character_attack.getAttack(spell_name).mana_cost;
     },
 
     formatTime: function(time){
