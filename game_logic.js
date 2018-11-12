@@ -63,11 +63,16 @@ var game_logic = {
     generateChunk: function (chunk_x, chunk_y) {
         var r = util.randomInt(100);
         r=70;
+        var monsters;
+        var points;
+        var point;
+        var i;
+        var j;
         if(r<75){   //generate wilderness
-            var monsters = game_logic.generateChunkEnemies();
+            monsters = game_logic.generateChunkEnemies();
 
-            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     if(util.randomInt(100) < 30){
                         world.get(i,j).type = 'tree';
                     }else{
@@ -81,15 +86,15 @@ var game_logic = {
             }
 
             for(i = 0; i < monsters.length; i++){
-                var points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
-                var point = util.randomItemInArray(points);
+                points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                point = util.randomItemInArray(points);
                 world.get(point.x,point.y).npc = monsters[i];
             }
         }else if(r>=75 && r<85){    //generate dungeon
-            var monsters = game_logic.generateChunkEnemies();
+            monsters = game_logic.generateChunkEnemies();
 
-            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     if(util.randomInt(100) < 30){
                         world.get(i,j).type = 'tree';
                     }else{
@@ -99,14 +104,14 @@ var game_logic = {
             }
 
             for(i = 0; i < monsters.length; i++){
-                var points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
-                var point = util.randomItemInArray(points);
+                points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                point = util.randomItemInArray(points);
                 world.get(point.x,point.y).npc = monsters[i];
             }
         }else if(r>=85){    //generate town
 
-            for(var i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(var j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
+                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
                     world.get(i,j).type = 'grass';
                     if(util.randomInt(100) < 8){
                         world.get(i,j).npc = game_logic.generateNPC();

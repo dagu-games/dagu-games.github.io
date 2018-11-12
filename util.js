@@ -160,7 +160,7 @@ var util = {
         return arr[util.randomInt(arr.length)];
     },
 
-    typeToTile: function (type){
+    typeToSrcString: function (type){
         if(type==="grass"){
             return GRASS_ICON;
         }
