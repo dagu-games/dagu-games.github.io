@@ -1,120 +1,120 @@
-var game_logic = {
-    init: function () {
+let game_logic = {
+    init: function(){
         game.settings = {
-            zoom_factor : 25,
+            zoom_factor: 25,
         };
         game.world1 = [[]];
         game.world2 = [[]];
         game.world3 = [[]];
         game.world4 = [[]];
         game.character = {
-            x:0,
-            y:0,
-            level:1,
-            experience:0,
-            unspent_skill_points:0,
-            current_health:100,
-            max_health:100,
-            health_regeneration:1,
-            current_mana:100,
-            max_mana:100,
-            mana_regeneration:1,
-            cooldown_reduction:0,
-            armor:0,
-            magic_resistance:0,
-            attack_power:1,
-            attack_lifesteal:0,
-            ability_power:0,
-            magic_lifesteal:0,
-            equipped_items:{
-                helmet:null,
-                shoulders:null,
-                gauntlets:null,
-                chest:null,
-                belt:null,
-                pants:null,
-                boots:null,
-                main_hand:null,
-                off_hand:null,
-                necklace:null,
-                ring1:null,
-                ring2:null,
+            x: 0,
+            y: 0,
+            level: 1,
+            experience: 0,
+            unspent_skill_points: 0,
+            current_health: 100,
+            max_health: 100,
+            health_regeneration: 1,
+            current_mana: 100,
+            max_mana: 100,
+            mana_regeneration: 1,
+            cooldown_reduction: 0,
+            armor: 0,
+            magic_resistance: 0,
+            attack_power: 1,
+            attack_lifesteal: 0,
+            ability_power: 0,
+            ability_lifesteal: 0,
+            equipped_items: {
+                helmet: null,
+                shoulders: null,
+                gauntlets: null,
+                chest: null,
+                belt: null,
+                pants: null,
+                boots: null,
+                main_hand: null,
+                off_hand: null,
+                necklace: null,
+                ring1: null,
+                ring2: null,
             },
-            inventory:{
-                gold:0,
-                equipment:[],
-                quest_items:[],
+            inventory: {
+                gold: 0,
+                equipment: [],
+                quest_items: [],
             },
-            quests:[],
-            upgrades:[],
-            spells:[],
+            quests: [],
+            upgrades: [],
+            spells: [],
         };
         game.status = STATUS.COMBAT;
-        game_logic.generateChunk(0,0);
-        game_logic.generateChunk(1,0);
-        game_logic.generateChunk(1,1);
-        game_logic.generateChunk(0,1);
-        game_logic.generateChunk(-1,1);
-        game_logic.generateChunk(-1,0);
-        game_logic.generateChunk(-1,-1);
-        game_logic.generateChunk(0,-1);
-        game_logic.generateChunk(1,-1);
+        game_logic.generateChunk(0, 0);
+        game_logic.generateChunk(1, 0);
+        game_logic.generateChunk(1, 1);
+        game_logic.generateChunk(0, 1);
+        game_logic.generateChunk(-1, 1);
+        game_logic.generateChunk(-1, 0);
+        game_logic.generateChunk(-1, -1);
+        game_logic.generateChunk(0, -1);
+        game_logic.generateChunk(1, -1);
     },
-    generateChunk: function (chunk_x, chunk_y) {
-        var r = util.randomInt(100);
-        r=70;
-        var monsters;
-        var points;
-        var point;
-        var i;
-        var j;
-        if(r<75){   //generate wilderness
+    generateChunk: function(chunk_x, chunk_y){
+        let r = util.randomInt(100);
+        r = 70;
+        let monsters;
+        let points;
+        let point;
+        let i;
+        let j;
+        if(r < 75){   //generate wilderness
             monsters = game_logic.generateChunkEnemies();
 
-            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+            for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
+                for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     if(util.randomInt(100) < 30){
-                        world.get(i,j).type = 'tree';
+                        map.get(i, j).type = 'tree';
                     }else{
                         if(util.randomInt(100) < 30){
-                            world.get(i,j).type = 'dirt';
+                            map.get(i, j).type = 'dirt';
                         }else{
-                            world.get(i,j).type = 'grass';
+                            map.get(i, j).type = 'grass';
                         }
                     }
                 }
             }
 
             for(i = 0; i < monsters.length; i++){
-                points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                points = util.getAllPathableTilesInChunk(chunk_x, chunk_y);
                 point = util.randomItemInArray(points);
-                world.get(point.x,point.y).npc = monsters[i];
+                map.get(point.x, point.y).npc = monsters[i];
             }
-        }else if(r>=75 && r<85){    //generate dungeon
+        }else if(r >= 75 && r < 85){    //generate dungeon
             monsters = game_logic.generateChunkEnemies();
 
-            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
+            for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
+                for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     if(util.randomInt(100) < 30){
-                        world.get(i,j).type = 'tree';
+                        map.get(i, j).type = 'tree';
                     }else{
-                        world.get(i,j).type = 'stone';
+                        map.get(i, j).type = 'stone';
                     }
                 }
             }
 
             for(i = 0; i < monsters.length; i++){
-                points = util.getAllPathableTilesInChunk(chunk_x,chunk_y);
+                points = util.getAllPathableTilesInChunk(chunk_x, chunk_y);
                 point = util.randomItemInArray(points);
-                world.get(point.x,point.y).npc = monsters[i];
+                map.get(point.x, point.y).npc = monsters[i];
             }
-        }else if(r>=85){    //generate town
+        }else if(r >= 85){    //generate town
 
-            for(i=CHUNK_SIZE*chunk_x; i<CHUNK_SIZE+(CHUNK_SIZE*chunk_x); i++){
-                for(j=CHUNK_SIZE*chunk_y; j<CHUNK_SIZE+(CHUNK_SIZE*chunk_y); j++){
-                    world.get(i,j).type = 'grass';
+            for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
+                for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
+                    map.get(i, j).type = 'grass';
                     if(util.randomInt(100) < 8){
-                        world.get(i,j).npc = game_logic.generateNPC();
+                        map.get(i, j).npc = game_logic.generateNPC();
                     }
                 }
             }
@@ -129,21 +129,21 @@ var game_logic = {
         //wilderness    will contain either enemies, nothing, or loot contains a quest item needed for accepted quest and enemies fill in holes with random grass, trees, sand, snow, or dirt
     },
 
-    generateChunkEnemies: function () {
+    generateChunkEnemies: function(){
         return [
             {
-                name:"HellHound",
-                type:"monster",
-                quest_item:game.character.quests.length>0 ? util.randomItemInArray(game.character.quests).goal_item:null,
-                max_health:100,
-                armor:10,
-                magic_resistance:10,
-                attack_power:10,
-                attack_lifesteal:10,
-                ability_power:10,
-                magic_lifesteal:10,
-                loot:game_logic.generateLoot(),
-                monster_attacks:[
+                name: "HellHound",
+                type: "monster",
+                quest_item: game.character.quests.length > 0 ? util.randomItemInArray(game.character.quests).goal_item : null,
+                max_health: 100,
+                armor: 10,
+                magic_resistance: 10,
+                attack_power: 10,
+                attack_lifesteal: 10,
+                ability_power: 10,
+                magic_lifesteal: 10,
+                loot: game_logic.generateLoot(),
+                monster_attacks: [
                     "bite",
                     "scratch",
                 ],
@@ -151,34 +151,34 @@ var game_logic = {
         ];
     },
 
-    tick: function (x, y) {
-        var monsters = util.getAllMonsters();
-        for(var i = 0; i < monsters.length; i++){
+    tick: function(x, y){
+        let monsters = util.getAllMonsters();
+        for(let i = 0; i < monsters.length; i++){
 
         }
     },
 
     generateLoot: function(){
-        var n = util.randomInt(10);
-        var items = [];
-        for(var i = 0; i<n; i++){
-            var item = {
-                name:null,
-                slot:util.randomItemInArray(ITEM_SLOTS),
-                stats:{
-                    max_health:10,
-                    armor:10,
-                    magic_resistance:10,
-                    attack_power:10,
-                    attack_lifesteal:10,
-                    ability_power:10,
-                    magic_lifesteal:10,
-                    cooldown_reduction:10,
-                    mana_regeneration:2,
-                    max_mana:10,
+        let n = util.randomInt(10);
+        let items = [];
+        for(let i = 0; i < n; i++){
+            let item = {
+                name: null,
+                slot: util.randomItemInArray(ITEM_SLOTS),
+                stats: {
+                    max_health: 10,
+                    armor: 10,
+                    magic_resistance: 10,
+                    attack_power: 10,
+                    attack_lifesteal: 10,
+                    ability_power: 10,
+                    magic_lifesteal: 10,
+                    cooldown_reduction: 10,
+                    mana_regeneration: 2,
+                    max_mana: 10,
                 },
-                description:util.randomItemInArray(ITEM_DESCRIPTIONS),
-                value:util.randomInt(100),
+                description: util.randomItemInArray(ITEM_DESCRIPTIONS),
+                value: util.randomInt(100),
             };
             item.name = util.randomItemInArray(ITEM_NAMES[item.slot]);
 
@@ -188,16 +188,16 @@ var game_logic = {
     },
 
     generateNPC: function(){
-        var npc = {
+        let npc = {
             name: util.randomItemInArray(NPC_FIRST_NAMES) + " " + util.randomItemInArray(NPC_LAST_NAMES),
             description: util.randomItemInArray(RACES) + " " + util.randomItemInArray(PROFESSIONS) + " - " + util.randomItemInArray(NPC_DESCRIPTIONS),
         };
 
-        if(util.randomInt()===0){
-            npc.type="shop";
+        if(util.randomInt() === 0){
+            npc.type = "shop";
         }else{
-            npc.type="quest_giver";
-            npc.quest=util.randomItemInArray(QUESTS);
+            npc.type = "quest_giver";
+            npc.quest = util.randomItemInArray(QUESTS);
         }
         return npc;
     },

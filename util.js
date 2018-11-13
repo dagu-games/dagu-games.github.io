@@ -1,11 +1,11 @@
-var util = {
+let util = {
     isWalkable: function(x, y){
         WALKABLE_TILES.forEach(
-            function (type) {
-                if (world.get(x,y).type === type
-                    && world.get(x,y).npc.type!=="monster"
-                    && world.get(x,y).npc.type!=="quest_giver"
-                    && world.get(x,y).npc.type!=="shop"){
+            function(type){
+                if(map.get(x, y).type === type
+                    && map.get(x, y).npc.type !== "monster"
+                    && map.get(x, y).npc.type !== "quest_giver"
+                    && map.get(x, y).npc.type !== "shop"){
                     return true;
                 }
             }
@@ -18,23 +18,23 @@ var util = {
     },
 
     hasLineOfSight: function(x1, y1, x2, y2){
-        var points = util.getAllPointsBetween(x1, y1, x2, y2);
+        let points = util.getAllPointsBetween(x1, y1, x2, y2);
         VISION_BLOCKING_TILES.forEach(
-            function (type) {
-                    points.forEach(
-                        function (point) {
-                            if (world.get(point.x,point.y).type === type){
-                                return false;
-                            }
+            function(type){
+                points.forEach(
+                    function(point){
+                        if(map.get(point.x, point.y).type === type){
+                            return false;
                         }
-                    );
+                    }
+                );
             }
         );
         return true;
     },
 
     slope: function(a, b){
-        if (a.x === b.x) {
+        if(a.x === b.x){
             return null;
         }
 
@@ -42,7 +42,7 @@ var util = {
     },
 
     intercept: function(point, slope){
-        if (slope === null) {
+        if(slope === null){
             return point.x;
         }
 
@@ -50,48 +50,48 @@ var util = {
     },
 
     getAllPointsBetween: function(x1, y1, x2, y2){
-        var A = {
-            x:x1,
-            y:y1,
+        let A = {
+            x: x1,
+            y: y1,
         };
-        var B = {
-            x:x2,
-            y:y2,
+        let B = {
+            x: x2,
+            y: y2,
         };
-        var m = util.slope(A, B);
-        var b = util.intercept(A, m);
-        var coordinates = [];
-        for(var x = A.x; x <= B.x; x++){
-            var y = m * x + b;
+        let m = util.slope(A, B);
+        let b = util.intercept(A, m);
+        let coordinates = [];
+        for(let x = A.x; x <= B.x; x++){
+            let y = m * x + b;
             coordinates.push({
-                x:x,
-                y:y,
+                x: x,
+                y: y,
             });
         }
         return coordinates;
     },
 
     findDirection: function(x1, y1, x2, y2){
-        return pathfinder.findShortestPath(x1,y1,x2,y2)[0];
+        return pathfinder.findShortestPath(x1, y1, x2, y2)[0];
     },
 
     findSquare: function(x, y, length){
         return {
-            x1:x+(length/2),
-            x2:x-(length/2),
-            y1:y+(length/2),
-            y2:y-(length/2),
+            x1: x + (length / 2),
+            x2: x - (length / 2),
+            y1: y + (length / 2),
+            y2: y - (length / 2),
         };
     },
 
     getAllInRange: function(x, y, range){
-        var ans = [];
-        for(var i=x-range; i<x+range; i++){
-            for(var j=y-range; j<y+range; j++){
-                if(world.get(i,j)!==null && ((((i-x)*(i-x))+((j-y)*(j-y))) <= (range*range))){
+        let ans = [];
+        for(let i = x - range; i < x + range; i++){
+            for(let j = y - range; j < y + range; j++){
+                if(map.get(i, j) !== null && ((((i - x) * (i - x)) + ((j - y) * (j - y))) <= (range * range))){
                     ans.push({
-                        x:i,
-                        y:j,
+                        x: i,
+                        y: j,
                     });
                 }
             }
@@ -100,27 +100,27 @@ var util = {
     },
 
     isAround: function(x, y, npc_type){
-        return( world.get(x+1,y).type === npc_type ||
-            world.get(x+1,y+1).type === npc_type ||
-            world.get(x,y+1).type === npc_type ||
-            world.get(x-1,y).type === npc_type ||
-            world.get(x,y-1).type === npc_type ||
-            world.get(x-1,y-1).type === npc_type ||
-            world.get(x+1,y-1).type === npc_type ||
-            world.get(x-1,y+1).type === npc_type
+        return (map.get(x + 1, y).type === npc_type ||
+            map.get(x + 1, y + 1).type === npc_type ||
+            map.get(x, y + 1).type === npc_type ||
+            map.get(x - 1, y).type === npc_type ||
+            map.get(x, y - 1).type === npc_type ||
+            map.get(x - 1, y - 1).type === npc_type ||
+            map.get(x + 1, y - 1).type === npc_type ||
+            map.get(x - 1, y + 1).type === npc_type
         );
     },
 
     loadGame: function(index){
         localStorage.removeItem(STORAGE_STRING);
-        var str = localStorage.getItem(STORAGE_STRING);
+        let str = localStorage.getItem(STORAGE_STRING);
         if(str == null){
             game_logic.init();
             util.saveGame();
             str = localStorage.getItem(STORAGE_STRING);
         }
-        var saves = JSON.parse(str);
-        if(index==null){
+        let saves = JSON.parse(str);
+        if(index == null){
             game = saves[0];
         }else{
             game = saves[index];
@@ -128,29 +128,29 @@ var util = {
     },
 
     saveGame: function(){
-        var str = localStorage.getItem(STORAGE_STRING);
-        var saves;
+        let str = localStorage.getItem(STORAGE_STRING);
+        let saves;
         if(str == null){
             saves = [];
         }else{
             saves = JSON.parse(str);
         }
-        var d = new Date();
+        let d = new Date();
         game.save_time = d.getTime();
         saves.push(game);
 
-        localStorage.setItem(STORAGE_STRING,JSON.stringify(saves));
+        localStorage.setItem(STORAGE_STRING, JSON.stringify(saves));
     },
 
-    getChunk: function (x,y){
+    getChunk: function(x, y){
         return {
-            x:x/CHUNK_SIZE,
-            y:y/CHUNK_SIZE,
+            x: x / CHUNK_SIZE,
+            y: y / CHUNK_SIZE,
         };
     },
 
     randomInt: function(max){
-        if(max=null){
+        if(max = null){
             return Math.floor(Math.random() * 2);
         }
         return Math.floor(Math.random() * max);
@@ -160,40 +160,40 @@ var util = {
         return arr[util.randomInt(arr.length)];
     },
 
-    typeToSrcString: function (type){
-        if(type==="grass"){
+    typeToSrcString: function(type){
+        if(type === "grass"){
             return GRASS_ICON;
         }
-        if(type==="tree"){
+        if(type === "tree"){
             return TREE_ICON;
         }
-        if(type==="dirt"){
+        if(type === "dirt"){
             return DIRT_ICON;
         }
-        if(type==="stone"){
+        if(type === "stone"){
             return STONE_ICON;
         }
-        if(type==="npc"){
+        if(type === "npc"){
             return NPC_ICON;
         }
-        if(type==="hellhound"){
+        if(type === "hellhound"){
             return HELLHOUND_ICON;
         }
-        if(type==="wall"){
+        if(type === "wall"){
             return WALL_ICON;
         }
-        if(type==="hero"){
+        if(type === "hero"){
             return HERO_ICON;
         }
     },
 
     getSavesList: function(){
-        var ans = [];
-        var saves = JSON.parse(localStorage.getItem(STORAGE_STRING));
-        for(var i = 0; i < saves.length; i++){
+        let ans = [];
+        let saves = JSON.parse(localStorage.getItem(STORAGE_STRING));
+        for(let i = 0; i < saves.length; i++){
             ans.push({
-                time:saves[i].save_time,
-                index:i,
+                time: saves[i].save_time,
+                index: i,
             });
         }
         return ans;
@@ -204,15 +204,15 @@ var util = {
     },
 
     formatTime: function(time){
-        var d = new Date(time);
+        let d = new Date(time);
         return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
     },
 
-    getAllPathableTilesInChunk: function(chunk_x,chunk_y){
-        var ans = [];
-        for(var i = chunk_x*CHUNK_SIZE; i < (chunk_x+1)*CHUNK_SIZE; i++){
-            for(var j = chunk_y*CHUNK_SIZE; j < (chunk_y+1)*CHUNK_SIZE; j++){
-                if(util.isWalkable(chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE) && pathfinder.findShortestPath(0,0,chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE) !== false){
+    getAllPathableTilesInChunk: function(chunk_x, chunk_y){
+        let ans = [];
+        for(let i = chunk_x * CHUNK_SIZE; i < (chunk_x + 1) * CHUNK_SIZE; i++){
+            for(let j = chunk_y * CHUNK_SIZE; j < (chunk_y + 1) * CHUNK_SIZE; j++){
+                if(util.isWalkable(chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE) && pathfinder.findShortestPath(0, 0, chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE) !== false){
                     ans.push({
                         x: i,
                         y: j,
@@ -223,13 +223,13 @@ var util = {
     },
 
     getAllMonsters: function(){
-        var monsters = [];
-        var points = world.getAll();
-        for(var i = 0; i < points.length; i++){
-            if(world.get(points[i].x,points[i].y).npc.type === "monster"){
+        let monsters = [];
+        let points = map.getAll();
+        for(let i = 0; i < points.length; i++){
+            if(map.get(points[i].x, points[i].y).npc.type === "monster"){
                 monsters.push({
-                    x:points[i].x,
-                    y:points[i].y,
+                    x: points[i].x,
+                    y: points[i].y,
                 });
             }
         }

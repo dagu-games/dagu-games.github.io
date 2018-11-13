@@ -8,10 +8,10 @@ const WALL_ICON = "wall.png";
 const HERO_ICON = "hero.png";
 
 const STATUS = {
-    COMBAT:"combat",
-    COMBAT_SPELL_SELECTED:"combat_spell_selected",
-    NPC_QUEST:"npc_quest",
-    NPC_SHOP:"npc_shop",
+    COMBAT: "combat",
+    COMBAT_SPELL_SELECTED: "combat_spell_selected",
+    NPC_QUEST: "npc_quest",
+    NPC_SHOP: "npc_shop",
 };
 
 const CHUNK_SIZE = 100;
@@ -74,52 +74,45 @@ const NPC_DESCRIPTIONS = [
 
 const QUESTS = [
     {
-        name:"Find my dog!",
-        description:"I lost my dog! can you help me find it? Some monsters took him from me!",
-        goal_item:"Lost Dog",
-        goal_item_description:"You found the lost dog! Take him back to his owner and they will reward you!"
+        name: "Find my dog!",
+        description: "I lost my dog! can you help me find it? Some monsters took him from me!",
+        goal_item: "Lost Dog",
+        goal_item_description: "You found the lost dog! Take him back to his owner and they will reward you!"
     },
 ];
 
-const TOWN_NAMES = [
-    "Springville",
-    "Nelthar",
-    "Placeburg",
-    "CityVillage"
-];
-
 const ITEM_NAMES = {
-    helmets:[
+    helmets: [
         "helm of cool",
     ],
-    shoulders:[
+    shoulders: [
         "shoulder guards of cool",
     ],
-    gauntlets:[
+    gauntlets: [
         "gauntlets of cool",
     ],
-    chests:[
+    chests: [
         "chest of cool",
     ],
-    belts:[
+    belts: [
         "belt of cool",
     ],
-    pants:[
+    pants: [
         "pants of cool",
     ],
-    boots:[
+    boots: [
         "boots of cool",
     ],
-    main_hands:[
+    main_hands: [
         "sword of cool",
     ],
-    off_hands:[
+    off_hands: [
         "shield of cool",
     ],
-    necklaces:[
+    necklaces: [
         "necklace of cool",
     ],
-    rings:[
+    rings: [
         "ring of cool",
     ],
 };
@@ -142,4 +135,11 @@ const ITEM_SLOTS = [
     "off_hand",
     "necklace",
     "ring",
+];
+
+const TOWN_NAMES = [
+    "Springville",
+    "Nelthar",
+    "Placeburg",
+    "CityVillage"
 ];

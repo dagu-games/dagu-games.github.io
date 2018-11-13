@@ -7,6 +7,10 @@
         position: absolute;
     }
 
+    .container {
+        border: 1px solid gray;
+    }
+
     body {
         font-family: "Courier New", monospace;
         padding: 0 0 0 0;
@@ -14,38 +18,55 @@
     }
 
     #map_container {
-        height: 62vh;
-        width: 44vw;
+        height: 70vh;
+        width: 70vh;
         position: absolute;
         left: 1px;
         font-size: 2vh;
         cursor: default;
-        border: 1px solid gray;
     }
 
-    #contextMenuContainer {
-        height: 62vh;
-        width: 55vw;
-        position: absolute;
+    #context_menu_container {
+        height: 70vh;
+        width: 49%;
+        position: relative;
+        float: right;
         right: 1px;
-        border: 1px solid gray;
+        overflow-y: auto;
     }
 
-    #textLogContainer {
-        height: 37vh;
+
+    #character_container {
+        height: 70vh;
+        width: 49%;
+        position: relative;
+        float: left;
+        overflow-y: auto;
+    }
+
+    #output_container {
+        height: 29vh;
         width: 99vw;
         position: absolute;
         bottom: 1px;
-        border: 1px solid gray;
+        overflow-y: auto;
     }
+
+    #right_side_container {
+        height: 70vh;
+        width: calc(99vw - 70vh);
+        position: absolute;
+        top: 1px;
+        right: 1px;
+    }
+
+
 </style>
 <head>
     <script src="lib/jquery-3.3.1.js"></script>
     <script src="lib/lodash.js"></script>
-    <script src="lib/vue.js"></script>
     <script src="constants.js"></script>
     <script src="game.js"></script>
-    <script src="world.js"></script>
     <script src="pathfinder.js"></script>
     <script src="util.js"></script>
     <script src="upgrades.js"></script>
@@ -57,37 +78,105 @@
 </head>
 <body>
 <div id="app">
-    <div id="map_container"></div>
-    <div id="context_menu_container">
-        <button type="button" onclick=user_interface.saveGame()>Save Game</button>
-        <select v-model="game.save_selected" id="load_save_select">
-            <option v-for="save in util.getSavesList" value="save.index">{{util.formatTime(save.time)}}</option>
-        </select>
-        <button type="button" onclick=user_interface.loadGame()>Load Game</button>
+    <div class="container" id="map_container"></div>
 
-        <button type="button" onclick=user_interface.printCredits()>Show Credits</button>
+    <div class="container" id="right_side_container">
+        <div class="container" id="context_menu_container">
+            <button id="save_game_button" type="button" onclick=user_interface.saveGame()>Save Game</button>
+            <br>
+            <label for="load_game_select">Save Time:</label>
+            <select id="load_game_select"></select>
+            <button id="load_game_button" type="button" onclick=user_interface.loadGame()>Load Game</button>
 
-        <button type="button" onclick=user_interface.zoomIncrease()>Zoom Increase</button>
-        <button type="button" onclick=user_interface.zoomDecrease()>Zoom Decrease</button>
+            <br>
+            <button id="show_credits_button" type="button" onclick=user_interface.printCredits()>Show Credits</button>
 
-        <button type="button" onclick=user_interface.cancelSpell() v-if="(game.status===STATUS.COMBAT_SPELL_SELECTED)">
-            Cancel Spell
-        </button>
+            <br>
+            <button id="zoom_increase_button" type="button" onclick=user_interface.zoomIncrease()>Zoom Increase</button>
+            <button id="zoom_decrease_button" type="button" onclick=user_interface.zoomDecrease()>Zoom Decrease</button>
 
-        <button type="button" onclick=user_interface.moveLeft()>Move Left</button>
-        <button type="button" onclick=user_interface.moveUpLeft()>Move Up and Left</button>
-        <button type="button" onclick=user_interface.moveUp()>Move Up</button>
-        <button type="button" onclick=user_interface.moveUpRight()>Move Up and Right</button>
-        <button type="button" onclick=user_interface.moveRight()>Move Right</button>
-        <button type="button" onclick=user_interface.moveDownRight()>Move Down and Right</button>
-        <button type="button" onclick=user_interface.moveDown()>Move Down</button>
-        <button type="button" onclick=user_interface.moveDownLeft()>Move Down and Left</button>
-    </div>
-    <div id="text_log_container">
-        <div v-for="output_text in game.output">
-            <span>{{output_text}}</span>
+            <br>
+            <button id="cancel_spell_button" type="button" onclick=user_interface.cancelSpell()>Cancel Spell</button>
+
+            <br>
+            <button id="move_up_left_button" type="button" onclick=user_interface.moveUpLeft()>Move Up and Left</button>
+            <button id="move_up_button" type="button" onclick=user_interface.moveUp()>Move Up</button>
+            <button id="move_up_right_button" type="button" onclick=user_interface.moveUpRight()>Move Up and Right</button>
+            <br>
+            <button id="move_left_button" type="button" onclick=user_interface.moveLeft()>Move Left</button>
+            <button style="margin-left:150px;" id="move_right_button" type="button" onclick=user_interface.moveRight()>Move Right</button>
+            <br>
+            <button id="move_down_down_button" type="button" onclick=user_interface.moveDownLeft()>Move Down and Left</button>
+            <button id="move_down_button" type="button" onclick=user_interface.moveDown()>Move Down</button>
+            <button id="move_down_right_button" type="button" onclick=user_interface.moveDownRight()>Move Down and Right</button>
+            <br>
+        </div>
+
+        <div class="container" id="character_container">
+            <div class="container" id="stats_container">
+                Location:<span id="character_location"></span>
+                Level:<span id="character_level"></span>
+                Experience:<span id="character_experience"></span>/<span id="character_experience_next_level"></span>
+                Health:<span id="character_current_health"></span>/<span id="character_max_health"></span>
+                Mana:<span id="character_current_mana"></span>/<span id="character_max_mana"></span>
+                Armor:<span id="character_armor"></span>
+                Magic Resistance:<span id="character_magic_resistance"></span>
+                Health Regeneration:<span id="character_health_regeneration"></span>
+                Mana Regeneration:<span id="character_mana_regeneration"></span>
+                Cooldown Reduction:<span id="character_cooldown_reduction"></span>
+                Attack Power:<span id="character_attack_power"></span>
+                Attack Lifesteal:<span id="character_attack_lifesteal"></span>
+                Ability Power:<span id="character_ability_power"></span>
+                Ability Lifesteal:<span id="character_ability_lifesteal"></span>
+
+                <h3>Equipped Items:</h3>
+                <div id="equipped_items_container" class="container">
+                    Helmet:
+                    <div id="character_helmet_container" class="container"></div>
+                    Shoulders:
+                    <div id="character_shoulders_container" class="container"></div>
+                    Gauntlets:
+                    <div id="character_gauntlets_container" class="container"></div>
+                    Chest:
+                    <div id="character_chest_container" class="container"></div>
+                    Belt:
+                    <div id="character_belt_container" class="container"></div>
+                    Pants:
+                    <div id="character_pants_container" class="container"></div>
+                    Boots:
+                    <div id="character_boots_container" class="container"></div>
+                    Main Hand:
+                    <div id="character_main_hand_container" class="container"></div>
+                    Off Hand:
+                    <div id="character_off_hand_container" class="container"></div>
+                    Necklace:
+                    <div id="character_necklace_container" class="container"></div>
+                    Ring 1:
+                    <div id="character_ring_1_container" class="container"></div>
+                    Ring 2:
+                    <div id="character_ring_2_container" class="container"></div>
+                </div>
+            </div>
+            <div class="container" id="inventory_container">
+                <h3>Inventory</h3>
+                <br>
+                Gold:<span id="character_gold"></span>
+
+                <h4>Equipment</h4>
+                <div class="container" id="equipment_container">
+
+                </div>
+                <h4>Quest Items</h4>
+                <div class="container" id="quest_items_container">
+
+                </div>
+            </div>
         </div>
     </div>
+
+
+
+    <div class="container" id="output_container"></div>
 </div>
 </body>
 </html>
