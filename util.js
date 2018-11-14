@@ -237,7 +237,7 @@ let util = {
     },
 
     getExperienceNeededForLevel: function(level){
-        return Math.floor(EXP_MULTIPLIER * (Math.pow(level,EXP_EXPONENT)));
+        return Math.floor(EXP_MULTIPLIER * (Math.pow(level, EXP_EXPONENT)));
     },
 
 };

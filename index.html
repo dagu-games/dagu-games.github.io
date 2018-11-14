@@ -12,7 +12,7 @@
     }
 
     .item_container {
-        overflow:auto;
+        overflow: auto;
     }
 
     body {
@@ -38,7 +38,6 @@
         right: 1px;
         overflow-y: auto;
     }
-
 
     #character_container {
         height: 70vh;
@@ -71,13 +70,14 @@
         padding: 0px 0px 0px 0px;
     }
 
-
 </style>
 <head>
     <script src="lib/jquery-3.3.1.js"></script>
     <script src="lib/lodash.js"></script>
     <script src="constants.js"></script>
     <script src="game.js"></script>
+    <script src="game_logic.js"></script>
+    <script src="map.js"></script>
     <script src="pathfinder.js"></script>
     <script src="util.js"></script>
     <script src="upgrades.js"></script>
@@ -86,7 +86,7 @@
     <script src="user_interface.js"></script>
     <script src="main.js"></script>
     <title>Dagu</title>
-    <link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
 </head>
 <body>
 <div id="app">
@@ -113,14 +113,20 @@
             <br>
             <button id="move_up_left_button" type="button" onclick=user_interface.moveUpLeft()>Move Up and Left</button>
             <button id="move_up_button" type="button" onclick=user_interface.moveUp()>Move Up</button>
-            <button id="move_up_right_button" type="button" onclick=user_interface.moveUpRight()>Move Up and Right</button>
+            <button id="move_up_right_button" type="button" onclick=user_interface.moveUpRight()>Move Up and Right
+            </button>
             <br>
             <button id="move_left_button" type="button" onclick=user_interface.moveLeft()>Move Left</button>
-            <button style="margin-left:150px;" id="move_right_button" type="button" onclick=user_interface.moveRight()>Move Right</button>
+            <button style="margin-left:150px;" id="move_right_button" type="button" onclick=user_interface.moveRight()>
+                Move Right
+            </button>
             <br>
-            <button id="move_down_down_button" type="button" onclick=user_interface.moveDownLeft()>Move Down and Left</button>
+            <button id="move_down_down_button" type="button" onclick=user_interface.moveDownLeft()>Move Down and Left
+            </button>
             <button id="move_down_button" type="button" onclick=user_interface.moveDown()>Move Down</button>
-            <button id="move_down_right_button" type="button" onclick=user_interface.moveDownRight()>Move Down and Right</button>
+            <button id="move_down_right_button" type="button" onclick=user_interface.moveDownRight()>Move Down and
+                Right
+            </button>
             <br>
         </div>
 
@@ -163,11 +169,15 @@
                             <h3>Helm of Cool</h3>
                             Value: 100
                             <br>
-                            Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis nunc ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a vestibulum vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec vitae eros at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
+                            Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis nunc
+                            ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a vestibulum
+                            vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec vitae eros
+                            at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
                             <br>
                         </div>
                         <div style="width:49%;float:right;">
-                            <button style="float:right;" onclick="user_interface.unequipItem()" type="button">Unequip</button>
+                            <button style="float:right;" onclick="user_interface.unequipItem()" type="button">Unequip
+                            </button>
                             max_health: 10
                             <br>
                             armor: 10
@@ -231,7 +241,6 @@
 
         <div class="container" id="output_container"></div>
     </div>
-
 
 
 </div>

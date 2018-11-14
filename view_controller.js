@@ -64,33 +64,33 @@ let view_controller = {
         if(item === null){
             return null;
         }else{
-            return view_controller.generateItem(item,true);
+            return view_controller.generateItem(item, true);
         }
     },
-    generateItem: function(item,equipped){
+    generateItem: function(item, equipped){
         let cont = $('<div></div>');
         cont.addClass('container');
         cont.addClass('item_container');
 
         let title_cont = $('<div></div>');
-        title_cont.css('width','49%');
-        title_cont.css('float','left');
+        title_cont.css('width', '49%');
+        title_cont.css('float', 'left');
         title_cont.append('<h3>' + item.name + '</h3>');
         title_cont.append('Value: ' + item.value + '<br>');
         title_cont.append('Description: ' + item.description + '<br>');
 
         let stats_cont = $('<div></div>');
-        stats_cont.css('width','49%');
-        stats_cont.css('float','right');
+        stats_cont.css('width', '49%');
+        stats_cont.css('float', 'right');
 
         if(equipped){
             let button = $('<button type="button">Unequip</button>');
-            button.css('float','right');
+            button.css('float', 'right');
             button.click(user_interface.unequipItem());
             stats_cont.append(button);
         }else{
             let button = $('<button type="button">Equip</button>');
-            button.css('float','right');
+            button.css('float', 'right');
             button.click(user_interface.equipItem());
             stats_cont.append(button);
         }
