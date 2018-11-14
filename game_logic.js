@@ -24,8 +24,8 @@ let game_logic = {
             magic_resistance: 0,
             attack_power: 1,
             attack_lifesteal: 0,
-            ability_power: 0,
-            ability_lifesteal: 0,
+            magic_power: 0,
+            magic_lifesteal: 0,
             equipped_items: {
                 helmet: null,
                 shoulders: null,
@@ -140,7 +140,7 @@ let game_logic = {
                 magic_resistance: 10,
                 attack_power: 10,
                 attack_lifesteal: 10,
-                ability_power: 10,
+                magic_power: 10,
                 magic_lifesteal: 10,
                 loot: game_logic.generateLoot(),
                 monster_attacks: [
@@ -171,7 +171,7 @@ let game_logic = {
                     magic_resistance: 10,
                     attack_power: 10,
                     attack_lifesteal: 10,
-                    ability_power: 10,
+                    magic_power: 10,
                     magic_lifesteal: 10,
                     cooldown_reduction: 10,
                     mana_regeneration: 2,

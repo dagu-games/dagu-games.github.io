@@ -11,6 +11,10 @@
         border: 1px solid gray;
     }
 
+    .item_container {
+        overflow:auto;
+    }
+
     body {
         font-family: "Courier New", monospace;
         padding: 0 0 0 0;
@@ -18,8 +22,8 @@
     }
 
     #map_container {
-        height: 70vh;
-        width: 70vh;
+        height: 99vh;
+        width: 99vh;
         position: absolute;
         left: 1px;
         font-size: 2vh;
@@ -46,18 +50,25 @@
 
     #output_container {
         height: 29vh;
-        width: 99vw;
-        position: absolute;
-        bottom: 1px;
+        width: 100%;
+        position: relative;
+        bottom: 0;
+        right: 0;
         overflow-y: auto;
     }
 
     #right_side_container {
-        height: 70vh;
-        width: calc(99vw - 70vh);
+        height: 99vh;
+        width: calc(99vw - 99vh);
         position: absolute;
         top: 1px;
         right: 1px;
+    }
+
+    h1, h2, h3 {
+        margin: 2px 2px 2px 2px;
+
+        padding: 0px 0px 0px 0px;
     }
 
 
@@ -75,6 +86,7 @@
     <script src="user_interface.js"></script>
     <script src="main.js"></script>
     <title>Dagu</title>
+    <link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
 <body>
 <div id="app">
@@ -115,46 +127,90 @@
         <div class="container" id="character_container">
             <div class="container" id="stats_container">
                 Location:<span id="character_location"></span>
+                <br>
                 Level:<span id="character_level"></span>
+                <br>
                 Experience:<span id="character_experience"></span>/<span id="character_experience_next_level"></span>
+                <br>
                 Health:<span id="character_current_health"></span>/<span id="character_max_health"></span>
+                <br>
                 Mana:<span id="character_current_mana"></span>/<span id="character_max_mana"></span>
+                <br>
                 Armor:<span id="character_armor"></span>
+                <br>
                 Magic Resistance:<span id="character_magic_resistance"></span>
+                <br>
                 Health Regeneration:<span id="character_health_regeneration"></span>
+                <br>
                 Mana Regeneration:<span id="character_mana_regeneration"></span>
+                <br>
                 Cooldown Reduction:<span id="character_cooldown_reduction"></span>
+                <br>
                 Attack Power:<span id="character_attack_power"></span>
+                <br>
                 Attack Lifesteal:<span id="character_attack_lifesteal"></span>
-                Ability Power:<span id="character_ability_power"></span>
-                Ability Lifesteal:<span id="character_ability_lifesteal"></span>
+                <br>
+                Magic Power:<span id="character_magic_power"></span>
+                <br>
+                Magic Lifesteal:<span id="character_magic_lifesteal"></span>
+                <br>
 
-                <h3>Equipped Items:</h3>
+                <h3>Equipped Items</h3>
                 <div id="equipped_items_container" class="container">
                     Helmet:
-                    <div id="character_helmet_container" class="container"></div>
+                    <div id="character_helmet_container" class="container item_container">
+                        <div style="width:49%;float:left;">
+                            <h3>Helm of Cool</h3>
+                            Value: 100
+                            <br>
+                            Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis nunc ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a vestibulum vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec vitae eros at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
+                            <br>
+                        </div>
+                        <div style="width:49%;float:right;">
+                            <button style="float:right;" onclick="user_interface.unequipItem()" type="button">Unequip</button>
+                            max_health: 10
+                            <br>
+                            armor: 10
+                            <br>
+                            magic_resistance: 10
+                            <br>
+                            attack_power: 10
+                            <br>
+                            attack_lifesteal: 10
+                            <br>
+                            magic_power: 10
+                            <br>
+                            magic_lifesteal: 10
+                            <br>
+                            cooldown_reduction: 10
+                            <br>
+                            mana_regeneration: 2
+                            <br>
+                            max_mana: 10
+                        </div>
+                    </div>
                     Shoulders:
-                    <div id="character_shoulders_container" class="container"></div>
+                    <div id="character_shoulders_container" class="container item_container"></div>
                     Gauntlets:
-                    <div id="character_gauntlets_container" class="container"></div>
+                    <div id="character_gauntlets_container" class="container item_container"></div>
                     Chest:
-                    <div id="character_chest_container" class="container"></div>
+                    <div id="character_chest_container" class="container item_container"></div>
                     Belt:
-                    <div id="character_belt_container" class="container"></div>
+                    <div id="character_belt_container" class="container item_container"></div>
                     Pants:
-                    <div id="character_pants_container" class="container"></div>
+                    <div id="character_pants_container" class="container item_container"></div>
                     Boots:
-                    <div id="character_boots_container" class="container"></div>
+                    <div id="character_boots_container" class="container item_container"></div>
                     Main Hand:
-                    <div id="character_main_hand_container" class="container"></div>
+                    <div id="character_main_hand_container" class="container item_container"></div>
                     Off Hand:
-                    <div id="character_off_hand_container" class="container"></div>
+                    <div id="character_off_hand_container" class="container item_container"></div>
                     Necklace:
-                    <div id="character_necklace_container" class="container"></div>
+                    <div id="character_necklace_container" class="container item_container"></div>
                     Ring 1:
-                    <div id="character_ring_1_container" class="container"></div>
+                    <div id="character_ring_1_container" class="container item_container"></div>
                     Ring 2:
-                    <div id="character_ring_2_container" class="container"></div>
+                    <div id="character_ring_2_container" class="container item_container"></div>
                 </div>
             </div>
             <div class="container" id="inventory_container">
@@ -172,11 +228,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="container" id="output_container"></div>
     </div>
 
 
 
-    <div class="container" id="output_container"></div>
 </div>
 </body>
 </html>

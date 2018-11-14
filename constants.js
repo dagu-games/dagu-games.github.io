@@ -6,6 +6,16 @@ const NPC_ICON = "npc.png";
 const HELLHOUND_ICON = "hellhound.png";
 const WALL_ICON = "wall.png";
 const HERO_ICON = "hero.png";
+const CHUNK_SIZE = 100;
+const STORAGE_STRING = "dagu_saves_array";
+const ZOOM_MAX = 100;
+const EXP_MULTIPLIER = 100;
+const EXP_EXPONENT = 2;
+const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
+
+const DONATORS = [
+    "Mackie Welter",
+];
 
 const STATUS = {
     COMBAT: "combat",
@@ -14,20 +24,12 @@ const STATUS = {
     NPC_SHOP: "npc_shop",
 };
 
-const CHUNK_SIZE = 100;
-const STORAGE_STRING = "dagu_saves_array";
-const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
-const DONATORS = [
-    "Mackie Welter",
-];
-
 const WALKABLE_TILES = [
     "grass",
     "stone",
     "dirt",
 ];
 
-const ZOOM_MAX = 100;
 
 const VISION_BLOCKING_TILES = [
     "tree",

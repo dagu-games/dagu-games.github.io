@@ -15,7 +15,7 @@ let character_attack = {
             cooldown: 4,
             range: 50,
             calculator: function(){
-                return (game.character.ability_power * (5 + util.randomInt(5)));
+                return (game.character.magic_power * (5 + util.randomInt(5)));
             },
             description: "Shoots a Fireball at the enemy. Caution: Fire is hot",
         },
@@ -25,7 +25,7 @@ let character_attack = {
             cooldown: 2,
             range: 25,
             calculator: function(){
-                return (game.character.ability_power * (5 + util.randomInt(5)));
+                return (game.character.magic_power * (5 + util.randomInt(5)));
             },
             description: "Shoots an Ice Bolt at the enemy. Caution: Ice is cold",
         },
