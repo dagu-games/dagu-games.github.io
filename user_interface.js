@@ -127,10 +127,26 @@ let user_interface = {
     },
 
     equipItem: function(event){
-
+        //check for ring data value to know what slot to put the ring into 1 or 2
     },
 
     unequipItem: function(event){
+
+    },
+
+    acceptQuest: function(event){
+
+    },
+
+    abandonQuest: function(event){
+
+    },
+
+    buyItem: function(event){
+
+    },
+
+    sellItem: function(event){
 
     },
 };

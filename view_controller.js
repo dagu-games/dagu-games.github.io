@@ -3,6 +3,7 @@ let view_controller = {
         view_controller.updateCharacter();
         view_controller.updateSaveList();
         view_controller.updateOutput();
+        view_controller.updateContextMenu();
     },
 
     updateCharacter: function(){
@@ -35,39 +36,70 @@ let view_controller = {
         $('#character_ring1_container').empty();
         $('#character_ring2_container').empty();
 
-        $('#character_helmet_container').append(view_controller.generateEquippedItem('helmet'));
-        $('#character_shoulders_container').append(view_controller.generateEquippedItem('shoulders'));
-        $('#character_gauntlets_container').append(view_controller.generateEquippedItem('gauntlets'));
-        $('#character_chest_container').append(view_controller.generateEquippedItem('chest'));
-        $('#character_belt_container').append(view_controller.generateEquippedItem('belt'));
-        $('#character_pants_container').append(view_controller.generateEquippedItem('pants'));
-        $('#character_boots_container').append(view_controller.generateEquippedItem('boots'));
-        $('#character_main_hand_container').append(view_controller.generateEquippedItem('main_hand'));
-        $('#character_off_hand_container').append(view_controller.generateEquippedItem('off_hand'));
-        $('#character_necklace_container').append(view_controller.generateEquippedItem('necklace'));
-        $('#character_ring1_container').append(view_controller.generateEquippedItem('ring1'));
-        $('#character_ring2_container').append(view_controller.generateEquippedItem('ring2'));
+        $('#character_helmet_container').append(view_controller.generateItem(game.character.equipped_items.helmet,'equipped',null));
+        $('#character_shoulders_container').append(view_controller.generateItem(game.character.equipped_items.shoulders,'equipped',null));
+        $('#character_gauntlets_container').append(view_controller.generateItem(game.character.equipped_items.gauntlets,'equipped',null));
+        $('#character_chest_container').append(view_controller.generateItem(game.character.equipped_items.chest,'equipped',null));
+        $('#character_belt_container').append(view_controller.generateItem(game.character.equipped_items.belt,'equipped',null));
+        $('#character_pants_container').append(view_controller.generateItem(game.character.equipped_items.pants,'equipped',null));
+        $('#character_boots_container').append(view_controller.generateItem(game.character.equipped_items.boots,'equipped',null));
+        $('#character_main_hand_container').append(view_controller.generateItem(game.character.equipped_items.main_hand,'equipped',null));
+        $('#character_off_hand_container').append(view_controller.generateItem(game.character.equipped_items.off_hand,'equipped',null));
+        $('#character_necklace_container').append(view_controller.generateItem(game.character.equipped_items.necklace,'equipped',null));
+        $('#character_ring1_container').append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',null));
+        $('#character_ring2_container').append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
 
+        let inventory = $('#inventory_container');
+        inventory.empty();
+        for(let i = 0; i < game.character.inventory.equipment.length; i++){
+            inventory.append(view_controller.generateItem(game.character.inventory.equipment[i],'inventory',{index:i}));
+        }
+
+        let quest_list = $('#quest_list_container');
+        quest_list.empty();
+        for(let i = 0; i < game.character.quests.length; i++){
+            quest_list.append(view_controller.generateQuest(game.character.quests[i]));
+        }
+
+        let upgrades_list = $('#upgrades_container');
+        upgrades_list.empty();
+        for(let i = 0; i < upgrades.length; i++){
+            quest_list.append(view_controller.generateUpgrade(upgrades[i]));
+        }
     },
 
     updateSaveList: function(){
+        let load_game_select = $('#load_game_select');
+        load_game_select.empty();
 
-    },
-    updateOutput: function(){
+        let saves = util.getSavesList();
 
-    },
-    generateInventoryItem: function(index){
-
-    },
-    generateEquippedItem: function(slot){
-        let item = game.character.equipped_items[slot];
-        if(item === null){
-            return null;
-        }else{
-            return view_controller.generateItem(item, true);
+        for(let i = 0; i < saves.length; i++){
+            let save = $('<option></option>');
+            if(i===0){
+                save.attr('selected',true);
+            }
+            save.data('index',save.index);
+            let date = new Date(save.time);
+            save.innerText = save.index + " - " + date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            load_game_select.append(save);
         }
     },
-    generateItem: function(item, equipped){
+    updateOutput: function(){
+        let out = $('#output_container');
+        out.empty();
+        for(let i = 0; i < game.output.length; i++){
+            out.append(game.output[i] + "<br>");
+        }
+    },
+    updateContextMenu: function(){
+        if(game.settings === STATUS.COMBAT_SPELL_SELECTED){
+            $('#cancel_spell_button').hide();
+        }else{
+            $('#cancel_spell_button').show();
+        }
+    },
+    generateItem: function(item, mode, data){
         let cont = $('<div></div>');
         cont.addClass('container');
         cont.addClass('item_container');
@@ -83,15 +115,50 @@ let view_controller = {
         stats_cont.css('width', '49%');
         stats_cont.css('float', 'right');
 
-        if(equipped){
+        if(mode ==='equipped'){
             let button = $('<button type="button">Unequip</button>');
             button.css('float', 'right');
             button.click(user_interface.unequipItem());
+            button.data('index',item.slot);
             stats_cont.append(button);
-        }else{
-            let button = $('<button type="button">Equip</button>');
+        }
+        if(mode === 'inventory'){
+            if(item.slot === 'ring'){
+                let button = $('<button type="button">Equip in Ring 2</button>');
+                button.css('float', 'right');
+                button.click(user_interface.equipItem());
+                button.data('ring',2);
+                button.data('index',data.index);
+                stats_cont.append(button);
+
+                button = $('<button type="button">Equip in Ring 1</button>');
+                button.css('float', 'right');
+                button.click(user_interface.equipItem());
+                button.data('ring',1);
+                button.data('index',data.index);
+                stats_cont.append(button);
+            }else{
+                let button = $('<button type="button">Equip</button>');
+                button.css('float', 'right');
+                button.data('index',data.index);
+                button.click(user_interface.equipItem());
+                stats_cont.append(button);
+            }
+            if(util.isAround(game.character.x,game.character.y,'shop')){
+                let button = $('<button type="button">Sell Item</button>');
+                button.css('float', 'right');
+                button.data('index',data.index);
+                button.click(user_interface.sellItem());
+                stats_cont.append(button);
+            }
+        }
+        if(mode ==='equipped'){
+            let button = $('<button type="button">Buy Item</button>');
             button.css('float', 'right');
-            button.click(user_interface.equipItem());
+            button.click(user_interface.buyItem());
+            button.data('index',data.index);
+            button.data('shop_x',data.shop_x);
+            button.data('shop_y',data.shop_y);
             stats_cont.append(button);
         }
 
@@ -110,7 +177,7 @@ let view_controller = {
         cont.append(stats_cont);
         return cont;
     },
-    generateQuestItem: function(index){
+    generateQuest: function(index){
 
     },
     generateUpgrade: function(name){
