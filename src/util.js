@@ -99,16 +99,48 @@ let util = {
         return ans;
     },
 
+    getAround: function(x,y){
+        return [
+            {
+                x:x+1,
+                y:y,
+            },
+            {
+                x:x+1,
+                y:y+1,
+            },
+            {
+                x:x,
+                y:y+1,
+            },
+            {
+                x:x-1,
+                y:y+1,
+            },
+            {
+                x:x-1,
+                y:y,
+            },
+            {
+                x:x-1,
+                y:y-1,
+            },
+            {
+                x:x,
+                y:y-1,
+            },
+            {
+                x:x+1,
+                y:y-1,
+            },
+        ];
+    },
+
     isAround: function(x, y, npc_type){
-        return (map.get(x + 1, y).type === npc_type ||
-            map.get(x + 1, y + 1).type === npc_type ||
-            map.get(x, y + 1).type === npc_type ||
-            map.get(x - 1, y).type === npc_type ||
-            map.get(x, y - 1).type === npc_type ||
-            map.get(x - 1, y - 1).type === npc_type ||
-            map.get(x + 1, y - 1).type === npc_type ||
-            map.get(x - 1, y + 1).type === npc_type
-        );
+        let points = util.getAround(x,y);
+        for(let i = 0; i < points.length; i++){
+            
+        }
     },
 
     loadGame: function(index){

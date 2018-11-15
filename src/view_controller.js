@@ -98,6 +98,11 @@ let view_controller = {
         }else{
             $('#cancel_spell_button').show();
         }
+
+        if(util.isAround(game.character.x,game.character.y,"shop")){
+            let points = util.getAround(game.character.x,game.character.y);
+            if()
+        }
     },
     generateItem: function(item, mode, data){
         let cont = $('<div></div>');

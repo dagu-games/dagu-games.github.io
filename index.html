@@ -97,17 +97,17 @@
     <head>
         <script src="lib/jquery-3.3.1.js"></script>
         <script src="lib/lodash.js"></script>
-        <script src="constants.js"></script>
-        <script src="game.js"></script>
-        <script src="game_logic.js"></script>
-        <script src="map.js"></script>
-        <script src="pathfinder.js"></script>
-        <script src="util.js"></script>
-        <script src="upgrades.js"></script>
-        <script src="character_attack.js"></script>
-        <script src="monster_attack.js"></script>
-        <script src="user_interface.js"></script>
-        <script src="main.js"></script>
+        <script src="src/constants.js"></script>
+        <script src="src/game.js"></script>
+        <script src="src/game_logic.js"></script>
+        <script src="src/map.js"></script>
+        <script src="src/pathfinder.js"></script>
+        <script src="src/util.js"></script>
+        <script src="src/upgrades.js"></script>
+        <script src="src/character_attack.js"></script>
+        <script src="src/monster_attack.js"></script>
+        <script src="src/user_interface.js"></script>
+        <script src="src/main.js"></script>
         <title>Dagu</title>
         <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
         <meta charset="UTF-8">
@@ -338,10 +338,8 @@
                     </button>
                     <br>
 
-                    <div id="npc_shop_list_container" class="container">
-                    </div>
-                    <div id="npc_quest_list_container" class="container">
-                    </div>
+                    <div id="npc_shop_list_container" class="container"></div>
+                    <div id="npc_quest_list_container" class="container"></div>
                 </div>
 
                 <div class="container bottom_container" id="output_container">
