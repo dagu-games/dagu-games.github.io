@@ -1,7 +1,7 @@
 let game_logic = {
     init: function(){
         game.settings = {
-            zoom_factor: 25,
+            zoom_factor: 9,
         };
         game.world1 = [[]];
         game.world2 = [[]];
@@ -51,18 +51,33 @@ let game_logic = {
         };
         game.status = STATUS.COMBAT;
         game_logic.generateChunk(0, 0);
-        game_logic.generateChunk(1, 0);
-        game_logic.generateChunk(1, 1);
-        game_logic.generateChunk(0, 1);
-        game_logic.generateChunk(-1, 1);
-        game_logic.generateChunk(-1, 0);
-        game_logic.generateChunk(-1, -1);
-        game_logic.generateChunk(0, -1);
-        game_logic.generateChunk(1, -1);
+        if(map.get(CHUNK_SIZE,0)){
+            game_logic.generateChunk(1, 0);
+        }
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE)){
+            game_logic.generateChunk(1, 1);
+        }
+        if(map.get(0,CHUNK_SIZE)){
+            game_logic.generateChunk(0, 1);
+        }
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE)){
+            game_logic.generateChunk(-1, 1);
+        }
+        if(map.get(CHUNK_SIZE*-1,0)){
+            game_logic.generateChunk(-1, 0);
+        }
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE*-1)){
+            game_logic.generateChunk(-1, -1);
+        }
+        if(map.get(0,CHUNK_SIZE*-1)){
+            game_logic.generateChunk(0, -1);
+        }
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1)){
+            game_logic.generateChunk(1, -1);
+        }
     },
     generateChunk: function(chunk_x, chunk_y){
         let r = util.randomInt(100);
-        r = 70;
         let monsters;
         let points;
         let point;
@@ -73,7 +88,7 @@ let game_logic = {
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
-                    if(util.randomInt(100) < 30){
+                    if(util.randomInt(100) < 10){
                         map.get(i, j).type = 'tree';
                     }else{
                         if(util.randomInt(100) < 30){
@@ -85,28 +100,44 @@ let game_logic = {
                 }
             }
 
+            map.get(0, 0).type = 'grass';
+            pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
-                points = util.getAllPathableTilesInChunk(chunk_x, chunk_y);
-                point = util.randomItemInArray(points);
-                map.get(point.x, point.y).npc = monsters[i];
+                let c = 0;
+                while(c<10){
+                    let tx = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_x);
+                    let ty = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_y);
+                    if(util.isWalkable(tx,ty) && util.isPathable(tx,ty)){
+                        map.get(tx, ty).npc = monsters[i];
+                        c=11;
+                    }else{
+                        c++;
+                    }
+                }
             }
         }else if(r >= 75 && r < 85){    //generate dungeon
             monsters = game_logic.generateChunkEnemies();
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
-                    if(util.randomInt(100) < 30){
-                        map.get(i, j).type = 'tree';
-                    }else{
-                        map.get(i, j).type = 'stone';
-                    }
+                    map.get(i, j).type = 'stone';
                 }
             }
 
+            map.get(0, 0).type = 'grass';
+            pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
-                points = util.getAllPathableTilesInChunk(chunk_x, chunk_y);
-                point = util.randomItemInArray(points);
-                map.get(point.x, point.y).npc = monsters[i];
+                let c = 0;
+                while(c<10){
+                    let tx = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_x);
+                    let ty = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_y);
+                    if(util.isWalkable(tx,ty) && util.isPathable(tx,ty)){
+                        map.get(tx, ty).npc = monsters[i];
+                        c=11;
+                    }else{
+                        c++;
+                    }
+                }
             }
         }else if(r >= 85){    //generate town
 
@@ -118,15 +149,9 @@ let game_logic = {
                     }
                 }
             }
+            map.get(0, 0).type = 'grass';
+            pathfinder.resetPFVariable();
         }
-        //clears whatever is in the current map object and fills the hole with new terrain in the given coordinates chunk.
-        //determine chunk with (x/CHUNK_SIZE - x%CHUNK_SIZE - 1). then multiply by CHUNK_SIZE to get the starting x.
-        //choose either (town, wilderness, dungeon) if >=1 quest accepted then 10% dungeon, 15% town, 75% wilderness,
-        //if not then 15% town 85% wilderness
-        //town          will contain npc shops and quests, spawning in given positions.
-        //              Selects random shape from list, builds walls according to spec and randomly populates with nps in designated spawn zones
-        //dungeon       generates enemies and a quest item for an accepted quest
-        //wilderness    will contain either enemies, nothing, or loot contains a quest item needed for accepted quest and enemies fill in holes with random grass, trees, sand, snow, or dirt
     },
 
     generateChunkEnemies: function(){
@@ -193,7 +218,7 @@ let game_logic = {
             description: util.randomItemInArray(RACES) + " " + util.randomItemInArray(PROFESSIONS) + " - " + util.randomItemInArray(NPC_DESCRIPTIONS),
         };
 
-        if(util.randomInt() === 0){
+        if(util.randomInt(2) === 0){
             npc.type = "shop";
         }else{
             npc.type = "quest_giver";

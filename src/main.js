@@ -1,6 +1,10 @@
+localStorage.removeItem(STORAGE_STRING);
+
 util.loadGame();
-util.saveGame();
-game.output.push(DONATION_STRING);
-util.printCredits();
-map.render();
+user_interface.printCredits();
+//map.render();
 view_controller.render();
+
+$(document).ready(map.render);
+
+$(window).resize(map.render);

@@ -1,15 +1,14 @@
 let util = {
     isWalkable: function(x, y){
-        WALKABLE_TILES.forEach(
-            function(type){
-                if(map.get(x, y).type === type
-                    && map.get(x, y).npc.type !== "monster"
+        for(let i = 0; i < WALKABLE_TILES.length; i++){
+            if(map.get(x, y).type === WALKABLE_TILES[i] &&
+                (map.get(x, y).npc == null ||
+                    (map.get(x, y).npc.type !== "monster"
                     && map.get(x, y).npc.type !== "quest_giver"
-                    && map.get(x, y).npc.type !== "shop"){
-                    return true;
-                }
+                    && map.get(x, y).npc.type !== "shop"))){
+                return true;
             }
-        );
+        }
         return false;
     },
 
@@ -75,13 +74,17 @@ let util = {
         return pathfinder.findShortestPath(x1, y1, x2, y2)[0];
     },
 
-    findSquare: function(x, y, length){
-        return {
-            x1: x + (length / 2),
-            x2: x - (length / 2),
-            y1: y + (length / 2),
-            y2: y - (length / 2),
-        };
+    getAllInSquare: function(x, y, length){
+        let ans = [];
+        for( let i = x - ((length-1) / 2); i < x + ((length-1) / 2); i++){
+            for( let j = y - ((length-1) / 2); j < y + ((length-1) / 2); j++){
+                ans.push({
+                    x:i,
+                    y:j,
+                });
+            }
+        }
+        return ans;
     },
 
     getAllInRange: function(x, y, range){
@@ -139,19 +142,18 @@ let util = {
     isAround: function(x, y, npc_type){
         let points = util.getAround(x,y);
         for(let i = 0; i < points.length; i++){
-            
+
         }
     },
 
     loadGame: function(index){
-        localStorage.removeItem(STORAGE_STRING);
         let str = localStorage.getItem(STORAGE_STRING);
-        if(str == null){
+        if(str === null){
             game_logic.init();
             util.saveGame();
             str = localStorage.getItem(STORAGE_STRING);
         }
-        let saves = JSON.parse(str);
+        let saves = JSON.parse(LZString.decompress(str));
         if(index == null){
             game = saves[0];
         }else{
@@ -165,24 +167,46 @@ let util = {
         if(str == null){
             saves = [];
         }else{
-            saves = JSON.parse(str);
+            saves = JSON.parse(LZString.decompress(str));
         }
         let d = new Date();
         game.save_time = d.getTime();
         saves.push(game);
 
-        localStorage.setItem(STORAGE_STRING, JSON.stringify(saves));
+        let ans = JSON.stringify(saves);
+        console.log("size before = " + ans.length);
+
+        ans = LZString.compress(ans);
+        console.log("size after = " + ans.length);
+        localStorage.setItem(STORAGE_STRING, ans);
     },
 
     getChunk: function(x, y){
-        return {
-            x: x / CHUNK_SIZE,
-            y: y / CHUNK_SIZE,
-        };
+        if(x >= 0 && y >= 0){
+            return {
+                x: Math.floor(x / CHUNK_SIZE),
+                y: Math.floor(y / CHUNK_SIZE),
+            };
+        }else if(x >= 0 && y < 0){
+            return {
+                x: Math.floor(x / CHUNK_SIZE),
+                y: Math.ceil(y / CHUNK_SIZE) - 1,
+            };
+        }else if(x < 0 && y >= 0){
+            return {
+                x: Math.ceil(x / CHUNK_SIZE) - 1,
+                y: Math.floor(y / CHUNK_SIZE),
+            };
+        }else{
+            return {
+                x: Math.ceil(x / CHUNK_SIZE) - 1,
+                y: Math.ceil(y / CHUNK_SIZE) - 1,
+            };
+        }
     },
 
     randomInt: function(max){
-        if(max = null){
+        if(max === null){
             return Math.floor(Math.random() * 2);
         }
         return Math.floor(Math.random() * max);
@@ -205,10 +229,10 @@ let util = {
         if(type === "stone"){
             return STONE_ICON;
         }
-        if(type === "npc"){
+        if(type === "quest_giver" || type === "shop"){
             return NPC_ICON;
         }
-        if(type === "hellhound"){
+        if(type === "monster"){
             return HELLHOUND_ICON;
         }
         if(type === "wall"){
@@ -221,7 +245,7 @@ let util = {
 
     getSavesList: function(){
         let ans = [];
-        let saves = JSON.parse(localStorage.getItem(STORAGE_STRING));
+        let saves = JSON.parse(LZString.decompress(localStorage.getItem(STORAGE_STRING)));
         for(let i = 0; i < saves.length; i++){
             ans.push({
                 time: saves[i].save_time,
@@ -244,7 +268,7 @@ let util = {
         let ans = [];
         for(let i = chunk_x * CHUNK_SIZE; i < (chunk_x + 1) * CHUNK_SIZE; i++){
             for(let j = chunk_y * CHUNK_SIZE; j < (chunk_y + 1) * CHUNK_SIZE; j++){
-                if(util.isWalkable(chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE) && pathfinder.findShortestPath(0, 0, chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE) !== false){
+                if(util.isWalkable(i,j) && pathfinder.findShortestPath(0, 0, i, j) !== false){
                     ans.push({
                         x: i,
                         y: j,
@@ -252,13 +276,14 @@ let util = {
                 }
             }
         }
+        return ans;
     },
 
     getAllMonsters: function(){
         let monsters = [];
         let points = map.getAll();
         for(let i = 0; i < points.length; i++){
-            if(map.get(points[i].x, points[i].y).npc.type === "monster"){
+            if(map.get(points[i].x, points[i].y).npc != null && map.get(points[i].x, points[i].y).npc.type === "monster"){
                 monsters.push({
                     x: points[i].x,
                     y: points[i].y,
@@ -270,6 +295,17 @@ let util = {
 
     getExperienceNeededForLevel: function(level){
         return Math.floor(EXP_MULTIPLIER * (Math.pow(level, EXP_EXPONENT)));
+    },
+
+    dumpWorld: function(){
+        let points = map.getAll();
+        for(let i = 0; i < points.length; i++){
+            console.debug(map.get(points[i].x,points[i].y));
+        }
+    },
+
+    isPathable: function(x,y){
+        return pathfinder.findShortestPath(0,0,x,y) !== false;
     },
 
 };

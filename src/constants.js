@@ -1,14 +1,14 @@
-const GRASS_ICON = "grass.png";
-const TREE_ICON = "tree.png";
-const STONE_ICON = "stone.png";
-const DIRT_ICON = "dirt.png";
-const NPC_ICON = "npc.png";
-const HELLHOUND_ICON = "hellhound.png";
-const WALL_ICON = "wall.png";
-const HERO_ICON = "hero.png";
+const GRASS_ICON = "images/grass.png";
+const TREE_ICON = "images/tree.png";
+const STONE_ICON = "images/stone.png";
+const DIRT_ICON = "images/dirt.png";
+const NPC_ICON = "images/npc.png";
+const HELLHOUND_ICON = "images/hellhound.png";
+const WALL_ICON = "images/wall.png";
+const HERO_ICON = "images/hero.png";
 const CHUNK_SIZE = 100;
 const STORAGE_STRING = "dagu_saves_array";
-const ZOOM_MAX = 100;
+const ZOOM_MAX = 30;
 const EXP_MULTIPLIER = 100;
 const EXP_EXPONENT = 2;
 const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
@@ -16,6 +16,7 @@ const DONATION_STRING = "If you would like to donate to this game and me so that
 const DONATORS = [
     "Mackie Welter",
 ];
+
 
 const STATUS = {
     COMBAT: "combat",
@@ -42,13 +43,15 @@ const NPC_FIRST_NAMES = [
     "Dave",
     "Bob",
     "Mackie",
-    "Doug"
+    "Doug",
+    "Mary",
 ];
 
 const NPC_LAST_NAMES = [
     "Kihlken",
     "Anderson",
-    "Smith"
+    "Welter",
+    "Smith",
 ];
 
 const RACES = [
@@ -66,12 +69,13 @@ const PROFESSIONS = [
     "Merchant",
     "Farmer",
     "Adventurer",
-    "Guard"
+    "Guard",
+    "Blacksmith",
 ];
 
 const NPC_DESCRIPTIONS = [
     "Gross, dirty, and worn from constant work.",
-    "Neat and clean, as if from wealth."
+    "Neat and clean, as if from wealth.",
 ];
 
 const QUESTS = [
@@ -84,7 +88,7 @@ const QUESTS = [
 ];
 
 const ITEM_NAMES = {
-    helmets: [
+    helmet: [
         "helm of cool",
     ],
     shoulders: [
@@ -93,10 +97,10 @@ const ITEM_NAMES = {
     gauntlets: [
         "gauntlets of cool",
     ],
-    chests: [
+    chest: [
         "chest of cool",
     ],
-    belts: [
+    belt: [
         "belt of cool",
     ],
     pants: [
@@ -105,16 +109,16 @@ const ITEM_NAMES = {
     boots: [
         "boots of cool",
     ],
-    main_hands: [
+    main_hand: [
         "sword of cool",
     ],
-    off_hands: [
+    off_hand: [
         "shield of cool",
     ],
-    necklaces: [
+    necklace: [
         "necklace of cool",
     ],
-    rings: [
+    ring: [
         "ring of cool",
     ],
 };
@@ -143,5 +147,5 @@ const TOWN_NAMES = [
     "Springville",
     "Nelthar",
     "Placeburg",
-    "CityVillage"
+    "CityVillage",
 ];

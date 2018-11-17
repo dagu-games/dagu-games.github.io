@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    <meta charset="UTF-8">
     <style>
         .tile {
             padding: 0 0 0 0;
@@ -95,8 +96,11 @@
 
     </style>
     <head>
+        <title>Dagu</title>
+        <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
         <script src="lib/jquery-3.3.1.js"></script>
         <script src="lib/lodash.js"></script>
+        <script src="lib/lz-string.js"></script>
         <script src="src/constants.js"></script>
         <script src="src/game.js"></script>
         <script src="src/game_logic.js"></script>
@@ -107,191 +111,13 @@
         <script src="src/character_attack.js"></script>
         <script src="src/monster_attack.js"></script>
         <script src="src/user_interface.js"></script>
-        <script src="src/main.js"></script>
-        <title>Dagu</title>
-        <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
-        <meta charset="UTF-8">
+        <script src="src/view_controller.js"></script>
     </head>
     <body>
         <div id="app">
             <div class="container left_container" id="map_container"></div>
             <div class="container right_container" id="right_side_container">
-                <div class="container left_container" id="character_container">
-
-                    <h3>Stats</h3>
-
-                    <div class="container" id="stats_container">
-                        Location:<span id="character_location"></span>
-                        <br>
-                        Level:<span id="character_level"></span>
-                        <br>
-                        Experience:<span id="character_experience"></span>/<span id="character_experience_next_level"></span>
-                        <br>
-                        Health:<span id="character_current_health"></span>/<span id="character_max_health"></span>
-                        <br>
-                        Mana:<span id="character_current_mana"></span>/<span id="character_max_mana"></span>
-                        <br>
-                        Armor:<span id="character_armor"></span>
-                        <br>
-                        Magic Resistance:<span id="character_magic_resistance"></span>
-                        <br>
-                        Health Regeneration:<span id="character_health_regeneration"></span>
-                        <br>
-                        Mana Regeneration:<span id="character_mana_regeneration"></span>
-                        <br>
-                        Cooldown Reduction:<span id="character_cooldown_reduction"></span>
-                        <br>
-                        Attack Power:<span id="character_attack_power"></span>
-                        <br>
-                        Attack Lifesteal:<span id="character_attack_lifesteal"></span>
-                        <br>
-                        Magic Power:<span id="character_magic_power"></span>
-                        <br>
-                        Magic Lifesteal:<span id="character_magic_lifesteal"></span>
-                        <br>
-
-
-                    </div>
-
-                    <h3>Equipped Items</h3>
-
-                    <div id="equipped_items_container" class="container">
-                        Helmet:
-                        <div id="character_helmet_container" class="container item_container">
-                            <div class="container item_container">
-                                <div class="left_container">
-                                    <h3>Helm of Cool</h3>
-                                    Value: 100
-                                    <br>
-                                    Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                                    sagittis nunc
-                                    ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
-                                    vestibulum
-                                    vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
-                                    vitae eros
-                                    at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
-                                    <br>
-                                </div>
-                                <div class="right_container">
-                                    <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                        Equip in Ring 1
-                                    </button>
-                                    <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                        Equip in Ring 2
-                                    </button>
-                                    max_health: 10
-                                    <br>
-                                    armor: 10
-                                    <br>
-                                    magic_resistance: 10
-                                    <br>
-                                    attack_power: 10
-                                    <br>
-                                    attack_lifesteal: 10
-                                    <br>
-                                    magic_power: 10
-                                    <br>
-                                    magic_lifesteal: 10
-                                    <br>
-                                    cooldown_reduction: 10
-                                    <br>
-                                    mana_regeneration: 2
-                                    <br>
-                                    max_mana: 10
-                                </div>
-                            </div>
-                        </div>
-                        Shoulders:
-                        <div id="character_shoulders_container" class="container item_container"></div>
-                        Gauntlets:
-                        <div id="character_gauntlets_container" class="container item_container"></div>
-                        Chest:
-                        <div id="character_chest_container" class="container item_container"></div>
-                        Belt:
-                        <div id="character_belt_container" class="container item_container"></div>
-                        Pants:
-                        <div id="character_pants_container" class="container item_container"></div>
-                        Boots:
-                        <div id="character_boots_container" class="container item_container"></div>
-                        Main Hand:
-                        <div id="character_main_hand_container" class="container item_container"></div>
-                        Off Hand:
-                        <div id="character_off_hand_container" class="container item_container"></div>
-                        Necklace:
-                        <div id="character_necklace_container" class="container item_container"></div>
-                        Ring 1:
-                        <div id="character_ring_1_container" class="container item_container"></div>
-                        Ring 2:
-                        <div id="character_ring_2_container" class="container item_container"></div>
-                    </div>
-
-                    <h3>Quests</h3>
-
-                    <div class="container" id="quest_list_container">
-                        <div class="container item_container">
-                            <div class="left_container">
-                                <h3>name</h3>
-                                Goal Item: goal_item
-                                Item not found, head NorthWest
-                                <br>
-                                Quest Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                                sagittis nunc
-                                ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
-                                vestibulum
-                                vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
-                                vitae eros
-                                at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
-                                <br>
-                            </div>
-                            <div class="right_container">
-                                <button style="float:right;" onclick="user_interface.abandonQuest()" type="button">
-                                    Abandon
-                                </button>
-                                <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                    Equip in Ring 2
-                                </button>
-                                max_health: 10
-                                <br>
-                                armor: 10
-                                <br>
-                                magic_resistance: 10
-                                <br>
-                                attack_power: 10
-                                <br>
-                                attack_lifesteal: 10
-                                <br>
-                                magic_power: 10
-                                <br>
-                                magic_lifesteal: 10
-                                <br>
-                                cooldown_reduction: 10
-                                <br>
-                                mana_regeneration: 2
-                                <br>
-                                max_mana: 10
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>Inventory</h3>
-
-                    <div class="container" id="inventory_container">
-                        Gold:<span id="character_gold"></span>
-
-                        <h4>Equipment</h4>
-                        <div class="container" id="equipment_container">
-
-                        </div>
-                    </div>
-
-                    <h3>Upgrades</h3>
-
-                    <div class="container" id="upgrades_container">
-
-                    </div>
-
-                </div>
-                <div class="container right_container" id="context_menu_container">
+                <div class="container left_container" id="context_menu_container">
                     <button id="save_game_button" type="button" onclick=user_interface.saveGame()>Save Game</button>
                     <br>
                     <label for="load_game_select">Save Time:</label>
@@ -338,13 +164,192 @@
                     </button>
                     <br>
 
+                    <label for="teleport_x">x</label><input id="teleport_x" />
+                    <label for="teleport_y">y</label><input id="teleport_y" />
+                    <button id="teleport_button" type="button" onclick=user_interface.teleport()>Teleport</button>
+
+
                     <div id="npc_shop_list_container" class="container"></div>
                     <div id="npc_quest_list_container" class="container"></div>
                 </div>
+                <div class="container right_container" id="character_container">
 
-                <div class="container bottom_container" id="output_container">
+                <h3>Stats</h3>
+
+                <div class="container" id="stats_container">
+                    Location:<span id="character_location"></span>
+                    <br>
+                    Level:<span id="character_level"></span>
+                    <br>
+                    Experience:<span id="character_experience"></span>/<span id="character_experience_next_level"></span>
+                    <br>
+                    Health:<span id="character_current_health"></span>/<span id="character_max_health"></span>
+                    <br>
+                    Mana:<span id="character_current_mana"></span>/<span id="character_max_mana"></span>
+                    <br>
+                    Armor:<span id="character_armor"></span>
+                    <br>
+                    Magic Resistance:<span id="character_magic_resistance"></span>
+                    <br>
+                    Health Regeneration:<span id="character_health_regeneration"></span>
+                    <br>
+                    Mana Regeneration:<span id="character_mana_regeneration"></span>
+                    <br>
+                    Cooldown Reduction:<span id="character_cooldown_reduction"></span>
+                    <br>
+                    Attack Power:<span id="character_attack_power"></span>
+                    <br>
+                    Attack Lifesteal:<span id="character_attack_lifesteal"></span>
+                    <br>
+                    Magic Power:<span id="character_magic_power"></span>
+                    <br>
+                    Magic Lifesteal:<span id="character_magic_lifesteal"></span>
+                    <br>
+
+
+                </div>
+
+                <h3>Equipped Items</h3>
+
+                <div id="equipped_items_container" class="container">
+                    Helmet:
+                    <div id="character_helmet_container" class="container item_container">
+                        <div class="container item_container">
+                            <div class="left_container">
+                                <h3>Helm of Cool</h3>
+                                Value: 100
+                                <br>
+                                Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                                sagittis nunc
+                                ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
+                                vestibulum
+                                vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
+                                vitae eros
+                                at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
+                                <br>
+                            </div>
+                            <div class="right_container">
+                                <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
+                                    Equip in Ring 1
+                                </button>
+                                <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
+                                    Equip in Ring 2
+                                </button>
+                                max_health: 10
+                                <br>
+                                armor: 10
+                                <br>
+                                magic_resistance: 10
+                                <br>
+                                attack_power: 10
+                                <br>
+                                attack_lifesteal: 10
+                                <br>
+                                magic_power: 10
+                                <br>
+                                magic_lifesteal: 10
+                                <br>
+                                cooldown_reduction: 10
+                                <br>
+                                mana_regeneration: 2
+                                <br>
+                                max_mana: 10
+                            </div>
+                        </div>
+                    </div>
+                    Shoulders:
+                    <div id="character_shoulders_container" class="container item_container"></div>
+                    Gauntlets:
+                    <div id="character_gauntlets_container" class="container item_container"></div>
+                    Chest:
+                    <div id="character_chest_container" class="container item_container"></div>
+                    Belt:
+                    <div id="character_belt_container" class="container item_container"></div>
+                    Pants:
+                    <div id="character_pants_container" class="container item_container"></div>
+                    Boots:
+                    <div id="character_boots_container" class="container item_container"></div>
+                    Main Hand:
+                    <div id="character_main_hand_container" class="container item_container"></div>
+                    Off Hand:
+                    <div id="character_off_hand_container" class="container item_container"></div>
+                    Necklace:
+                    <div id="character_necklace_container" class="container item_container"></div>
+                    Ring 1:
+                    <div id="character_ring_1_container" class="container item_container"></div>
+                    Ring 2:
+                    <div id="character_ring_2_container" class="container item_container"></div>
+                </div>
+
+                <h3>Quests</h3>
+
+                <div class="container" id="quest_list_container">
+                    <div class="container item_container">
+                        <div class="left_container">
+                            <h3>name</h3>
+                            Goal Item: goal_item
+                            Item not found, head NorthWest
+                            <br>
+                            Quest Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            sagittis nunc
+                            ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
+                            vestibulum
+                            vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
+                            vitae eros
+                            at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
+                            <br>
+                        </div>
+                        <div class="right_container">
+                            <button style="float:right;" onclick="user_interface.abandonQuest()" type="button">
+                                Abandon
+                            </button>
+                            <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
+                                Equip in Ring 2
+                            </button>
+                            max_health: 10
+                            <br>
+                            armor: 10
+                            <br>
+                            magic_resistance: 10
+                            <br>
+                            attack_power: 10
+                            <br>
+                            attack_lifesteal: 10
+                            <br>
+                            magic_power: 10
+                            <br>
+                            magic_lifesteal: 10
+                            <br>
+                            cooldown_reduction: 10
+                            <br>
+                            mana_regeneration: 2
+                            <br>
+                            max_mana: 10
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Inventory</h3>
+
+                <div class="container" id="inventory_container">
+                    Gold:<span id="character_gold"></span>
+
+                    <h4>Equipment</h4>
+                    <div class="container" id="equipment_container">
+
+                    </div>
+                </div>
+
+                <h3>Upgrades</h3>
+
+                <div class="container" id="upgrades_container">
+
                 </div>
             </div>
+                <div class="container bottom_container" id="output_container"></div>
+            </div>
         </div>
+
+        <script src="src/main.js"></script>
     </body>
 </html>
