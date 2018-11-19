@@ -190,17 +190,17 @@ let util = {
         }else if(x >= 0 && y < 0){
             return {
                 x: Math.floor(x / CHUNK_SIZE),
-                y: Math.ceil(y / CHUNK_SIZE) - 1,
+                y: Math.ceil((y+1) / CHUNK_SIZE) - 1,
             };
         }else if(x < 0 && y >= 0){
             return {
-                x: Math.ceil(x / CHUNK_SIZE) - 1,
+                x: Math.ceil((x+1) / CHUNK_SIZE) - 1,
                 y: Math.floor(y / CHUNK_SIZE),
             };
         }else{
             return {
-                x: Math.ceil(x / CHUNK_SIZE) - 1,
-                y: Math.ceil(y / CHUNK_SIZE) - 1,
+                x: Math.ceil((x+1) / CHUNK_SIZE) - 1,
+                y: Math.ceil((y+1) / CHUNK_SIZE) - 1,
             };
         }
     },
@@ -262,21 +262,6 @@ let util = {
     formatTime: function(time){
         let d = new Date(time);
         return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-    },
-
-    getAllPathableTilesInChunk: function(chunk_x, chunk_y){
-        let ans = [];
-        for(let i = chunk_x * CHUNK_SIZE; i < (chunk_x + 1) * CHUNK_SIZE; i++){
-            for(let j = chunk_y * CHUNK_SIZE; j < (chunk_y + 1) * CHUNK_SIZE; j++){
-                if(util.isWalkable(i,j) && pathfinder.findShortestPath(0, 0, i, j) !== false){
-                    ans.push({
-                        x: i,
-                        y: j,
-                    });
-                }
-            }
-        }
-        return ans;
     },
 
     getAllMonsters: function(){

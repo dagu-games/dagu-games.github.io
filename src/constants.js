@@ -17,7 +17,6 @@ const DONATORS = [
     "Mackie Welter",
 ];
 
-
 const STATUS = {
     COMBAT: "combat",
     COMBAT_SPELL_SELECTED: "combat_spell_selected",
@@ -149,3 +148,10 @@ const TOWN_NAMES = [
     "Placeburg",
     "CityVillage",
 ];
+
+const KEY_CODES = {
+    W:87,
+    A:65,
+    S:83,
+    D:68,
+};

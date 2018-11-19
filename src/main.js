@@ -8,3 +8,5 @@ view_controller.render();
 $(document).ready(map.render);
 
 $(window).resize(map.render);
+
+$(document).keydown(user_interface.handleKeyDown);

@@ -198,4 +198,24 @@ let user_interface = {
     castSpell: function(event){
 
     },
+
+    handleKeyDown: function(event){
+        if(game.key_lock == null || game.key_lock===false){
+            game.key_lock = true;
+            if(event.which === KEY_CODES.W){
+                user_interface.moveUp();
+            }
+            if(event.which === KEY_CODES.A){
+                user_interface.moveLeft();
+            }
+            if(event.which === KEY_CODES.S){
+                user_interface.moveDown();
+            }
+            if(event.which === KEY_CODES.D){
+                user_interface.moveRight();
+            }
+
+            setTimeout(function(){ game.key_lock = false }, 500);
+        }
+    }
 };

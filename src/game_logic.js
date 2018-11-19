@@ -3,10 +3,7 @@ let game_logic = {
         game.settings = {
             zoom_factor: 9,
         };
-        game.world1 = [[]];
-        game.world2 = [[]];
-        game.world3 = [[]];
-        game.world4 = [[]];
+        game.chunks = [];
         game.character = {
             x: 0,
             y: 0,
@@ -51,28 +48,28 @@ let game_logic = {
         };
         game.status = STATUS.COMBAT;
         game_logic.generateChunk(0, 0);
-        if(map.get(CHUNK_SIZE,0)){
+        if(map.get(CHUNK_SIZE,0).type === undefined){
             game_logic.generateChunk(1, 0);
         }
-        if(map.get(CHUNK_SIZE,CHUNK_SIZE)){
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE).type === undefined){
             game_logic.generateChunk(1, 1);
         }
-        if(map.get(0,CHUNK_SIZE)){
+        if(map.get(0,CHUNK_SIZE).type === undefined){
             game_logic.generateChunk(0, 1);
         }
-        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE)){
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE).type === undefined){
             game_logic.generateChunk(-1, 1);
         }
-        if(map.get(CHUNK_SIZE*-1,0)){
+        if(map.get(CHUNK_SIZE*-1,0).type === undefined){
             game_logic.generateChunk(-1, 0);
         }
-        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE*-1)){
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE*-1).type === undefined){
             game_logic.generateChunk(-1, -1);
         }
-        if(map.get(0,CHUNK_SIZE*-1)){
+        if(map.get(0,CHUNK_SIZE*-1).type === undefined){
             game_logic.generateChunk(0, -1);
         }
-        if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1)){
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1).type === undefined){
             game_logic.generateChunk(1, -1);
         }
     },
@@ -88,6 +85,7 @@ let game_logic = {
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
+                    //console.log("generating point " + i + "," + j);
                     if(util.randomInt(100) < 10){
                         map.get(i, j).type = 'tree';
                     }else{
