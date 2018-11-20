@@ -19,8 +19,9 @@ let map = {
             }
         }
 
-        let $char = $('<img class="tile">');
+        let $char = $('<img>');
         $char.attr('src', util.typeToSrcString('hero'));
+        $char.addClass('tile');
         $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
         $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
         $char.css({'height': map.cell_size});
@@ -39,17 +40,20 @@ let map = {
     },
 
     constructTile: function(i, j){
-        let $tile = $('<img></img>');
+        let $tile = $('<img>');
         let point = map.indexToCoordinate(i, j);
         if(map.get(point.x, point.y).type == null){
             game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
         }
         $tile.attr('src', util.typeToSrcString(map.get(point.x, point.y).type));
         $tile.addClass('tile');
-        $tile.css({'top': i * map.cell_size})
+        $tile.css({'top': i * map.cell_size});
         $tile.css({'left': j * map.cell_size});
         $tile.css({'height': map.cell_size});
         $tile.css({'width': map.cell_size});
+        if(game.status === STATUS.COMBAT_SPELL_SELECTED){
+            $tile.css({'opacity':0.5});
+        }
         $tile.data("x", point.x);
         $tile.data("y", point.y);
         $tile.click(user_interface.inspect);
@@ -57,17 +61,25 @@ let map = {
     },
 
     constructNPCTile: function(i, j){
-        let $tile = $('<img></img>');
+        let $tile = $('<img>');
         let point = map.indexToCoordinate(i, j);
-        if(map.get(point.x, point.y).npc != null){
-            $tile.attr('src', util.typeToSrcString(map.get(point.x, point.y).npc.type));
+        let map_entry = map.get(point.x, point.y);
+        if(map_entry.npc != null){
+            $tile.attr('src', util.typeToSrcString(map_entry.npc.type));
             $tile.addClass('tile');
-            $tile.css({'top': i * map.cell_size})
+            $tile.css({'top': i * map.cell_size});
             $tile.css({'left': j * map.cell_size});
             $tile.css({'height': map.cell_size});
             $tile.css({'width': map.cell_size});
             $tile.data("x", point.x);
             $tile.data("y", point.y);
+            if(game.status !== STATUS.COMBAT_SPELL_SELECTED){
+                $tile.click(user_interface.inspect);
+            }else{
+                if(map_entry.npc.type === 'monster' && util.isInRange(game.character.x,game.character.y,map_entry.x,map_entry.y,character_attack.getAttack(game.selected_spell).range)){
+                    $tile.click(user_interface.attackMonster);
+                }
+            }
             $tile.click(user_interface.inspect);
             return $tile;
         }else{
@@ -134,5 +146,14 @@ let map = {
             }
         }
         return ans;
+    },
+
+    getChunk: function(x,y){
+        for(let i = 0; i < game.chunks.length; i++){
+            if(game.chunks[i].x === x && game.chunks[i].y === y){
+                return game.chunks[i];
+            }
+        }
+        return null;
     },
 };

@@ -6,7 +6,7 @@ let view_controller = {
     },
 
     updateCharacter: function(){
-        $('#character_location').text("(" + game.character.x + "," + game.character.y + ")");
+        $('#character_location').text(map.getChunk(util.getChunk(game.character.x,game.character.y).x,util.getChunk(game.character.x,game.character.y).y).name + " (" + game.character.x + "," + game.character.y + ")");
         $('#character_level').text(game.character.level);
         $('#character_experience').text(game.character.experience);
         $('#character_experience_next_level').text(util.getExperienceNeededForLevel(game.character.level));

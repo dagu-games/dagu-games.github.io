@@ -75,12 +75,14 @@ let game_logic = {
     },
     generateChunk: function(chunk_x, chunk_y){
         let r = util.randomInt(100);
+        map.get(chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE);
         let monsters;
         let points;
         let point;
         let i;
         let j;
         if(r < 75){   //generate wilderness
+            map.getChunk(chunk_x,chunk_y).name = "Wilderness";
             monsters = game_logic.generateChunkEnemies();
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
@@ -114,6 +116,7 @@ let game_logic = {
                 }
             }
         }else if(r >= 75 && r < 85){    //generate dungeon
+            map.getChunk(chunk_x,chunk_y).name = "Dungeon";
             monsters = game_logic.generateChunkEnemies();
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
@@ -138,7 +141,7 @@ let game_logic = {
                 }
             }
         }else if(r >= 85){    //generate town
-
+            map.getChunk(chunk_x,chunk_y).name = util.randomItemInArray(TOWN_NAMES);
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     map.get(i, j).type = 'grass';

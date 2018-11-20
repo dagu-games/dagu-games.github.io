@@ -158,7 +158,7 @@ let util = {
         }
         let saves = JSON.parse(LZString.decompress(str));
         if(index == null){
-            game = saves[0];
+            game = saves[saves.length - 1];
         }else{
             game = saves[index];
         }

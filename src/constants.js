@@ -11,6 +11,7 @@ const STORAGE_STRING = "dagu_saves_array";
 const ZOOM_MAX = 30;
 const EXP_MULTIPLIER = 100;
 const EXP_EXPONENT = 2;
+const CREDITS_STRING = "Game by Douglas Kihlken";
 const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
 
 const DONATORS = [

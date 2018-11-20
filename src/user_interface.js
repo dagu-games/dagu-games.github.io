@@ -1,9 +1,8 @@
 let user_interface = {
     selectSpell: function(event){
-        //Highlights and adds onclick methods to each object on the map.
-        // Uses findSquare to select bounds, then isinrange to
-        // verify the places that can be hit.
-
+        let $target = $(event.target);
+        game.selected_spell = $target.data('attack_name');
+        game.status = STATUS.COMBAT_SPELL_SELECTED;
         map.render();
         view_controller.render();
     },
@@ -125,12 +124,14 @@ let user_interface = {
 
     saveGame: function(){
         util.saveGame();
+        game.output.push("");
+        game.output.push("Game Saved!");
         map.render();
         view_controller.render();
     },
 
     printCredits: function(){
-        game.output.push("Game by Douglas Kihlken");
+        game.output.push(CREDITS_STRING);
         game.output.push("Special Thanks and Donators:");
         DONATORS.forEach(function(donator){
             game.output.push(donator);
@@ -163,7 +164,6 @@ let user_interface = {
                 game.output.push("Health: " + map.get(x,y).npc.current_health + "/" + map.get(x,y).npc.max_health);
             }
         }
-        game.output.push("");
         map.render();
         view_controller.render();
     },
@@ -305,5 +305,14 @@ let user_interface = {
             $cont.hide();
             $(event.target).text("show");
         }
+    },
+
+    attackMonster: function(event){
+        let $target = $(event.target);
+        game.status = STATUS.COMBAT;
+        character_attack.attack($target.data('x'),$target.data('y'),game.selected_spell);
+        game.selected_spell = null;
+        map.render();
+        view_controller.render();
     },
 };

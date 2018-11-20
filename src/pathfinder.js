@@ -3,6 +3,7 @@ let pathfinder = {
         //console.log("pathing out " + x1 + "," + y1 + " to " + x2 + "," + y2);
         let limit = map.getAll().length;
         //console.log("limit is " + limit);
+        let start_time = (new Date()).getTime();
         let count = 0;
         let location = {
             x: x1,
@@ -14,10 +15,11 @@ let pathfinder = {
         while(queue.length > 0 && count < limit){
             count++;
             let currentLocation = queue.shift();
-            for(let i = 0; i < 8; i++){
+            for(let i = 0; i < 8; i+=2){
                 let newLocation = this.exploreInDirection(currentLocation, i, x1, y1, x2, y2);
                 if(newLocation.status === 'Goal'){
                     pathfinder.resetPFVariable();
+                    //console.log("found a path in " + (((new Date).getTime() - start_time)/1000.0) + " seconds after " + count + " tiles checked. that comes to " + ((((new Date).getTime() - start_time)/1000.0)/count));
                     return newLocation.path;
                 }else if(newLocation.status === 'Valid'){
                     queue.push(newLocation);
