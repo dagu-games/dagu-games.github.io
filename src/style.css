@@ -50,6 +50,7 @@ body {
     word-wrap: break-word;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
+    background-color: #D5D5D5;
 }
 
 #context_menu_container {
@@ -118,8 +119,14 @@ h1, h2, h3, h4 {
     padding: 0px 0px 0px 0px;
 }
 
-.move_button {
+.button_1x1 {
     width:10%;
+    min-width:32px;
+}
+
+.button_1x2 {
+    width:20%;
+    min-width:64px;
 }
 
 .hide_button {

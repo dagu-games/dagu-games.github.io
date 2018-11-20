@@ -25,13 +25,15 @@
             <div class="container left_container" id="map_container"></div>
             <div class="container right_container" id="right_side_container">
                 <div class="container left_container" id="context_menu_container">
-                    <label for="load_game_select">Save Time:</label>
-                    <select id="load_game_select"></select>
-                    <button id="load_game_button" type="button" onclick=user_interface.loadGame()>Load Game</button>
-                    <button id="save_game_button" type="button" onclick=user_interface.saveGame()>Save Game</button>
+                    <div class="container">
+                        <label for="load_game_select">Save Time:</label>
+                        <select id="load_game_select"></select>
+                        <div class="bottom_container">
+                            <img class="button_1x2" src="images/load1.png" id="load_game_button" onclick=user_interface.loadGame()>
+                            <img class="button_1x2" src="images/save1.png" id="save_game_button" onclick=user_interface.saveGame()>
+                        </div>
+                    </div>
                     <button id="show_credits_button" type="button" onclick=user_interface.printCredits()>Show Credits</button>
-                    <button id="zoom_in_button" type="button" onclick=user_interface.zoomIn()>Zoom In</button>
-                    <button id="zoom_out_button" type="button" onclick=user_interface.zoomOut()>Zoom Out</button>
                     <button id="cancel_spell_button" type="button" onclick=user_interface.cancelSpell()>Cancel Spell</button>
                     <br>
                     <label for="teleport_x">x</label><input id="teleport_x" />
@@ -39,17 +41,19 @@
                     <button id="teleport_button" type="button" onclick=user_interface.teleport()>Teleport</button>
                     <br>
                     <br>
-                    <img class="move_button" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpLeft()>
-                    <img class="move_button" id="move_up_button" src="images/arrow1.png" onclick=user_interface.moveUp()>
-                    <img class="move_button" id="move_up_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpRight()>
+                    <img class="button_1x1" title="Move t" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpLeft()>
+                    <img class="button_1x1" title="Zoom Map Out" id="move_up_button" src="images/arrow1.png" onclick=user_interface.moveUp()>
+                    <img class="button_1x1" title="Zoom Map Out" id="move_up_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpRight()>
+                    <img class="button_1x1" title="Zoom Map In" id="zoom_in_button" src="images/zoom_in1.png" onclick=user_interface.zoomIn()>
                     <br>
-                    <img class="move_button" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow1.png" onclick=user_interface.moveLeft()>
-                    <img class="move_button" src="images/center1.png">
-                    <img class="move_button" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow1.png" onclick=user_interface.moveRight()>
+                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow1.png" onclick=user_interface.moveLeft()>
+                    <img class="button_1x1" src="images/center1.png">
+                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow1.png" onclick=user_interface.moveRight()>
+                    <img class="button_1x1" title="Zoom Map Out" id="zoom_out_button" src="images/zoom_out1.png" onclick=user_interface.zoomOut()>
                     <br>
-                    <img class="move_button" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownLeft()>
-                    <img class="move_button" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow1.png" onclick=user_interface.moveDown()>
-                    <img class="move_button" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownRight()>
+                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownLeft()>
+                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow1.png" onclick=user_interface.moveDown()>
+                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownRight()>
                     <br>
 
 

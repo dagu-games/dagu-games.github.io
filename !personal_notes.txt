@@ -1,3 +1,9 @@
 !!!!-----KEEP IT SIMPLE STUPID-----!!!!
 
 link to tiling guide: https://www.deviantart.com/cyangmou/art/Basic-Tiling-464592580
+
+colors:
+paper #D5D5D5
+overcast #9099A2
+lavendar #6D7993
+dusty #96858F
