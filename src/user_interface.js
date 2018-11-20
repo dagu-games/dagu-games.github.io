@@ -231,7 +231,7 @@ let user_interface = {
                 user_interface.moveRight();
             }
 
-            setTimeout(function(){ game.key_lock = false }, 100);
+            setTimeout(function(){ game.key_lock = false }, 1);
         }
     },
 
