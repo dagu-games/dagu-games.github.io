@@ -15,7 +15,7 @@ let user_interface = {
         view_controller.render();
     },
 
-    zoomIncrease: function(){
+    zoomIn: function(){
         if(game.settings.zoom_factor > 3){
             game.settings.zoom_factor -= 2;
         }
@@ -24,7 +24,7 @@ let user_interface = {
         view_controller.render();
     },
 
-    zoomDecrease: function(){
+    zoomOut: function(){
         if(game.settings.zoom_factor < ZOOM_MAX){
             game.settings.zoom_factor += 2;
         }
@@ -142,12 +142,28 @@ let user_interface = {
     inspect: function(event){
         let x = $(event.target).data('x');
         let y = $(event.target).data('y');
-        game.output.push("inspecting " + x + "," + y);
+        game.output.push("");
+        game.output.push("Inspecting " + x + "," + y);
 
-        game.output.push("terrain is " + map.get(x,y).type);
+        game.output.push("Terrain is " + map.get(x,y).type);
         if(map.get(x,y).npc != null){
-            game.output.push("npc is " + map.get(x,y).npc.type);
+            game.output.push("NPC is " + map.get(x,y).npc.type);
+            if(map.get(x,y).npc.type === "shop"){
+                for(let i = 0; i < map.get(x,y).npc.items.length; i++){
+                    game.output.push(map.get(x,y).npc.items[i].name + " - " + map.get(x,y).npc.items[i].value);
+                }
+            }
+            if(map.get(x,y).npc.type === "quest_giver"){
+                game.output.push("Quest name: " + map.get(x,y).npc.quest.name);
+                game.output.push("Quest description: " + map.get(x,y).npc.quest.description);
+                game.output.push("Quest goal item: " + map.get(x,y).npc.quest.goal_item);
+            }
+            if(map.get(x,y).npc.type === "monster"){
+                game.output.push("Monster Name: " + map.get(x,y).npc.name);
+                game.output.push("Health: " + map.get(x,y).npc.current_health + "/" + map.get(x,y).npc.max_health);
+            }
         }
+        game.output.push("");
         map.render();
         view_controller.render();
     },
@@ -215,7 +231,79 @@ let user_interface = {
                 user_interface.moveRight();
             }
 
-            setTimeout(function(){ game.key_lock = false }, 500);
+            setTimeout(function(){ game.key_lock = false }, 100);
         }
-    }
+    },
+
+    toggleNPCShopList: function(event){
+        let $cont = $('#npc_shop_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+    toggleNPCQuestList: function(event){
+        let $cont = $('#npc_quest_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+    toggleEquippedItems: function(event){
+        let $cont = $('#equipped_items_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+    toggleQuestList: function(event){
+        let $cont = $('#quest_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+    toggleInventory: function(event){
+        let $cont = $('#inventory_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+    toggleUpgrades: function(event){
+        let $cont = $('#upgrades_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
 };

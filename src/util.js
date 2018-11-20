@@ -142,8 +142,11 @@ let util = {
     isAround: function(x, y, npc_type){
         let points = util.getAround(x,y);
         for(let i = 0; i < points.length; i++){
-
+            if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === npc_type){
+                return true;
+            }
         }
+        return false;
     },
 
     loadGame: function(index){

@@ -2,6 +2,7 @@ let pathfinder = {
     findShortestPath: function(x1, y1, x2, y2){
         //console.log("pathing out " + x1 + "," + y1 + " to " + x2 + "," + y2);
         let limit = map.getAll().length;
+        //console.log("limit is " + limit);
         let count = 0;
         let location = {
             x: x1,
@@ -24,10 +25,11 @@ let pathfinder = {
             }
         }
         pathfinder.resetPFVariable();
+        //console.log("failed to path " + x1 + "," + y1 + " to " + x2 + "," + y2);
         return false;
     },
     locationStatus: function(x1, y1, x2, y2){
-        if(map.get(x1, y1) == null){
+        if(map.get(x1, y1).type == null){
             return 'Invalid';
         }else if(x1 === x2 && y1 === y2){
             return 'Goal';

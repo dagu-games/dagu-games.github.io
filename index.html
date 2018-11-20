@@ -1,100 +1,6 @@
 <!DOCTYPE html>
 <html>
     <meta charset="UTF-8">
-    <style>
-        .tile {
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-            position: absolute;
-        }
-
-        .container {
-            /*border: 1px solid gray;*/
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-        }
-
-        .item_container {
-            border: 1px solid gray;
-            overflow: auto;
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-        }
-
-        .left_container {
-            float: left;
-            width: 50%;
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-            position: relative;
-            left: 0;
-        }
-
-        .right_container {
-            float: right;
-            width: 49%;
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-            position: relative;
-            right: 0;
-        }
-
-        .bottom_container {
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-            position: relative;
-            width: 100%;
-            right: 0;
-            bottom: 0;
-        }
-
-        body {
-            font-family: "Courier New", monospace;
-            word-wrap: break-word;
-            padding: 0 0 0 0;
-            margin: 0 0 0 0;
-        }
-
-        #context_menu_container {
-            height: 70vh;
-            width: 29%;
-            overflow-y: auto;
-        }
-
-        #character_container {
-            height: 70vh;
-            width: 70%;
-            top: 0;
-            overflow-y: auto;
-        }
-
-        #output_container {
-            height: 29vh;
-            overflow-y: auto;
-        }
-
-        #map_container {
-            height: 99vh;
-            width: 99vh;
-            position: absolute;
-            top: 0;
-            cursor: default;
-        }
-
-        #right_side_container {
-            height: 99vh;
-            width: calc(99vw - 99vh);
-            position: absolute;
-            top: 0;
-        }
-
-        h1, h2, h3, h4 {
-            margin: 2px 2px 2px 2px;
-
-            padding: 0px 0px 0px 0px;
-        }
-
-    </style>
     <head>
         <title>Dagu</title>
         <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
@@ -112,64 +18,64 @@
         <script src="src/monster_attack.js"></script>
         <script src="src/user_interface.js"></script>
         <script src="src/view_controller.js"></script>
+        <link rel="stylesheet" type="text/css" href="src/style.css">
     </head>
     <body>
         <div id="app">
             <div class="container left_container" id="map_container"></div>
             <div class="container right_container" id="right_side_container">
                 <div class="container left_container" id="context_menu_container">
-                    <button id="save_game_button" type="button" onclick=user_interface.saveGame()>Save Game</button>
-                    <br>
                     <label for="load_game_select">Save Time:</label>
                     <select id="load_game_select"></select>
                     <button id="load_game_button" type="button" onclick=user_interface.loadGame()>Load Game</button>
-
+                    <button id="save_game_button" type="button" onclick=user_interface.saveGame()>Save Game</button>
+                    <button id="show_credits_button" type="button" onclick=user_interface.printCredits()>Show Credits</button>
+                    <button id="zoom_in_button" type="button" onclick=user_interface.zoomIn()>Zoom In</button>
+                    <button id="zoom_out_button" type="button" onclick=user_interface.zoomOut()>Zoom Out</button>
+                    <button id="cancel_spell_button" type="button" onclick=user_interface.cancelSpell()>Cancel Spell</button>
                     <br>
-                    <button id="show_credits_button" type="button" onclick=user_interface.printCredits()>Show Credits
-                    </button>
-
-                    <br>
-                    <button id="zoom_increase_button" type="button" onclick=user_interface.zoomIncrease()>Zoom
-                        Increase
-                    </button>
-                    <button id="zoom_decrease_button" type="button" onclick=user_interface.zoomDecrease()>Zoom
-                        Decrease
-                    </button>
-
-                    <br>
-                    <button id="cancel_spell_button" type="button" onclick=user_interface.cancelSpell()>Cancel Spell
-                    </button>
-
-                    <br>
-                    <button id="move_up_left_button" type="button" onclick=user_interface.moveUpLeft()>Move Up and
-                        Left
-                    </button>
-                    <button id="move_up_button" type="button" onclick=user_interface.moveUp()>Move Up</button>
-                    <button id="move_up_right_button" type="button" onclick=user_interface.moveUpRight()>Move Up and
-                        Right
-                    </button>
-                    <br>
-                    <button id="move_left_button" type="button" onclick=user_interface.moveLeft()>Move Left</button>
-                    <button style="margin-left:150px;" id="move_right_button" type="button" onclick=user_interface.moveRight()>
-                        Move Right
-                    </button>
-                    <br>
-                    <button id="move_down_down_button" type="button" onclick=user_interface.moveDownLeft()>Move Down and
-                        Left
-                    </button>
-                    <button id="move_down_button" type="button" onclick=user_interface.moveDown()>Move Down</button>
-                    <button id="move_down_right_button" type="button" onclick=user_interface.moveDownRight()>Move Down
-                        and
-                        Right
-                    </button>
-                    <br>
-
                     <label for="teleport_x">x</label><input id="teleport_x" />
                     <label for="teleport_y">y</label><input id="teleport_y" />
                     <button id="teleport_button" type="button" onclick=user_interface.teleport()>Teleport</button>
+                    <br>
+                    <br>
+                    <img class="move_button" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpLeft()>
+                    <img class="move_button" id="move_up_button" src="images/arrow1.png" onclick=user_interface.moveUp()>
+                    <img class="move_button" id="move_up_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpRight()>
+                    <br>
+                    <img class="move_button" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow1.png" onclick=user_interface.moveLeft()>
+                    <img class="move_button" src="images/center1.png">
+                    <img class="move_button" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow1.png" onclick=user_interface.moveRight()>
+                    <br>
+                    <img class="move_button" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownLeft()>
+                    <img class="move_button" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow1.png" onclick=user_interface.moveDown()>
+                    <img class="move_button" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownRight()>
+                    <br>
 
 
+
+                    <div class="container">
+                        <div class="left_container container">
+                            <h3>NPC Shop List</h3>
+                        </div>
+                        <div class="right_container container">
+                            <span class="hide_button" onclick="user_interface.toggleNPCShopList(event)">Hide</span>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
                     <div id="npc_shop_list_container" class="container"></div>
+
+                    <div class="container">
+                        <div class="left_container container">
+                            <h3>NPC Quest List</h3>
+                        </div>
+                        <div class="right_container container">
+                            <span class="hide_button" onclick="user_interface.toggleNPCQuestList(event)">Hide</span>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
                     <div id="npc_quest_list_container" class="container"></div>
                 </div>
                 <div class="container right_container" id="character_container">
@@ -209,54 +115,19 @@
 
                 </div>
 
-                <h3>Equipped Items</h3>
-
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Equipped Items</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleEquippedItems(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
                 <div id="equipped_items_container" class="container">
                     Helmet:
-                    <div id="character_helmet_container" class="container item_container">
-                        <div class="container item_container">
-                            <div class="left_container">
-                                <h3>Helm of Cool</h3>
-                                Value: 100
-                                <br>
-                                Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                                sagittis nunc
-                                ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
-                                vestibulum
-                                vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
-                                vitae eros
-                                at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
-                                <br>
-                            </div>
-                            <div class="right_container">
-                                <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                    Equip in Ring 1
-                                </button>
-                                <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                    Equip in Ring 2
-                                </button>
-                                max_health: 10
-                                <br>
-                                armor: 10
-                                <br>
-                                magic_resistance: 10
-                                <br>
-                                attack_power: 10
-                                <br>
-                                attack_lifesteal: 10
-                                <br>
-                                magic_power: 10
-                                <br>
-                                magic_lifesteal: 10
-                                <br>
-                                cooldown_reduction: 10
-                                <br>
-                                mana_regeneration: 2
-                                <br>
-                                max_mana: 10
-                            </div>
-                        </div>
-                    </div>
+                    <div id="character_helmet_container" class="container item_container"></div>
                     Shoulders:
                     <div id="character_shoulders_container" class="container item_container"></div>
                     Gauntlets:
@@ -281,7 +152,16 @@
                     <div id="character_ring_2_container" class="container item_container"></div>
                 </div>
 
-                <h3>Quests</h3>
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Quests</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleQuestList(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
 
                 <div class="container" id="quest_list_container">
                     <div class="container item_container">
@@ -329,8 +209,16 @@
                     </div>
                 </div>
 
-                <h3>Inventory</h3>
-
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Inventory</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleInventory(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
                 <div class="container" id="inventory_container">
                     Gold:<span id="character_gold"></span>
 
@@ -340,11 +228,17 @@
                     </div>
                 </div>
 
-                <h3>Upgrades</h3>
-
-                <div class="container" id="upgrades_container">
-
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Upgrades</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleUpgrades(event)">Hide</span>
+                    </div>
                 </div>
+                <br>
+                <br>
+                <div class="container" id="upgrades_container"></div>
             </div>
                 <div class="container bottom_container" id="output_container"></div>
             </div>

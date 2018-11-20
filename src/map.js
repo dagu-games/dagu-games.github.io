@@ -123,12 +123,14 @@ let map = {
 
     getAll: function(){
         let ans = [];
-        for(let i = 0; i < game.chunks; i++){
-            for(let j = 0; j < game.chunks[i].points.length; i++){
-                ans.push({
-                    x:game.chunks[i].points[j].x,
-                    y:game.chunks[i].points[j].y,
-                });
+        for(let i = 0; i < game.chunks.length; i++){
+            if(game.chunks[i].points[0].data.type != null){
+                for(let j = 0; j < game.chunks[i].points.length; j++){
+                    ans.push({
+                        x:game.chunks[i].points[j].x,
+                        y:game.chunks[i].points[j].y,
+                    });
+                }
             }
         }
         return ans;

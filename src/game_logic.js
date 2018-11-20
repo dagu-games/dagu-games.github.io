@@ -153,12 +153,15 @@ let game_logic = {
     },
 
     generateChunkEnemies: function(){
-        return [
-            {
+        let ans = [];
+        let r = util.randomInt(10) + 1;
+        for(let i = 0; i < r; i++){
+            ans.push({
                 name: "HellHound",
                 type: "monster",
                 quest_item: game.character.quests.length > 0 ? util.randomItemInArray(game.character.quests).goal_item : null,
                 max_health: 100,
+                current_health: 100,
                 armor: 10,
                 magic_resistance: 10,
                 attack_power: 10,
@@ -170,8 +173,9 @@ let game_logic = {
                     "bite",
                     "scratch",
                 ],
-            }
-        ];
+            });
+        }
+        return ans;
     },
 
     tick: function(x, y){
@@ -218,6 +222,7 @@ let game_logic = {
 
         if(util.randomInt(2) === 0){
             npc.type = "shop";
+            npc.items = game_logic.generateLoot();
         }else{
             npc.type = "quest_giver";
             npc.quest = util.randomItemInArray(QUESTS);

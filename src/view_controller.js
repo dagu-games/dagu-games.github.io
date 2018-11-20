@@ -102,8 +102,18 @@ let view_controller = {
             $('#cancel_spell_button').show();
         }
 
+        let $npc_shop_list_container = $('#npc_shop_list_container');
+        $npc_shop_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
             let points = util.getAround(game.character.x,game.character.y);
+            for(let i = 0; i < points.length; i++){
+                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
+                    let items = map.get(points[i].x,points[i].y).npc.items;
+                    for(let j = 0; j < items.length; j++){
+                        $npc_shop_list_container.append(view_controller.generateItem(items[j],'shop',{index:i,shop_x:points[i].x,shop_y:points[i].y}));
+                    }
+                }
+            }
         }
     },
 
@@ -129,7 +139,7 @@ let view_controller = {
         if(mode ==='equipped'){
             let $button = $('<button type="button">Unequip</button>');
             $button.css('float', 'right');
-            $button.click(user_interface.unequipItem());
+            $button.click(user_interface.unequipItem);
             $button.data('index',item.slot);
             $stats_cont.append($button);
         }
@@ -137,14 +147,14 @@ let view_controller = {
             if(item.slot === 'ring'){
                 let $button = $('<button type="button">Equip in Ring 2</button>');
                 $button.css('float', 'right');
-                $button.click(user_interface.equipItem());
+                $button.click(user_interface.equipItem);
                 $button.data('ring',2);
                 $button.data('index',data.index);
                 $stats_cont.append($button);
 
                 $button = $('<button type="button">Equip in Ring 1</button>');
                 $button.css('float', 'right');
-                $button.click(user_interface.equipItem());
+                $button.click(user_interface.equipItem);
                 $button.data('ring',1);
                 $button.data('index',data.index);
                 $stats_cont.append($button);
@@ -152,21 +162,21 @@ let view_controller = {
                 let $button = $('<button type="button">Equip</button>');
                 $button.css('float', 'right');
                 $button.data('index',data.index);
-                $button.click(user_interface.equipItem());
+                $button.click(user_interface.equipItem);
                 $stats_cont.append($button);
             }
             if(util.isAround(game.character.x,game.character.y,'shop')){
                 let $button = $('<button type="button">Sell Item</button>');
                 $button.css('float', 'right');
                 $button.data('index',data.index);
-                $button.click(user_interface.sellItem());
+                $button.click(user_interface.sellItem);
                 $stats_cont.append($button);
             }
         }
-        if(mode ==='equipped'){
+        if(mode ==='shop'){
             let $button = $('<button type="button">Buy Item</button>');
             $button.css('float', 'right');
-            $button.click(user_interface.buyItem());
+            $button.click(user_interface.buyItem);
             $button.data('index',data.index);
             $button.data('shop_x',data.shop_x);
             $button.data('shop_y',data.shop_y);
