@@ -1,3 +1,4 @@
+const VERSION = 0.1;
 const GRASS_ICON = "images/grass.png";
 const TREE_ICON = "images/tree.png";
 const STONE_ICON = "images/stone.png";
@@ -16,6 +17,10 @@ const DONATION_STRING = "If you would like to donate to this game and me so that
 
 const DONATORS = [
     "Mackie Welter",
+];
+
+const CHANGE_LOG = [
+    "0.1 (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease. <br>Initial, in development version. Movement, basic input and output proof-of-concepts, placeholder art, and simple world generation are all implemented.",
 ];
 
 const STATUS = {
