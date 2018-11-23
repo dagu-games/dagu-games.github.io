@@ -1,7 +1,7 @@
 let game_logic = {
     init: function(){
         game.settings = {
-            zoom_factor: 9,
+            zoom_factor: 11,
         };
         game.chunks = [];
         game.character = {
@@ -42,7 +42,9 @@ let game_logic = {
                 equipment: [],
                 quest_items: [],
             },
-            quests: [],
+            side_quests: [],
+            story_quests: [],
+            completed_quests: [],
             upgrades: [],
             spells: [],
         };
@@ -162,7 +164,6 @@ let game_logic = {
             ans.push({
                 name: "HellHound",
                 type: "monster",
-                quest_item: game.character.quests.length > 0 ? util.randomItemInArray(game.character.quests).goal_item : null,
                 max_health: 100,
                 current_health: 100,
                 armor: 10,

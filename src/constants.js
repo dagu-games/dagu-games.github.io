@@ -16,7 +16,8 @@ const CREDITS_STRING = "Game by Douglas Kihlken";
 const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
 
 const DONATORS = [
-    "Mackie Welter",
+    "Mackie Welter, love and support",
+    "Anna Anderson, occasional food provider",
 ];
 
 const CHANGE_LOG = [

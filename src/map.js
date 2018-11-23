@@ -121,6 +121,7 @@ let map = {
         }
 
         game.chunks.push(chunk);
+        map.sortChunks();
 
         for(let i = 0; i < game.chunks.length; i++){
             if(game.chunks[i].x === chunk_x && game.chunks[i].y === chunk_y){
@@ -155,5 +156,59 @@ let map = {
             }
         }
         return null;
+    },
+
+    sortChunks: function(left, right){
+        if(left == null){
+            left = 0;
+        }
+        if(right == null){
+            left = game.chunks.length - 1;
+        }
+        let length = game.chunks.length;
+        let pivot;
+        let partitionIndex;
+
+
+        if(left < right){
+            pivot = right;
+            partitionIndex = map.partition(pivot, left, right);
+
+            //sort left and right
+            map.sortChunks(left, partitionIndex - 1);
+            map.sortChunks(partitionIndex + 1, right);
+        }
+        return game.chunks;
+    },
+
+    swap: function(i, j){
+        let temp = game.chunks[i];
+        game.chunks[i] = game.chunks[j];
+        game.chunks[j] = temp;
+    },
+
+    partition: function(pivot, left, right){
+        let partitionIndex = left;
+
+        for(let i = left; i < right; i++){
+            if(map.compare(i,pivot) === -1){
+                map.swap(i, partitionIndex);
+                partitionIndex++;
+            }
+        }
+        map.swap(right, partitionIndex);
+        return partitionIndex;
+    },
+
+    compare: function(i,j){
+        if(game.chunks[i].x < game.chunks[j].x){
+            return -1;
+        }else if(game.chunks[i].x > game.chunks[j].x){
+            return 1;
+        }else if(game.chunks[i].y > game.chunks[j].y){
+            return -1;
+        }else{
+            return 1;
+        }
     },
 };

@@ -296,4 +296,16 @@ let util = {
         return pathfinder.findShortestPath(0,0,x,y) !== false;
     },
 
+    getAvailableQuests: function(){
+        //returns array of side quest and story quests that are not completed
+    },
+
+    getNextStoryQuest: function(){
+        //returns earliest story quest that is not completed
+    },
+
+    isQuestCompleted: function(quest_name){
+        //checks to see if the given quest is within character.completed_quests, return true if so
+    },
+
 };
