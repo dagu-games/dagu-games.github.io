@@ -91,6 +91,7 @@ const QUESTS = {
             description: "I lost my dog! can you help me find it? Some monsters took him from me!",
             goal_item: "Lost Dog",
             goal_item_description: "You found the lost dog! Take him back to his owner and they will reward you!",
+            completion_message: "Thank you for finding me dog! I was worried sick!",
         },
     ],
     STORY:[
@@ -99,18 +100,21 @@ const QUESTS = {
             description: "An evil wizard rules this land. There is a map to his secret hideaway somewhere in the wilderness. Find it so you can find the wizard.",
             goal_item: "Wizard Map",
             goal_item_description: "A map to the wizard. It is written in ancient runes. Go back to the Quest Giver to get it translated.",
+            completion_message: "Thanks for finding the map! It will help us in our quest.",
         },
         {
             name: "Find the sword!",
             description: "The map leads to a sword long buried. It will hold the key to locating the Wizard's portal. Find it so that you may find the Wizard.",
             goal_item: "Lightly Glowing Sword",
-            goal_item_description: "",
+            goal_item_description: "An ancient sword, no longer usable, but still glows with magic sometimes.",
+            completion_message: "Thanks for finding this important item for locating the wizard!",
         },
         {
             name: "Kill the Wizard!",
             description: "You can now locate the wizard with the old sword. It will glow when near, allowing you to find the hideout.",
             goal_item: "Wizard's Head",
-            goal_item_description: "You killed the wizard! Great Job! The land of Dagu is now free once again! Thank you for playing",
+            goal_item_description: "You killed the wizard! Great Job! The land of Dagu is now free once again!",
+            completion_message: "Thank you for saving the realm!",
         },
     ],
 };

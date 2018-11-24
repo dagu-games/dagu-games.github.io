@@ -42,10 +42,12 @@ let map = {
     constructTile: function(i, j){
         let $tile = $('<img>');
         let point = map.indexToCoordinate(i, j);
-        if(map.get(point.x, point.y).type == null){
+        let map_entry = map.get(point.x, point.y);
+        if(map_entry.type == null){
             game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
         }
-        $tile.attr('src', util.typeToSrcString(map.get(point.x, point.y).type));
+        map_entry = map.get(point.x, point.y);
+        $tile.attr('src', util.typeToSrcString(map_entry.type));
         $tile.addClass('tile');
         $tile.css({'top': i * map.cell_size});
         $tile.css({'left': j * map.cell_size});
@@ -56,7 +58,9 @@ let map = {
         }
         $tile.data("x", point.x);
         $tile.data("y", point.y);
-        $tile.click(user_interface.inspect);
+        if(map_entry.npc == null){
+            $tile.click(user_interface.inspect);
+        }
         return $tile;
     },
 
@@ -80,7 +84,6 @@ let map = {
                     $tile.click(user_interface.attackMonster);
                 }
             }
-            $tile.click(user_interface.inspect);
             return $tile;
         }else{
             return null;

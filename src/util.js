@@ -297,15 +297,68 @@ let util = {
     },
 
     getAvailableQuests: function(){
-        //returns array of side quest and story quests that are not completed
+        let ans = [];
+        for(let i = 0; i < QUESTS.SIDE.length; i++){
+            if(!util.isQuestCompleted(QUESTS.SIDE[i].name)){
+                ans.push(QUESTS.SIDE[i].name);
+            }
+        }
+        let story_quest = util.getNextStoryQuest();
+        if(story_quest !== null){
+            ans.push(story_quest);
+        }
+        return ans;
     },
 
     getNextStoryQuest: function(){
-        //returns earliest story quest that is not completed
+        for(let i = 0; i < QUESTS.STORY.length; i++){
+            if(!util.isQuestCompleted(QUESTS.STORY[i].name)){
+                return QUESTS.STORY[i].name;
+            }
+        }
+        return null;
     },
 
     isQuestCompleted: function(quest_name){
-        //checks to see if the given quest is within character.completed_quests, return true if so
+        for(let i = 0; i < game.character.completed_quests.length; i++){
+            if(quest_name === game.character.completed_quests[i]){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    hasQuestItem: function(quest_name){
+        let quest = util.getQuest(quest_name);
+        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
+            if(quest.goal_item === game.character.inventory.quest_items[i]){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    getRandomAvailableQuestName: function(){
+        let quests = util.getAvailableQuests();
+        if(quests.length > 0){
+            return util.randomItemInArray(quests);
+        }else{
+            return null;
+        }
+    },
+
+    getQuest: function(quest_name){
+        for(let i = 0; i < QUESTS.SIDE.length; i++){
+            if(quest_name === QUESTS.SIDE[i].name){
+                return QUESTS.SIDE[i];
+            }
+        }
+        for(let i = 0; i < QUESTS.STORY.length; i++){
+            if(quest_name === QUESTS.STORY[i].name){
+                return QUESTS.STORY[i];
+            }
+        }
+        return null;
     },
 
 };

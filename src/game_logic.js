@@ -42,8 +42,7 @@ let game_logic = {
                 equipment: [],
                 quest_items: [],
             },
-            side_quests: [],
-            story_quests: [],
+            quests: [],
             completed_quests: [],
             upgrades: [],
             spells: [],
@@ -229,7 +228,7 @@ let game_logic = {
             npc.items = game_logic.generateLoot();
         }else{
             npc.type = "quest_giver";
-            npc.quest = util.randomItemInArray(QUESTS);
+            npc.quest = util.getRandomAvailableQuestName();
         }
         return npc;
     },

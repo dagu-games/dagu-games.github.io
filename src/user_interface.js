@@ -145,8 +145,6 @@ let user_interface = {
         let y = $(event.target).data('y');
         game.output.push("");
         game.output.push("Inspecting " + x + "," + y);
-
-        game.output.push("Terrain is " + map.get(x,y).type);
         if(map.get(x,y).npc != null){
             game.output.push("NPC is " + map.get(x,y).npc.type);
             if(map.get(x,y).npc.type === "shop"){
@@ -155,9 +153,10 @@ let user_interface = {
                 }
             }
             if(map.get(x,y).npc.type === "quest_giver"){
-                game.output.push("Quest name: " + map.get(x,y).npc.quest.name);
-                game.output.push("Quest description: " + map.get(x,y).npc.quest.description);
-                game.output.push("Quest goal item: " + map.get(x,y).npc.quest.goal_item);
+                let quest = util.getQuest(map.get(x,y).npc.quest);
+                game.output.push("Quest name: " + quest.name);
+                game.output.push("Quest description: " + quest.description);
+                game.output.push("Quest goal item: " + quest.goal_item);
             }
             if(map.get(x,y).npc.type === "monster"){
                 game.output.push("Monster Name: " + map.get(x,y).npc.name);
@@ -187,7 +186,13 @@ let user_interface = {
     },
 
     abandonQuest: function(event){
+        //removes quest and relevant item from character.
+        map.render();
+        view_controller.render();
+    },
 
+    completeQuest: function(event){
+        //gives loot to player and moves quest to character.completed_quests
         map.render();
         view_controller.render();
     },
@@ -209,10 +214,6 @@ let user_interface = {
         game.character.y = Number($('#teleport_y').val());
         map.render();
         view_controller.render();
-    },
-
-    castSpell: function(event){
-
     },
 
     handleKeyDown: function(event){
