@@ -41,34 +41,34 @@
                     <button id="teleport_button" type="button" onclick=user_interface.teleport()>Teleport</button>
                     <br>
                     <br>
-                    <img class="button_1x1" title="Move t" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpLeft()>
-                    <img class="button_1x1" title="Zoom Map Out" id="move_up_button" src="images/arrow1.png" onclick=user_interface.moveUp()>
-                    <img class="button_1x1" title="Zoom Map Out" id="move_up_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpRight()>
+                    <img class="button_1x1" title="Move Up and Left" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpLeft()>
+                    <img class="button_1x1" title="Move Up" id="move_up_button" src="images/arrow1.png" onclick=user_interface.moveUp()>
+                    <img class="button_1x1" title="Move Up and Right" id="move_up_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveUpRight()>
                     <img class="button_1x1" title="Zoom Map In" id="zoom_in_button" src="images/zoom_in1.png" onclick=user_interface.zoomIn()>
                     <br>
-                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow1.png" onclick=user_interface.moveLeft()>
+                    <img class="button_1x1" title="Move Left" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow1.png" onclick=user_interface.moveLeft()>
                     <img class="button_1x1" src="images/center1.png">
-                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow1.png" onclick=user_interface.moveRight()>
+                    <img class="button_1x1" title="Move Right" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow1.png" onclick=user_interface.moveRight()>
                     <img class="button_1x1" title="Zoom Map Out" id="zoom_out_button" src="images/zoom_out1.png" onclick=user_interface.zoomOut()>
                     <br>
-                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownLeft()>
-                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow1.png" onclick=user_interface.moveDown()>
-                    <img class="button_1x1" title="Zoom Map Out" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownRight()>
+                    <img class="button_1x1" title="Move Down and Left" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownLeft()>
+                    <img class="button_1x1" title="Move Down" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow1.png" onclick=user_interface.moveDown()>
+                    <img class="button_1x1" title="Move Down and Right" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal1.png" onclick=user_interface.moveDownRight()>
                     <br>
-
 
 
                     <div class="container">
                         <div class="left_container container">
-                            <h3>NPC Shop List</h3>
+                            <h3>Attack/Spell List</h3>
                         </div>
                         <div class="right_container container">
-                            <span class="hide_button" onclick="user_interface.toggleNPCShopList(event)">Hide</span>
+                            <span class="hide_button" onclick="user_interface.toggleAttackList(event)">Hide</span>
                         </div>
                     </div>
                     <br>
                     <br>
-                    <div id="npc_shop_list_container" class="container"></div>
+                    <div id="attack_list_container" class="container"></div>
+
 
                     <div class="container">
                         <div class="left_container container">
@@ -81,6 +81,17 @@
                     <br>
                     <br>
                     <div id="npc_quest_list_container" class="container"></div>
+                    <div class="container">
+                        <div class="left_container container">
+                            <h3>NPC Shop List</h3>
+                        </div>
+                        <div class="right_container container">
+                            <span class="hide_button" onclick="user_interface.toggleNPCShopList(event)">Hide</span>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div id="npc_shop_list_container" class="container"></div>
                 </div>
                 <div class="container right_container" id="character_container">
 
@@ -167,51 +178,7 @@
                 <br>
                 <br>
 
-                <div class="container" id="quest_list_container">
-                    <div class="container item_container">
-                        <div class="left_container">
-                            <h3>name</h3>
-                            Goal Item: goal_item
-                            Item not found, head NorthWest
-                            <br>
-                            Quest Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                            sagittis nunc
-                            ac ligula vestibulum, vel tincidunt dolor lobortis. Aliquam dapibus libero a
-                            vestibulum
-                            vulputate. Morbi tempus orci urna, sit amet condimentum tellus feugiat at. Donec
-                            vitae eros
-                            at ante sagittis ultricies. Vestibulum mollis orci a auctor dictum.
-                            <br>
-                        </div>
-                        <div class="right_container">
-                            <button style="float:right;" onclick="user_interface.abandonQuest()" type="button">
-                                Abandon
-                            </button>
-                            <button style="float:right;" onclick="user_interface.unequipItem()" type="button">
-                                Equip in Ring 2
-                            </button>
-                            max_health: 10
-                            <br>
-                            armor: 10
-                            <br>
-                            magic_resistance: 10
-                            <br>
-                            attack_power: 10
-                            <br>
-                            attack_lifesteal: 10
-                            <br>
-                            magic_power: 10
-                            <br>
-                            magic_lifesteal: 10
-                            <br>
-                            cooldown_reduction: 10
-                            <br>
-                            mana_regeneration: 2
-                            <br>
-                            max_mana: 10
-                        </div>
-                    </div>
-                </div>
+                <div class="container" id="quest_list_container"></div>
 
                 <div class="container">
                     <div class="left_container container">
@@ -243,6 +210,19 @@
                 <br>
                 <br>
                 <div class="container" id="upgrades_container"></div>
+
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Completed Quests</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleCompletedQuestList(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+                <div class="container" id="completed_quest_list_container"></div>
             </div>
                 <div class="container bottom_container" id="output_container"></div>
             </div>

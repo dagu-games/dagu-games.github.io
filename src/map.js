@@ -6,6 +6,8 @@ let map = {
 
     cell_size: null,
 
+    cached_chunks: [],
+
     render: function(){
         map.$container = $('#map_container');
         map.size = map.$container.width();
@@ -80,7 +82,7 @@ let map = {
             if(game.status !== STATUS.COMBAT_SPELL_SELECTED){
                 $tile.click(user_interface.inspect);
             }else{
-                if(map_entry.npc.type === 'monster' && util.isInRange(game.character.x,game.character.y,map_entry.x,map_entry.y,character_attack.getAttack(game.selected_spell).range)){
+                if(map_entry.npc.type === 'monster' && util.isInRange(game.character.x,game.character.y,map_entry.x,map_entry.y,character_attack.getAttack(game.selected_attack).range)){
                     $tile.click(user_interface.attackMonster);
                 }
             }
@@ -95,15 +97,47 @@ let map = {
         y = Math.floor(y);
         let chunk_x = util.getChunk(x,y).x;
         let chunk_y = util.getChunk(x,y).y;
-        //console.log("point " + x + "," + y + "lies in chunk " + chunk_x + "," + chunk_y);
+        let chunk = map.getChunk(chunk_x,chunk_y);
+
+        for(let i = 0; i < chunk.points.length; i++){
+            if(chunk.points[i].x === x && chunk.points[i].y === y){
+                return chunk.points[i].data;
+            }
+        }
+    },
+
+    getAll: function(){
+        let ans = [];
+        for(let i = 0; i < game.chunks.length; i++){
+            if(game.chunks[i].points[0].data.type != null){
+                for(let j = 0; j < game.chunks[i].points.length; j++){
+                    ans.push({
+                        x:game.chunks[i].points[j].x,
+                        y:game.chunks[i].points[j].y,
+                    });
+                }
+            }
+        }
+        return ans;
+    },
+
+    getChunk: function(chunk_x,chunk_y){
+        for(let i = 0; i < map.cached_chunks.length; i++){
+            let k = map.cached_chunks[i];
+            if(game.chunks[k].x === chunk_x && game.chunks[k].y === chunk_y){
+                return game.chunks[k];
+            }
+        }
 
         for(let i = 0; i < game.chunks.length; i++){
             if(game.chunks[i].x === chunk_x && game.chunks[i].y === chunk_y){
-                for(let j = 0; j < game.chunks[i].points.length; j++){
-                    if(game.chunks[i].points[j].x === x && game.chunks[i].points[j].y === y){
-                        return game.chunks[i].points[j].data;
-                    }
+                if(map.cached_chunks.length < CACHED_CHUNKS){
+                    map.cached_chunks.push(i);
+                }else{
+                    map.cached_chunks.unshift(i);
+                    map.cached_chunks.pop();
                 }
+                return game.chunks[i];
             }
         }
 
@@ -124,41 +158,7 @@ let map = {
         }
 
         game.chunks.push(chunk);
-        map.sortChunks();
-
-        for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].x === chunk_x && game.chunks[i].y === chunk_y){
-                for(let j = 0; j < game.chunks[i].points.length; j++){
-                    if(game.chunks[i].points[j].x === x && game.chunks[i].points[j].y === y){
-                        return game.chunks[i].points[j].data;
-                    }
-                }
-            }
-        }
-    },
-
-    getAll: function(){
-        let ans = [];
-        for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].points[0].data.type != null){
-                for(let j = 0; j < game.chunks[i].points.length; j++){
-                    ans.push({
-                        x:game.chunks[i].points[j].x,
-                        y:game.chunks[i].points[j].y,
-                    });
-                }
-            }
-        }
-        return ans;
-    },
-
-    getChunk: function(x,y){
-        for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].x === x && game.chunks[i].y === y){
-                return game.chunks[i];
-            }
-        }
-        return null;
+        return game.chunks[game.chunks.length-1];
     },
 
     sortChunks: function(left, right){

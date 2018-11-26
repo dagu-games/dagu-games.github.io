@@ -45,7 +45,13 @@ let game_logic = {
             quests: [],
             completed_quests: [],
             upgrades: [],
-            spells: [],
+            attacks: [
+                'Basic Attack',
+            ],
+            cooldowns: {
+                'Basic Attack': 0,
+            },
+
         };
         game.status = STATUS.COMBAT;
         game_logic.generateChunk(0, 0);
@@ -160,7 +166,7 @@ let game_logic = {
         let ans = [];
         let r = util.randomInt(10) + 1;
         for(let i = 0; i < r; i++){
-            ans.push({
+            let monster = {
                 name: "HellHound",
                 type: "monster",
                 max_health: 100,
@@ -176,7 +182,15 @@ let game_logic = {
                     "bite",
                     "scratch",
                 ],
-            });
+            };
+            if(game.character.quests.length > 0 && util.randomInt(2) < 1){
+                monster.goal_item = util.getQuest(util.randomItemInArray(game.character.quests)).goal_item;
+                //console.log(util.randomItemInArray(game.character.quests));
+                //console.log(game.character.quests);
+            }else{
+                monster.goal_item = null;
+            }
+            ans.push(monster);
         }
         return ans;
     },
@@ -191,7 +205,7 @@ let game_logic = {
     generateLoot: function(){
         let n = util.randomInt(10);
         let items = [];
-        for(let i = 0; i < n; i++){
+        for(let i = -1; i < n; i++){
             let item = {
                 name: null,
                 slot: util.randomItemInArray(ITEM_SLOTS),

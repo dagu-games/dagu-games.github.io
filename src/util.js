@@ -1,8 +1,8 @@
 let util = {
     isWalkable: function(x, y){
         for(let i = 0; i < WALKABLE_TILES.length; i++){
-            if(map.get(x, y).type === WALKABLE_TILES[i] &&
-                (map.get(x, y).npc == null ||
+            if(map.get(x, y).type === WALKABLE_TILES[i]
+                && (map.get(x, y).npc == null ||
                     (map.get(x, y).npc.type !== "monster"
                     && map.get(x, y).npc.type !== "quest_giver"
                     && map.get(x, y).npc.type !== "shop"))){
@@ -71,7 +71,13 @@ let util = {
     },
 
     findDirection: function(x1, y1, x2, y2){
-        return pathfinder.findShortestPath(x1, y1, x2, y2)[0];
+        let path = pathfinder.findShortestPath(x1, y1, x2, y2);
+        //console.log(path);
+        if(path === false){
+            return null;
+        }else{
+            return path[0];
+        }
     },
 
     getAllInSquare: function(x, y, length){
@@ -156,9 +162,10 @@ let util = {
             util.saveGame();
             str = localStorage.getItem(STORAGE_STRING);
         }
-        let saves = JSON.parse(LZString.decompress(str));
+        let saves = JSON.parse(LZString.decompressFromUTF16(str));
+        //console.log(LZString.decompressFromUTF16(str));
         if(index == null){
-            game = saves[saves.length - 1];
+            game = saves[0];
         }else{
             game = saves[index];
         }
@@ -170,17 +177,18 @@ let util = {
         if(str == null){
             saves = [];
         }else{
-            saves = JSON.parse(LZString.decompress(str));
+            saves = JSON.parse(LZString.decompressFromUTF16(str));
         }
         let d = new Date();
         game.save_time = d.getTime();
-        saves.push(game);
+        saves.unshift(game);
 
         let ans = JSON.stringify(saves);
-        console.log("size before = " + ans.length);
+        //console.log("size before = " + ans.length);
 
-        ans = LZString.compress(ans);
-        console.log("size after = " + ans.length);
+        ans = LZString.compressToUTF16(ans);
+        //console.log(ans);
+        //console.log("size after = " + ans.length);
         localStorage.setItem(STORAGE_STRING, ans);
     },
 
@@ -248,7 +256,7 @@ let util = {
 
     getSavesList: function(){
         let ans = [];
-        let saves = JSON.parse(LZString.decompress(localStorage.getItem(STORAGE_STRING)));
+        let saves = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem(STORAGE_STRING)));
         for(let i = 0; i < saves.length; i++){
             ans.push({
                 time: saves[i].save_time,
@@ -338,6 +346,15 @@ let util = {
         return false;
     },
 
+    hasQuest: function(quest_name){
+        for(let i = 0; i < game.character.quests.length; i++){
+            if(game.character.quests[i] === quest_name){
+                return true;
+            }
+        }
+        return false;
+    },
+
     getRandomAvailableQuestName: function(){
         let quests = util.getAvailableQuests();
         if(quests.length > 0){
@@ -361,4 +378,68 @@ let util = {
         return null;
     },
 
+    timer: function(){
+        let currTime = (new Date()).getTime();
+        if(this.timerNum == null || this.timerNum === 0){
+            this.timerNum = currTime;
+        }else{
+            console.log("timer results " + (currTime-this.timerNum) + " milliseconds or " + ((currTime-this.timerNum)/1000.0));
+            this.timerNum = 0;
+        }
+    },
+
+    directionTowardGoalItem: function(quest_name){
+        let quest = util.getQuest(quest_name);
+        let points = map.getAll();
+        let goal_items = [];
+        for(let i = 0; i < points.length; i++){
+            let map_entry = map.get(points[i].x,points[i].y);
+            if(map_entry.npc != null && map_entry.npc.type === 'monster' && map_entry.npc.goal_item === quest.goal_item){
+                goal_items.push(i);
+            }
+        }
+        if(goal_items.length === 0){
+            return null;
+        }else{
+            let min = util.distanceBetween(game.character.x,game.character.y,points[0].x,points[0].y);
+            let min_i = 0;
+            for(let i = 1; i < goal_items.length; i++){
+                if(min > util.distanceBetween(game.character.x,game.character.y,points[goal_items[i]].x,points[goal_items[i]].y)){
+                    min_i = i;
+                    min = util.distanceBetween(game.character.x,game.character.y,points[goal_items[i]].x,points[goal_items[i]].y);
+                }
+            }
+            //console.debug(map.get(points[goal_items[min_i]].x,points[goal_items[min_i]].y));
+            return util.findDirection(game.character.x,game.character.y,points[goal_items[min_i]].x,points[goal_items[min_i]].y);
+        }
+    },
+
+    distanceBetween: function(x1,y1,x2,y2){
+        let a = x1 - x2;
+        let b = y1 - y2;
+
+        return Math.sqrt( a*a + b*b );
+    },
+
+    directionToText: function(direction){
+        if(direction == null){
+            return '?';
+        }else if(direction === 0){
+            return 'Right';
+        }else if(direction === 1){
+            return 'Up and Right';
+        }else if(direction === 2){
+            return 'Up';
+        }else if(direction === 3){
+            return 'Up and Left';
+        }else if(direction === 4){
+            return 'Left';
+        }else if(direction === 5){
+            return 'Down and Left';
+        }else if(direction === 6){
+            return 'Down';
+        }else if(direction === 7){
+            return 'Down and Right';
+        }
+    }
 };

@@ -1,5 +1,5 @@
 let character_attack = {
-    spell_list: [
+    attack_list: [
         {
             name: "Basic Attack",
             mana_cost: 0,
@@ -31,10 +31,10 @@ let character_attack = {
         },
     ],
 
-    getAttack: function(spell_name){
-        for(let i = 0; i < character_attack.spell_list.length; i++){
-            if(character_attack.spell_list[i].name === spell_name){
-                return character_attack.spell_list[i];
+    getAttack: function(attack_name){
+        for(let i = 0; i < character_attack.attack_list.length; i++){
+            if(character_attack.attack_list[i].name === attack_name){
+                return character_attack.attack_list[i];
             }
         }
     },
@@ -43,23 +43,32 @@ let character_attack = {
         let damage = 0;
         let attack = character_attack.getAttack(attack_name);
         game.character.current_mana = game.character.current_mana - attack.mana_cost;
-        for(let i = 0; i < game.character.spells.length; i++){
-            if(game.character.spells[i].name === attack_name){
-                game.character.spells[i].cooldown = attack.cooldown;
-            }
-        }
+        game.character.cooldowns[attack_name] = attack.cooldown;
         damage += attack.calculator();
 
         map.get(monster_x, monster_y).npc.current_health -= damage;
-        if(map.get(monster_x, monster_y).npc.current_health <= 0){
-            let loot = map.get(monster_x, monster_y).npc.loot;
-            let quest_item = map.get(monster_x, monster_y).npc.quest_item;
-            map.get(monster_x, monster_y).npc = null;
+        let map_entry = map.get(monster_x, monster_y);
+        game.output.push('You dealt ' + damage + ' damage to the ' + map_entry.npc.name + '(' + map_entry.npc.current_health + '/' + map_entry.npc.max_health);
+        if(map_entry.npc.current_health <= 0){
+            let loot = map_entry.npc.loot;
+            let goal_item = map_entry.npc.goal_item;
             loot.forEach(function(item){
-                game.character.inventory.equipment.push(quest_item);
+                game.character.inventory.equipment.push(item);
             });
-            game.character.inventory.quest_items.push(quest_item);
+            if(goal_item !== null){
+                game.character.inventory.quest_items.push(goal_item);
+            }
+            map.get(monster_x, monster_y).npc = null;
         }
+    },
+
+    hasManaFor: function(attack_name){
+        let attack = character_attack.getAttack(attack_name);
+        return (game.character.current_mana >= attack.mana_cost);
+    },
+
+    isOffCooldown: function(attack_name){
+        return (game.character.cooldowns[attack_name] === 0);
     },
 
 };

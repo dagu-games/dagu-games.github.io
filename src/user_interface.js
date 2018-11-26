@@ -1,7 +1,14 @@
 let user_interface = {
-    selectSpell: function(event){
+    selectAttack: function(event){
         let $target = $(event.target);
-        game.selected_spell = $target.data('attack_name');
+        game.selected_attack = $target.data('attack_name');
+        game.status = STATUS.COMBAT_SPELL_SELECTED;
+        map.render();
+        view_controller.render();
+    },
+
+    keybindSelectAttack: function(attack_name){
+        game.selected_attack = attack_name;
         game.status = STATUS.COMBAT_SPELL_SELECTED;
         map.render();
         view_controller.render();
@@ -33,8 +40,9 @@ let user_interface = {
     },
 
     cancelSpell: function(){
-        //Clears all highlights and removes the onclick methods from selectSpell
-
+        //Clears all highlights and removes the onclick methods from selectAttack
+        game.selected_attack = null;
+        game.status = STATUS.COMBAT;
         map.render();
         view_controller.render();
     },
@@ -161,6 +169,7 @@ let user_interface = {
             if(map.get(x,y).npc.type === "monster"){
                 game.output.push("Monster Name: " + map.get(x,y).npc.name);
                 game.output.push("Health: " + map.get(x,y).npc.current_health + "/" + map.get(x,y).npc.max_health);
+                game.output.push("Quest Goal Item: " + map.get(x,y).npc.goal_item);
             }
         }
         map.render();
@@ -168,18 +177,47 @@ let user_interface = {
     },
 
     equipItem: function(event){
-        //check for ring data value to know what slot to put the ring into 1 or 2
+        let $target = $(event.target);
+        let item = game.character.inventory.equipment[$target.data('index')];
+        game.character.inventory.equipment.splice($target.data('index'),1);
+        if($target.data('ring') === 0){
+            if(game.character.equipped_items[item.slot] != null){
+                game.character.inventory.equipment.push(game.character.equipped_items[item.slot]);
+                game.character.equipped_items[item.slot] = null;
+            }
+            game.character.equipped_items[item.slot] = item;
+        }
+        if($target.data('ring') === 1){
+            if(game.character.equipped_items.ring1 != null){
+                game.character.inventory.equipment.push(game.character.equipped_items.ring1);
+                game.character.equipped_items.ring1 = null;
+            }
+            game.character.equipped_items.ring1 = item;
+        }
+        if($target.data('ring') === 2){
+            if(game.character.equipped_items.ring2 != null){
+                game.character.inventory.equipment.push(game.character.equipped_items.ring2);
+                game.character.equipped_items.ring2 = null;
+            }
+            game.character.equipped_items.ring2 = item;
+        }
+
         map.render();
         view_controller.render();
     },
 
     unequipItem: function(event){
-
+        let $target = $(event.target);
+        game.character.inventory.equipment.push(game.character.equipped_items[$target.data('slot')]);
+        game.character.equipped_items[$target.data('slot')] = null;
         map.render();
         view_controller.render();
     },
 
     acceptQuest: function(event){
+        let $target = $(event.target);
+
+        game.character.quests.push($target.data('quest_name'));
 
         map.render();
         view_controller.render();
@@ -210,13 +248,14 @@ let user_interface = {
     },
 
     teleport: function(){
-        game.character.x = Number($('#teleport_x').val());
-        game.character.y = Number($('#teleport_y').val());
+        game.character.x = game.character.x + Number($('#teleport_x').val());
+        game.character.y = game.character.y + Number($('#teleport_y').val());
         map.render();
         view_controller.render();
     },
 
     handleKeyDown: function(event){
+        //console.log(event.which);
         if(game.key_lock == null || game.key_lock===false){
             game.key_lock = true;
             if(event.which === KEY_CODES.W){
@@ -231,7 +270,9 @@ let user_interface = {
             if(event.which === KEY_CODES.D){
                 user_interface.moveRight();
             }
-
+            if(event.which === 49){
+                user_interface.keybindSelectAttack('Basic Attack');
+            }
             setTimeout(function(){ game.key_lock = false }, 1);
         }
     },
@@ -284,6 +325,18 @@ let user_interface = {
         }
     },
 
+    toggleCompletedQuestList: function(event){
+        let $cont = $('#completed_quest_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
     toggleInventory: function(event){
         let $cont = $('#inventory_container');
 
@@ -308,11 +361,23 @@ let user_interface = {
         }
     },
 
+    toggleAttackList: function(event){
+        let $cont = $('#attack_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
     attackMonster: function(event){
         let $target = $(event.target);
+        character_attack.attack($target.data('x'),$target.data('y'),game.selected_attack);
         game.status = STATUS.COMBAT;
-        character_attack.attack($target.data('x'),$target.data('y'),game.selected_spell);
-        game.selected_spell = null;
+        game.selected_attack = null;
         map.render();
         view_controller.render();
     },
