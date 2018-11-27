@@ -15,7 +15,30 @@ let user_interface = {
     },
 
     buyUpgrade: function(event){
-        //Changes character information to reflect the purchased upgrade and deducts a skill point
+        let $target = $(event.target);
+
+        let upgrade = upgrades[$target.data('upgrade_index')];
+
+        game.character.unspent_skill_points -= upgrade.skill_point_cost;
+        upgrade.effect();
+        game.character.upgrades.push($target.data('upgrade_index'));
+
+        map.render();
+        view_controller.render();
+    },
+
+    refundUpgrade: function(event){
+        let $target = $(event.target);
+
+        let upgrade = upgrades[$target.data('upgrade_index')];
+
+        game.character.unspent_skill_points += upgrade.skill_point_cost;
+        upgrade.refund();
+        for(let i = 0; i < game.character.upgrades.length; i++){
+            if(game.character.upgrades[i] === $target.data('upgrade_index')){
+                game.character.upgrades.splice(i,1);
+            }
+        }
 
         map.render();
         view_controller.render();
@@ -40,7 +63,6 @@ let user_interface = {
     },
 
     cancelSpell: function(){
-        //Clears all highlights and removes the onclick methods from selectAttack
         game.selected_attack = null;
         game.status = STATUS.COMBAT;
         map.render();
@@ -363,6 +385,32 @@ let user_interface = {
 
     toggleAttackList: function(event){
         let $cont = $('#attack_list_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+
+    togglePurchasedUpgradesList: function(event){
+        let $cont = $('#purchased_upgrades_container');
+
+        if($cont.is(':hidden')){
+            $cont.show();
+            $(event.target).text("hide");
+        }else{
+            $cont.hide();
+            $(event.target).text("show");
+        }
+    },
+
+
+    toggleStats: function(event){
+        let $cont = $('#stats_container');
 
         if($cont.is(':hidden')){
             $cont.show();

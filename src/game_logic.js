@@ -9,7 +9,7 @@ let game_logic = {
             y: 0,
             level: 1,
             experience: 0,
-            unspent_skill_points: 0,
+            unspent_skill_points: 1,
             current_health: 100,
             max_health: 100,
             health_regeneration: 1,

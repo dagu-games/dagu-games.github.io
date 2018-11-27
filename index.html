@@ -95,7 +95,16 @@
                 </div>
                 <div class="container right_container" id="character_container">
 
-                <h3>Stats</h3>
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Stats</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.toggleStats(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
 
                 <div class="container" id="stats_container">
                     Location:<span id="character_location"></span>
@@ -103,6 +112,8 @@
                     Level:<span id="character_level"></span>
                     <br>
                     Experience:<span id="character_experience"></span>/<span id="character_experience_next_level"></span>
+                    <br>
+                    Unspent Skill Points:<span id="character_unspent_skill_points"></span>
                     <br>
                     Health:<span id="character_current_health"></span>/<span id="character_max_health"></span>
                     <br>
@@ -193,10 +204,10 @@
                 <div class="container" id="inventory_container">
                     Gold:<span id="character_gold"></span>
 
+                    <h4>Quest Items</h4>
+                    <div class="container" id="quest_items_container"></div>
                     <h4>Equipment</h4>
-                    <div class="container" id="equipment_container">
-
-                    </div>
+                    <div class="container" id="equipment_container"></div>
                 </div>
 
                 <div class="container">
@@ -223,6 +234,19 @@
                 <br>
 
                 <div class="container" id="completed_quest_list_container"></div>
+
+                <div class="container">
+                    <div class="left_container container">
+                        <h3>Purchased Upgrades</h3>
+                    </div>
+                    <div class="right_container container">
+                        <span class="hide_button" onclick="user_interface.togglePurchasedUpgradesList(event)">Hide</span>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+                <div class="container" id="purchased_upgrades_container"></div>
             </div>
                 <div class="container bottom_container" id="output_container"></div>
             </div>

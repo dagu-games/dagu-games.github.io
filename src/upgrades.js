@@ -4,10 +4,14 @@ let upgrades = [
         description: "You went to the gym and got stronger",
         skill_point_cost: 1,
         isAvailable: function(){
-            //returns true or false, depending on a set of conditions for that upgrade. (you can't be an archer if you are a wizard)
+            console.log(this.skill_point_cost);
+            return (game.character.unspent_skill_points >= this.skill_point_cost);
         },
         effect: function(){
-            //modifies the character data to represent that upgrade
+            game.character.attack_power += 10;
+        },
+        refund: function(){
+            game.character.attack_power -= 10;
         },
     },
 

@@ -441,5 +441,28 @@ let util = {
         }else if(direction === 7){
             return 'Down and Right';
         }
-    }
+    },
+
+    getQuestFromGoalItem: function(goal_item_name){
+        for(let i = 0; i < QUESTS.SIDE.length; i++){
+            if(QUESTS.SIDE[i].goal_item === goal_item_name){
+                return QUESTS.SIDE[i];
+            }
+        }
+        for(let i = 0; i < QUESTS.STORY.length; i++){
+            if(QUESTS.STORY[i].goal_item === goal_item_name){
+                return QUESTS.STORY[i];
+            }
+        }
+        return null;
+    },
+
+    hasUpgrade: function(upgrade_index){
+        for(let i = 0; i < game.character.upgrades.length; i++){
+            if(upgrade_index === game.character.upgrades[i]){
+                return true;
+            }
+        }
+        return false;
+    },
 };

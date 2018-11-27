@@ -10,6 +10,7 @@ let view_controller = {
         $('#character_level').text(game.character.level);
         $('#character_experience').text(game.character.experience);
         $('#character_experience_next_level').text(util.getExperienceNeededForLevel(game.character.level));
+        $('#character_unspent_skill_points').text(game.character.unspent_skill_points);
         $('#character_current_health').text(game.character.current_health);
         $('#character_max_health').text(game.character.max_health);
         $('#character_current_mana').text(game.character.current_mana);
@@ -21,6 +22,7 @@ let view_controller = {
         $('#character_attack_lifesteal').text(game.character.attack_lifesteal);
         $('#character_magic_power').text(game.character.magic_power);
         $('#character_magic_lifesteal').text(game.character.magic_lifesteal);
+        $('#character_gold').text(game.character.inventory.gold);
 
         $('#character_helmet_container').empty().append(view_controller.generateItem(game.character.equipped_items.helmet,'equipped',null));
         $('#character_shoulders_container').empty().append(view_controller.generateItem(game.character.equipped_items.shoulders,'equipped',null));
@@ -32,12 +34,12 @@ let view_controller = {
         $('#character_main_hand_container').empty().append(view_controller.generateItem(game.character.equipped_items.main_hand,'equipped',null));
         $('#character_off_hand_container').empty().append(view_controller.generateItem(game.character.equipped_items.off_hand,'equipped',null));
         $('#character_necklace_container').empty().append(view_controller.generateItem(game.character.equipped_items.necklace,'equipped',null));
-        $('#character_ring1_container').append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',null));
-        $('#character_ring2_container').append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
+        $('#character_ring1_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',null));
+        $('#character_ring2_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
         //console.debug(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
         //console.debug(game.character.equipped_items.ring2);
 
-        let $inventory = $('#inventory_container');
+        let $inventory = $('#equipment_container');
         $inventory.empty();
         for(let i = 0; i < game.character.inventory.equipment.length; i++){
             $inventory.append(view_controller.generateItem(game.character.inventory.equipment[i],'inventory',{index:i}));
@@ -58,7 +60,23 @@ let view_controller = {
         let $upgrades_list = $('#upgrades_container');
         $upgrades_list.empty();
         for(let i = 0; i < upgrades.length; i++){
-            $upgrades_list.append(view_controller.generateUpgrade(upgrades[i]));
+            if(!util.hasUpgrade(i)){
+                $upgrades_list.append(view_controller.generateUpgrade(upgrades[i],i));
+            }
+        }
+
+        let $purchased_upgrades_list = $('#purchased_upgrades_container');
+        $purchased_upgrades_list.empty();
+        for(let i = 0; i < upgrades.length; i++){
+            if(util.hasUpgrade(i)){
+                $purchased_upgrades_list.append(view_controller.generateUpgrade(upgrades[i],i));
+            }
+        }
+
+        let $quest_items_list = $('#quest_items_container');
+        $quest_items_list.empty();
+        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
+            $quest_items_list.append(view_controller.generateQuestItem(game.character.inventory.quest_items[i]));
         }
     },
 
@@ -124,7 +142,7 @@ let view_controller = {
         let $attack_list = $('#attack_list_container');
         $attack_list.empty();
         for(let i = 0; i < game.character.attacks.length; i++){
-            $attack_list.append(view_controller.generateSpell(game.character.attacks[i]));
+            $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
         }
     },
 
@@ -260,15 +278,64 @@ let view_controller = {
         return $cont;
     },
 
-    generateUpgrade: function(upgrade_name){
+    generateUpgrade: function(upgrade,i){
+        if(upgrade == null){
+            return;
+        }
+        let $cont = $('<div></div>');
+        $cont.addClass('$container');
+        $cont.addClass('item_container');
 
+        let $title_cont = $('<div></div>');
+        $title_cont.css('width', '80%');
+        $title_cont.css('float', 'left');
+        $title_cont.append('<h3>' + upgrade.name + '</h3>');
+        $title_cont.append('Skill Point Cost: ' + upgrade.skill_point_cost + '<br>');
+        $title_cont.append('Description: ' + upgrade.description + '<br>');
+
+        let $stats_cont = $('<div></div>');
+        $stats_cont.css('width', '19%');
+        $stats_cont.css('float', 'right');
+
+        if(!util.hasUpgrade(i) && upgrade.isAvailable()){
+            let $button = $('<button type="button">Buy Upgrade</button>');
+            $button.css('float', 'right');
+            $button.click(user_interface.buyUpgrade);
+            $button.data('upgrade_index',i);
+            $stats_cont.append($button);
+        }else if(util.hasUpgrade(i)){
+            let $button = $('<button type="button">Refund Upgrade</button>');
+            $button.css('float', 'right');
+            $button.click(user_interface.refundUpgrade);
+            $button.data('upgrade_index',i);
+            $stats_cont.append($button);
+        }
+
+        $cont.append($title_cont);
+        $cont.append($stats_cont);
+        return $cont;
     },
 
-    generateQuestItem: function(quest_item_name){
+    generateQuestItem: function(goal_item_name){
+        if(goal_item_name == null){
+            return;
+        }
+        let quest = util.getQuestFromGoalItem(goal_item_name);
+        let $cont = $('<div></div>');
+        $cont.addClass('$container');
+        $cont.addClass('item_container');
 
+        let $title_cont = $('<div></div>');
+        $title_cont.css('width', '99%');
+        $title_cont.css('float', 'left');
+        $title_cont.append('<h3>' + goal_item_name + '</h3>');
+        $title_cont.append('Description: ' + quest.goal_item_description + '<br>');
+
+        $cont.append($title_cont);
+        return $cont;
     },
 
-    generateSpell: function(attack_name){
+    generateAttack: function(attack_name){
         if(attack_name == null){
             return;
         }
@@ -278,7 +345,7 @@ let view_controller = {
         $cont.addClass('item_container');
 
         let $title_cont = $('<div></div>');
-        $title_cont.css('width', '90%');
+        $title_cont.css('width', '80%');
         $title_cont.css('float', 'left');
         $title_cont.append('<h3>' + attack.name + '</h3>');
         $title_cont.append('Mana Cost: ' + attack.mana_cost + '<br>');
@@ -287,7 +354,7 @@ let view_controller = {
         $title_cont.append('Description: ' + attack.description + '<br>');
 
         let $stats_cont = $('<div></div>');
-        $stats_cont.css('width', '9%');
+        $stats_cont.css('width', '19%');
         $stats_cont.css('float', 'right');
 
         if(game.status === STATUS.COMBAT_SPELL_SELECTED){
