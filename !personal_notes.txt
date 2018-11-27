@@ -8,30 +8,37 @@ overcast #9099A2
 lavendar #6D7993
 dusty #96858F
 
+Cost Breakdown
+130 - Webstorm
+84 - Github
+165 - Webhosting
+10 - Domain
+389$ a year
+33$ a month
+
 
 0.1 - (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease.
 
 Feature Update, Player can
 move - done
 accept quests - done
-buy items
-sell items
+buy items - done
+sell items - done
 use attacks - done
 kill monsters - done
 receive loot - done
 receive goal items - done
-complete quests
-abandon quests
-drop goal items
+complete quests - done
+abandon quests - done
 purchase upgrades - done
 refund upgrades - done
-receive experience
-level up
-do damage based on stats
-mark town as home
-return home
-make ui changes that are persistent
-navigate via tabs in context and character menu
+receive experience - done
+level up - done
+do damage based on stats - done
+mark town as home - done
+return home - done
+navigate via tabs in context and character menu - done
+be killed by monsters - done
 
 
 
@@ -80,6 +87,8 @@ balance experience gain
 balance economy
 balance crafting
 
+
+
 0.5 - (Persian) !NEEDS FUNDING!
 
 Deploy to Server
@@ -87,3 +96,6 @@ Google O-Auth Support
 Google Ad Support
 MySQL setup
 Save data in SQL server
+Buy Domain
+Make email accounts
+Apply for Business legal stuff

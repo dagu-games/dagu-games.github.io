@@ -4,7 +4,7 @@ let character_attack = {
             name: "Basic Attack",
             mana_cost: 0,
             cooldown: 0,
-            range: 1,
+            range: 2,
             calculator: function(){
                 return (game.character.attack_power * (5 + util.randomInt(5)));
             },
@@ -58,6 +58,7 @@ let character_attack = {
             if(goal_item !== null){
                 game.character.inventory.quest_items.push(goal_item);
             }
+            game_logic.giveEXP(100);
             map.get(monster_x, monster_y).npc = null;
         }
     },

@@ -4,7 +4,6 @@ let upgrades = [
         description: "You went to the gym and got stronger",
         skill_point_cost: 1,
         isAvailable: function(){
-            console.log(this.skill_point_cost);
             return (game.character.unspent_skill_points >= this.skill_point_cost);
         },
         effect: function(){

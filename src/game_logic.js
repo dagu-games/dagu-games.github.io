@@ -1,12 +1,14 @@
 let game_logic = {
     init: function(){
         game.settings = {
-            zoom_factor: 11,
+            zoom_factor: 15,
         };
         game.chunks = [];
         game.character = {
             x: 0,
             y: 0,
+            home_x:0,
+            home_y:0,
             level: 1,
             experience: 0,
             unspent_skill_points: 1,
@@ -38,7 +40,7 @@ let game_logic = {
                 ring2: null,
             },
             inventory: {
-                gold: 0,
+                gold: 500,
                 equipment: [],
                 quest_items: [],
             },
@@ -88,8 +90,22 @@ let game_logic = {
         let point;
         let i;
         let j;
-        if(r < 75){   //generate wilderness
+        if((chunk_x === 0 && chunk_y === 0) ||
+            (chunk_x === 1 && chunk_y === 0) ||
+            (chunk_x === 1 && chunk_y === 1) ||
+            (chunk_x === 0 && chunk_y === 1) ||
+            (chunk_x === -1 && chunk_y === 1) ||
+            (chunk_x === -1 && chunk_y === 0) ||
+            (chunk_x === -1 && chunk_y === -1) ||
+            (chunk_x === 0 && chunk_y === -1) ||
+            (chunk_x === 1 && chunk_y === -1)){
+            r = util.randomInt(90);
+        }
+
+        if(r < 75){
+            //generate wilderness
             map.getChunk(chunk_x,chunk_y).name = "Wilderness";
+            map.getChunk(chunk_x,chunk_y).type = "wilderness";
             monsters = game_logic.generateChunkEnemies();
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
@@ -106,7 +122,17 @@ let game_logic = {
                     }
                 }
             }
-
+            if((chunk_x === 0 && chunk_y === 0) ||
+                (chunk_x === 1 && chunk_y === 0) ||
+                (chunk_x === 1 && chunk_y === 1) ||
+                (chunk_x === 0 && chunk_y === 1) ||
+                (chunk_x === -1 && chunk_y === 1) ||
+                (chunk_x === -1 && chunk_y === 0) ||
+                (chunk_x === -1 && chunk_y === -1) ||
+                (chunk_x === 0 && chunk_y === -1) ||
+                (chunk_x === 1 && chunk_y === -1)){
+                monsters = [];
+            }
             map.get(0, 0).type = 'grass';
             pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
@@ -122,33 +148,10 @@ let game_logic = {
                     }
                 }
             }
-        }else if(r >= 75 && r < 85){    //generate dungeon
-            map.getChunk(chunk_x,chunk_y).name = "Dungeon";
-            monsters = game_logic.generateChunkEnemies();
-
-            for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
-                for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
-                    map.get(i, j).type = 'stone';
-                }
-            }
-
-            map.get(0, 0).type = 'grass';
-            pathfinder.resetPFVariable();
-            for(i = 0; i < monsters.length; i++){
-                let c = 0;
-                while(c<10){
-                    let tx = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_x);
-                    let ty = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_y);
-                    if(util.isWalkable(tx,ty) && util.isPathable(tx,ty)){
-                        map.get(tx, ty).npc = monsters[i];
-                        c=11;
-                    }else{
-                        c++;
-                    }
-                }
-            }
-        }else if(r >= 85){    //generate town
+        }else if(r >= 75 && r < 90){
+            //generate town
             map.getChunk(chunk_x,chunk_y).name = util.randomItemInArray(TOWN_NAMES);
+            map.getChunk(chunk_x,chunk_y).type = 'town';
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     map.get(i, j).type = 'grass';
@@ -159,6 +162,43 @@ let game_logic = {
             }
             map.get(0, 0).type = 'grass';
             pathfinder.resetPFVariable();
+        }else if(r >= 90){
+            //generate dungeon
+            map.getChunk(chunk_x,chunk_y).name = "Dungeon";
+            map.getChunk(chunk_x,chunk_y).type = "dungeon";
+            monsters = game_logic.generateChunkEnemies();
+
+            for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
+                for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
+                    map.get(i, j).type = 'stone';
+                }
+            }
+            if((chunk_x === 0 && chunk_y === 0) ||
+                (chunk_x === 1 && chunk_y === 0) ||
+                (chunk_x === 1 && chunk_y === 1) ||
+                (chunk_x === 0 && chunk_y === 1) ||
+                (chunk_x === -1 && chunk_y === 1) ||
+                (chunk_x === -1 && chunk_y === 0) ||
+                (chunk_x === -1 && chunk_y === -1) ||
+                (chunk_x === 0 && chunk_y === -1) ||
+                (chunk_x === 1 && chunk_y === -1)){
+                monsters = [];
+            }
+            map.get(0, 0).type = 'grass';
+            pathfinder.resetPFVariable();
+            for(i = 0; i < monsters.length; i++){
+                let c = 0;
+                while(c<10){
+                    let tx = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_x);
+                    let ty = util.randomInt(CHUNK_SIZE) + (CHUNK_SIZE * chunk_y);
+                    if(util.isWalkable(tx,ty) && util.isPathable(tx,ty)){
+                        map.get(tx, ty).npc = monsters[i];
+                        c=11;
+                    }else{
+                        c++;
+                    }
+                }
+            }
         }
     },
 
@@ -171,6 +211,8 @@ let game_logic = {
                 type: "monster",
                 max_health: 100,
                 current_health: 100,
+                health_regeneration:1,
+                mana_regeneration:1,
                 armor: 10,
                 magic_resistance: 10,
                 attack_power: 10,
@@ -178,10 +220,16 @@ let game_logic = {
                 magic_power: 10,
                 magic_lifesteal: 10,
                 loot: game_logic.generateLoot(),
-                monster_attacks: [
-                    "bite",
-                    "scratch",
+                attacks: [
+                    "Basic Attack",
+                    "Fireball",
+                    "Ice Bolt",
                 ],
+                cooldowns: {
+                    "Basic Attack":0,
+                    "Fireball":0,
+                    "Ice Bolt":0,
+                }
             };
             if(game.character.quests.length > 0 && util.randomInt(2) < 1){
                 monster.goal_item = util.getQuest(util.randomItemInArray(game.character.quests)).goal_item;
@@ -195,11 +243,38 @@ let game_logic = {
         return ans;
     },
 
-    tick: function(x, y){
+    tick: function(){
         let monsters = util.getAllMonsters();
         for(let i = 0; i < monsters.length; i++){
-
+            if(util.distanceBetween(game.character.x,game.character.y,monsters[i].x,monsters[i].y) <= TICK_THRESHOLD){
+                //console.log('doing turn for ' + monsters[i].x + "," + monsters[i].y);
+                monster_attack.handleMonsterTurn(monsters[i].x,monsters[i].y);
+            }
         }
+
+        for(let i = 0; i < game.character.attacks.length; i++){
+            if(game.character.cooldowns[game.character.attacks[i]] == null){
+                game.character.cooldowns[game.character.attacks[i]] = 0;
+            }
+            if(game.character.cooldowns[game.character.attacks[i]] > 0){
+                game.character.cooldowns[game.character.attacks[i]] -= 1;
+            }
+        }
+
+        if(game.character.current_health < game.character.max_health){
+            game.character.current_health += game.character.health_regeneration;
+            if(game.character.current_health > game.character.max_health){
+                game.character.current_health = game.character.max_health;
+            }
+        }
+
+        if(game.character.current_mana < game.character.max_mana){
+            game.character.current_mana += game.character.mana_regeneration;
+            if(game.character.current_mana > game.character.max_mana){
+                game.character.current_mana = game.character.max_mana;
+            }
+        }
+
     },
 
     generateLoot: function(){
@@ -246,4 +321,19 @@ let game_logic = {
         }
         return npc;
     },
+
+    giveEXP: function(experience){
+        game.output.push('You Gained ' + experience + ' EXP');
+        game.character.experience += experience;
+        if(game.character.experience >= util.getExperienceNeededForLevel(game.character.level+1)){
+            game_logic.levelUp();
+        }
+    },
+
+    levelUp: function(){
+        game.character.unspent_skill_points += 1;
+        game.character.level += 1;
+        game.character.experience -= util.getExperienceNeededForLevel(game.character.level);
+        game.output.push('You Leveled Up! You are now Level ' + game.character.level + ' and have ' + game.character.unspent_skill_points + ' unspent skill points.');
+    }
 };

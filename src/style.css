@@ -1,3 +1,26 @@
+.tab {
+    overflow: hidden;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    padding: 2px 8px;
+    transition: 0.3s;
+    font-size: 17px;
+    border: 1px solid gray;
+}
+
+.tab button:hover {
+    background-color: #909090;
+}
+
+.tab .selected_tab {
+    background-color: #707070;
+}
+
 .tile {
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -127,6 +150,10 @@ h1, h2, h3, h4 {
 .button_1x2 {
     width:20%;
     min-width:64px;
+}
+
+.movement_button {
+    width: 31%;
 }
 
 .hide_button {

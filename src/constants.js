@@ -7,12 +7,13 @@ const NPC_ICON = "images/npc.png";
 const HELLHOUND_ICON = "images/hellhound.png";
 const WALL_ICON = "images/wall.png";
 const HERO_ICON = "images/hero.png";
-const CHUNK_SIZE = 30;
+const CHUNK_SIZE = 20;
 const STORAGE_STRING = "dagu_saves_array";
 const ZOOM_MAX = 30;
 const EXP_MULTIPLIER = 100;
 const EXP_EXPONENT = 2;
 const CACHED_CHUNKS = 4;
+const TICK_THRESHOLD = 5;
 const CREDITS_STRING = "Game by Douglas Kihlken";
 const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
 

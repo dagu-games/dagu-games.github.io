@@ -9,7 +9,7 @@ let view_controller = {
         $('#character_location').text(map.getChunk(util.getChunk(game.character.x,game.character.y).x,util.getChunk(game.character.x,game.character.y).y).name + " (" + game.character.x + "," + game.character.y + ")");
         $('#character_level').text(game.character.level);
         $('#character_experience').text(game.character.experience);
-        $('#character_experience_next_level').text(util.getExperienceNeededForLevel(game.character.level));
+        $('#character_experience_next_level').text(util.getExperienceNeededForLevel(game.character.level+1));
         $('#character_unspent_skill_points').text(game.character.unspent_skill_points);
         $('#character_current_health').text(game.character.current_health);
         $('#character_max_health').text(game.character.max_health);
@@ -109,10 +109,10 @@ let view_controller = {
 
     updateContextMenu: function(){
         view_controller.updateSaveList();
-        if(game.settings === STATUS.COMBAT_SPELL_SELECTED){
-            $('#cancel_spell_button').hide();
+        if(util.isInTown()){
+            $('#set_home_button').show();
         }else{
-            $('#cancel_spell_button').show();
+            $('#set_home_button').hide();
         }
 
         let $npc_shop_list_container = $('#npc_shop_list_container');
@@ -123,7 +123,7 @@ let view_controller = {
                 if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
                     let items = map.get(points[i].x,points[i].y).npc.items;
                     for(let j = 0; j < items.length; j++){
-                        $npc_shop_list_container.append(view_controller.generateItem(items[j],'shop',{index:i,shop_x:points[i].x,shop_y:points[i].y}));
+                        $npc_shop_list_container.append(view_controller.generateItem(items[j],'shop',{index:j,shop_x:points[i].x,shop_y:points[i].y}));
                     }
                 }
             }
@@ -142,7 +142,14 @@ let view_controller = {
         let $attack_list = $('#attack_list_container');
         $attack_list.empty();
         for(let i = 0; i < game.character.attacks.length; i++){
-            $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
+            if(character_attack.isOffCooldown(game.character.attacks[i])){
+                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
+            }
+        }
+        for(let i = 0; i < game.character.attacks.length; i++){
+            if(!character_attack.isOffCooldown(game.character.attacks[i])){
+                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
+            }
         }
     },
 
@@ -203,7 +210,7 @@ let view_controller = {
                 $stats_cont.append($button);
             }
         }
-        if(mode ==='shop'){
+        if(mode ==='shop' && item.value <= game.character.inventory.gold){
             let $button = $('<button type="button">Buy Item</button>');
             $button.css('float', 'right');
             $button.click(user_interface.buyItem);
@@ -270,7 +277,12 @@ let view_controller = {
             $button.click(user_interface.abandonQuest);
             $button.data('quest_name',quest_name);
             $stats_cont.append($button);
-            $stats_cont.append('Direction: ' + util.directionToText(util.directionTowardGoalItem(quest_name)) + '<br>');
+            if(util.hasQuestItem(quest_name)){
+                $stats_cont.append('Direction: ' + util.directionToText(util.directionTowardQuestNPC(quest_name)) + '<br>');
+            }else{
+                $stats_cont.append('Direction: ' + util.directionToText(util.directionTowardGoalItem(quest_name)) + '<br>');
+            }
+
         }
 
         $cont.append($title_cont);

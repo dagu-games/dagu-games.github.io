@@ -72,8 +72,8 @@ let user_interface = {
     moveLeft: function(){
         if(util.isWalkable(game.character.x - 1, game.character.y)){
             game.character.x -= 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -82,8 +82,8 @@ let user_interface = {
         if(util.isWalkable(game.character.x - 1, game.character.y + 1)){
             game.character.x -= 1;
             game.character.y += 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -91,8 +91,8 @@ let user_interface = {
     moveUp: function(){
         if(util.isWalkable(game.character.x, game.character.y + 1)){
             game.character.y += 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -101,8 +101,8 @@ let user_interface = {
         if(util.isWalkable(game.character.x + 1, game.character.y + 1)){
             game.character.x += 1;
             game.character.y += 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -110,8 +110,8 @@ let user_interface = {
     moveRight: function(){
         if(util.isWalkable(game.character.x + 1, game.character.y)){
             game.character.x += 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -120,8 +120,8 @@ let user_interface = {
         if(util.isWalkable(game.character.x + 1, game.character.y - 1)){
             game.character.x += 1;
             game.character.y -= 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -129,8 +129,8 @@ let user_interface = {
     moveDown: function(){
         if(util.isWalkable(game.character.x, game.character.y - 1)){
             game.character.y -= 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -139,8 +139,8 @@ let user_interface = {
         if(util.isWalkable(game.character.x - 1, game.character.y - 1)){
             game.character.x -= 1;
             game.character.y -= 1;
+            game_logic.tick();
         }
-        game_logic.tick(game.character.x, game.character.y);
         map.render();
         view_controller.render();
     },
@@ -246,25 +246,72 @@ let user_interface = {
     },
 
     abandonQuest: function(event){
-        //removes quest and relevant item from character.
+        let $target = $(event.target);
+        let quest = util.getQuest($target.data('quest_name'));
+
+        for(let i = 0; i < game.character.quests.length; i++){
+            if(game.character.quests[i] === quest.name){
+                game.character.quests.splice(i,1);
+            }
+        }
+        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
+            if(game.character.inventory.quest_items[i] === quest.goal_item){
+                game.character.inventory.quest_items.splice(i,1);
+            }
+        }
         map.render();
         view_controller.render();
     },
 
     completeQuest: function(event){
+        let $target = $(event.target);
+        let quest = util.getQuest($target.data('quest_name'));
+
+        for(let i = 0; i < game.character.quests.length; i++){
+            if(game.character.quests[i] === quest.name){
+                game.character.quests.splice(i,1);
+            }
+        }
+        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
+            if(game.character.inventory.quest_items[i] === quest.goal_item){
+                game.character.inventory.quest_items.splice(i,1);
+            }
+        }
+        game_logic.giveEXP(1000);
+        game.character.completed_quests.push(quest.name);
         //gives loot to player and moves quest to character.completed_quests
         map.render();
         view_controller.render();
     },
 
     buyItem: function(event){
+        let $target = $(event.target);
+        console.log($target.data('shop_x'));
+        console.log($target.data('shop_y'));
+        console.log($target.data('index'));
+
+        let item = map.get($target.data('shop_x'),$target.data('shop_y')).npc.items[$target.data('index')];
+        map.get($target.data('shop_x'),$target.data('shop_y')).npc.items.splice($target.data('index'),1);
+        game.character.inventory.gold -= item.value;
+        game.character.inventory.equipment.push(item);
 
         map.render();
         view_controller.render();
     },
 
     sellItem: function(event){
+        let $target = $(event.target);
+        let item = game.character.inventory.equipment[$target.data('index')];
+        game.character.inventory.equipment.splice($target.data('index'),1);
+        game.character.inventory.gold += item.value;
 
+        let points_around = util.getAround(game.character.x,game.character.y);
+
+        for(let i = 0; i < points_around.length; i++){
+            if(map.get(points_around[i].x,points_around[i].y).npc != null && map.get(points_around[i].x,points_around[i].y).npc.type === 'shop'){
+                map.get(points_around[i].x,points_around[i].y).npc.items.push(item);
+            }
+        }
         map.render();
         view_controller.render();
     },
@@ -272,6 +319,20 @@ let user_interface = {
     teleport: function(){
         game.character.x = game.character.x + Number($('#teleport_x').val());
         game.character.y = game.character.y + Number($('#teleport_y').val());
+        map.render();
+        view_controller.render();
+    },
+
+    setHome: function(){
+        game.character.home_x = game.character.x;
+        game.character.home_y = game.character.y;
+        map.render();
+        view_controller.render();
+    },
+
+    goHome: function(){
+        game.character.x = game.character.home_x;
+        game.character.y = game.character.home_y;
         map.render();
         view_controller.render();
     },
@@ -299,134 +360,27 @@ let user_interface = {
         }
     },
 
-    toggleNPCShopList: function(event){
-        let $cont = $('#npc_shop_list_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleNPCQuestList: function(event){
-        let $cont = $('#npc_quest_list_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleEquippedItems: function(event){
-        let $cont = $('#equipped_items_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleQuestList: function(event){
-        let $cont = $('#quest_list_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleCompletedQuestList: function(event){
-        let $cont = $('#completed_quest_list_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleInventory: function(event){
-        let $cont = $('#inventory_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleUpgrades: function(event){
-        let $cont = $('#upgrades_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-    toggleAttackList: function(event){
-        let $cont = $('#attack_list_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-
-    togglePurchasedUpgradesList: function(event){
-        let $cont = $('#purchased_upgrades_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
-
-    toggleStats: function(event){
-        let $cont = $('#stats_container');
-
-        if($cont.is(':hidden')){
-            $cont.show();
-            $(event.target).text("hide");
-        }else{
-            $cont.hide();
-            $(event.target).text("show");
-        }
-    },
-
     attackMonster: function(event){
         let $target = $(event.target);
         character_attack.attack($target.data('x'),$target.data('y'),game.selected_attack);
         game.status = STATUS.COMBAT;
         game.selected_attack = null;
+        game_logic.tick();
         map.render();
         view_controller.render();
+    },
+
+    openLeftTab: function(event, tab_name, tablink_name){
+        $('.tabcontent_left').hide();
+        $(tab_name).show();
+        $('.tablink_left').removeClass('selected_tab');
+        $(tablink_name).addClass('selected_tab');
+    },
+
+    openRightTab: function(event, tab_name, tablink_name){
+        $('.tabcontent_right').hide();
+        $(tab_name).show();
+        $('.tablink_right').removeClass('selected_tab');
+        $(tablink_name).addClass('selected_tab');
     },
 };

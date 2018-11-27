@@ -70,6 +70,7 @@ let map = {
         let $tile = $('<img>');
         let point = map.indexToCoordinate(i, j);
         let map_entry = map.get(point.x, point.y);
+        //console.debug(map_entry);
         if(map_entry.npc != null){
             $tile.attr('src', util.typeToSrcString(map_entry.npc.type));
             $tile.addClass('tile');
@@ -82,8 +83,10 @@ let map = {
             if(game.status !== STATUS.COMBAT_SPELL_SELECTED){
                 $tile.click(user_interface.inspect);
             }else{
-                if(map_entry.npc.type === 'monster' && util.isInRange(game.character.x,game.character.y,map_entry.x,map_entry.y,character_attack.getAttack(game.selected_attack).range)){
+                if(map_entry.npc.type === 'monster' && util.distanceBetween(game.character.x,game.character.y,point.x,point.y) <= character_attack.getAttack(game.selected_attack).range){
                     $tile.click(user_interface.attackMonster);
+                }else{
+                    $tile.css({'opacity':0.5});
                 }
             }
             return $tile;

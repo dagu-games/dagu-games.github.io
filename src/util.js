@@ -12,10 +12,6 @@ let util = {
         return false;
     },
 
-    isInRange: function(x1, y1, x2, y2, max){
-        return util.getAllPointsBetween(x1, y1, x2, y2).length < max;
-    },
-
     hasLineOfSight: function(x1, y1, x2, y2){
         let points = util.getAllPointsBetween(x1, y1, x2, y2);
         VISION_BLOCKING_TILES.forEach(
@@ -414,6 +410,32 @@ let util = {
         }
     },
 
+    directionTowardQuestNPC: function(quest_name){
+        let quest = util.getQuest(quest_name);
+        let points = map.getAll();
+        let quest_givers = [];
+        for(let i = 0; i < points.length; i++){
+            let map_entry = map.get(points[i].x,points[i].y);
+            if(map_entry.npc != null && map_entry.npc.type === 'quest_giver' && map_entry.npc.quest === quest.name){
+                quest_givers.push(i);
+            }
+        }
+        if(quest_givers.length === 0){
+            return null;
+        }else{
+            let min = util.distanceBetween(game.character.x,game.character.y,points[0].x,points[0].y);
+            let min_i = 0;
+            for(let i = 1; i < quest_givers.length; i++){
+                if(min > util.distanceBetween(game.character.x,game.character.y,points[quest_givers[i]].x,points[quest_givers[i]].y)){
+                    min_i = i;
+                    min = util.distanceBetween(game.character.x,game.character.y,points[quest_givers[i]].x,points[quest_givers[i]].y);
+                }
+            }
+            //console.debug(map.get(points[goal_items[min_i]].x,points[goal_items[min_i]].y));
+            return util.findDirection(game.character.x,game.character.y,points[quest_givers[min_i]].x,points[quest_givers[min_i]].y);
+        }
+    },
+
     distanceBetween: function(x1,y1,x2,y2){
         let a = x1 - x2;
         let b = y1 - y2;
@@ -464,5 +486,9 @@ let util = {
             }
         }
         return false;
+    },
+
+    isInTown: function(){
+        return (map.getChunk(util.getChunk(game.character.x,game.character.y).x,util.getChunk(game.character.x,game.character.y).y).type === 'town');
     },
 };
