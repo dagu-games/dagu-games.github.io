@@ -7,3 +7,83 @@ paper #D5D5D5
 overcast #9099A2
 lavendar #6D7993
 dusty #96858F
+
+
+0.1 - (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease.
+
+Feature Update, Player can
+move - done
+accept quests - done
+buy items
+sell items
+use attacks - done
+kill monsters - done
+receive loot - done
+receive goal items - done
+complete quests
+abandon quests
+drop goal items
+purchase upgrades - done
+refund upgrades - done
+receive experience
+level up
+do damage based on stats
+mark town as home
+return home
+make ui changes that are persistent
+navigate via tabs in context and character menu
+
+
+
+
+0.2 - (American Longhair) - For Taro, our second cat baby with crossed eyes.
+
+Content update, make new or revise
+environmental art
+dungeon art
+town art
+npc art
+monster art
+ui art and design
+side quests
+story quests
+npc names
+npc descriptions
+attacks
+upgrades
+item names
+item descriptions
+town names
+monster names
+monster descriptions
+monster attacks
+
+
+
+
+0.3 - (Khao Manee) - For Kimchi, our third cat baby that's way too smart for her own good.
+
+Feature Update, Player can
+customize character hair
+receive raw materials as loot
+craft slotted item with materials
+mobile format support
+
+
+
+0.4 - (Russian Blue)
+
+Balance and content update
+balance monster stats
+balance character stats
+balance experience gain
+balance economy
+balance crafting
+
+0.5 - (Persian) !NEEDS FUNDING!
+
+Deploy to Server
+Google O-Auth Support
+Google Ad Support
+MySQL setup
+Save data in SQL server

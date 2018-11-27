@@ -292,7 +292,7 @@ let user_interface = {
             if(event.which === KEY_CODES.D){
                 user_interface.moveRight();
             }
-            if(event.which === 49){
+            if(event.which === KEY_CODES["1"]){
                 user_interface.keybindSelectAttack('Basic Attack');
             }
             setTimeout(function(){ game.key_lock = false }, 1);
