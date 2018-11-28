@@ -308,7 +308,7 @@ let game_logic = {
 
     generateNPC: function(){
         let npc = {
-            name: util.randomItemInArray(NPC_FIRST_NAMES) + " " + util.randomItemInArray(NPC_LAST_NAMES),
+            name: util.randomItemInArray(NPC_FIRST_NAMES) + " " + util.randomItemInArray(NPC_MIDDLE_NAMES) + " " + util.randomItemInArray(NPC_LAST_NAMES),
             description: util.randomItemInArray(RACES) + " " + util.randomItemInArray(PROFESSIONS) + " - " + util.randomItemInArray(NPC_DESCRIPTIONS),
         };
 

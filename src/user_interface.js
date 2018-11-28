@@ -176,6 +176,7 @@ let user_interface = {
         game.output.push("");
         game.output.push("Inspecting " + x + "," + y);
         if(map.get(x,y).npc != null){
+            game.output.push("Name: " + map.get(x,y).npc.name);
             game.output.push("NPC is " + map.get(x,y).npc.type);
             if(map.get(x,y).npc.type === "shop"){
                 for(let i = 0; i < map.get(x,y).npc.items.length; i++){
@@ -184,6 +185,7 @@ let user_interface = {
             }
             if(map.get(x,y).npc.type === "quest_giver"){
                 let quest = util.getQuest(map.get(x,y).npc.quest);
+                game.output.push("Name: " + map.get(x,y).npc.name);
                 game.output.push("Quest name: " + quest.name);
                 game.output.push("Quest description: " + quest.description);
                 game.output.push("Quest goal item: " + quest.goal_item);

@@ -29,8 +29,6 @@ const CHANGE_LOG = [
 const STATUS = {
     COMBAT: "combat",
     COMBAT_SPELL_SELECTED: "combat_spell_selected",
-    NPC_QUEST: "npc_quest",
-    NPC_SHOP: "npc_shop",
 };
 
 const WALKABLE_TILES = [
@@ -44,22 +42,6 @@ const VISION_BLOCKING_TILES = [
     "tree",
     "bush",
     "wall",
-];
-
-const NPC_FIRST_NAMES = [
-    "Jim",
-    "Dave",
-    "Bob",
-    "Mackie",
-    "Doug",
-    "Mary",
-];
-
-const NPC_LAST_NAMES = [
-    "Kihlken",
-    "Anderson",
-    "Welter",
-    "Smith",
 ];
 
 const RACES = [
@@ -175,13 +157,6 @@ const ITEM_SLOTS = [
     "off_hand",
     "necklace",
     "ring",
-];
-
-const TOWN_NAMES = [
-    "Springville",
-    "Nelthar",
-    "Placeburg",
-    "CityVillage",
 ];
 
 const KEY_CODES = {
