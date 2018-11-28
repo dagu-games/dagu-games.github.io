@@ -54,13 +54,13 @@ monster art
 ui art and design
 side quests
 story quests
-npc names
+npc names - done
 npc descriptions
 attacks
 upgrades
 item names
 item descriptions
-town names
+town names - done
 monster names
 monster descriptions
 monster attacks
