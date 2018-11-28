@@ -9,7 +9,7 @@ let monster_attack = {
 
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += monster.attack_power;
+                damage += (monster.attack_power * (5 + util.randomInt(5)));
                 return damage;
             },
         }, {
@@ -21,7 +21,7 @@ let monster_attack = {
 
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += monster.magic_power;
+                damage += (monster.magic_power * (5 + util.randomInt(5)));
                 return damage;
             },
         },
@@ -34,7 +34,7 @@ let monster_attack = {
 
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += monster.magic_power;
+                damage += (monster.magic_power * (5 + util.randomInt(5)));
                 return damage;
 
             },

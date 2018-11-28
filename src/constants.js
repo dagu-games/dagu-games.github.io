@@ -1,5 +1,5 @@
 const VERSION = 0.1;
-const GRASS_ICON = "images/grass1.png";
+const GRASS_ICON = "images/grass.png";
 const TREE_ICON = "images/tree.png";
 const STONE_ICON = "images/stone.png";
 const DIRT_ICON = "images/dirt.png";

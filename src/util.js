@@ -297,7 +297,7 @@ let util = {
     },
 
     isPathable: function(x,y){
-        return pathfinder.findShortestPath(0,0,x,y) !== false;
+        return pathfinder.findShortestPath(game.character.x,game.character.y,x,y) !== false;
     },
 
     getAvailableQuests: function(){

@@ -21,9 +21,9 @@ let game_logic = {
             cooldown_reduction: 0,
             armor: 0,
             magic_resistance: 0,
-            attack_power: 1,
+            attack_power: 10,
             attack_lifesteal: 0,
-            magic_power: 0,
+            magic_power: 10,
             magic_lifesteal: 0,
             equipped_items: {
                 helmet: null,
@@ -215,9 +215,9 @@ let game_logic = {
                 mana_regeneration:1,
                 armor: 10,
                 magic_resistance: 10,
-                attack_power: 10,
+                attack_power: 1,
                 attack_lifesteal: 10,
-                magic_power: 10,
+                magic_power: 2,
                 magic_lifesteal: 10,
                 loot: game_logic.generateLoot(),
                 attacks: [

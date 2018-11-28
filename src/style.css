@@ -142,18 +142,13 @@ h1, h2, h3, h4 {
     padding: 0px 0px 0px 0px;
 }
 
-.button_1x1 {
-    width:10%;
-    min-width:32px;
-}
-
 .button_1x2 {
     width:20%;
     min-width:64px;
 }
 
 .movement_button {
-    width: calc(34vh / 3.4);
+    width: calc((34vh / 3) - 4px);
 }
 
 .hide_button {
