@@ -1,4 +1,4 @@
-const VERSION = 0.1;
+const VERSION = 0.2;
 const GRASS_ICON = "images/grass.png";
 const TREE_ICON = "images/tree.png";
 const STONE_ICON = "images/stone.png";
@@ -23,7 +23,8 @@ const DONATORS = [
 ];
 
 const CHANGE_LOG = [
-    "0.1 (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease. <br>Initial, in development version. Movement, basic input and output proof-of-concepts, placeholder art, and simple world generation are all implemented.",
+    "0.1 (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease. <br>Initial, in development version. Movement, attacking, questing, item management, and other major proof of concept items completed. Game does not save any data currently for developmental debugging reasons, but is otherwise fully capable of storing data client-side.",
+    "0.2 (La Perm) - For Taro, our second cat baby with crossed eyes. <br>First Major Content Update, This includes new art, quests, monsters, attacks, upgrades, town and dungeon pre-built generations, and other data-driven changes. Small quality of life improvements as needed.",
 ];
 
 const STATUS = {

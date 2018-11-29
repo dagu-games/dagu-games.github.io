@@ -43,27 +43,28 @@ be killed by monsters - done
 
 
 
-0.2 - (American Longhair) - For Taro, our second cat baby with crossed eyes.
+0.2 - (La Perm) - For Taro, our second cat baby with crossed eyes.
 
 Content update, make new or revise
-environmental art
-dungeon art
-town art
-npc art
-monster art
-ui art and design
 side quests
 story quests
-npc names - done
-npc descriptions
+quest system redesign
 attacks
 upgrades
 item names
 item descriptions
-town names - done
 monster names
 monster descriptions
 monster attacks
+environmental art
+monster art
+town art
+dungeon art
+npc art
+ui art and design
+npc descriptions
+town names - done
+npc names - done
 
 
 
