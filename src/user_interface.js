@@ -166,6 +166,7 @@ let user_interface = {
         DONATORS.forEach(function(donator){
             game.output.push(donator);
         });
+        game.output.push("");
         map.render();
         view_controller.render();
     },
