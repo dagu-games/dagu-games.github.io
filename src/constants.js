@@ -16,7 +16,14 @@ const CACHED_CHUNKS = 4;
 const TICK_THRESHOLD = 5;
 const CREDITS_STRING = "Game by Douglas Kihlken";
 const DONATION_STRING = "If you would like to donate to this game and me so that I can develop this game, please donate to dkihlken@gmail.com through paypal! Simply comment on the payment with the word \"dagu\" somewhere and I will add your name to the credits below!";
-
+const DAMAGE_MULTIPLIER = 1.0;
+const BASE_HEALTH = 100;
+const BASE_MANA = 100;
+const MONSTER_DIFFICULTY_MULTIPLIER = 6;
+const MONSTER_BASE_HEALTH = 20;
+const MONSTER_BASE_ATTACK_POWER = 2;
+const MONSTER_BASE_MAGIC_POWER = 2;
+const MONSTER_EXP_MULTIPLIER = 100;
 const DONATORS = [
     "Mackie Welter, love and support",
     "Anna Anderson, occasional food provider",

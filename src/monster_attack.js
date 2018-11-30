@@ -3,13 +3,16 @@ let monster_attack = {
         {
             name: "Basic Attack",
             cooldown: 0,
-            range: 1,
+            range: 2,
             calculator: function(monster_x, monster_y){
-                let damage = 0;
-
+                let base_damage = 10;
+                let attack_random_factor = 5;
+                let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += (monster.attack_power * (5 + util.randomInt(5)));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.attack_power)/(util.normalizeStat(util.characterStats.armor())+1)) * util.randomInt(attack_random_factor));
+                util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.attack_lifesteal)/100.0)));
+
                 return damage;
             },
         }, {
@@ -17,11 +20,14 @@ let monster_attack = {
             cooldown: 10,
             range: 50,
             calculator: function(monster_x, monster_y){
-                let damage = 0;
-
+                let base_damage = 20;
+                let attack_random_factor = 10;
+                let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += (monster.magic_power * (5 + util.randomInt(5)));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.randomInt(attack_random_factor));
+                util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.magic_lifesteal)/100.0)));
+
                 return damage;
             },
         },
@@ -30,13 +36,15 @@ let monster_attack = {
             cooldown: 10,
             range: 25,
             calculator: function(monster_x, monster_y){
-                let damage = 0;
-
+                let base_damage = 20;
+                let attack_random_factor = 10;
+                let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += (monster.magic_power * (5 + util.randomInt(5)));
-                return damage;
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.randomInt(attack_random_factor));
+                util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.magic_lifesteal)/100.0)));
 
+                return damage;
             },
         },
     ],
@@ -51,16 +59,11 @@ let monster_attack = {
 
     attack: function(monster_x, monster_y, attack){
         let damage = attack.calculator(monster_x,monster_y);
-        game.character.current_health -= damage;
+        util.damageCharacter(damage);
         let monster = map.get(monster_x,monster_y).npc;
         map.get(monster_x,monster_y).npc.cooldowns[attack.name] = attack.cooldown;
         game.output.push(monster.name + ' attacked you with ' + attack.name + ' for ' + damage + ' damage');
-        if(game.character.current_health <= 0){
-            game.character.current_health = game.character.max_health;
-            game.character.x = game.character.home_x;
-            game.character.y = game.character.home_y;
-            game.output.push('You Died, returning you home...');
-        }
+
     },
 
     handleMonsterTurn: function(monster_x, monster_y){

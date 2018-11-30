@@ -3,6 +3,15 @@ let view_controller = {
         view_controller.updateCharacter();
         view_controller.updateContextMenu();
         view_controller.updateOutput();
+
+        if(util.isAround(game.character.x,game.character.y,'quest_giver') || util.isAround(game.character.x,game.character.y,'shop')){
+            user_interface.openLeftTab(null, '#npc_tab', '#npc_tablink');
+            if(util.isAround(game.character.x,game.character.y,'shop')){
+                user_interface.openRightTab(null, '#inventory_tab', '#inventory_tablink');
+            }
+        }else{
+            user_interface.openLeftTab(null, '#attack_list_tab', '#attack_list_tablink');
+        }
     },
 
     updateCharacter: function(){
@@ -12,17 +21,19 @@ let view_controller = {
         $('#character_experience_next_level').text(util.getExperienceNeededForLevel(game.character.level+1));
         $('#character_unspent_skill_points').text(game.character.unspent_skill_points);
         $('#character_current_health').text(game.character.current_health);
-        $('#character_max_health').text(game.character.max_health);
+        $('#character_max_health').text(util.characterStats.max_health());
         $('#character_current_mana').text(game.character.current_mana);
-        $('#character_max_mana').text(game.character.max_mana);
-        $('#character_armor').text(game.character.armor);
-        $('#character_magic_resistance').text(game.character.magic_resistance);
-        $('#character_cooldown_reduction').text(game.character.cooldown_reduction);
-        $('#character_attack_power').text(game.character.attack_power);
-        $('#character_attack_lifesteal').text(game.character.attack_lifesteal);
-        $('#character_magic_power').text(game.character.magic_power);
-        $('#character_magic_lifesteal').text(game.character.magic_lifesteal);
+        $('#character_max_mana').text(util.characterStats.max_mana());
+        $('#character_armor').text(util.characterStats.armor());
+        $('#character_magic_resistance').text(util.characterStats.magic_resistance());
+        $('#character_cooldown_reduction').text(util.characterStats.cooldown_reduction());
+        $('#character_attack_power').text(util.characterStats.attack_power());
+        $('#character_attack_lifesteal').text(util.characterStats.attack_lifesteal());
+        $('#character_magic_power').text(util.characterStats.magic_power());
+        $('#character_magic_lifesteal').text(util.characterStats.magic_lifesteal());
         $('#character_gold').text(game.character.inventory.gold);
+        $('#character_health_regeneration').text(util.characterStats.health_regeneration());
+        $('#character_mana_regeneration').text(util.characterStats.mana_regeneration());
 
         $('#character_helmet_container').empty().append(view_controller.generateItem(game.character.equipped_items.helmet,'equipped',null));
         $('#character_shoulders_container').empty().append(view_controller.generateItem(game.character.equipped_items.shoulders,'equipped',null));
@@ -34,8 +45,8 @@ let view_controller = {
         $('#character_main_hand_container').empty().append(view_controller.generateItem(game.character.equipped_items.main_hand,'equipped',null));
         $('#character_off_hand_container').empty().append(view_controller.generateItem(game.character.equipped_items.off_hand,'equipped',null));
         $('#character_necklace_container').empty().append(view_controller.generateItem(game.character.equipped_items.necklace,'equipped',null));
-        $('#character_ring1_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',null));
-        $('#character_ring2_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
+        $('#character_ring_1_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',{ring:1}));
+        $('#character_ring_2_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',{ring:2}));
         //console.debug(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
         //console.debug(game.character.equipped_items.ring2);
 
@@ -165,6 +176,8 @@ let view_controller = {
         $title_cont.css('width', '49%');
         $title_cont.css('float', 'left');
         $title_cont.append('<h3>' + item.name + '</h3>');
+        $title_cont.append('Rarity: ' + util.rarityToText(item.stats.rarity) + '<br>');
+        $title_cont.append('Level: ' + item.level + '<br>');
         $title_cont.append('Value: ' + item.value + '<br>');
         $title_cont.append('Description: ' + item.description + '<br>');
 
@@ -176,7 +189,15 @@ let view_controller = {
             let $button = $('<button type="button">Unequip</button>');
             $button.css('float', 'right');
             $button.click(user_interface.unequipItem);
-            $button.data('slot',item.slot);
+            if(data.ring != null){
+                if(data.ring === 1){
+                    $button.data('slot','ring1');
+                }else{
+                    $button.data('slot','ring2');
+                }
+            }else{
+                $button.data('slot',item.slot);
+            }
             $stats_cont.append($button);
         }
         if(mode === 'inventory'){
@@ -220,16 +241,39 @@ let view_controller = {
             $stats_cont.append($button);
         }
 
-        $stats_cont.append('Max health: ' + item.stats.max_health + '<br>');
-        $stats_cont.append('Armor: ' + item.stats.armor + '<br>');
-        $stats_cont.append('Magic Resistance: ' + item.stats.magic_resistance + '<br>');
-        $stats_cont.append('Attack Power: ' + item.stats.attack_power + '<br>');
-        $stats_cont.append('Attack Lifesteal: ' + item.stats.attack_lifesteal + '<br>');
-        $stats_cont.append('Magic Power: ' + item.stats.magic_power + '<br>');
-        $stats_cont.append('Magic Lifesteal: ' + item.stats.magic_lifesteal + '<br>');
-        $stats_cont.append('Cooldown Reduction: ' + item.stats.cooldown_reduction + '<br>');
-        $stats_cont.append('Mana Regeneration: ' + item.stats.mana_regeneration + '<br>');
-        $stats_cont.append('Max Mana: ' + item.stats.max_mana + '<br>');
+        if(item.stats.max_health > 0){
+            $stats_cont.append('Max Health: ' + item.stats.max_health + '<br>');
+        }
+        if(item.stats.health_regeneration > 0){
+            $stats_cont.append('Health Regeneration: ' + item.stats.health_regeneration + '<br>');
+        }
+        if(item.stats.max_mana > 0){
+            $stats_cont.append('Max Mana: ' + item.stats.max_mana + '<br>');
+        }
+        if(item.stats.mana_regeneration > 0){
+            $stats_cont.append('Mana Regeneration: ' + item.stats.mana_regeneration + '<br>');
+        }
+        if(item.stats.attack_power > 0){
+            $stats_cont.append('Attack Power: ' + item.stats.attack_power + '<br>');
+        }
+        if(item.stats.attack_lifesteal > 0){
+            $stats_cont.append('Attack Lifesteal: ' + item.stats.attack_lifesteal + '<br>');
+        }
+        if(item.stats.armor > 0){
+            $stats_cont.append('Armor: ' + item.stats.armor + '<br>');
+        }
+        if(item.stats.magic_power > 0){
+            $stats_cont.append('Magic Power: ' + item.stats.magic_power + '<br>');
+        }
+        if(item.stats.magic_lifesteal > 0){
+            $stats_cont.append('Magic Lifesteal: ' + item.stats.magic_lifesteal + '<br>');
+        }
+        if(item.stats.magic_resistance > 0){
+            $stats_cont.append('Magic Resistance: ' + item.stats.magic_resistance + '<br>');
+        }
+        if(item.stats.cooldown_reduction > 0){
+            $stats_cont.append('Cooldown Reduction: ' + item.stats.cooldown_reduction + '<br>');
+        }
 
         $cont.append($title_cont);
         $cont.append($stats_cont);

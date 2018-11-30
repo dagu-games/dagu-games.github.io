@@ -289,9 +289,9 @@ let user_interface = {
 
     buyItem: function(event){
         let $target = $(event.target);
-        console.log($target.data('shop_x'));
-        console.log($target.data('shop_y'));
-        console.log($target.data('index'));
+        //console.log($target.data('shop_x'));
+        //console.log($target.data('shop_y'));
+        //console.log($target.data('index'));
 
         let item = map.get($target.data('shop_x'),$target.data('shop_y')).npc.items[$target.data('index')];
         map.get($target.data('shop_x'),$target.data('shop_y')).npc.items.splice($target.data('index'),1);

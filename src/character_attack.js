@@ -5,8 +5,15 @@ let character_attack = {
             mana_cost: 0,
             cooldown: 0,
             range: 2,
-            calculator: function(){
-                return (game.character.attack_power * (5 + util.randomInt(5)));
+            calculator: function(monster_x, monster_y){
+                let base_damage = 10;
+                let attack_random_factor = 5;
+                let damage = base_damage;
+                let monster = map.get(monster_x, monster_y).npc;
+
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.attack_power())/(util.normalizeStat(monster.armor)+1)) * util.randomInt(attack_random_factor));
+                util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.attack_lifesteal())/100.0)));
+                return damage;
             },
             description: "Basic attack with your weapon",
         }, {
@@ -14,8 +21,15 @@ let character_attack = {
             mana_cost: 30,
             cooldown: 4,
             range: 50,
-            calculator: function(){
-                return (game.character.magic_power * (5 + util.randomInt(5)));
+            calculator: function(monster_x, monster_y){
+                let base_damage = 20;
+                let attack_random_factor = 10;
+                let damage = base_damage;
+                let monster = map.get(monster_x, monster_y).npc;
+
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.randomInt(attack_random_factor));
+                util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.magic_lifesteal())/100.0)));
+                return damage;
             },
             description: "Shoots a Fireball at the enemy. Caution: Fire is hot",
         },
@@ -24,8 +38,15 @@ let character_attack = {
             mana_cost: 15,
             cooldown: 2,
             range: 25,
-            calculator: function(){
-                return (game.character.magic_power * (5 + util.randomInt(5)));
+            calculator: function(monster_x, monster_y){
+                let base_damage = 20;
+                let attack_random_factor = 10;
+                let damage = base_damage;
+                let monster = map.get(monster_x, monster_y).npc;
+
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.randomInt(attack_random_factor));
+                util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.magic_lifesteal())/100.0)));
+                return damage;
             },
             description: "Shoots an Ice Bolt at the enemy. Caution: Ice is cold",
         },
@@ -44,21 +65,24 @@ let character_attack = {
         let attack = character_attack.getAttack(attack_name);
         game.character.current_mana = game.character.current_mana - attack.mana_cost;
         game.character.cooldowns[attack_name] = attack.cooldown;
-        damage += attack.calculator();
+        damage += attack.calculator(monster_x, monster_y);
 
         map.get(monster_x, monster_y).npc.current_health -= damage;
         let map_entry = map.get(monster_x, monster_y);
-        game.output.push('You dealt ' + damage + ' damage to the ' + map_entry.npc.name + '(' + map_entry.npc.current_health + '/' + map_entry.npc.max_health);
+        game.output.push('You dealt ' + damage + ' damage to the ' + map_entry.npc.name + '(' + map_entry.npc.current_health + '/' + map_entry.npc.max_health + ')');
         if(map_entry.npc.current_health <= 0){
             let loot = map_entry.npc.loot;
             let goal_item = map_entry.npc.goal_item;
             loot.forEach(function(item){
-                game.character.inventory.equipment.push(item);
+                game.character.inventory.equipment.unshift(item);
             });
-            if(goal_item !== null){
-                game.character.inventory.quest_items.push(goal_item);
+            if(loot.length > 0){
+                user_interface.openRightTab(null, "#inventory_tab", "#inventory_tablink");
             }
-            game_logic.giveEXP(100);
+            if(goal_item !== null){
+                game.character.inventory.quest_items.unshift(goal_item);
+            }
+            game_logic.giveEXP(MONSTER_EXP_MULTIPLIER*map_entry.npc.level);
             map.get(monster_x, monster_y).npc = null;
         }
     },

@@ -12,18 +12,18 @@ let game_logic = {
             level: 1,
             experience: 0,
             unspent_skill_points: 1,
-            current_health: 100,
-            max_health: 100,
+            current_health: BASE_HEALTH,
+            max_health: BASE_HEALTH,
             health_regeneration: 1,
-            current_mana: 100,
-            max_mana: 100,
+            current_mana: BASE_MANA,
+            max_mana: BASE_MANA,
             mana_regeneration: 1,
             cooldown_reduction: 0,
             armor: 0,
             magic_resistance: 0,
-            attack_power: 10,
+            attack_power: 5,
             attack_lifesteal: 0,
-            magic_power: 10,
+            magic_power: 5,
             magic_lifesteal: 0,
             equipped_items: {
                 helmet: null,
@@ -206,31 +206,32 @@ let game_logic = {
         let ans = [];
         let r = util.randomInt(10) + 1;
         for(let i = 0; i < r; i++){
+            let stats = util.generateStatBlock(game.character.level * MONSTER_DIFFICULTY_MULTIPLIER, 10);
             let monster = {
                 name: "HellHound",
                 type: "monster",
-                max_health: 100,
-                current_health: 100,
-                health_regeneration:1,
-                mana_regeneration:1,
-                armor: 10,
-                magic_resistance: 10,
-                attack_power: 1,
-                attack_lifesteal: 10,
-                magic_power: 2,
-                magic_lifesteal: 10,
+                level: game.character.level,
+                max_health: stats.max_health + MONSTER_BASE_HEALTH,
+                health_regeneration:stats.health_regeneration,
+                armor: stats.armor,
+                magic_resistance: stats.magic_resistance,
+                attack_power: stats.attack_power + MONSTER_BASE_ATTACK_POWER,
+                attack_lifesteal: stats.attack_lifesteal,
+                magic_power: stats.magic_power + MONSTER_BASE_MAGIC_POWER,
+                magic_lifesteal: stats.magic_lifesteal,
                 loot: game_logic.generateLoot(),
                 attacks: [
                     "Basic Attack",
-                    "Fireball",
-                    "Ice Bolt",
+                    //"Fireball",
+                    //"Ice Bolt",
                 ],
                 cooldowns: {
                     "Basic Attack":0,
-                    "Fireball":0,
-                    "Ice Bolt":0,
+                    //"Fireball":0,
+                    //"Ice Bolt":0,
                 }
             };
+            monster.current_health = monster.max_health;
             if(game.character.quests.length > 0 && util.randomInt(2) < 1){
                 monster.goal_item = util.getQuest(util.randomItemInArray(game.character.quests)).goal_item;
                 //console.log(util.randomItemInArray(game.character.quests));
@@ -244,11 +245,13 @@ let game_logic = {
     },
 
     tick: function(){
-        let monsters = util.getAllMonsters();
-        for(let i = 0; i < monsters.length; i++){
-            if(util.distanceBetween(game.character.x,game.character.y,monsters[i].x,monsters[i].y) <= TICK_THRESHOLD){
-                //console.log('doing turn for ' + monsters[i].x + "," + monsters[i].y);
-                monster_attack.handleMonsterTurn(monsters[i].x,monsters[i].y);
+        if(!util.isInTown()){
+            let monsters = util.getAllMonsters();
+            for(let i = 0; i < monsters.length; i++){
+                if(util.distanceBetween(game.character.x,game.character.y,monsters[i].x,monsters[i].y) <= TICK_THRESHOLD){
+                    //console.log('doing turn for ' + monsters[i].x + "," + monsters[i].y);
+                    monster_attack.handleMonsterTurn(monsters[i].x,monsters[i].y);
+                }
             }
         }
 
@@ -258,22 +261,15 @@ let game_logic = {
             }
             if(game.character.cooldowns[game.character.attacks[i]] > 0){
                 game.character.cooldowns[game.character.attacks[i]] -= 1;
+                if(game.character.cooldowns[game.character.attacks[i]] > 0 && util.randomInt(100) < util.normalizeStat(util.characterStats.cooldown_reduction())){
+                        game.character.cooldowns[game.character.attacks[i]] -= 1;
+                }
             }
         }
 
-        if(game.character.current_health < game.character.max_health){
-            game.character.current_health += game.character.health_regeneration;
-            if(game.character.current_health > game.character.max_health){
-                game.character.current_health = game.character.max_health;
-            }
-        }
+        util.healCharacter(util.characterStats.health_regeneration());
 
-        if(game.character.current_mana < game.character.max_mana){
-            game.character.current_mana += game.character.mana_regeneration;
-            if(game.character.current_mana > game.character.max_mana){
-                game.character.current_mana = game.character.max_mana;
-            }
-        }
+        util.giveCharacterMana(util.characterStats.mana_regeneration());
 
     },
 
@@ -284,18 +280,7 @@ let game_logic = {
             let item = {
                 name: null,
                 slot: util.randomItemInArray(ITEM_SLOTS),
-                stats: {
-                    max_health: 10,
-                    armor: 10,
-                    magic_resistance: 10,
-                    attack_power: 10,
-                    attack_lifesteal: 10,
-                    magic_power: 10,
-                    magic_lifesteal: 10,
-                    cooldown_reduction: 10,
-                    mana_regeneration: 2,
-                    max_mana: 10,
-                },
+                stats: util.generateStatBlock(6 + game.character.level),
                 description: util.randomItemInArray(ITEM_DESCRIPTIONS),
                 value: util.randomInt(100),
             };

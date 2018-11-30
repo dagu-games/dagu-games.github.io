@@ -157,3 +157,11 @@ h1, h2, h3, h4 {
     color:blue;
     text-decoration:underline;
 }
+
+.stats_table{
+     border: 1px solid gray;
+ }
+
+.stats_table td{
+    border: 1px solid gray;
+}

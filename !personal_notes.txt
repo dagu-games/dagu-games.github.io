@@ -16,6 +16,39 @@ Cost Breakdown
 389$ a year
 33$ a month
 
+types of quests
+kill a specific monster
+kill a specific monster n times
+talk to a specific npc
+find a certain dungeon and defeat all within it
+explore n chunks
+pay n gold
+escort npc to another town
+kill any monster for materials
+
+
+item rarities
+common - 1 trait
+uncommon - 2 traits
+rare - 3 traits
+epic - 4 traits
+legendary - 5 traits
+mythic - 6 traits
+
+total points for item = 6 + level of character
+points for first stat = total * ((50+random(50))/100.0)
+total -= points for first stat
+points for next stat = total * ((50+random(50))/100.0)
+on last stat, dump remaining total
+
+all stats are first normalized through an algorithm such that any stat can be infinitely large but normalized to logarithmic numbers that get ever closer to 100
+all stats therefore get normalized to effectively 0-100
+
+damage = attack_base_damage + (attack_damage_multiplier * (attack_power/attack_resistance) * random(attack_random_factor))
+return (damage*(attack_lifesteal/100)) health to attacker
+
+health is given straight up, with a simple multiplier to balance, giving regeneration on tick, same as mana
+
 
 0.1 - (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease.
 
