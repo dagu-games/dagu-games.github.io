@@ -149,8 +149,16 @@ h1, h2, h3, h4 {
     min-width:64px;
 }
 
+#movement_container {
+    width:22vh;
+    height:22vh;
+    position: absolute;
+    left: 2px;
+    bottom: 6px;
+}
+
 .movement_button {
-    width: calc((34vh / 3.1) - 9px);
+    width: calc((22vh / 3.1) - 9px);
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }
@@ -209,12 +217,4 @@ h1, h2, h3, h4 {
 .button:active {
     position:relative;
     top:1px;
-}
-
-#movement_container {
-    width:33vh;
-    height:33vh;
-    position: absolute;
-    left: 2px;
-    bottom: 6px;
 }
