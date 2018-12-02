@@ -169,27 +169,20 @@ let view_controller = {
             return;
         }
         let $cont = $('<div></div>');
-        $cont.addClass('$container');
+        $cont.addClass('container');
         $cont.addClass('item_container');
 
-        let $title_cont = $('<div></div>');
-        $title_cont.css('width', '49%');
-        $title_cont.css('float', 'left');
-        $title_cont.append('<h3>' + item.name + '</h3>');
-        $title_cont.append('Rarity: ' + util.rarityToText(item.stats.rarity) + '<br>');
-        $title_cont.append('Level: ' + item.level + '<br>');
-        $title_cont.append('Value: ' + item.value + '<br>');
-        $title_cont.append('Description: ' + item.description + '<br>');
+        let $title_cont = $('<table></table>');
+        $title_cont.css('width', '99%');
+        $title_cont.addClass('stats_table');
 
-        let $stats_cont = $('<div></div>');
-        $stats_cont.css('width', '49%');
-        $stats_cont.css('float', 'right');
+        let $buttons = $('<div></div>');
 
         if(mode ==='equipped'){
             let $button = $('<button type="button">Unequip</button>');
             $button.css('float', 'right');
             $button.click(user_interface.unequipItem);
-            if(data.ring != null){
+            if(data != null && data.ring != null){
                 if(data.ring === 1){
                     $button.data('slot','ring1');
                 }else{
@@ -198,7 +191,7 @@ let view_controller = {
             }else{
                 $button.data('slot',item.slot);
             }
-            $stats_cont.append($button);
+            $buttons.append($button);
         }
         if(mode === 'inventory'){
             if(item.slot === 'ring'){
@@ -207,28 +200,29 @@ let view_controller = {
                 $button.click(user_interface.equipItem);
                 $button.data('ring',2);
                 $button.data('index',data.index);
-                $stats_cont.append($button);
+                $buttons.append($button);
 
                 $button = $('<button type="button">Equip in Ring 1</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.equipItem);
                 $button.data('ring',1);
                 $button.data('index',data.index);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }else{
                 let $button = $('<button type="button">Equip</button>');
                 $button.css('float', 'right');
                 $button.data('ring',0);
                 $button.data('index',data.index);
                 $button.click(user_interface.equipItem);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }
             if(util.isAround(game.character.x,game.character.y,'shop')){
                 let $button = $('<button type="button">Sell Item</button>');
                 $button.css('float', 'right');
+                $button.data('ring',0);
                 $button.data('index',data.index);
                 $button.click(user_interface.sellItem);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }
         }
         if(mode ==='shop' && item.value <= game.character.inventory.gold){
@@ -238,45 +232,56 @@ let view_controller = {
             $button.data('index',data.index);
             $button.data('shop_x',data.shop_x);
             $button.data('shop_y',data.shop_y);
-            $stats_cont.append($button);
+            $buttons.append($button);
         }
+
+        let $tr = $('<tr></tr>');
+        $tr.append('<td>' + item.name + '</td>');
+        let $td = $('<td></td>');
+        $td.append($buttons);
+        $tr.append($td);
+        $title_cont.append($tr);
+
+        $title_cont.append('<tr><td>Rarity</td><td>' + util.rarityToText(item.stats.rarity) + '</td></tr>');
+        $title_cont.append('<tr><td>Level</td><td>' + item.level + '</td></tr>');
+        $title_cont.append('<tr><td>Value</td><td>' + item.value + '</td></tr>');
 
         if(item.stats.max_health > 0){
-            $stats_cont.append('Max Health: ' + item.stats.max_health + '<br>');
+            $title_cont.append('<tr><td>Max Health</td><td>' + item.stats.max_health + '</td></tr>');
         }
         if(item.stats.health_regeneration > 0){
-            $stats_cont.append('Health Regeneration: ' + item.stats.health_regeneration + '<br>');
+            $title_cont.append('<tr><td>Health Regeneration</td><td>' + item.stats.health_regeneration + '</td></tr>');
         }
         if(item.stats.max_mana > 0){
-            $stats_cont.append('Max Mana: ' + item.stats.max_mana + '<br>');
+            $title_cont.append('<tr><td>Max Mana</td><td>' + item.stats.max_mana + '</td></tr>');
         }
         if(item.stats.mana_regeneration > 0){
-            $stats_cont.append('Mana Regeneration: ' + item.stats.mana_regeneration + '<br>');
+            $title_cont.append('<tr><td>Mana Regeneration</td><td>' + item.stats.mana_regeneration + '</td></tr>');
         }
         if(item.stats.attack_power > 0){
-            $stats_cont.append('Attack Power: ' + item.stats.attack_power + '<br>');
+            $title_cont.append('<tr><td>Attack Power</td><td>' + item.stats.attack_power + '</td></tr>');
         }
         if(item.stats.attack_lifesteal > 0){
-            $stats_cont.append('Attack Lifesteal: ' + item.stats.attack_lifesteal + '<br>');
+            $title_cont.append('<tr><td>Attack Lifesteal</td><td>' + item.stats.attack_lifesteal + '</td></tr>');
         }
         if(item.stats.armor > 0){
-            $stats_cont.append('Armor: ' + item.stats.armor + '<br>');
+            $title_cont.append('<tr><td>Armor</td><td>' + item.stats.armor + '</td></tr>');
         }
         if(item.stats.magic_power > 0){
-            $stats_cont.append('Magic Power: ' + item.stats.magic_power + '<br>');
+            $title_cont.append('<tr><td>Magic Power</td><td>' + item.stats.magic_power + '</td></tr>');
         }
         if(item.stats.magic_lifesteal > 0){
-            $stats_cont.append('Magic Lifesteal: ' + item.stats.magic_lifesteal + '<br>');
+            $title_cont.append('<tr><td>Magic Lifesteal</td><td>' + item.stats.magic_lifesteal + '</td></tr>');
         }
         if(item.stats.magic_resistance > 0){
-            $stats_cont.append('Magic Resistance: ' + item.stats.magic_resistance + '<br>');
+            $title_cont.append('<tr><td>Magic Resistance</td><td>' + item.stats.magic_resistance + '</td></tr>');
         }
         if(item.stats.cooldown_reduction > 0){
-            $stats_cont.append('Cooldown Reduction: ' + item.stats.cooldown_reduction + '<br>');
+            $title_cont.append('<tr><td>Cooldown Reduction</td><td>' + item.stats.cooldown_reduction + '</td></tr>');
         }
 
+        $title_cont.append('<tr><td>Description</td><td>' + item.description + '</td></tr>');
         $cont.append($title_cont);
-        $cont.append($stats_cont);
         return $cont;
     },
 
@@ -286,33 +291,27 @@ let view_controller = {
         }
         let quest = util.getQuest(quest_name);
         let $cont = $('<div></div>');
-        $cont.addClass('$container');
+        $cont.addClass('container');
         $cont.addClass('item_container');
 
-        let $title_cont = $('<div></div>');
-        $title_cont.css('width', '70%');
-        $title_cont.css('float', 'left');
-        $title_cont.append('<h3>' + quest.name + '</h3>');
-        $title_cont.append('Goal Item: ' + quest.goal_item + '<br>');
-        $title_cont.append('Description: ' + quest.description + '<br>');
+        let $title_cont = $('<table></table>');
+        $title_cont.css('width', '99%');
+        $title_cont.addClass('stats_table');
 
-        let $stats_cont = $('<div></div>');
-        $stats_cont.css('width', '29%');
-        $stats_cont.css('float', 'right');
-
+        let $buttons = $('<div></div>');
         if(mode === "quest_giver"){
             if(util.hasQuest(quest_name) && util.hasQuestItem(quest_name)){
                 let $button = $('<button type="button">Complete Quest</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.completeQuest);
                 $button.data('quest_name',quest_name);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }else if(!util.hasQuest(quest_name) && !util.isQuestCompleted(quest_name)){
                 let $button = $('<button type="button">Accept Quest</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.acceptQuest);
                 $button.data('quest_name',quest_name);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }
         }
         if(mode === 'character'){
@@ -320,17 +319,27 @@ let view_controller = {
             $button.css('float', 'right');
             $button.click(user_interface.abandonQuest);
             $button.data('quest_name',quest_name);
-            $stats_cont.append($button);
-            if(util.hasQuestItem(quest_name)){
-                $stats_cont.append('Direction: ' + util.directionToText(util.directionTowardQuestNPC(quest_name)) + '<br>');
-            }else{
-                $stats_cont.append('Direction: ' + util.directionToText(util.directionTowardGoalItem(quest_name)) + '<br>');
-            }
+            $buttons.append($button);
 
         }
 
+        let $tr = $('<tr></tr>');
+        $tr.append('<td>' + quest.name + '</td>');
+        let $td = $('<td></td>');
+        $td.append($buttons);
+        $tr.append($td);
+        $title_cont.append($tr);
+
+        $title_cont.append('<tr><td>Goal Item</td><td>' + quest.goal_item + '</td></tr>');
+
+        if(util.hasQuestItem(quest_name)){
+            $title_cont.append('<tr><td>Direction</td><td>' + util.directionToText(util.directionTowardQuestNPC(quest_name)) + '</td></tr>');
+        }else{
+            $title_cont.append('<tr><td>Direction</td><td>' + util.directionToText(util.directionTowardGoalItem(quest_name)) + '</td></tr>');
+        }
+        $title_cont.append('<tr><td>Description</td><td>' + quest.description + '</td></tr>');
+
         $cont.append($title_cont);
-        $cont.append($stats_cont);
         return $cont;
     },
 
@@ -339,36 +348,40 @@ let view_controller = {
             return;
         }
         let $cont = $('<div></div>');
-        $cont.addClass('$container');
+        $cont.addClass('container');
         $cont.addClass('item_container');
 
-        let $title_cont = $('<div></div>');
-        $title_cont.css('width', '80%');
-        $title_cont.css('float', 'left');
-        $title_cont.append('<h3>' + upgrade.name + '</h3>');
-        $title_cont.append('Skill Point Cost: ' + upgrade.skill_point_cost + '<br>');
-        $title_cont.append('Description: ' + upgrade.description + '<br>');
+        let $title_cont = $('<table></table>');
+        $title_cont.css('width', '99%');
+        $title_cont.addClass('stats_table');
 
-        let $stats_cont = $('<div></div>');
-        $stats_cont.css('width', '19%');
-        $stats_cont.css('float', 'right');
+        let $buttons = $('<div></div>');
 
         if(!util.hasUpgrade(i) && upgrade.isAvailable()){
             let $button = $('<button type="button">Buy Upgrade</button>');
             $button.css('float', 'right');
             $button.click(user_interface.buyUpgrade);
             $button.data('upgrade_index',i);
-            $stats_cont.append($button);
+            $buttons.append($button);
         }else if(util.hasUpgrade(i)){
             let $button = $('<button type="button">Refund Upgrade</button>');
             $button.css('float', 'right');
             $button.click(user_interface.refundUpgrade);
             $button.data('upgrade_index',i);
-            $stats_cont.append($button);
+            $buttons.append($button);
         }
 
+        let $tr = $('<tr></tr>');
+        $tr.append('<td>' + upgrade.name + '</td>');
+        let $td = $('<td></td>');
+        $td.append($buttons);
+        $tr.append($td);
+        $title_cont.append($tr);
+
+        $title_cont.append('<tr><td>Skill Point Cost</td><td>' + upgrade.skill_point_cost + '</td></tr>');
+        $title_cont.append('<tr><td>Description</td><td>' + upgrade.description + '</td></tr>');
+
         $cont.append($title_cont);
-        $cont.append($stats_cont);
         return $cont;
     },
 
@@ -378,14 +391,14 @@ let view_controller = {
         }
         let quest = util.getQuestFromGoalItem(goal_item_name);
         let $cont = $('<div></div>');
-        $cont.addClass('$container');
+        $cont.addClass('container');
         $cont.addClass('item_container');
 
-        let $title_cont = $('<div></div>');
+        let $title_cont = $('<table></table>');
         $title_cont.css('width', '99%');
-        $title_cont.css('float', 'left');
-        $title_cont.append('<h3>' + goal_item_name + '</h3>');
-        $title_cont.append('Description: ' + quest.goal_item_description + '<br>');
+        $title_cont.addClass('stats_table');
+        $title_cont.append('<tr><td>' + goal_item_name + '</td></tr>');
+        $title_cont.append('<tr><td>Description</td><td>' + quest.goal_item_description + '</td></tr>');
 
         $cont.append($title_cont);
         return $cont;
@@ -397,40 +410,44 @@ let view_controller = {
         }
         let attack = character_attack.getAttack(attack_name);
         let $cont = $('<div></div>');
-        $cont.addClass('$container');
+        $cont.addClass('container');
         $cont.addClass('item_container');
 
-        let $title_cont = $('<div></div>');
-        $title_cont.css('width', '80%');
-        $title_cont.css('float', 'left');
-        $title_cont.append('<h3>' + attack.name + '</h3>');
-        $title_cont.append('Mana Cost: ' + attack.mana_cost + '<br>');
-        $title_cont.append('Cooldown: ' + attack.cooldown + '<br>');
-        $title_cont.append('Range: ' + attack.range + '<br>');
-        $title_cont.append('Description: ' + attack.description + '<br>');
+        let $title_cont = $('<table></table>');
+        $title_cont.css('width', '99%');
+        $title_cont.addClass('stats_table');
 
-        let $stats_cont = $('<div></div>');
-        $stats_cont.css('width', '19%');
-        $stats_cont.css('float', 'right');
+        let $buttons = $('<div></div>');
 
         if(game.status === STATUS.COMBAT_SPELL_SELECTED){
             let $button = $('<button type="button">Cancel Spell</button>');
             $button.css('float', 'right');
             $button.click(user_interface.cancelSpell);
             $button.data('attack_name',attack_name);
-            $stats_cont.append($button);
+            $buttons.append($button);
         }else{
             if(character_attack.hasManaFor(attack_name) && character_attack.isOffCooldown(attack_name)){
                 let $button = $('<button type="button">Use Attack</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.selectAttack);
                 $button.data('attack_name',attack_name);
-                $stats_cont.append($button);
+                $buttons.append($button);
             }
         }
 
+        let $tr = $('<tr></tr>');
+        $tr.append('<td>' + attack.name + '</td>');
+        let $td = $('<td></td>');
+        $td.append($buttons);
+        $tr.append($td);
+        $title_cont.append($tr);
+
+        $title_cont.append('<tr><td>Mana Cost</td><td>' + attack.mana_cost + '</td></tr>');
+        $title_cont.append('<tr><td>Cooldown</td><td>' + attack.cooldown + '</td></tr>');
+        $title_cont.append('<tr><td>Range</td><td>' + attack.range + '</td></tr>');
+        $title_cont.append('<tr><td>Description</td><td>' + attack.description + '</td></tr>');
+
         $cont.append($title_cont);
-        $cont.append($stats_cont);
         return $cont;
     },
 };

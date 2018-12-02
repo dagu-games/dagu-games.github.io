@@ -281,6 +281,7 @@ let game_logic = {
                 name: null,
                 slot: util.randomItemInArray(ITEM_SLOTS),
                 stats: util.generateStatBlock(6 + game.character.level),
+                level: game.character.level,
                 description: util.randomItemInArray(ITEM_DESCRIPTIONS),
                 value: util.randomInt(100),
             };
