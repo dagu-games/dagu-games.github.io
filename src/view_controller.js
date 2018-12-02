@@ -179,7 +179,7 @@ let view_controller = {
         let $buttons = $('<div></div>');
 
         if(mode ==='equipped'){
-            let $button = $('<button type="button">Unequip</button>');
+            let $button = $('<button class="button" type="button">Unequip</button>');
             $button.css('float', 'right');
             $button.click(user_interface.unequipItem);
             if(data != null && data.ring != null){
@@ -195,21 +195,21 @@ let view_controller = {
         }
         if(mode === 'inventory'){
             if(item.slot === 'ring'){
-                let $button = $('<button type="button">Equip in Ring 2</button>');
+                let $button = $('<button class="button" type="button">Equip in Ring 2</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.equipItem);
                 $button.data('ring',2);
                 $button.data('index',data.index);
                 $buttons.append($button);
 
-                $button = $('<button type="button">Equip in Ring 1</button>');
+                $button = $('<button class="button" type="button">Equip in Ring 1</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.equipItem);
                 $button.data('ring',1);
                 $button.data('index',data.index);
                 $buttons.append($button);
             }else{
-                let $button = $('<button type="button">Equip</button>');
+                let $button = $('<button class="button" type="button">Equip</button>');
                 $button.css('float', 'right');
                 $button.data('ring',0);
                 $button.data('index',data.index);
@@ -217,7 +217,7 @@ let view_controller = {
                 $buttons.append($button);
             }
             if(util.isAround(game.character.x,game.character.y,'shop')){
-                let $button = $('<button type="button">Sell Item</button>');
+                let $button = $('<button class="button" type="button">Sell Item</button>');
                 $button.css('float', 'right');
                 $button.data('ring',0);
                 $button.data('index',data.index);
@@ -226,7 +226,7 @@ let view_controller = {
             }
         }
         if(mode ==='shop' && item.value <= game.character.inventory.gold){
-            let $button = $('<button type="button">Buy Item</button>');
+            let $button = $('<button class="button" type="button">Buy Item</button>');
             $button.css('float', 'right');
             $button.click(user_interface.buyItem);
             $button.data('index',data.index);
@@ -301,13 +301,13 @@ let view_controller = {
         let $buttons = $('<div></div>');
         if(mode === "quest_giver"){
             if(util.hasQuest(quest_name) && util.hasQuestItem(quest_name)){
-                let $button = $('<button type="button">Complete Quest</button>');
+                let $button = $('<button class="button" type="button">Complete Quest</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.completeQuest);
                 $button.data('quest_name',quest_name);
                 $buttons.append($button);
             }else if(!util.hasQuest(quest_name) && !util.isQuestCompleted(quest_name)){
-                let $button = $('<button type="button">Accept Quest</button>');
+                let $button = $('<button class="button" type="button">Accept Quest</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.acceptQuest);
                 $button.data('quest_name',quest_name);
@@ -315,7 +315,7 @@ let view_controller = {
             }
         }
         if(mode === 'character'){
-            let $button = $('<button type="button">Abandon Quest</button>');
+            let $button = $('<button class="button" type="button">Abandon Quest</button>');
             $button.css('float', 'right');
             $button.click(user_interface.abandonQuest);
             $button.data('quest_name',quest_name);
@@ -358,13 +358,13 @@ let view_controller = {
         let $buttons = $('<div></div>');
 
         if(!util.hasUpgrade(i) && upgrade.isAvailable()){
-            let $button = $('<button type="button">Buy Upgrade</button>');
+            let $button = $('<button class="button" type="button">Buy Upgrade</button>');
             $button.css('float', 'right');
             $button.click(user_interface.buyUpgrade);
             $button.data('upgrade_index',i);
             $buttons.append($button);
         }else if(util.hasUpgrade(i)){
-            let $button = $('<button type="button">Refund Upgrade</button>');
+            let $button = $('<button class="button" type="button">Refund Upgrade</button>');
             $button.css('float', 'right');
             $button.click(user_interface.refundUpgrade);
             $button.data('upgrade_index',i);
@@ -420,14 +420,14 @@ let view_controller = {
         let $buttons = $('<div></div>');
 
         if(game.status === STATUS.COMBAT_SPELL_SELECTED){
-            let $button = $('<button type="button">Cancel Spell</button>');
+            let $button = $('<button class="button" type="button">Cancel Spell</button>');
             $button.css('float', 'right');
             $button.click(user_interface.cancelSpell);
             $button.data('attack_name',attack_name);
             $buttons.append($button);
         }else{
             if(character_attack.hasManaFor(attack_name) && character_attack.isOffCooldown(attack_name)){
-                let $button = $('<button type="button">Use Attack</button>');
+                let $button = $('<button class="button" type="button">Use Attack</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.selectAttack);
                 $button.data('attack_name',attack_name);
