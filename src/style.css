@@ -24,6 +24,7 @@
 .tile {
     padding: 0 0 0 0;
     margin: 0 0 0 0;
+    float: left;
     position: absolute;
 }
 
@@ -149,7 +150,9 @@ h1, h2, h3, h4 {
 }
 
 .movement_button {
-    width: calc((34vh / 3) - 4px);
+    width: calc((34vh / 3.1) - 9px);
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 .hide_button {
@@ -189,6 +192,7 @@ h1, h2, h3, h4 {
     font-size:15px;
     font-weight:bold;
     padding:4px 8px;
+    margin: 1px 1px 1px 1px;
     text-decoration:none;
     text-shadow:0px 1px 0px #ffffff;
 }
@@ -205,4 +209,12 @@ h1, h2, h3, h4 {
 .button:active {
     position:relative;
     top:1px;
+}
+
+#movement_container {
+    width:33vh;
+    height:33vh;
+    position: absolute;
+    left: 2px;
+    bottom: 6px;
 }

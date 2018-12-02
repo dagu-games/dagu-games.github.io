@@ -1,7 +1,7 @@
 let game_logic = {
     init: function(){
         game.settings = {
-            zoom_factor: 15,
+            zoom_factor: 11,
         };
         game.chunks = [];
         game.character = {
@@ -120,6 +120,7 @@ let game_logic = {
                             map.get(i, j).type = 'grass';
                         }
                     }
+                    map.get(i, j).direction = util.randomInt(4);
                 }
             }
             if((chunk_x === 0 && chunk_y === 0) ||
@@ -158,6 +159,7 @@ let game_logic = {
                     if(util.randomInt(100) < 8){
                         map.get(i, j).npc = game_logic.generateNPC();
                     }
+                    map.get(i, j).direction = util.randomInt(4);
                 }
             }
             map.get(0, 0).type = 'grass';
@@ -171,6 +173,7 @@ let game_logic = {
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     map.get(i, j).type = 'stone';
+                    map.get(i, j).direction = util.randomInt(4);
                 }
             }
             if((chunk_x === 0 && chunk_y === 0) ||
@@ -283,7 +286,7 @@ let game_logic = {
                 stats: util.generateStatBlock(6 + game.character.level),
                 level: game.character.level,
                 description: util.randomItemInArray(ITEM_DESCRIPTIONS),
-                value: util.randomInt(100),
+                value: util.randomInt(100) + 1,
             };
             item.name = util.randomItemInArray(ITEM_NAMES[item.slot]);
 

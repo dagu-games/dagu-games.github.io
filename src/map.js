@@ -21,44 +21,50 @@ let map = {
             }
         }
 
+        for(let i = 0; i < game.settings.zoom_factor; i++){
+            for(let j = 0; j < game.settings.zoom_factor; j++){
+                map.constructNPCTile(i, j);
+            }
+        }
+
         let $char = $('<img>');
         $char.attr('src', util.typeToSrcString('hero'));
         $char.addClass('tile');
-        $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $char.css({'height': map.cell_size});
-        $char.css({'width': map.cell_size});
+        $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $char.css({'height': Math.floor(map.cell_size)});
+        $char.css({'width': Math.floor(map.cell_size)});
         $char.data("x", game.character.x);
         $char.data("y", game.character.y);
         $char.click(user_interface.inspect);
 
         let $health_bar = $('<div></div>');
         $health_bar.css({'position':'absolute','background-color':'gray'});
-        $health_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * map.cell_size)});
-        $health_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $health_bar.css({'height': map.cell_size / 10.0});
-        $health_bar.css({'width': map.cell_size});
+        $health_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size))});
+        $health_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $health_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+        $health_bar.css({'width': Math.floor(map.cell_size)});
 
         let $red_bar = $('<div></div>');
         $red_bar.css({'position':'absolute','background-color':'red'});
-        $red_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * map.cell_size)});
-        $red_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $red_bar.css({'height': map.cell_size / 10.0});
-        $red_bar.css({'width': (map.cell_size * (game.character.current_health / util.characterStats.max_health()))});
+        $red_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size))});
+        $red_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+        $red_bar.css({'width': Math.floor((map.cell_size * (game.character.current_health / util.characterStats.max_health())))});
 
         let $mana_bar = $('<div></div>');
         $mana_bar.css({'position':'absolute','background-color':'gray'});
-        $mana_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * map.cell_size) + (map.cell_size / 10.0)});
-        $mana_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $mana_bar.css({'height': map.cell_size / 10.0});
-        $mana_bar.css({'width': map.cell_size});
+        $mana_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size)) + (Math.floor(map.cell_size) / 10.0)});
+        $mana_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $mana_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+        $mana_bar.css({'width': Math.floor(map.cell_size)});
 
         let $blue_bar = $('<div></div>');
         $blue_bar.css({'position':'absolute','background-color':'blue'});
-        $blue_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * map.cell_size) + (map.cell_size / 10.0)});
-        $blue_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size)});
-        $blue_bar.css({'height': map.cell_size / 10.0});
-        $blue_bar.css({'width': (map.cell_size * (game.character.current_mana / util.characterStats.max_mana()))});
+        $blue_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size)) + (Math.floor(map.cell_size) / 10.0)});
+        $blue_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $blue_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+        $blue_bar.css({'width': Math.floor((map.cell_size * (game.character.current_mana / util.characterStats.max_mana())))});
 
         map.$container.append($char);
         map.$container.append($health_bar);
@@ -84,15 +90,21 @@ let map = {
         map_entry = map.get(point.x, point.y);
         $tile.attr('src', util.typeToSrcString(map_entry.type));
         $tile.addClass('tile');
-        $tile.css({'top': i * map.cell_size});
-        $tile.css({'left': j * map.cell_size});
-        $tile.css({'height': map.cell_size});
-        $tile.css({'width': map.cell_size});
+        //$tile.css({'top': i * map.cell_size});
+        //$tile.css({'left': j * map.cell_size});
+        $tile.css({'position': 'relative'});
+        $tile.css({'height': Math.floor(map.cell_size)});
+        $tile.css({'width': Math.floor(map.cell_size)});
         if(game.status === STATUS.COMBAT_SPELL_SELECTED){
             $tile.css({'opacity':0.5});
         }
         $tile.data("x", point.x);
         $tile.data("y", point.y);
+        if(map_entry.direction != null && map_entry.direction !== 0){
+            $tile.css('transform','rotate(' + (map_entry.direction * 90) + 'deg)');
+            //$tile.css('margin-right','-1px');
+            //$tile.css('margin-bottom','-1px');
+        }
         if(map_entry.npc == null){
             $tile.click(user_interface.inspect);
         }
@@ -105,10 +117,10 @@ let map = {
         //console.debug(map_entry);
         if(map_entry.npc != null){
             let $tile = $('<img>');
-            $tile.css({'top': i * map.cell_size});
-            $tile.css({'left': j * map.cell_size});
-            $tile.css({'height': map.cell_size});
-            $tile.css({'width': map.cell_size});
+            $tile.css({'top': i * Math.floor(map.cell_size)});
+            $tile.css({'left': j * Math.floor(map.cell_size)});
+            $tile.css({'height': Math.floor(map.cell_size)});
+            $tile.css({'width': Math.floor(map.cell_size)});
             $tile.attr('src', util.typeToSrcString(map_entry.npc.type));
             $tile.addClass('tile');
             $tile.data("x", point.x);
@@ -131,16 +143,16 @@ let map = {
             if(map_entry.npc.type === 'monster'){
                 let $health_bar = $('<div></div>');
                 $health_bar.css({'position':'absolute','background-color':'gray'});
-                $health_bar.css({'top': ((i+1) * map.cell_size) - (map.cell_size/10.0)});
-                $health_bar.css({'left': j * map.cell_size});
-                $health_bar.css({'height': map.cell_size / 10.0});
-                $health_bar.css({'width': map.cell_size});
+                $health_bar.css({'top': ((i+1) * Math.floor(map.cell_size)) - (Math.floor(map.cell_size)/10.0)});
+                $health_bar.css({'left': j * Math.floor(map.cell_size)});
+                $health_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+                $health_bar.css({'width': Math.floor(map.cell_size)});
                 let $red_bar = $('<div></div>');
                 $red_bar.css({'position':'absolute','background-color':'red'});
-                $red_bar.css({'top': ((i+1) * map.cell_size) - (map.cell_size/10.0)});
-                $red_bar.css({'left': j * map.cell_size});
-                $red_bar.css({'height': map.cell_size / 10.0});
-                $red_bar.css({'width': (map.cell_size * (map_entry.npc.current_health / map_entry.npc.max_health))});
+                $red_bar.css({'top': ((i+1) * Math.floor(map.cell_size)) - (Math.floor(map.cell_size)/10.0)});
+                $red_bar.css({'left': j *Math.floor(map.cell_size)});
+                $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
+                $red_bar.css({'width': Math.floor((map.cell_size * (map_entry.npc.current_health / map_entry.npc.max_health)))});
                 map.$container.append($health_bar);
                 map.$container.append($red_bar);
             }
