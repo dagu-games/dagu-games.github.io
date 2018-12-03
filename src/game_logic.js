@@ -53,6 +53,18 @@ let game_logic = {
             cooldowns: {
                 'Basic Attack': 0,
             },
+            hotbar: [
+                "",
+                "Basic Attack",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ],
 
         };
         game.status = STATUS.COMBAT;

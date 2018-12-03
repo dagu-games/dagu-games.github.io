@@ -220,19 +220,34 @@
             </div>
         </div>
         <div id="movement_container" class="container">
-            <img class="button_1x1 movement_button" title="Move Up and Left" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpLeft()>
-            <img class="button_1x1 movement_button" title="Move Up" id="move_up_button" src="images/arrow.png" onclick=user_interface.moveUp()>
-            <img class="button_1x1 movement_button" title="Move Up and Right" id="move_up_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpRight()>
+            <img class="movement_img" title="Move Up and Left" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpLeft()>
+            <img class="movement_img" title="Move Up" id="move_up_button" src="images/arrow.png" onclick=user_interface.moveUp()>
+            <img class="movement_img" title="Move Up and Right" id="move_up_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpRight()>
             <br>
-            <img class="button_1x1 movement_button" title="Move Left" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow.png" onclick=user_interface.moveLeft()>
-            <img class="button_1x1 movement_button" src="images/center.png">
-            <img class="button_1x1 movement_button" title="Move Right" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow.png" onclick=user_interface.moveRight()>
+            <img class="movement_img" title="Move Left" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow.png" onclick=user_interface.moveLeft()>
+            <img class="movement_img" src="images/center.png">
+            <img class="movement_img" title="Move Right" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow.png" onclick=user_interface.moveRight()>
             <br>
-            <img class="button_1x1 movement_button" title="Move Down and Left" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownLeft()>
-            <img class="button_1x1 movement_button" title="Move Down" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow.png" onclick=user_interface.moveDown()>
-            <img class="button_1x1 movement_button" title="Move Down and Right" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownRight()>
+            <img class="movement_img" title="Move Down and Left" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownLeft()>
+            <img class="movement_img" title="Move Down" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow.png" onclick=user_interface.moveDown()>
+            <img class="movement_img" title="Move Down and Right" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownRight()>
         </div>
-        <div id="hotbar_container" class="container"></div>
+        <div id="hotbar_container" class="container">
+            <div class="hotbar_div">
+                <img class="tooltip hotbar_img" style="width:100%;" onmouseover="user_interface.hoverdiv(event,'#hotbar_tooltip_1')" onmouseleave="user_interface.hoverdiv(event,'#hotbar_tooltip_1')" src="images/basic_attack.png">
+                <span class="bottom_right_text">1</span>
+                <div id="hotbar_tooltip_1" class="tooltiptext hotbar_tooltiptext"><table class="stats_table"><tr><td>test</td><td>test</td></tr></table></div>
+            </div>
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+            <img class="hotbar_div" src="images/basic_attack.png">
+        </div>
         <script src="src/main.js"></script>
     </body>
 </html>

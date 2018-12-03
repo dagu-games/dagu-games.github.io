@@ -144,34 +144,41 @@ h1, h2, h3, h4 {
     padding: 0px 0px 0px 0px;
 }
 
-.button_1x2 {
-    width:20%;
-    min-width:64px;
-}
-
 #movement_container {
-    width:22vh;
-    height:22vh;
+    width:25vh;
+    height:25vh;
     position: absolute;
-    left: 2px;
-    bottom: 6px;
+    left: 0;
+    bottom: 2vh;
 }
 
-.movement_button {
-    width: calc((22vh / 3.1) - 9px);
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
+.movement_img {
+    width: calc((100% / 3.3));
+    margin: 2px 2px 2px 2px;
+    float: left;
 }
 
-.hide_button {
-    float: right;
-    cursor:pointer;
-    color:blue;
-    text-decoration:underline;
+#hotbar_container {
+    width: 75vh;
+    position: absolute;
+    left: 25vh;
+    bottom: 2vh;
+}
+
+.hotbar_div {
+    width: calc((100% / 11.2));
+    margin: 2px 2px 2px 2px;
+    position: relative;
+    float: left;
+}
+
+.hotbar_img {
+    width: 100%;
 }
 
 .stats_table{
      border: 1px solid gray;
+    background-color: #D5D5D5;
  }
 
 .stats_table td{
@@ -217,4 +224,20 @@ h1, h2, h3, h4 {
 .button:active {
     position:relative;
     top:1px;
+}
+
+.tooltiptext {
+    position: absolute;
+    display: none;
+}
+
+.hotbar_tooltiptext {
+    bottom:calc(25vh / 3);
+}
+
+.bottom_right_text {
+    bottom: 20%;
+    right: 10%;
+    font-size: x-small;
+    position: absolute;
 }

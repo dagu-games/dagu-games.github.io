@@ -166,7 +166,12 @@ let view_controller = {
     },
 
     updateHotbar: function(){
-
+        let $cont = $('#hotbar_container');
+        for(let i = 0; i < game.character.hotbar.length; i++){
+            if(game.character.hotbar[i] !== ""){
+                view_controller.generateHotbarIcon(i);
+            }
+        }
     },
 
     generateItem: function(item, mode, data){
@@ -424,7 +429,7 @@ let view_controller = {
 
         let $buttons = $('<div></div>');
 
-        if(game.status === STATUS.COMBAT_SPELL_SELECTED){
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
             let $button = $('<button class="button" type="button">Cancel Spell</button>');
             $button.css('float', 'right');
             $button.click(user_interface.cancelSpell);

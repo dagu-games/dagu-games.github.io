@@ -36,7 +36,8 @@ const CHANGE_LOG = [
 
 const STATUS = {
     COMBAT: "combat",
-    COMBAT_SPELL_SELECTED: "combat_spell_selected",
+    COMBAT_ATTACK_SELECTED: "combat_attack_selected",
+    HOTBAR_ATTACK_SELECTED: "hotbar_attack_selected",
 };
 
 const WALKABLE_TILES = [
@@ -173,4 +174,13 @@ const KEY_CODES = {
     S:83,
     D:68,
     1:49,
+    2:50,
+    3:51,
+    4:52,
+    5:53,
+    6:54,
+    7:55,
+    8:56,
+    9:57,
+    0:58,
 };

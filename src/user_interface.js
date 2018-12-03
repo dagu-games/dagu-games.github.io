@@ -2,16 +2,35 @@ let user_interface = {
     selectAttack: function(event){
         let $target = $(event.target);
         game.selected_attack = $target.data('attack_name');
-        game.status = STATUS.COMBAT_SPELL_SELECTED;
+        game.status = STATUS.COMBAT_ATTACK_SELECTED;
+        map.render();
+        view_controller.render();
+    },
+
+    selectHotbarAttack: function(event){
+        let $target = $(event.target);
+        game.selected_attack = $target.data('attack_name');
+        game.status = STATUS.HOTBAR_ATTACK_SELECTED;
+        map.render();
+        view_controller.render();
+    },
+
+    assignHotbarAttack: function(event){
+        let $target = $(event.target);
+        game.status = STATUS.COMBAT;
+        game.character.hotbar[$target.data('index')] = game.selected_attack;
+        game.selected_attack = null;
         map.render();
         view_controller.render();
     },
 
     keybindSelectAttack: function(attack_name){
-        game.selected_attack = attack_name;
-        game.status = STATUS.COMBAT_SPELL_SELECTED;
-        map.render();
-        view_controller.render();
+        if(character_attack.isOffCooldown(attack_name) && character_attack.hasManaFor(attack_name)){
+            game.selected_attack = attack_name;
+            game.status = STATUS.COMBAT_ATTACK_SELECTED;
+            map.render();
+            view_controller.render();
+        }
     },
 
     buyUpgrade: function(event){
@@ -356,8 +375,35 @@ let user_interface = {
             if(event.which === KEY_CODES.D){
                 user_interface.moveRight();
             }
-            if(event.which === KEY_CODES["1"]){
-                user_interface.keybindSelectAttack('Basic Attack');
+            if(event.which === KEY_CODES["1"] && game.character.hotbar[1] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[1]);
+            }
+            if(event.which === KEY_CODES["2"] && game.character.hotbar[2] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[2]);
+            }
+            if(event.which === KEY_CODES["3"] && game.character.hotbar[3] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[3]);
+            }
+            if(event.which === KEY_CODES["4"] && game.character.hotbar[4] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[4]);
+            }
+            if(event.which === KEY_CODES["5"] && game.character.hotbar[5] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[5]);
+            }
+            if(event.which === KEY_CODES["6"] && game.character.hotbar[6] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[6]);
+            }
+            if(event.which === KEY_CODES["7"] && game.character.hotbar[7] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[7]);
+            }
+            if(event.which === KEY_CODES["8"] && game.character.hotbar[8] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[8]);
+            }
+            if(event.which === KEY_CODES["9"] && game.character.hotbar[9] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[9]);
+            }
+            if(event.which === KEY_CODES["0"] && game.character.hotbar[0] !== ""){
+                user_interface.keybindSelectAttack(game.character.hotbar[0]);
             }
             setTimeout(function(){ game.key_lock = false }, 1);
         }
@@ -385,5 +431,10 @@ let user_interface = {
         $(tab_name).show();
         $('.tablink_right').removeClass('selected_tab');
         $(tablink_name).addClass('selected_tab');
+    },
+
+    hoverdiv: function(e,tooltip_container){
+        $(tooltip_container).toggle();
+        return false;
     },
 };

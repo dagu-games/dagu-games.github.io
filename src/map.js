@@ -95,12 +95,12 @@ let map = {
         $tile.css({'position': 'relative'});
         $tile.css({'height': Math.floor(map.cell_size)});
         $tile.css({'width': Math.floor(map.cell_size)});
-        if(game.status === STATUS.COMBAT_SPELL_SELECTED){
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
             $tile.css({'opacity':0.5});
         }
         $tile.data("x", point.x);
         $tile.data("y", point.y);
-        if(map_entry.direction != null && map_entry.direction !== 0){
+        if(map_entry.direction != null){
             $tile.css('transform','rotate(' + (map_entry.direction * 90) + 'deg)');
             //$tile.css('margin-right','-1px');
             //$tile.css('margin-bottom','-1px');
@@ -125,7 +125,7 @@ let map = {
             $tile.addClass('tile');
             $tile.data("x", point.x);
             $tile.data("y", point.y);
-            if(game.status !== STATUS.COMBAT_SPELL_SELECTED){
+            if(game.status !== STATUS.COMBAT_ATTACK_SELECTED){
                 $tile.click(user_interface.inspect);
             }else{
                 if(map_entry.npc.type === 'monster' && util.distanceBetween(game.character.x,game.character.y,point.x,point.y) <= character_attack.getAttack(game.selected_attack).range){
