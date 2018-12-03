@@ -3,6 +3,7 @@ let view_controller = {
         view_controller.updateCharacter();
         view_controller.updateContextMenu();
         view_controller.updateOutput();
+        view_controller.updateHotbar();
 
         if(util.isAround(game.character.x,game.character.y,'quest_giver') || util.isAround(game.character.x,game.character.y,'shop')){
             user_interface.openLeftTab(null, '#npc_tab', '#npc_tablink');
@@ -162,6 +163,10 @@ let view_controller = {
                 $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
             }
         }
+    },
+
+    updateHotbar: function(){
+
     },
 
     generateItem: function(item, mode, data){
@@ -449,5 +454,9 @@ let view_controller = {
 
         $cont.append($title_cont);
         return $cont;
+    },
+
+    generateHotbarIcon: function(attack_name){
+
     },
 };
