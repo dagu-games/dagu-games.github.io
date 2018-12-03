@@ -25,12 +25,23 @@ let user_interface = {
     },
 
     keybindSelectAttack: function(attack_name){
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+            user_interface.cancelAttack();
+            return;
+        }
         if(character_attack.isOffCooldown(attack_name) && character_attack.hasManaFor(attack_name)){
             game.selected_attack = attack_name;
             game.status = STATUS.COMBAT_ATTACK_SELECTED;
             map.render();
             view_controller.render();
         }
+    },
+
+    cancelAttack: function(){
+        game.selected_attack = null;
+        game.status = STATUS.COMBAT;
+        map.render();
+        view_controller.render();
     },
 
     buyUpgrade: function(event){
@@ -77,13 +88,6 @@ let user_interface = {
             game.settings.zoom_factor += 2;
         }
         game.output.push("Zoom decreased to " + game.settings.zoom_factor);
-        map.render();
-        view_controller.render();
-    },
-
-    cancelSpell: function(){
-        game.selected_attack = null;
-        game.status = STATUS.COMBAT;
         map.render();
         view_controller.render();
     },
@@ -433,7 +437,8 @@ let user_interface = {
         $(tablink_name).addClass('selected_tab');
     },
 
-    hoverdiv: function(e,tooltip_container){
+    hoverDiv: function(event){
+        let tooltip_container = $(event.target).data('tooltip_container');
         $(tooltip_container).toggle();
         return false;
     },

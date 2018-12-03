@@ -167,10 +167,21 @@ let view_controller = {
 
     updateHotbar: function(){
         let $cont = $('#hotbar_container');
-        for(let i = 0; i < game.character.hotbar.length; i++){
-            if(game.character.hotbar[i] !== ""){
-                view_controller.generateHotbarIcon(i);
+        $cont.empty();
+        if(game.status !== STATUS.HOTBAR_ATTACK_SELECTED){
+            for(let i = 1; i < game.character.hotbar.length; i++){
+                if(game.character.hotbar[i] !== ""){
+                    $cont.append(view_controller.generateHotbarIcon(game.character.hotbar[i],i));
+                }
             }
+            if(game.character.hotbar[0] !== ""){
+                $cont.append(view_controller.generateHotbarIcon(game.character.hotbar[0],0));
+            }
+        }else{
+            for(let i = 1; i < game.character.hotbar.length; i++){
+                $cont.append(view_controller.generateHotbarAssignIcon(game.character.hotbar[i],i));
+            }
+            $cont.append(view_controller.generateHotbarAssignIcon(game.character.hotbar[0],0));
         }
     },
 
@@ -419,37 +430,47 @@ let view_controller = {
             return;
         }
         let attack = character_attack.getAttack(attack_name);
+
         let $cont = $('<div></div>');
         $cont.addClass('container');
         $cont.addClass('item_container');
+
+        let $left_cont = $('<div></div>');
+        $left_cont.addClass('container');
+        $left_cont.addClass('left_container');
+        $left_cont.css('width', '20%');
+
+        let $right_cont = $('<div></div>');
+        $right_cont.addClass('container');
+        $right_cont.addClass('right_container');
+        $right_cont.css('width', '79%');
+        
+
+        let $attack_img = $('<img>');
+        $attack_img.attr('src', attack.icon);
+        $attack_img.addClass('attack_img');
+        $attack_img.data('attack_name',attack_name);
+
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+            $attack_img.click(user_interface.cancelAttack);
+        }else{
+            if(character_attack.hasManaFor(attack_name) && character_attack.isOffCooldown(attack_name)){
+                $attack_img.click(user_interface.selectAttack);
+            }
+        }
 
         let $title_cont = $('<table></table>');
         $title_cont.css('width', '99%');
         $title_cont.addClass('stats_table');
 
-        let $buttons = $('<div></div>');
-
-        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
-            let $button = $('<button class="button" type="button">Cancel Spell</button>');
-            $button.css('float', 'right');
-            $button.click(user_interface.cancelSpell);
-            $button.data('attack_name',attack_name);
-            $buttons.append($button);
-        }else{
-            if(character_attack.hasManaFor(attack_name) && character_attack.isOffCooldown(attack_name)){
-                let $button = $('<button class="button" type="button">Use Attack</button>');
-                $button.css('float', 'right');
-                $button.click(user_interface.selectAttack);
-                $button.data('attack_name',attack_name);
-                $buttons.append($button);
-            }
-        }
-
         let $tr = $('<tr></tr>');
-        $tr.append('<td>' + attack.name + '</td>');
-        let $td = $('<td></td>');
-        $td.append($buttons);
-        $tr.append($td);
+        let $th = $('<th></th>');
+        //$th.css('float','left');
+        $th.css('text-align','left');
+        $th.attr('colspan',2);
+        $th.append($attack_img);
+        $th.append(attack.name);
+        $tr.append($th);
         $title_cont.append($tr);
 
         $title_cont.append('<tr><td>Mana Cost</td><td>' + attack.mana_cost + '</td></tr>');
@@ -457,11 +478,102 @@ let view_controller = {
         $title_cont.append('<tr><td>Range</td><td>' + attack.range + '</td></tr>');
         $title_cont.append('<tr><td>Description</td><td>' + attack.description + '</td></tr>');
 
-        $cont.append($title_cont);
+        $right_cont.append($title_cont);
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+            $right_cont.append("(click icon to cancel the attack)");
+        }else if(game.status !== STATUS.HOTBAR_ATTACK_SELECTED){
+            let $button = $('<button class="button" type="button">Assign to Hotbar</button>');
+            $button.css('float', 'left');
+            $button.click(user_interface.selectHotbarAttack);
+            $button.data('attack_name',attack_name);
+            $right_cont.append($button);
+        }
+        $left_cont.append($attack_img);
+
+        $cont.append($left_cont);
+        $cont.append($right_cont);
+
         return $cont;
     },
 
-    generateHotbarIcon: function(attack_name){
+    generateHotbarIcon: function(attack_name,i){
+        if(attack_name == null){
+            return;
+        }
+        let attack = character_attack.getAttack(attack_name);
+        let $cont = $('<div></div>');
+        $cont.addClass('hotbar_div');
 
+
+        let $hotbar_img = $('<img>');
+        $hotbar_img.attr('src', attack.icon);
+        $hotbar_img.addClass('hotbar_img');
+        $hotbar_img.css('width','100%');
+        $hotbar_img.data('tooltip_container','#hotbar_tooltip_' + i);
+        $hotbar_img.data('attack_name',attack_name);
+        $hotbar_img.mouseover(user_interface.hoverDiv);
+        $hotbar_img.mouseleave(user_interface.hoverDiv);
+
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+            $hotbar_img.click(user_interface.cancelAttack);
+        }else if(character_attack.isOffCooldown(attack_name) && character_attack.hasManaFor(attack_name)){
+            $hotbar_img.click(user_interface.selectAttack);
+        }else{
+            $hotbar_img.css('opacity','0.5');
+        }
+
+        let $bottom_right_text = $('<span class="bottom_right_text">' + i + '</span>');
+
+        let $bottom_left_text = null;
+        if(character_attack.isOffCooldown(attack_name)){
+            $bottom_left_text = $('<span class="bottom_left_text"></span>');
+        }else{
+            $bottom_left_text = $('<span class="bottom_left_text">' + game.character.cooldowns[attack_name] + '</span>');
+        }
+
+        let $hotbar_tooltip = $('<div></div>');
+        $hotbar_tooltip.attr('id', 'hotbar_tooltip_' + i);
+        $hotbar_tooltip.addClass('hotbar_tooltip');
+
+        let $stats_table = $('<table></table>');
+        $stats_table.addClass('stats_table');
+        $stats_table.append('<tr><th>' + attack.name + '</th></tr>');
+        $stats_table.append('<tr><td>Mana Cost</td><td>' + attack.mana_cost + '</td></tr>');
+        $stats_table.append('<tr><td>Cooldown</td><td>' + attack.cooldown + '</td></tr>');
+        $stats_table.append('<tr><td>Range</td><td>' + attack.range + '</td></tr>');
+        $stats_table.append('<tr><td>Description</td><td>' + attack.description + '</td></tr>');
+        $hotbar_tooltip.append($stats_table);
+
+
+        $cont.append($hotbar_img);
+        $cont.append($bottom_left_text);
+        $cont.append($bottom_right_text);
+        $cont.append($hotbar_tooltip);
+        return $cont;
+    },
+
+    generateHotbarAssignIcon: function(attack_name,i){
+        let $cont = $('<div></div>');
+        $cont.addClass('hotbar_div');
+
+
+        let $hotbar_img = $('<img>');
+
+        if(attack_name === ""){
+            $hotbar_img.attr('src', "images/center.png");
+        }else{
+            let attack = character_attack.getAttack(attack_name);
+            $hotbar_img.attr('src', attack.icon);
+        }
+        $hotbar_img.addClass('hotbar_img');
+        $hotbar_img.css('width','100%');
+        $hotbar_img.data('index',i);
+        $hotbar_img.click(user_interface.assignHotbarAttack);
+
+        let $bottom_right_text = $('<span class="bottom_right_text">' + i + '</span>');
+
+        $cont.append($hotbar_img);
+        $cont.append($bottom_right_text);
+        return $cont;
     },
 };
