@@ -6,6 +6,7 @@ body {
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     background-color: #D5D5D5;
+    transition: 0.3s;
 }
 
 .button {
@@ -23,7 +24,6 @@ body {
     text-decoration:none;
     text-shadow:0px 1px 0px #ffffff;
     font-family: 'Press Start 2P', cursive;
-    transition: 0.3s;
 }
 
 
@@ -341,13 +341,6 @@ h1, h2, h3, h4 {
 }
 
 @media only screen and (orientation: portrait) {
-    body {
-        font-size: smaller;
-    }
-
-    .button {
-        font-size: x-small;
-    }
     #map_container {
         height: 100vw;
         width: 100vw;
