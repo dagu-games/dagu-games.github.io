@@ -451,7 +451,7 @@ let view_controller = {
         $attack_img.addClass('attack_img');
         $attack_img.data('attack_name',attack_name);
 
-        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED || game.status === STATUS.HOTBAR_ATTACK_SELECTED){
             $attack_img.click(user_interface.cancelAttack);
         }else{
             if(character_attack.hasManaFor(attack_name) && character_attack.isOffCooldown(attack_name)){

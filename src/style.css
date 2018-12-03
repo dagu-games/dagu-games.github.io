@@ -9,6 +9,12 @@ body {
     transition: 0.3s;
 }
 
+h1, h2, h3, h4 {
+    margin: 2px 2px 2px 2px;
+
+    padding: 0px 0px 0px 0px;
+}
+
 .button {
     background-color:#D5D5D5;
     -moz-border-radius:8px;
@@ -24,23 +30,6 @@ body {
     text-decoration:none;
     text-shadow:0px 1px 0px #ffffff;
     font-family: 'Press Start 2P', cursive;
-}
-
-
-
-#map_container {
-    height: 100vh;
-    width: 100vh;
-    position: fixed;
-    top: 0;
-    cursor: default;
-}
-
-#right_side_container {
-    height: 100vh;
-    width: calc(100vw - 100vh);
-    position: fixed;
-    top: 0;
 }
 
 .tab {
@@ -110,67 +99,61 @@ body {
     float:bottom;
 }
 
+#map_container {
+    position: fixed;
+    height: 100vh;
+    width: 100vh;
+    top: 0;
+    left: 0;
+    cursor: default;
+}
+
 #context_menu_container {
+    position: fixed;
+    width: calc((100vw - 100vh) / 2);
     height: 65vh;
-    width: 49%;
+    top: 0;
+    left: 100vh;
     overflow-y: auto;
 }
 
 #character_container {
+    position: fixed;
+    width: calc((100vw - 100vh) / 2);
     height: 65vh;
-    width: 50%;
+    right: 0;
     top: 0;
     overflow-y: auto;
 }
 
 #output_container {
+    position: fixed;
     height: 34vh;
+    width: calc(100vw - 100vh);
+    right: 0;
+    bottom: 0;
     overflow-y: auto;
     border: 1px solid gray;
 }
 
-#npc_shop_list_container {
-    width: 99%;
-    border: 1px solid gray;
-}
-
-#npc_quest_list_container {
-    width: 99%;
-    border: 1px solid gray;
-}
-
-#equipped_items_container {
-    border: 1px solid gray;
-}
-
-#inventory_container {
-    border: 1px solid gray;
-}
-
-#quest_list_container {
-    border: 1px solid gray;
-}
-
-#upgrades_container {
-    border: 1px solid gray;
-}
-
-h1, h2, h3, h4 {
-    margin: 2px 2px 2px 2px;
-
-    padding: 0px 0px 0px 0px;
+#movement_container {
+    width:30vh;
+    height:30vh;
+    position: fixed;
+    left: 2px;
+    bottom: 10px;
 }
 
 #hotbar_container {
-    width: 72vh;
-    position: absolute;
-    left: 28vh;
+    position: fixed;
+    width: 70vh;
+    left: 30vh;
     bottom: 1vh;
 }
 
 .hotbar_div {
     width: calc((100% / 10));
-    margin: 2px 2px 2px 2px;
+    margin: 0 0 0 0;
     position: relative;
     float: left;
 }
@@ -224,14 +207,6 @@ h1, h2, h3, h4 {
 .attack_img {
     width: 100%;
     padding: 1px 1px 1px 1px;
-}
-
-#movement_container {
-    width:30vh;
-    height:30vh;
-    position: fixed;
-    left: 2px;
-    bottom: 10px;
 }
 
 #move_down_button {
@@ -319,14 +294,77 @@ h1, h2, h3, h4 {
 }
 
 
+#npc_shop_list_container {
+    width: 99%;
+}
+
+#npc_quest_list_container {
+    width: 99%;
+}
+
+#equipped_items_container {
+}
+
+#inventory_container {
+}
+
+#quest_list_container {
+}
+
+#upgrades_container {
+}
 
 @media only screen and (max-aspect-ratio: 31/18) {
     #map_container {
+        position: fixed;
+        height: 70vh;
         width: 70vh;
+        top: 0;
+        left: 0;
+        cursor: default;
     }
 
-    #right_side_container {
+    #context_menu_container {
+        position: fixed;
+        width: calc((100vw - 70vh) / 2);
+        height: 65vh;
+        top: 0;
+        left: 70vh;
+        overflow-y: auto;
+    }
+
+    #character_container {
+        position: fixed;
+        width: calc((100vw - 70vh) / 2);
+        height: 65vh;
+        right: 0;
+        top: 0;
+        overflow-y: auto;
+    }
+
+    #output_container {
+        position: fixed;
+        height: 34vh;
         width: calc(100vw - 70vh);
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        border: 1px solid gray;
+    }
+
+    #movement_container {
+        width:30vh;
+        height:30vh;
+        position: fixed;
+        left: 2px;
+        bottom: 10px;
+    }
+
+    #hotbar_container {
+        position: fixed;
+        width: 40vh;
+        left: 30vh;
+        bottom: 1vh;
     }
 }
 
@@ -348,13 +386,7 @@ h1, h2, h3, h4 {
         left: 0;
         cursor: default;
         position: absolute;
-    }
-
-    #right_side_container {
-        height: 100vh;
-        width: 100vw;
-        top: 101vw;
-        position: absolute;
+        margin-bottom: 8px;
     }
 
     #movement_container {
@@ -386,9 +418,34 @@ h1, h2, h3, h4 {
     }
 
     #hotbar_container {
-        width: 72vw;
+        width: 70vw;
         position: absolute;
-        left: 28vw;
+        left: 30vw;
         top: 80vw;
+    }
+
+    #context_menu_container {
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 100vw;
+        position: relative;
+        margin-bottom: 8px;
+    }
+
+    #character_container {
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        position: relative;
+        margin-bottom: 8px;
+    }
+
+    #output_container {
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        position: relative;
+        margin-bottom: 8px;
     }
 }
