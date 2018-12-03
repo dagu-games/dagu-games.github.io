@@ -4,6 +4,7 @@
     <head>
         <title>Dagu</title>
         <link rel="shortcut icon" type="image/x-icon" href="icon.ico"/>
+
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({
@@ -11,9 +12,13 @@
                 enable_page_level_ads: true
             });
         </script>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
         <script src="lib/jquery-3.3.1.js"></script>
         <script src="lib/lodash.js"></script>
         <script src="lib/lz-string.js"></script>
+
         <script src="src/data/npc_first_names.js"></script>
         <script src="src/data/npc_middle_names.js"></script>
         <script src="src/data/npc_last_names.js"></script>
@@ -29,6 +34,7 @@
         <script src="src/monster_attack.js"></script>
         <script src="src/user_interface.js"></script>
         <script src="src/view_controller.js"></script>
+
         <link rel="stylesheet" type="text/css" href="src/style.css">
     </head>
     <body>
@@ -37,9 +43,9 @@
             <div class="container right_container" id="right_side_container">
                 <div class="container left_container" id="context_menu_container">
                     <div class="tab">
-                        <button class="tablinks tablink_left" id="settings_tablink" onclick="user_interface.openLeftTab(event, '#settings_tab', '#settings_tablink')">Settings</button>
-                        <button class="tablinks tablink_left" id="attack_list_tablink" onclick="user_interface.openLeftTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
-                        <button class="tablinks tablink_left" id="npc_tablink" onclick="user_interface.openLeftTab(event, '#npc_tab', '#npc_tablink')">NPC</button>
+                        <button class="tablinks tablink_left button" id="settings_tablink" onclick="user_interface.openLeftTab(event, '#settings_tab', '#settings_tablink')">Settings</button>
+                        <button class="tablinks tablink_left button" id="attack_list_tablink" onclick="user_interface.openLeftTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
+                        <button class="tablinks tablink_left button" id="npc_tablink" onclick="user_interface.openLeftTab(event, '#npc_tab', '#npc_tablink')">NPC</button>
                     </div>
                     <div class="tabcontent tabcontent_left" id="settings_tab">
                         <label for="load_game_select">Save Time:</label>
@@ -77,13 +83,13 @@
                 </div>
                 <div class="container right_container" id="character_container">
                     <div class="tab">
-                        <button class="tablinks tablink_right" id="stats_tablink" onclick="user_interface.openRightTab(event, '#stats_tab', '#stats_tablink')">Stats</button>
-                        <button class="tablinks tablink_right" id="quests_tablink" onclick="user_interface.openRightTab(event, '#quests_tab', '#quests_tablink')">Quests</button>
-                        <button class="tablinks tablink_right" id="equipped_items_tablink" onclick="user_interface.openRightTab(event, '#equipped_items_tab', '#equipped_items_tablink')">Equipped Items</button>
-                        <button class="tablinks tablink_right" id="inventory_tablink" onclick="user_interface.openRightTab(event, '#inventory_tab', '#inventory_tablink')">Inventory</button>
-                        <button class="tablinks tablink_right" id="upgrades_tablink" onclick="user_interface.openRightTab(event, '#upgrades_tab', '#upgrades_tablink')">Upgrades</button>
-                        <button class="tablinks tablink_right" id="purchased_upgrades_tablink" onclick="user_interface.openRightTab(event, '#purchased_upgrades_tab', '#purchased_upgrades_tablink')">Purchased Upgrades</button>
-                        <button class="tablinks tablink_right" id="completed_quests_tablink" onclick="user_interface.openRightTab(event, '#completed_quests_tab', '#completed_quests_tablink')">Completed Quests</button>
+                        <button class="tablinks tablink_right button" id="stats_tablink" onclick="user_interface.openRightTab(event, '#stats_tab', '#stats_tablink')">Stats</button>
+                        <button class="tablinks tablink_right button" id="quests_tablink" onclick="user_interface.openRightTab(event, '#quests_tab', '#quests_tablink')">Quests</button>
+                        <button class="tablinks tablink_right button" id="equipped_items_tablink" onclick="user_interface.openRightTab(event, '#equipped_items_tab', '#equipped_items_tablink')">Equipped Items</button>
+                        <button class="tablinks tablink_right button" id="inventory_tablink" onclick="user_interface.openRightTab(event, '#inventory_tab', '#inventory_tablink')">Inventory</button>
+                        <button class="tablinks tablink_right button" id="upgrades_tablink" onclick="user_interface.openRightTab(event, '#upgrades_tab', '#upgrades_tablink')">Upgrades</button>
+                        <button class="tablinks tablink_right button" id="purchased_upgrades_tablink" onclick="user_interface.openRightTab(event, '#purchased_upgrades_tab', '#purchased_upgrades_tablink')">Purchased Upgrades</button>
+                        <button class="tablinks tablink_right button" id="completed_quests_tablink" onclick="user_interface.openRightTab(event, '#completed_quests_tab', '#completed_quests_tablink')">Completed Quests</button>
                     </div>
 
                     <div class="tabcontent tabcontent_right" id="stats_tab">
@@ -220,17 +226,10 @@
             </div>
         </div>
         <div id="movement_container" class="container">
-            <img class="movement_img" title="Move Up and Left" style="transform:rotate(270deg);" id="move_up_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpLeft()>
-            <img class="movement_img" title="Move Up" id="move_up_button" src="images/arrow.png" onclick=user_interface.moveUp()>
-            <img class="movement_img" title="Move Up and Right" id="move_up_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveUpRight()>
-            <br>
-            <img class="movement_img" title="Move Left" style="transform:rotate(270deg);" id="move_left_button" src="images/arrow.png" onclick=user_interface.moveLeft()>
-            <img class="movement_img" src="images/center.png">
-            <img class="movement_img" title="Move Right" style="transform:rotate(90deg);" id="move_right_button" src="images/arrow.png" onclick=user_interface.moveRight()>
-            <br>
-            <img class="movement_img" title="Move Down and Left" style="transform:rotate(180deg);" id="move_down_left_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownLeft()>
-            <img class="movement_img" title="Move Down" style="transform:rotate(180deg);" id="move_down_button" src="images/arrow.png" onclick=user_interface.moveDown()>
-            <img class="movement_img" title="Move Down and Right" style="transform:rotate(90deg);" id="move_down_right_button" src="images/arrow_diagonal.png" onclick=user_interface.moveDownRight()>
+            <i title="Move Up" class="fa fa-chevron-circle-up" id="move_up_button" onclick=user_interface.moveUp()></i>
+            <i title="Move Left" class="fa fa-chevron-circle-left" id="move_left_button" onclick=user_interface.moveLeft()></i>
+            <i title="Move Right" class="fa fa-chevron-circle-right" id="move_right_button" onclick=user_interface.moveRight()></i>
+            <i title="Move Down" class="fa fa-chevron-circle-down" id="move_down_button" onclick=user_interface.moveDown()></i>
         </div>
         <div id="hotbar_container" class="container"></div>
         <script src="src/main.js"></script>
