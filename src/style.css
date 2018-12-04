@@ -369,11 +369,11 @@ h1, h2, h3, h4 {
 
 @media only screen and (orientation: portrait) {
     body {
-        font-size: medium;
+        font-size: larger;
     }
 
     .button {
-        font-size: small;
+        font-size: large;
     }
     #map_container {
         height: 100vw;
