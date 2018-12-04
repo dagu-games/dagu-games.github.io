@@ -387,21 +387,25 @@ h1, h2, h3, h4 {
     #move_down_button {
         left: calc(30vw / 3);
         font-size: calc(30vw / 3);
+        z-index: 2;
     }
 
     #move_up_button {
         left: calc(30vw / 3);
         font-size: calc(30vw / 3);
+        z-index: 2;
     }
 
     #move_left_button {
         top: calc(30vw / 3);
         font-size: calc(30vw / 3);
+        z-index: 2;
     }
 
     #move_right_button {
         top: calc(30vw / 3);
         font-size: calc(30vw / 3);
+        z-index: 2;
     }
 
     #move_down_button:after {
