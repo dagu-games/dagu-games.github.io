@@ -293,30 +293,8 @@ h1, h2, h3, h4 {
     display: inline-block;
 }
 
-
-#npc_shop_list_container {
-    width: 99%;
-}
-
-#npc_quest_list_container {
-    width: 99%;
-}
-
-#equipped_items_container {
-}
-
-#inventory_container {
-}
-
-#quest_list_container {
-}
-
-#upgrades_container {
-}
-
 @media only screen and (max-aspect-ratio: 31/18) {
     #map_container {
-        position: fixed;
         height: 70vh;
         width: 70vh;
         top: 0;
@@ -353,8 +331,8 @@ h1, h2, h3, h4 {
     }
 
     #movement_container {
-        width:30vh;
-        height:30vh;
+        width:30vw;
+        height:30vw;
         position: fixed;
         left: 2px;
         bottom: 10px;
@@ -362,9 +340,10 @@ h1, h2, h3, h4 {
 
     #hotbar_container {
         position: fixed;
-        width: 40vh;
-        left: 30vh;
-        bottom: 1vh;
+        width: 40vw;
+        left: 30vw;
+        bottom: 1vw;
+        height: 10vw;
     }
 }
 
@@ -382,10 +361,9 @@ h1, h2, h3, h4 {
     #map_container {
         height: 100vw;
         width: 100vw;
-        top: 0;
-        left: 0;
+        float: left;
         cursor: default;
-        position: absolute;
+        position: relative;
         margin-bottom: 8px;
     }
 
@@ -425,25 +403,30 @@ h1, h2, h3, h4 {
     }
 
     #context_menu_container {
-        width: 100vw;
-        height: 100vh;
+        width: 99vw;
+        height: auto;
+        max-height: 100vh;
+        float: left;
         left: 0;
-        top: 100vw;
         position: relative;
         margin-bottom: 8px;
     }
 
     #character_container {
-        width: 100vw;
-        height: 100vh;
+        width: 99vw;
+        height: auto;
+        max-height: 100vh;
+        float: left;
         left: 0;
         position: relative;
         margin-bottom: 8px;
     }
 
     #output_container {
-        width: 100vw;
-        height: 100vh;
+        width: 99vw;
+        height: auto;
+        max-height: 60vh;
+        float: left;
         left: 0;
         position: relative;
         margin-bottom: 8px;
