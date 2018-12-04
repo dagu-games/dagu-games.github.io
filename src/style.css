@@ -417,6 +417,8 @@ h1, h2, h3, h4 {
         position: absolute;
         left: 30vw;
         top: 85vw;
+        bottom: auto;
+        height: auto;
     }
 
     .hotbar_div {
