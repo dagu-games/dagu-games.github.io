@@ -331,8 +331,8 @@ h1, h2, h3, h4 {
     }
 
     #movement_container {
-        width:30vw;
-        height:30vw;
+        width:30vh;
+        height:30vh;
         position: fixed;
         left: 2px;
         bottom: 10px;
@@ -340,11 +340,15 @@ h1, h2, h3, h4 {
 
     #hotbar_container {
         position: fixed;
-        width: 40vw;
-        left: 30vw;
-        bottom: 1vw;
-        height: 10vw;
+        width: 36vh;
+        left: 32vh;
+        bottom: 1vh;
+        height: auto;
     }
+
+    .hotbar_div {
+         width: calc((100% / 4));
+     }
 }
 
 @media only screen and (max-height: 500px) {
@@ -358,6 +362,13 @@ h1, h2, h3, h4 {
 }
 
 @media only screen and (orientation: portrait) {
+    body {
+        font-size: medium;
+    }
+
+    .button {
+        font-size: small;
+    }
     #map_container {
         height: 100vw;
         width: 100vw;
@@ -399,7 +410,11 @@ h1, h2, h3, h4 {
         width: 70vw;
         position: absolute;
         left: 30vw;
-        top: 80vw;
+        top: 85vw;
+    }
+
+    .hotbar_div {
+        width: calc((100% / 10));
     }
 
     #context_menu_container {
