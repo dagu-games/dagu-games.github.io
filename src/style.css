@@ -336,14 +336,6 @@ h1, h2, h3, h4 {
         border: 1px solid gray;
     }
 
-    #movement_container {
-        width:30vh;
-        height:30vh;
-        position: fixed;
-        left: 2px;
-        bottom: 10px;
-    }
-
     #hotbar_container {
         position: fixed;
         width: 36vh;
@@ -410,6 +402,58 @@ h1, h2, h3, h4 {
     #move_right_button {
         top: calc(30vw / 3);
         font-size: calc(30vw / 3);
+    }
+
+    #move_down_button:after {
+        content: '';
+        height: calc(30vw / 3.3);
+        width: calc(30vw / 3.3);
+        position: absolute;
+        z-index: -1;
+        top: 2px;
+        right: 2px;
+        background-color: #D5D5D5;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    #move_right_button:after {
+        content: '';
+        height: calc(30vw / 3.3);
+        width: calc(30vw / 3.3);
+        position: absolute;
+        z-index: -1;
+        top: 2px;
+        right: 2px;
+        background-color: #D5D5D5;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    #move_left_button:after {
+        content: '';
+        height: calc(30vw / 3.3);
+        width: calc(30vw / 3.3);
+        position: absolute;
+        z-index: -1;
+        top: 2px;
+        right: 2px;
+        background-color: #D5D5D5;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    #move_up_button:after {
+        content: '';
+        height: calc(30vw / 3.3);
+        width: calc(30vw / 3.3);
+        position: absolute;
+        z-index: -1;
+        top: 2px;
+        right: 2px;
+        background-color: #D5D5D5;
+        border-radius: 50%;
+        display: inline-block;
     }
 
     #hotbar_container {
