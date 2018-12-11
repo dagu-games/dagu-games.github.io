@@ -1,30 +1,54 @@
 !!!!-----KEEP IT SIMPLE STUPID-----!!!!
 
-link to tiling guide: https://www.deviantart.com/cyangmou/art/Basic-Tiling-464592580
-
 colors:
 paper #D5D5D5
 overcast #9099A2
-lavendar #6D7993
+lavender #6D7993
 dusty #96858F
 
-Cost Breakdown
-130 - Webstorm
-84 - Github
-165 - Webhosting
-10 - Domain
-389$ a year
-33$ a month
-
 types of quests
-kill a specific monster
-kill a specific monster n times
-talk to a specific npc
-find a certain dungeon and defeat all within it
-explore n chunks
-pay n gold
-escort npc to another town
-kill any monster for materials
+    kill a specific monster n times and get specific item
+        kill_count
+    talk to a specific npc
+    find a certain dungeon and defeat all within it
+    explore n chunks
+        count
+    pay n gold
+    //kill any monster for materials
+
+quest definition
+name
+description
+completion_message
+goal_item
+    name
+    description
+    icon
+    count
+isAvailable()
+meetsRequirements()
+findDirection()
+onAccept()
+onAbandon()
+onMonsterKill(monster_name)
+onChunkExplore()
+onComplete()
+generateNPC()
+onTick()
+
+
+chunk generation
+generate random number r
+if r < chance_of_town
+    generate town with npcs with shops and quests that are available and not selected
+else
+    if you have any quests
+        generate wilderness or dungeon relevant to quest, ie monsters you need to kill, monsters holding goal items, monsters holding general materials, named dungeon to clear
+    else
+        generate true random wilderness or dungeon
+
+
+
 
 
 item rarities
@@ -35,19 +59,139 @@ epic - 4 traits
 legendary - 5 traits
 mythic - 6 traits
 
+
 total points for item = 6 + level of character
 points for first stat = total * ((50+random(50))/100.0)
 total -= points for first stat
 points for next stat = total * ((50+random(50))/100.0)
 on last stat, dump remaining total
 
+
 all stats are first normalized through an algorithm such that any stat can be infinitely large but normalized to logarithmic numbers that get ever closer to 100
 all stats therefore get normalized to effectively 0-100
+
 
 damage = attack_base_damage + (attack_damage_multiplier * (attack_power/attack_resistance) * random(attack_random_factor))
 return (damage*(attack_lifesteal/100)) health to attacker
 
-health is given straight up, with a simple multiplier to balance, giving regeneration on tick, same as mana
+
+health is max 100 base, 200 max, same as mana
+
+
+
+
+--------------0.2 - (La Perm) - For Taro, our second cat baby with crossed eyes.----------------------------------------
+
+Content update, make new or revise, UI redesign for inventory, quest system redesign
+
+inventory redesign using icons and tooltips for info
+quest system redesign
+quests
+crafting system, material for each slot, use a bunch of materials for one slot + gold to produce an item with a single preferred stat
+attacks
+upgrades
+item names
+item descriptions
+monster names
+monster descriptions
+monster attacks
+environmental art
+monster art
+town art
+dungeon art
+npc art
+ui art and design
+npc descriptions
+town names - done
+npc names - done
+
+
+
+
+--------------0.3 - (Khao Manee) - For Kimchi, our third cat baby that's way too smart for her own good.----------------
+
+Google Ad Re-Application
+Feature Update
+customize character hair
+achievements
+
+
+
+
+
+
+
+--------------0.4 - (Russian Blue)--------------------------------------------------------------------------------------
+
+Google Ad Re-Application
+Balance and content update
+balance monster stats
+balance character stats
+balance experience gain
+balance economy
+balance crafting
+
+
+
+
+
+
+--------------0.5 - (Persian)-------------------------------------------------------------------------------------------
+
+!NEEDS FUNDING!
+
+Google Ad Re-Application
+Deploy to DreamHost
+MySQL setup
+Save data in SQL server
+Google O-Auth Support
+Make email accounts
+Apply for business legal stuff
+Prestige System, replayability with new perks
+each prestige you get to unlock a perk or upgrade a previous one
+on save, store the character's attack_score and defense_score for use in multiplayer
+
+Cost Breakdown
+130 - WebStorm
+84 - Github
+165 - DreamHost
+10 - Domain
+389$ a year
+33$ a month
+
+
+
+--------------0.6 - (Scottish Fold)-------------------------------------------------------------------------------------------
+
+Google Ad Re-Application
+Clan System
+Dungeon Mode with auto-attacking clan-mates based on their attack_score and defense_score
+Raid Mode with auto-attacking clan-mates based on their attack_score and defense_score
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_______________________OLD UPDATES__________________________________
+
+
 
 
 0.1 - (American Shorthair) - For Menow, our first cat baby with a degenerative mouth disease.
@@ -72,64 +216,3 @@ mark town as home - done
 return home - done
 navigate via tabs in context and character menu - done
 be killed by monsters - done
-
-
-
-
-0.2 - (La Perm) - For Taro, our second cat baby with crossed eyes.
-
-Content update, make new or revise
-side quests
-story quests
-quest system redesign
-attacks
-upgrades
-item names
-item descriptions
-monster names
-monster descriptions
-monster attacks
-environmental art
-monster art
-town art
-dungeon art
-npc art
-ui art and design
-npc descriptions
-town names - done
-npc names - done
-
-
-
-
-0.3 - (Khao Manee) - For Kimchi, our third cat baby that's way too smart for her own good.
-
-Feature Update, Player can
-customize character hair
-receive raw materials as loot
-craft slotted item with materials
-mobile format support
-
-
-
-0.4 - (Russian Blue)
-
-Balance and content update
-balance monster stats
-balance character stats
-balance experience gain
-balance economy
-balance crafting
-
-
-
-0.5 - (Persian) !NEEDS FUNDING!
-
-Deploy to Server
-Google O-Auth Support
-Google Ad Support
-MySQL setup
-Save data in SQL server
-Buy Domain
-Make email accounts
-Apply for Business legal stuff

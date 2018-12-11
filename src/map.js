@@ -28,7 +28,7 @@ let map = {
         }
 
         let $char = $('<img>');
-        $char.attr('src', util.typeToSrcString('hero'));
+        $char.attr('src', ICONS.HERO);
         $char.addClass('tile');
         $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
         $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
@@ -121,7 +121,7 @@ let map = {
             $tile.css({'left': j * Math.floor(map.cell_size)});
             $tile.css({'height': Math.floor(map.cell_size)});
             $tile.css({'width': Math.floor(map.cell_size)});
-            $tile.attr('src', util.typeToSrcString(map_entry.npc.type));
+            $tile.attr('src', map_entry.npc.icon);
             $tile.addClass('tile');
             $tile.data("x", point.x);
             $tile.data("y", point.y);

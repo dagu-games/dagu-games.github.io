@@ -77,6 +77,16 @@ h1, h2, h3, h4 {
     margin: 0 0 0 0;
 }
 
+.item_img {
+    width: 100%;
+}
+
+.item_div {
+    position: relative;
+    float: left;
+    width: 10%;
+}
+
 .left_container {
     float: left;
     width: 50%;
@@ -168,18 +178,25 @@ h1, h2, h3, h4 {
     width: 100%;
 }
 
-.hotbar_tooltip {
-    bottom:calc(25vh / 3);
-    position: absolute;
+.tooltip {
+    /*top: 100%;*/
+    position: fixed;
     display: none;
+    z-index: 99;
+    /*bottom: 0;*/
 }
 
-.hotbar_tooltip td{
+.hotbar_tooltip {
+    /*top: auto;*/
+   /* bottom: 100%;*/
+}
+
+.tooltip td{
     font-size: smaller;
 }
 
 .stats_table{
-     border: 1px solid gray;
+    border: 1px solid gray;
     background-color: #D5D5D5;
  }
 
@@ -355,151 +372,27 @@ h1, h2, h3, h4 {
     }
 
     .button {
-        font-size: x-small;
+        font-size: smaller;
+    }
+
+
+    .tooltip td{
+        font-size: xx-small;
     }
 }
 
-@media only screen and (orientation: portrait) {
-    body {
-        font-size: 2vh;
+#portrait_message {
+    display: none;
+}
+
+@media only screen and (max-aspect-ratio: 5/4) {
+    #app {
+        display: none;
     }
 
-    .button {
+    #portrait_message {
+        content: 'portrait mode is not supported, please rotate your screen';
         font-size: 3vh;
-    }
-    #map_container {
-        height: 100vw;
-        width: 100vw;
-        float: left;
-        cursor: default;
-        position: relative;
-        margin-bottom: 8px;
-    }
-
-    #movement_container {
-        width:30vw;
-        height:30vw;
-        position: absolute;
-        left: 2px;
-        top: 60vw;
-    }
-
-    #move_down_button {
-        left: calc(30vw / 3);
-        font-size: calc(30vw / 3);
-        z-index: 2;
-    }
-
-    #move_up_button {
-        left: calc(30vw / 3);
-        font-size: calc(30vw / 3);
-        z-index: 2;
-    }
-
-    #move_left_button {
-        top: calc(30vw / 3);
-        font-size: calc(30vw / 3);
-        z-index: 2;
-    }
-
-    #move_right_button {
-        top: calc(30vw / 3);
-        font-size: calc(30vw / 3);
-        z-index: 2;
-    }
-
-    #move_down_button:after {
-        content: '';
-        height: calc(30vw / 3.3);
-        width: calc(30vw / 3.3);
-        position: absolute;
-        z-index: -1;
-        top: 2px;
-        right: 2px;
-        background-color: #D5D5D5;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    #move_right_button:after {
-        content: '';
-        height: calc(30vw / 3.3);
-        width: calc(30vw / 3.3);
-        position: absolute;
-        z-index: -1;
-        top: 2px;
-        right: 2px;
-        background-color: #D5D5D5;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    #move_left_button:after {
-        content: '';
-        height: calc(30vw / 3.3);
-        width: calc(30vw / 3.3);
-        position: absolute;
-        z-index: -1;
-        top: 2px;
-        right: 2px;
-        background-color: #D5D5D5;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    #move_up_button:after {
-        content: '';
-        height: calc(30vw / 3.3);
-        width: calc(30vw / 3.3);
-        position: absolute;
-        z-index: -1;
-        top: 2px;
-        right: 2px;
-        background-color: #D5D5D5;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    #hotbar_container {
-        width: 70vw;
-        position: absolute;
-        left: 30vw;
-        top: 85vw;
-        bottom: auto;
-        height: auto;
-    }
-
-    .hotbar_div {
-        width: calc((100% / 10));
-    }
-
-    #context_menu_container {
-        width: 99vw;
-        height: auto;
-        max-height: 100vh;
-        float: left;
-        left: 0;
-        position: relative;
-        margin-bottom: 8px;
-    }
-
-    #character_container {
-        width: 99vw;
-        height: auto;
-        max-height: 100vh;
-        float: left;
-        left: 0;
-        position: relative;
-        margin-bottom: 8px;
-    }
-
-    #output_container {
-        width: 99vw;
-        height: auto;
-        max-height: 60vh;
-        float: left;
-        left: 0;
-        position: relative;
-        margin-bottom: 8px;
+        display: block;
     }
 }

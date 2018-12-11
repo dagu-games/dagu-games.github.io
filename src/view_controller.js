@@ -1,5 +1,6 @@
 let view_controller = {
     render: function(){
+        $('.tooltip').remove();
         view_controller.updateCharacter();
         view_controller.updateContextMenu();
         view_controller.updateOutput();
@@ -48,14 +49,6 @@ let view_controller = {
         $('#character_necklace_container').empty().append(view_controller.generateItem(game.character.equipped_items.necklace,'equipped',null));
         $('#character_ring_1_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring1,'equipped',{ring:1}));
         $('#character_ring_2_container').empty().append(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',{ring:2}));
-        //console.debug(view_controller.generateItem(game.character.equipped_items.ring2,'equipped',null));
-        //console.debug(game.character.equipped_items.ring2);
-
-        let $inventory = $('#equipment_container');
-        $inventory.empty();
-        for(let i = 0; i < game.character.inventory.equipment.length; i++){
-            $inventory.append(view_controller.generateItem(game.character.inventory.equipment[i],'inventory',{index:i}));
-        }
 
         let $quest_list = $('#quest_list_container');
         $quest_list.empty();
@@ -63,10 +56,28 @@ let view_controller = {
             $quest_list.append(view_controller.generateQuest(game.character.quests[i],"character"));
         }
 
-        let $completed_quest_list = $('#completed_quest_list_container');
-        $completed_quest_list.empty();
-        for(let i = 0; i < game.character.completed_quests.length; i++){
-            $completed_quest_list.append(view_controller.generateQuest(game.character.completed_quests[i],"completed"));
+        let $inventory = $('#equipment_container');
+        $inventory.empty();
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            if(game.character.inventory.items[i].type === ITEM_TYPES.EQUIPMENT){
+                $inventory.append(view_controller.generateItem(game.character.inventory.items[i], 'equipment', {index: i}));
+            }
+        }
+
+        let $goal_items_list = $('#goal_items_container');
+        $goal_items_list.empty();
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            if(game.character.inventory.items[i].type === ITEM_TYPES.GOAL_ITEM){
+                $goal_items_list.append(view_controller.generateItem(game.character.inventory.items[i], 'goal_item', {}));
+            }
+        }
+
+        let $consumables_list = $('#consumables_container');
+        $consumables_list.empty();
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            if(game.character.inventory.items[i].type === ITEM_TYPES.CONSUMABLE){
+                $consumables_list.append(view_controller.generateItem(game.character.inventory.items[i], 'consumable', {index: i}));
+            }
         }
 
         let $upgrades_list = $('#upgrades_container');
@@ -85,10 +96,71 @@ let view_controller = {
             }
         }
 
-        let $quest_items_list = $('#quest_items_container');
-        $quest_items_list.empty();
-        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
-            $quest_items_list.append(view_controller.generateQuestItem(game.character.inventory.quest_items[i]));
+        let $completed_quest_list = $('#completed_quest_list_container');
+        $completed_quest_list.empty();
+        for(let i = 0; i < game.character.completed_quests.length; i++){
+            $completed_quest_list.append(view_controller.generateQuest(game.character.completed_quests[i],"completed"));
+        }
+    },
+
+    updateContextMenu: function(){
+        view_controller.updateSaveList();
+        if(util.isInTown()){
+            $('#set_home_button').show();
+        }else{
+            $('#set_home_button').hide();
+        }
+
+        let $npc_quest_list_container = $('#npc_quest_list_container');
+        $npc_quest_list_container.empty();
+        if(util.isAround(game.character.x,game.character.y,"quest_giver")){
+            let points = util.getAround(game.character.x,game.character.y);
+            for(let i = 0; i < points.length; i++){
+                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "quest_giver"){
+                    let quest_name = map.get(points[i].x,points[i].y).npc.quest;
+                    if(!quests.isQuestCompleted(quest_name) && !quests.hasQuest(quest_name)){
+                        $npc_quest_list_container.append(view_controller.generateQuest(map.get(points[i].x,points[i].y).npc.quest,'quest_giver'));
+                    }
+                }
+            }
+        }
+
+        let $buy_item_list_container = $('#buy_item_list_container');
+        $buy_item_list_container.empty();
+        if(util.isAround(game.character.x,game.character.y,"shop")){
+            let points = util.getAround(game.character.x,game.character.y);
+            for(let i = 0; i < points.length; i++){
+                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
+                    let items = map.get(points[i].x,points[i].y).npc.items;
+                    for(let j = 0; j < items.length; j++){
+                        $buy_item_list_container.append(view_controller.generateItem(items[j],'buy',{index:j,shop_x:points[i].x,shop_y:points[i].y}));
+                    }
+                }
+            }
+        }
+
+        let $sell_item_list_container = $('#sell_item_list_container');
+        $sell_item_list_container.empty();
+        if(util.isAround(game.character.x,game.character.y,"shop")){
+            for(let i = 0; i < game.character.inventory.items.length; i++){
+                if(game.character.inventory.items[i].type === ITEM_TYPES.CONSUMABLE || game.character.inventory.items[i].type === ITEM_TYPES.EQUIPMENT){
+                    $sell_item_list_container.append(view_controller.generateItem(game.character.inventory.items[i],'sell',{index:i}));
+                }
+            }
+        }
+
+        let $attack_list = $('#attack_list_container');
+        $attack_list.empty();
+        for(let i = 0; i < game.character.attacks.length; i++){
+            if(character_attack.isOffCooldown(game.character.attacks[i])){
+                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
+            }
+        }
+
+        for(let i = 0; i < game.character.attacks.length; i++){
+            if(!character_attack.isOffCooldown(game.character.attacks[i])){
+                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
+            }
         }
     },
 
@@ -119,52 +191,6 @@ let view_controller = {
         $out.scrollTop($out[0].scrollHeight - $out[0].clientHeight);
     },
 
-    updateContextMenu: function(){
-        view_controller.updateSaveList();
-        if(util.isInTown()){
-            $('#set_home_button').show();
-        }else{
-            $('#set_home_button').hide();
-        }
-
-        let $npc_shop_list_container = $('#npc_shop_list_container');
-        $npc_shop_list_container.empty();
-        if(util.isAround(game.character.x,game.character.y,"shop")){
-            let points = util.getAround(game.character.x,game.character.y);
-            for(let i = 0; i < points.length; i++){
-                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
-                    let items = map.get(points[i].x,points[i].y).npc.items;
-                    for(let j = 0; j < items.length; j++){
-                        $npc_shop_list_container.append(view_controller.generateItem(items[j],'shop',{index:j,shop_x:points[i].x,shop_y:points[i].y}));
-                    }
-                }
-            }
-        }
-
-        let $npc_quest_list_container = $('#npc_quest_list_container');
-        $npc_quest_list_container.empty();
-        if(util.isAround(game.character.x,game.character.y,"quest_giver")){
-            let points = util.getAround(game.character.x,game.character.y);
-            for(let i = 0; i < points.length; i++){
-                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "quest_giver" && !util.isQuestCompleted(map.get(points[i].x,points[i].y).npc.quest)){
-                    $npc_quest_list_container.append(view_controller.generateQuest(map.get(points[i].x,points[i].y).npc.quest,'quest_giver'));
-                }
-            }
-        }
-        let $attack_list = $('#attack_list_container');
-        $attack_list.empty();
-        for(let i = 0; i < game.character.attacks.length; i++){
-            if(character_attack.isOffCooldown(game.character.attacks[i])){
-                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
-            }
-        }
-        for(let i = 0; i < game.character.attacks.length; i++){
-            if(!character_attack.isOffCooldown(game.character.attacks[i])){
-                $attack_list.append(view_controller.generateAttack(game.character.attacks[i]));
-            }
-        }
-    },
-
     updateHotbar: function(){
         let $cont = $('#hotbar_container');
         $cont.empty();
@@ -189,128 +215,138 @@ let view_controller = {
         if(item == null){
             return;
         }
+
         let $cont = $('<div></div>');
         $cont.addClass('container');
-        $cont.addClass('item_container');
+        $cont.addClass('item_div');
 
-        let $title_cont = $('<table></table>');
-        $title_cont.css('width', '99%');
-        $title_cont.addClass('stats_table');
+        let $item_img = $('<img>');
+        $item_img.attr('src', item.icon);
+        $item_img.addClass('item_img');
 
-        let $buttons = $('<div></div>');
+        let $item_tooltip = $('<table></table>');
+        $item_tooltip.addClass('stats_table');
+        $item_tooltip.addClass('tooltip');
 
         if(mode ==='equipped'){
-            let $button = $('<button class="button" type="button">Unequip</button>');
-            $button.css('float', 'right');
-            $button.click(user_interface.unequipItem);
-            if(data != null && data.ring != null){
+            if(item.slot === 'ring'){
                 if(data.ring === 1){
-                    $button.data('slot','ring1');
+                    $item_img.data('slot','ring1');
+                    $item_img.data('tooltip_container','#item_tooltip_ring1');
+                    $item_tooltip.attr('id', '#item_tooltip_ring1');
                 }else{
-                    $button.data('slot','ring2');
+                    $item_img.data('slot','ring2');
+                    $item_img.data('tooltip_container','#item_tooltip_ring2');
+                    $item_tooltip.attr('id', '#item_tooltip_ring2');
                 }
             }else{
-                $button.data('slot',item.slot);
+                $item_img.data('slot',item.slot);
+                $item_img.data('tooltip_container','#item_tooltip_' + item.slot);
+                $item_tooltip.attr('id', 'item_tooltip_' + item.slot);
             }
-            $buttons.append($button);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
+            $item_img.click(user_interface.unequipItem);
         }
-        if(mode === 'inventory'){
-            if(item.slot === 'ring'){
-                let $button = $('<button class="button" type="button">Equip in Ring 2</button>');
-                $button.css('float', 'right');
-                $button.click(user_interface.equipItem);
-                $button.data('ring',2);
-                $button.data('index',data.index);
-                $buttons.append($button);
 
-                $button = $('<button class="button" type="button">Equip in Ring 1</button>');
-                $button.css('float', 'right');
-                $button.click(user_interface.equipItem);
-                $button.data('ring',1);
-                $button.data('index',data.index);
-                $buttons.append($button);
-            }else{
-                let $button = $('<button class="button" type="button">Equip</button>');
-                $button.css('float', 'right');
-                $button.data('ring',0);
-                $button.data('index',data.index);
-                $button.click(user_interface.equipItem);
-                $buttons.append($button);
+        if(mode ==='equipment'){
+            $item_img.data('index',data.index);
+            $item_img.data('tooltip_container','#item_tooltip_' + data.index);
+            $item_tooltip.attr('id', 'item_tooltip_' + data.index);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
+            $item_img.click(user_interface.equipItem);
+        }
+
+        if(mode ==='consumable'){
+            $item_img.data('index',data.index);
+            $item_img.data('tooltip_container','#item_tooltip_' + data.index);
+            $item_tooltip.attr('id', 'item_tooltip_' + data.index);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
+            $item_img.click(user_interface.useConsumable);
+        }
+
+        if(mode === 'buy'){
+            $item_img.data('tooltip_container','#shop_tooltip_' + data.shop_x + '_' + data.shop_y + '_' + data.index);
+            $item_tooltip.attr('id', 'shop_tooltip_'  + data.shop_x + '_' + data.shop_y + '_' + data.index);
+            $item_img.data('index',data.index);
+            $item_img.data('shop_x',data.shop_x);
+            $item_img.data('shop_y',data.shop_y);
+            console.debug($item_img.mouseover(user_interface.hoverDiv));
+            $item_img.mouseleave(user_interface.hoverDiv);
+            $item_img.click(user_interface.buyItem);
+        }
+
+        if(mode === 'sell'){
+            $item_img.data('tooltip_container','#item_tooltip_' + data.index);
+            $item_tooltip.attr('id', 'item_tooltip_' + data.index);
+            $item_img.click(user_interface.sellItem);
+            $item_img.data('index',data.index);
+        }
+
+
+
+        $item_tooltip.append('<tr><th colspan="2">' + item.name + '</th></tr>');
+
+        if(item.type === ITEM_TYPES.EQUIPMENT){
+            $item_tooltip.append('<tr><td colspan="2">Level ' + item.level + ' ' + item.stats.rarity + '</td></tr>');
+        }
+
+        if(item.type === ITEM_TYPES.CONSUMABLE || item.type === ITEM_TYPES.EQUIPMENT){
+            $item_tooltip.append('<tr><td>Value</td><td>' + item.value + '</td></tr>');
+        }
+
+        if(item.type === ITEM_TYPES.EQUIPMENT){
+            if(item.stats.max_health > 0){
+                $item_tooltip.append('<tr><td>Max Health</td><td>' + item.stats.max_health + '</td></tr>');
             }
-            if(util.isAround(game.character.x,game.character.y,'shop')){
-                let $button = $('<button class="button" type="button">Sell Item</button>');
-                $button.css('float', 'right');
-                $button.data('ring',0);
-                $button.data('index',data.index);
-                $button.click(user_interface.sellItem);
-                $buttons.append($button);
+            if(item.stats.health_regeneration > 0){
+                $item_tooltip.append('<tr><td>Health Regeneration</td><td>' + item.stats.health_regeneration + '</td></tr>');
+            }
+            if(item.stats.max_mana > 0){
+                $item_tooltip.append('<tr><td>Max Mana</td><td>' + item.stats.max_mana + '</td></tr>');
+            }
+            if(item.stats.mana_regeneration > 0){
+                $item_tooltip.append('<tr><td>Mana Regeneration</td><td>' + item.stats.mana_regeneration + '</td></tr>');
+            }
+            if(item.stats.attack_power > 0){
+                $item_tooltip.append('<tr><td>Attack Power</td><td>' + item.stats.attack_power + '</td></tr>');
+            }
+            if(item.stats.attack_lifesteal > 0){
+                $item_tooltip.append('<tr><td>Attack Lifesteal</td><td>' + item.stats.attack_lifesteal + '</td></tr>');
+            }
+            if(item.stats.armor > 0){
+                $item_tooltip.append('<tr><td>Armor</td><td>' + item.stats.armor + '</td></tr>');
+            }
+            if(item.stats.magic_power > 0){
+                $item_tooltip.append('<tr><td>Magic Power</td><td>' + item.stats.magic_power + '</td></tr>');
+            }
+            if(item.stats.magic_lifesteal > 0){
+                $item_tooltip.append('<tr><td>Magic Lifesteal</td><td>' + item.stats.magic_lifesteal + '</td></tr>');
+            }
+            if(item.stats.magic_resistance > 0){
+                $item_tooltip.append('<tr><td>Magic Resistance</td><td>' + item.stats.magic_resistance + '</td></tr>');
+            }
+            if(item.stats.cooldown_reduction > 0){
+                $item_tooltip.append('<tr><td>Cooldown Reduction</td><td>' + item.stats.cooldown_reduction + '</td></tr>');
             }
         }
-        if(mode ==='shop' && item.value <= game.character.inventory.gold){
-            let $button = $('<button class="button" type="button">Buy Item</button>');
-            $button.css('float', 'right');
-            $button.click(user_interface.buyItem);
-            $button.data('index',data.index);
-            $button.data('shop_x',data.shop_x);
-            $button.data('shop_y',data.shop_y);
-            $buttons.append($button);
-        }
 
-        let $tr = $('<tr></tr>');
-        $tr.append('<td>' + item.name + '</td>');
-        let $td = $('<td></td>');
-        $td.append($buttons);
-        $tr.append($td);
-        $title_cont.append($tr);
+        $item_tooltip.append('<tr><td>Description</td><td>' + item.description + '</td></tr>');
 
-        $title_cont.append('<tr><td>Rarity</td><td>' + util.rarityToText(item.stats.rarity) + '</td></tr>');
-        $title_cont.append('<tr><td>Level</td><td>' + item.level + '</td></tr>');
-        $title_cont.append('<tr><td>Value</td><td>' + item.value + '</td></tr>');
-
-        if(item.stats.max_health > 0){
-            $title_cont.append('<tr><td>Max Health</td><td>' + item.stats.max_health + '</td></tr>');
-        }
-        if(item.stats.health_regeneration > 0){
-            $title_cont.append('<tr><td>Health Regeneration</td><td>' + item.stats.health_regeneration + '</td></tr>');
-        }
-        if(item.stats.max_mana > 0){
-            $title_cont.append('<tr><td>Max Mana</td><td>' + item.stats.max_mana + '</td></tr>');
-        }
-        if(item.stats.mana_regeneration > 0){
-            $title_cont.append('<tr><td>Mana Regeneration</td><td>' + item.stats.mana_regeneration + '</td></tr>');
-        }
-        if(item.stats.attack_power > 0){
-            $title_cont.append('<tr><td>Attack Power</td><td>' + item.stats.attack_power + '</td></tr>');
-        }
-        if(item.stats.attack_lifesteal > 0){
-            $title_cont.append('<tr><td>Attack Lifesteal</td><td>' + item.stats.attack_lifesteal + '</td></tr>');
-        }
-        if(item.stats.armor > 0){
-            $title_cont.append('<tr><td>Armor</td><td>' + item.stats.armor + '</td></tr>');
-        }
-        if(item.stats.magic_power > 0){
-            $title_cont.append('<tr><td>Magic Power</td><td>' + item.stats.magic_power + '</td></tr>');
-        }
-        if(item.stats.magic_lifesteal > 0){
-            $title_cont.append('<tr><td>Magic Lifesteal</td><td>' + item.stats.magic_lifesteal + '</td></tr>');
-        }
-        if(item.stats.magic_resistance > 0){
-            $title_cont.append('<tr><td>Magic Resistance</td><td>' + item.stats.magic_resistance + '</td></tr>');
-        }
-        if(item.stats.cooldown_reduction > 0){
-            $title_cont.append('<tr><td>Cooldown Reduction</td><td>' + item.stats.cooldown_reduction + '</td></tr>');
-        }
-
-        $title_cont.append('<tr><td>Description</td><td>' + item.description + '</td></tr>');
-        $cont.append($title_cont);
+        $cont.append($item_img);
+        $('#app').append($item_tooltip);
         return $cont;
     },
 
     generateQuest: function(quest_name, mode){
-        if(quest_name == null || (mode === 'quest_giver' && util.hasQuest(quest_name) && !util.hasQuestItem(quest_name))){
+        if(quest_name == null){
             return;
         }
-        let quest = util.getQuest(quest_name);
+        let quest = quests.getQuest(quest_name);
+
+
         let $cont = $('<div></div>');
         $cont.addClass('container');
         $cont.addClass('item_container');
@@ -321,21 +357,21 @@ let view_controller = {
 
         let $buttons = $('<div></div>');
         if(mode === "quest_giver"){
-            if(util.hasQuest(quest_name) && util.hasQuestItem(quest_name)){
+            let $button = $('<button class="button" type="button">Accept Quest</button>');
+            $button.css('float', 'right');
+            $button.click(user_interface.acceptQuest);
+            $button.data('quest_name',quest_name);
+            $buttons.append($button);
+        }
+        if(mode === 'character'){
+            if(quest.meetsRequirements()){
                 let $button = $('<button class="button" type="button">Complete Quest</button>');
                 $button.css('float', 'right');
                 $button.click(user_interface.completeQuest);
                 $button.data('quest_name',quest_name);
                 $buttons.append($button);
-            }else if(!util.hasQuest(quest_name) && !util.isQuestCompleted(quest_name)){
-                let $button = $('<button class="button" type="button">Accept Quest</button>');
-                $button.css('float', 'right');
-                $button.click(user_interface.acceptQuest);
-                $button.data('quest_name',quest_name);
-                $buttons.append($button);
             }
-        }
-        if(mode === 'character'){
+
             let $button = $('<button class="button" type="button">Abandon Quest</button>');
             $button.css('float', 'right');
             $button.click(user_interface.abandonQuest);
@@ -351,12 +387,10 @@ let view_controller = {
         $tr.append($td);
         $title_cont.append($tr);
 
-        $title_cont.append('<tr><td>Goal Item</td><td>' + quest.goal_item + '</td></tr>');
 
-        if(util.hasQuestItem(quest_name)){
-            $title_cont.append('<tr><td>Direction</td><td>' + util.directionToText(util.directionTowardQuestNPC(quest_name)) + '</td></tr>');
-        }else{
-            $title_cont.append('<tr><td>Direction</td><td>' + util.directionToText(util.directionTowardGoalItem(quest_name)) + '</td></tr>');
+        let direction = quest.findDirection();
+        if(direction != null && direction === '?'){
+            $title_cont.append('<tr><td>Direction</td><td>' + direction + '</td></tr>');
         }
         $title_cont.append('<tr><td>Description</td><td>' + quest.description + '</td></tr>');
 
@@ -401,25 +435,6 @@ let view_controller = {
 
         $title_cont.append('<tr><td>Skill Point Cost</td><td>' + upgrade.skill_point_cost + '</td></tr>');
         $title_cont.append('<tr><td>Description</td><td>' + upgrade.description + '</td></tr>');
-
-        $cont.append($title_cont);
-        return $cont;
-    },
-
-    generateQuestItem: function(goal_item_name){
-        if(goal_item_name == null){
-            return;
-        }
-        let quest = util.getQuestFromGoalItem(goal_item_name);
-        let $cont = $('<div></div>');
-        $cont.addClass('container');
-        $cont.addClass('item_container');
-
-        let $title_cont = $('<table></table>');
-        $title_cont.css('width', '99%');
-        $title_cont.addClass('stats_table');
-        $title_cont.append('<tr><td>' + goal_item_name + '</td></tr>');
-        $title_cont.append('<tr><td>Description</td><td>' + quest.goal_item_description + '</td></tr>');
 
         $cont.append($title_cont);
         return $cont;
@@ -533,11 +548,12 @@ let view_controller = {
 
         let $hotbar_tooltip = $('<div></div>');
         $hotbar_tooltip.attr('id', 'hotbar_tooltip_' + i);
+        $hotbar_tooltip.addClass('tooltip');
         $hotbar_tooltip.addClass('hotbar_tooltip');
 
         let $stats_table = $('<table></table>');
         $stats_table.addClass('stats_table');
-        $stats_table.append('<tr><th>' + attack.name + '</th></tr>');
+        $stats_table.append('<tr><th colspan="2">' + attack.name + '</th></tr>');
         $stats_table.append('<tr><td>Mana Cost</td><td>' + attack.mana_cost + '</td></tr>');
         $stats_table.append('<tr><td>Cooldown</td><td>' + attack.cooldown + '</td></tr>');
         $stats_table.append('<tr><td>Range</td><td>' + attack.range + '</td></tr>');
@@ -548,7 +564,7 @@ let view_controller = {
         $cont.append($hotbar_img);
         $cont.append($bottom_left_text);
         $cont.append($bottom_right_text);
-        $cont.append($hotbar_tooltip);
+        $('#app').append($hotbar_tooltip);
         return $cont;
     },
 

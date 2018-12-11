@@ -80,7 +80,6 @@ let user_interface = {
         }
         game.output.push("Zoom increased to " + game.settings.zoom_factor);
         map.render();
-        view_controller.render();
     },
 
     zoomOut: function(){
@@ -89,7 +88,6 @@ let user_interface = {
         }
         game.output.push("Zoom decreased to " + game.settings.zoom_factor);
         map.render();
-        view_controller.render();
     },
 
     moveLeft: function(){
@@ -101,28 +99,8 @@ let user_interface = {
         view_controller.render();
     },
 
-    moveUpLeft: function(){
-        if(util.isWalkable(game.character.x - 1, game.character.y + 1)){
-            game.character.x -= 1;
-            game.character.y += 1;
-            game_logic.tick();
-        }
-        map.render();
-        view_controller.render();
-    },
-
     moveUp: function(){
         if(util.isWalkable(game.character.x, game.character.y + 1)){
-            game.character.y += 1;
-            game_logic.tick();
-        }
-        map.render();
-        view_controller.render();
-    },
-
-    moveUpRight: function(){
-        if(util.isWalkable(game.character.x + 1, game.character.y + 1)){
-            game.character.x += 1;
             game.character.y += 1;
             game_logic.tick();
         }
@@ -139,28 +117,8 @@ let user_interface = {
         view_controller.render();
     },
 
-    moveDownRight: function(){
-        if(util.isWalkable(game.character.x + 1, game.character.y - 1)){
-            game.character.x += 1;
-            game.character.y -= 1;
-            game_logic.tick();
-        }
-        map.render();
-        view_controller.render();
-    },
-
     moveDown: function(){
         if(util.isWalkable(game.character.x, game.character.y - 1)){
-            game.character.y -= 1;
-            game_logic.tick();
-        }
-        map.render();
-        view_controller.render();
-    },
-
-    moveDownLeft: function(){
-        if(util.isWalkable(game.character.x - 1, game.character.y - 1)){
-            game.character.x -= 1;
             game.character.y -= 1;
             game_logic.tick();
         }
@@ -201,23 +159,25 @@ let user_interface = {
         game.output.push("Inspecting " + x + "," + y);
         if(map.get(x,y).npc != null){
             game.output.push("Name: " + map.get(x,y).npc.name);
-            game.output.push("NPC is " + map.get(x,y).npc.type);
+            game.output.push(map.get(x,y).npc.type);
+            game.output.push("Description: " + map.get(x,y).npc.description);
             if(map.get(x,y).npc.type === "shop"){
                 for(let i = 0; i < map.get(x,y).npc.items.length; i++){
                     game.output.push(map.get(x,y).npc.items[i].name + " - " + map.get(x,y).npc.items[i].value);
                 }
             }
             if(map.get(x,y).npc.type === "quest_giver"){
-                let quest = util.getQuest(map.get(x,y).npc.quest);
+                let quest = quests.getQuest(map.get(x,y).npc.quest);
                 game.output.push("Name: " + map.get(x,y).npc.name);
                 game.output.push("Quest name: " + quest.name);
                 game.output.push("Quest description: " + quest.description);
-                game.output.push("Quest goal item: " + quest.goal_item);
             }
             if(map.get(x,y).npc.type === "monster"){
-                game.output.push("Monster Name: " + map.get(x,y).npc.name);
                 game.output.push("Health: " + map.get(x,y).npc.current_health + "/" + map.get(x,y).npc.max_health);
-                game.output.push("Quest Goal Item: " + map.get(x,y).npc.goal_item);
+                game.output.push("Loot:");
+                for(let i = 0; i < map.get(x,y).npc.loot.length; i++){
+                    game.output.push(map.get(x,y).npc.loot[i].type + " - " + map.get(x,y).npc.loot[i].name);
+                }
             }
         }
         map.render();
@@ -226,28 +186,19 @@ let user_interface = {
 
     equipItem: function(event){
         let $target = $(event.target);
-        let item = game.character.inventory.equipment[$target.data('index')];
-        game.character.inventory.equipment.splice($target.data('index'),1);
-        if($target.data('ring') === 0){
-            if(game.character.equipped_items[item.slot] != null){
-                game.character.inventory.equipment.push(game.character.equipped_items[item.slot]);
-                game.character.equipped_items[item.slot] = null;
+        let item = game.character.inventory.items[$target.data('index')];
+        game.character.inventory.items.splice($target.data('index'),1);
+        if(item.slot === 'ring'){
+            if(game.character.equipped_items["ring1"] != null){
+                if(game.character.equipped_items["ring2"] != null){
+                    game.character.inventory.items.push(game.character.equipped_items["ring2"]);
+                }
+                game.character.equipped_items["ring2"] = game.character.equipped_items["ring1"];
             }
+            game.character.equipped_items["ring1"] = item;
+        }else{
+            game.character.inventory.items.push(game.character.equipped_items[item.slot]);
             game.character.equipped_items[item.slot] = item;
-        }
-        if($target.data('ring') === 1){
-            if(game.character.equipped_items.ring1 != null){
-                game.character.inventory.equipment.push(game.character.equipped_items.ring1);
-                game.character.equipped_items.ring1 = null;
-            }
-            game.character.equipped_items.ring1 = item;
-        }
-        if($target.data('ring') === 2){
-            if(game.character.equipped_items.ring2 != null){
-                game.character.inventory.equipment.push(game.character.equipped_items.ring2);
-                game.character.equipped_items.ring2 = null;
-            }
-            game.character.equipped_items.ring2 = item;
         }
 
         map.render();
@@ -256,7 +207,7 @@ let user_interface = {
 
     unequipItem: function(event){
         let $target = $(event.target);
-        game.character.inventory.equipment.push(game.character.equipped_items[$target.data('slot')]);
+        game.character.inventory.items.push(game.character.equipped_items[$target.data('slot')]);
         game.character.equipped_items[$target.data('slot')] = null;
         map.render();
         view_controller.render();
@@ -264,8 +215,10 @@ let user_interface = {
 
     acceptQuest: function(event){
         let $target = $(event.target);
-
-        game.character.quests.push($target.data('quest_name'));
+        let quest_name = $target.data('quest_name');
+        let quest = quests.getQuest(quest_name);
+        game.character.quests.push(quest_name);
+        quest.onAccept();
 
         map.render();
         view_controller.render();
@@ -273,16 +226,11 @@ let user_interface = {
 
     abandonQuest: function(event){
         let $target = $(event.target);
-        let quest = util.getQuest($target.data('quest_name'));
-
+        let quest = quests.getQuest($target.data('quest_name'));
+        quest.onAbandon();
         for(let i = 0; i < game.character.quests.length; i++){
             if(game.character.quests[i] === quest.name){
                 game.character.quests.splice(i,1);
-            }
-        }
-        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
-            if(game.character.inventory.quest_items[i] === quest.goal_item){
-                game.character.inventory.quest_items.splice(i,1);
             }
         }
         map.render();
@@ -291,35 +239,26 @@ let user_interface = {
 
     completeQuest: function(event){
         let $target = $(event.target);
-        let quest = util.getQuest($target.data('quest_name'));
-
+        let quest = quests.getQuest($target.data('quest_name'));
+        quest.onComplete();
         for(let i = 0; i < game.character.quests.length; i++){
             if(game.character.quests[i] === quest.name){
                 game.character.quests.splice(i,1);
             }
         }
-        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
-            if(game.character.inventory.quest_items[i] === quest.goal_item){
-                game.character.inventory.quest_items.splice(i,1);
-            }
-        }
-        game_logic.giveEXP(1000);
         game.character.completed_quests.push(quest.name);
-        //gives loot to player and moves quest to character.completed_quests
+
         map.render();
         view_controller.render();
     },
 
     buyItem: function(event){
         let $target = $(event.target);
-        //console.log($target.data('shop_x'));
-        //console.log($target.data('shop_y'));
-        //console.log($target.data('index'));
 
         let item = map.get($target.data('shop_x'),$target.data('shop_y')).npc.items[$target.data('index')];
         map.get($target.data('shop_x'),$target.data('shop_y')).npc.items.splice($target.data('index'),1);
         game.character.inventory.gold -= item.value;
-        game.character.inventory.equipment.push(item);
+        game.character.inventory.items.push(item);
 
         map.render();
         view_controller.render();
@@ -327,8 +266,8 @@ let user_interface = {
 
     sellItem: function(event){
         let $target = $(event.target);
-        let item = game.character.inventory.equipment[$target.data('index')];
-        game.character.inventory.equipment.splice($target.data('index'),1);
+        let item = game.character.inventory.items[$target.data('index')];
+        game.character.inventory.items.splice($target.data('index'),1);
         game.character.inventory.gold += item.value;
 
         let points_around = util.getAround(game.character.x,game.character.y);
@@ -439,7 +378,17 @@ let user_interface = {
 
     hoverDiv: function(event){
         let tooltip_container = $(event.target).data('tooltip_container');
+        console.log(tooltip_container);
         $(tooltip_container).toggle();
         return false;
+    },
+
+    useConsumable: function(event){
+        let $target = $(event.target);
+        let consumable_name = game.character.inventory.items[$target.data('index')];
+        game.character.inventory.items.splice($target.data('index'),1);
+        consumables.getConsumable(consumable_name).effect();
+        map.render();
+        view_controller.render();
     },
 };

@@ -12,7 +12,7 @@ let character_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x, monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.attack_power())/(util.normalizeStat(monster.armor)+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.attack_power())/(util.normalizeStat(monster.armor)+1)) * util.getRandomInt(attack_random_factor));
                 util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.attack_lifesteal())/100.0)));
                 return damage;
             },
@@ -29,7 +29,7 @@ let character_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x, monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.getRandomInt(attack_random_factor));
                 util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.magic_lifesteal())/100.0)));
                 return damage;
             },
@@ -47,7 +47,7 @@ let character_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x, monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(util.characterStats.magic_power())/(util.normalizeStat(monster.magic_resistance)+1)) * util.getRandomInt(attack_random_factor));
                 util.healCharacter(Math.floor(damage * (util.normalizeStat(util.characterStats.magic_lifesteal())/100.0)));
                 return damage;
             },
@@ -75,15 +75,12 @@ let character_attack = {
         game.output.push('You dealt ' + damage + ' damage to the ' + map_entry.npc.name + '(' + map_entry.npc.current_health + '/' + map_entry.npc.max_health + ')');
         if(map_entry.npc.current_health <= 0){
             let loot = map_entry.npc.loot;
-            let goal_item = map_entry.npc.goal_item;
+            quests.logMonsterKill(map_entry.npc.name);
             loot.forEach(function(item){
-                game.character.inventory.equipment.unshift(item);
+                game.character.inventory.items.unshift(item);
             });
             if(loot.length > 0){
-                user_interface.openRightTab(null, "#inventory_tab", "#inventory_tablink");
-            }
-            if(goal_item !== null){
-                game.character.inventory.quest_items.unshift(goal_item);
+                user_interface.openRightTab(null, "#equipment_tab", "#equipment_tablink");
             }
             game_logic.giveEXP(MONSTER_EXP_MULTIPLIER*map_entry.npc.level);
             map.get(monster_x, monster_y).npc = null;

@@ -15,7 +15,7 @@ let pathfinder = {
         while(queue.length > 0 && count < limit){
             count++;
             let currentLocation = queue.shift();
-            for(let i = 0; i < 8; i+=2){
+            for(let i = 0; i < 4; i++){
                 let newLocation = this.exploreInDirection(currentLocation, i, start_x, start_y, goal_x, goal_y);
                 if(newLocation.status === 'Goal'){
                     pathfinder.resetPFVariable();
@@ -54,22 +54,10 @@ let pathfinder = {
         if(direction === 0){
             x++;
         }else if(direction === 1){
-            x++;
             y++;
         }else if(direction === 2){
-            y++;
+            x--;
         }else if(direction === 3){
-            x--;
-            y++;
-        }else if(direction === 4){
-            x--;
-        }else if(direction === 5){
-            x--;
-            y--;
-        }else if(direction === 6){
-            y--;
-        }else if(direction === 7){
-            x++;
             y--;
         }
         let newLocation = {

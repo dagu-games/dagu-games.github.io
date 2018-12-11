@@ -1,11 +1,70 @@
 let util = {
+    loadGame: function(index){
+        let str = localStorage.getItem(STORAGE_STRING);
+        if(str === null){
+            game_logic.init();
+            util.saveGame();
+            str = localStorage.getItem(STORAGE_STRING);
+        }
+        let saves = JSON.parse(LZString.decompressFromUTF16(str));
+        //console.log(LZString.decompressFromUTF16(str));
+        if(index == null){
+            game = saves[0];
+        }else{
+            game = saves[index];
+        }
+    },
+
+    saveGame: function(){
+        let str = localStorage.getItem(STORAGE_STRING);
+        let saves;
+        if(str == null){
+            saves = [];
+        }else{
+            saves = JSON.parse(LZString.decompressFromUTF16(str));
+        }
+        let d = new Date();
+        game.save_time = d.getTime();
+        saves.unshift(game);
+
+        let ans = JSON.stringify(saves);
+        //console.log("size before = " + ans.length);
+
+        ans = LZString.compressToUTF16(ans);
+        //console.log(ans);
+        //console.log("size after = " + ans.length);
+        localStorage.setItem(STORAGE_STRING, ans);
+    },
+
     isWalkable: function(x, y){
-        for(let i = 0; i < WALKABLE_TILES.length; i++){
-            if(map.get(x, y).type === WALKABLE_TILES[i]
-                && (map.get(x, y).npc == null ||
-                    (map.get(x, y).npc.type !== "monster"
-                    && map.get(x, y).npc.type !== "quest_giver"
-                    && map.get(x, y).npc.type !== "shop"))){
+        let map_entry = map.get(x, y);
+        return (util.isInArray(WALKABLE_TILES, map_entry.type) && map_entry.npc == null);
+    },
+
+    isAround: function(x, y, npc_type){
+        let points = util.getAround(x,y);
+        for(let i = 0; i < points.length; i++){
+            if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === npc_type){
+                return true;
+            }
+        }
+        return false;
+    },
+
+    isPathable: function(x,y){
+        return pathfinder.findShortestPath(game.character.x,game.character.y,x,y) !== false;
+    },
+
+    isInTown: function(){
+        return (map.getChunk(util.getChunk(game.character.x,game.character.y).x,util.getChunk(game.character.x,game.character.y).y).type === 'town');
+    },
+
+    isInArray: function(arr, value){
+        if(arr == null || value == null || arr.length < 1){
+            return false;
+        }
+        for(let i = 0; i < arr.length; i++){
+            if(arr[i] === value){
                 return true;
             }
         }
@@ -28,20 +87,13 @@ let util = {
         return true;
     },
 
-    slope: function(a, b){
-        if(a.x === b.x){
-            return null;
+    hasUpgrade: function(upgrade_index){
+        for(let i = 0; i < game.character.upgrades.length; i++){
+            if(upgrade_index === game.character.upgrades[i]){
+                return true;
+            }
         }
-
-        return (b.y - a.y) / (b.x - a.x);
-    },
-
-    intercept: function(point, slope){
-        if(slope === null){
-            return point.x;
-        }
-
-        return point.y - slope * point.y;
+        return false;
     },
 
     getAllPointsBetween: function(x1, y1, x2, y2){
@@ -53,7 +105,7 @@ let util = {
             x: x2,
             y: y2,
         };
-        let m = util.slope(A, B);
+        let m = util.getSlope(A, B);
         let b = util.intercept(A, m);
         let coordinates = [];
         for(let x = A.x; x <= B.x; x++){
@@ -64,16 +116,6 @@ let util = {
             });
         }
         return coordinates;
-    },
-
-    findDirection: function(x1, y1, x2, y2){
-        let path = pathfinder.findShortestPath(x1, y1, x2, y2);
-        //console.log(path);
-        if(path === false){
-            return null;
-        }else{
-            return path[0];
-        }
     },
 
     getAllInSquare: function(x, y, length){
@@ -102,6 +144,50 @@ let util = {
             }
         }
         return ans;
+    },
+
+    getAllMonsters: function(){
+        let monsters = [];
+        let points = map.getAll();
+        for(let i = 0; i < points.length; i++){
+            if(map.get(points[i].x, points[i].y).npc != null && map.get(points[i].x, points[i].y).npc.type === "monster"){
+                monsters.push({
+                    x: points[i].x,
+                    y: points[i].y,
+                });
+            }
+        }
+        return monsters;
+    },
+
+    getAllMonstersByNames: function(monster_names){
+        let monsters = [];
+        let points = map.getAll();
+        for(let i = 0; i < points.length; i++){
+            if(map.get(points[i].x, points[i].y).npc != null && map.get(points[i].x, points[i].y).npc.type === "monster" && util.isInArray(monster_names, map.get(points[i].x, points[i].y).npc.name)){
+                monsters.push({
+                    x: points[i].x,
+                    y: points[i].y,
+                });
+            }
+        }
+        return monsters;
+    },
+
+    getNearestMonsterByNames: function(monster_names){
+        let monsters = util.getAllMonstersByNames(monster_names);
+        if(monsters.length < 1){
+            return null;
+        }
+        let min_i = 0;
+        let min = util.distanceBetween(game.character.x, game.character.y, monsters[0].x, monsters[0].y);
+        for(let i = 0; i < monsters.length; i++){
+            if(util.distanceBetween(game.character.x, game.character.y, monsters[i].x, monsters[i].y) < min){
+                min_i = i;
+                min = util.distanceBetween(game.character.x, game.character.y, monsters[i].x, monsters[i].y);
+            }
+        }
+        return monsters[min_i];
     },
 
     getAround: function(x,y){
@@ -141,53 +227,6 @@ let util = {
         ];
     },
 
-    isAround: function(x, y, npc_type){
-        let points = util.getAround(x,y);
-        for(let i = 0; i < points.length; i++){
-            if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === npc_type){
-                return true;
-            }
-        }
-        return false;
-    },
-
-    loadGame: function(index){
-        let str = localStorage.getItem(STORAGE_STRING);
-        if(str === null){
-            game_logic.init();
-            util.saveGame();
-            str = localStorage.getItem(STORAGE_STRING);
-        }
-        let saves = JSON.parse(LZString.decompressFromUTF16(str));
-        //console.log(LZString.decompressFromUTF16(str));
-        if(index == null){
-            game = saves[0];
-        }else{
-            game = saves[index];
-        }
-    },
-
-    saveGame: function(){
-        let str = localStorage.getItem(STORAGE_STRING);
-        let saves;
-        if(str == null){
-            saves = [];
-        }else{
-            saves = JSON.parse(LZString.decompressFromUTF16(str));
-        }
-        let d = new Date();
-        game.save_time = d.getTime();
-        saves.unshift(game);
-
-        let ans = JSON.stringify(saves);
-        //console.log("size before = " + ans.length);
-
-        ans = LZString.compressToUTF16(ans);
-        //console.log(ans);
-        //console.log("size after = " + ans.length);
-        localStorage.setItem(STORAGE_STRING, ans);
-    },
-
     getChunk: function(x, y){
         if(x >= 0 && y >= 0){
             return {
@@ -212,44 +251,6 @@ let util = {
         }
     },
 
-    randomInt: function(max){
-        if(max === null){
-            return Math.floor(Math.random() * 2);
-        }
-        return Math.floor(Math.random() * max);
-    },
-
-    randomItemInArray: function(arr){
-        return arr[util.randomInt(arr.length)];
-    },
-
-    typeToSrcString: function(type){
-        if(type === "grass"){
-            return GRASS_ICON;
-        }
-        if(type === "tree"){
-            return TREE_ICON;
-        }
-        if(type === "dirt"){
-            return DIRT_ICON;
-        }
-        if(type === "stone"){
-            return STONE_ICON;
-        }
-        if(type === "quest_giver" || type === "shop"){
-            return NPC_ICON;
-        }
-        if(type === "monster"){
-            return HELLHOUND_ICON;
-        }
-        if(type === "wall"){
-            return WALL_ICON;
-        }
-        if(type === "hero"){
-            return HERO_ICON;
-        }
-    },
-
     getSavesList: function(){
         let ans = [];
         let saves = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem(STORAGE_STRING)));
@@ -262,31 +263,69 @@ let util = {
         return ans;
     },
 
-    canCast: function(spell_name){
-        return game.character.current_mana <= character_attack.getAttack(spell_name).mana_cost;
+    getExperienceNeededForLevel: function(level){
+        return Math.floor(EXP_MULTIPLIER * (Math.pow(level, EXP_EXPONENT)));
+    },
+
+    getRandomName: function(){
+        return util.getRandomItemInArray(NPC_FIRST_NAMES) + " " + util.getRandomItemInArray(NPC_MIDDLE_NAMES) + " " + util.getRandomItemInArray(NPC_LAST_NAMES);
+    },
+
+    getRandomInt: function(max){
+        if(max === null){
+            return Math.floor(Math.random() * 2);
+        }
+        return Math.floor(Math.random() * max);
+    },
+
+    getRandomItemInArray: function(arr){
+        return arr[util.getRandomInt(arr.length)];
+    },
+
+    getSlope: function(a, b){
+        if(a.x === b.x){
+            return null;
+        }
+
+        return (b.y - a.y) / (b.x - a.x);
+    },
+
+    findDirection: function(x1, y1, x2, y2){
+        let path = pathfinder.findShortestPath(x1, y1, x2, y2);
+        //console.log(path);
+        if(path === false){
+            return null;
+        }else{
+            return path[0];
+        }
+    },
+
+    intercept: function(point, slope){
+        if(slope === null){
+            return point.x;
+        }
+
+        return point.y - slope * point.y;
+    },
+
+    typeToSrcString: function(type){
+        if(type === "grass"){
+            return ICONS.TILES.GRASS;
+        }
+        if(type === "tree"){
+            return ICONS.TILES.TREE;
+        }
+        if(type === "dirt"){
+            return ICONS.TILES.DIRT;
+        }
+        if(type === "stone"){
+            return ICONS.TILES.STONE;
+        }
     },
 
     formatTime: function(time){
         let d = new Date(time);
         return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-    },
-
-    getAllMonsters: function(){
-        let monsters = [];
-        let points = map.getAll();
-        for(let i = 0; i < points.length; i++){
-            if(map.get(points[i].x, points[i].y).npc != null && map.get(points[i].x, points[i].y).npc.type === "monster"){
-                monsters.push({
-                    x: points[i].x,
-                    y: points[i].y,
-                });
-            }
-        }
-        return monsters;
-    },
-
-    getExperienceNeededForLevel: function(level){
-        return Math.floor(EXP_MULTIPLIER * (Math.pow(level, EXP_EXPONENT)));
     },
 
     dumpWorld: function(){
@@ -296,84 +335,6 @@ let util = {
         }
     },
 
-    isPathable: function(x,y){
-        return pathfinder.findShortestPath(game.character.x,game.character.y,x,y) !== false;
-    },
-
-    getAvailableQuests: function(){
-        let ans = [];
-        for(let i = 0; i < QUESTS.SIDE.length; i++){
-            if(!util.isQuestCompleted(QUESTS.SIDE[i].name)){
-                ans.push(QUESTS.SIDE[i].name);
-            }
-        }
-        let story_quest = util.getNextStoryQuest();
-        if(story_quest !== null){
-            ans.push(story_quest);
-        }
-        return ans;
-    },
-
-    getNextStoryQuest: function(){
-        for(let i = 0; i < QUESTS.STORY.length; i++){
-            if(!util.isQuestCompleted(QUESTS.STORY[i].name)){
-                return QUESTS.STORY[i].name;
-            }
-        }
-        return null;
-    },
-
-    isQuestCompleted: function(quest_name){
-        for(let i = 0; i < game.character.completed_quests.length; i++){
-            if(quest_name === game.character.completed_quests[i]){
-                return true;
-            }
-        }
-        return false;
-    },
-
-    hasQuestItem: function(quest_name){
-        let quest = util.getQuest(quest_name);
-        for(let i = 0; i < game.character.inventory.quest_items.length; i++){
-            if(quest.goal_item === game.character.inventory.quest_items[i]){
-                return true;
-            }
-        }
-        return false;
-    },
-
-    hasQuest: function(quest_name){
-        for(let i = 0; i < game.character.quests.length; i++){
-            if(game.character.quests[i] === quest_name){
-                return true;
-            }
-        }
-        return false;
-    },
-
-    getRandomAvailableQuestName: function(){
-        let quests = util.getAvailableQuests();
-        if(quests.length > 0){
-            return util.randomItemInArray(quests);
-        }else{
-            return null;
-        }
-    },
-
-    getQuest: function(quest_name){
-        for(let i = 0; i < QUESTS.SIDE.length; i++){
-            if(quest_name === QUESTS.SIDE[i].name){
-                return QUESTS.SIDE[i];
-            }
-        }
-        for(let i = 0; i < QUESTS.STORY.length; i++){
-            if(quest_name === QUESTS.STORY[i].name){
-                return QUESTS.STORY[i];
-            }
-        }
-        return null;
-    },
-
     timer: function(){
         let currTime = (new Date()).getTime();
         if(this.timerNum == null || this.timerNum === 0){
@@ -381,58 +342,6 @@ let util = {
         }else{
             console.log("timer results " + (currTime-this.timerNum) + " milliseconds or " + ((currTime-this.timerNum)/1000.0));
             this.timerNum = 0;
-        }
-    },
-
-    directionTowardGoalItem: function(quest_name){
-        let quest = util.getQuest(quest_name);
-        let points = map.getAll();
-        let goal_items = [];
-        for(let i = 0; i < points.length; i++){
-            let map_entry = map.get(points[i].x,points[i].y);
-            if(map_entry.npc != null && map_entry.npc.type === 'monster' && map_entry.npc.goal_item === quest.goal_item){
-                goal_items.push(i);
-            }
-        }
-        if(goal_items.length === 0){
-            return null;
-        }else{
-            let min = util.distanceBetween(game.character.x,game.character.y,points[0].x,points[0].y);
-            let min_i = 0;
-            for(let i = 1; i < goal_items.length; i++){
-                if(min > util.distanceBetween(game.character.x,game.character.y,points[goal_items[i]].x,points[goal_items[i]].y)){
-                    min_i = i;
-                    min = util.distanceBetween(game.character.x,game.character.y,points[goal_items[i]].x,points[goal_items[i]].y);
-                }
-            }
-            //console.debug(map.get(points[goal_items[min_i]].x,points[goal_items[min_i]].y));
-            return util.findDirection(game.character.x,game.character.y,points[goal_items[min_i]].x,points[goal_items[min_i]].y);
-        }
-    },
-
-    directionTowardQuestNPC: function(quest_name){
-        let quest = util.getQuest(quest_name);
-        let points = map.getAll();
-        let quest_givers = [];
-        for(let i = 0; i < points.length; i++){
-            let map_entry = map.get(points[i].x,points[i].y);
-            if(map_entry.npc != null && map_entry.npc.type === 'quest_giver' && map_entry.npc.quest === quest.name){
-                quest_givers.push(i);
-            }
-        }
-        if(quest_givers.length === 0){
-            return null;
-        }else{
-            let min = util.distanceBetween(game.character.x,game.character.y,points[0].x,points[0].y);
-            let min_i = 0;
-            for(let i = 1; i < quest_givers.length; i++){
-                if(min > util.distanceBetween(game.character.x,game.character.y,points[quest_givers[i]].x,points[quest_givers[i]].y)){
-                    min_i = i;
-                    min = util.distanceBetween(game.character.x,game.character.y,points[quest_givers[i]].x,points[quest_givers[i]].y);
-                }
-            }
-            //console.debug(map.get(points[goal_items[min_i]].x,points[goal_items[min_i]].y));
-            return util.findDirection(game.character.x,game.character.y,points[quest_givers[min_i]].x,points[quest_givers[min_i]].y);
         }
     },
 
@@ -463,33 +372,6 @@ let util = {
         }else if(direction === 7){
             return 'Down and Right';
         }
-    },
-
-    getQuestFromGoalItem: function(goal_item_name){
-        for(let i = 0; i < QUESTS.SIDE.length; i++){
-            if(QUESTS.SIDE[i].goal_item === goal_item_name){
-                return QUESTS.SIDE[i];
-            }
-        }
-        for(let i = 0; i < QUESTS.STORY.length; i++){
-            if(QUESTS.STORY[i].goal_item === goal_item_name){
-                return QUESTS.STORY[i];
-            }
-        }
-        return null;
-    },
-
-    hasUpgrade: function(upgrade_index){
-        for(let i = 0; i < game.character.upgrades.length; i++){
-            if(upgrade_index === game.character.upgrades[i]){
-                return true;
-            }
-        }
-        return false;
-    },
-
-    isInTown: function(){
-        return (map.getChunk(util.getChunk(game.character.x,game.character.y).x,util.getChunk(game.character.x,game.character.y).y).type === 'town');
     },
 
     normalizeStat: function(stat){
@@ -527,14 +409,12 @@ let util = {
     damageCharacter: function(damage){
         game.character.current_health -= damage;
         if(game.character.current_health <= 0){
-            game.character.current_health = game.character.max_health;
+            game.character.current_health = util.characterStats.max_health();
             game.character.x = game.character.home_x;
             game.character.y = game.character.home_y;
             game.output.push('You Died, returning you home...');
         }
     },
-
-
 
     healMonster: function(monster_x, monster_y, amount){
         let monster = map.get(monster_x,monster_y).npc;
@@ -555,82 +435,6 @@ let util = {
             arr[j] = x;
         }
         return arr;
-    },
-
-    generateStatBlock: function(points, rarity){
-        if(rarity == null || rarity === undefined){
-            rarity = util.randomInt(6);
-        }
-
-        let stats = [
-            "max_health",
-            "health_regeneration",
-            "max_mana",
-            "mana_regeneration",
-            "cooldown_reduction",
-            "attack_power",
-            "attack_lifesteal",
-            "armor",
-            "magic_power",
-            "magic_lifesteal",
-            "magic_resistance",
-        ];
-
-        stats = util.shuffle(stats);
-
-        let ans = {
-            "max_health":0,
-            "health_regeneration":0,
-            "max_mana":0,
-            "mana_regeneration":0,
-            "cooldown_reduction":0,
-            "attack_power":0,
-            "attack_lifesteal":0,
-            "armor":0,
-            "magic_power":0,
-            "magic_lifesteal":0,
-            "magic_resistance":0,
-            "rarity":rarity,
-        };
-
-        if(rarity > (stats.length - 1)){
-            rarity = (stats.length - 1);
-        }
-        for(let i = 0; i <= rarity; i++){
-            let points_to_remove = Math.floor(((util.randomInt(50)+25)/100.0)*points);
-            points -= points_to_remove;
-            let stat = stats.shift();
-            ans[stat] += points_to_remove;
-            if(points <= 0){
-                i = rarity + 1;
-                break;
-            }
-        }
-
-
-        return ans;
-    },
-
-    rarityToText: function(rarity){
-        if(rarity === 0){
-            return 'Common';
-        }
-        if(rarity === 1){
-            return 'Uncommon';
-        }
-        if(rarity === 2){
-            return 'Rare';
-        }
-        if(rarity === 3){
-            return 'Epic';
-        }
-        if(rarity === 4){
-            return 'Legendary';
-        }
-        if(rarity === 5){
-            return 'Mythic';
-        }
-        return 'other';
     },
 
     characterStats: {
@@ -912,7 +716,7 @@ let util = {
             if(game.character.equipped_items.ring2 != null){
                 max_health += game.character.equipped_items.ring2.stats.max_health;
             }
-            return max_health;
+            return BASE_HEALTH + util.normalizeStat(max_health);
         },
         health_regeneration:function(){
             let health_regeneration = game.character.health_regeneration;
@@ -992,7 +796,7 @@ let util = {
             if(game.character.equipped_items.ring2 != null){
                 max_mana += game.character.equipped_items.ring2.stats.max_mana;
             }
-            return max_mana;
+            return BASE_HEALTH + util.normalizeStat(max_mana);
         },
         mana_regeneration:function(){
             let mana_regeneration = game.character.mana_regeneration;

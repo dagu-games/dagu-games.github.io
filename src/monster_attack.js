@@ -10,7 +10,7 @@ let monster_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.attack_power)/(util.normalizeStat(util.characterStats.armor())+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.attack_power)/(util.normalizeStat(util.characterStats.armor())+1)) * util.getRandomInt(attack_random_factor));
                 util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.attack_lifesteal)/100.0)));
 
                 return damage;
@@ -25,7 +25,7 @@ let monster_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.getRandomInt(attack_random_factor));
                 util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.magic_lifesteal)/100.0)));
 
                 return damage;
@@ -41,7 +41,7 @@ let monster_attack = {
                 let damage = base_damage;
                 let monster = map.get(monster_x,monster_y).npc;
 
-                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.randomInt(attack_random_factor));
+                damage += Math.floor(DAMAGE_MULTIPLIER * (util.normalizeStat(monster.magic_power)/(util.normalizeStat(util.characterStats.magic_resistance())+1)) * util.getRandomInt(attack_random_factor));
                 util.healMonster(monster_x, monster_y, Math.floor(damage * (util.normalizeStat(monster.magic_lifesteal)/100.0)));
 
                 return damage;
@@ -63,7 +63,6 @@ let monster_attack = {
         let monster = map.get(monster_x,monster_y).npc;
         map.get(monster_x,monster_y).npc.cooldowns[attack.name] = attack.cooldown;
         game.output.push(monster.name + ' attacked you with ' + attack.name + ' for ' + damage + ' damage');
-
     },
 
     handleMonsterTurn: function(monster_x, monster_y){
@@ -74,7 +73,7 @@ let monster_attack = {
                 attacks_off_cooldown.push(monster.attacks[i]);
             }
         }
-        let attack = monster_attack.getAttack(util.randomItemInArray(attacks_off_cooldown));
+        let attack = monster_attack.getAttack(util.getRandomItemInArray(attacks_off_cooldown));
 
         if(util.distanceBetween(game.character.x,game.character.y,monster_x,monster_y) <= attack.range){
             monster_attack.attack(monster_x,monster_y,attack);
