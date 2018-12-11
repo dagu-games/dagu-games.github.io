@@ -377,9 +377,19 @@ let user_interface = {
     },
 
     hoverDiv: function(event){
-        let tooltip_container = $(event.target).data('tooltip_container');
-        console.log(tooltip_container);
-        $(tooltip_container).toggle();
+        let target = $(event.target);
+        let tooltip_container = target.data('tooltip_container');
+        tooltip_container = $(tooltip_container);
+        tooltip_container.css('left',target.offset().left);
+
+        if(target.offset().top < ($(window).height() / 2.0)){
+            tooltip_container.css('bottom','auto');
+            tooltip_container.css('top','calc(' + target.offset().top + 'px + ' + target.height() + 'px)');
+        }else{
+            tooltip_container.css('top','auto');
+            tooltip_container.css('bottom','calc(100vh - ' + target.offset().top + 'px)');
+        }
+        tooltip_container.toggle();
         return false;
     },
 

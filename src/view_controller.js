@@ -9,7 +9,7 @@ let view_controller = {
         if(util.isAround(game.character.x,game.character.y,'quest_giver') || util.isAround(game.character.x,game.character.y,'shop')){
             user_interface.openLeftTab(null, '#npc_tab', '#npc_tablink');
             if(util.isAround(game.character.x,game.character.y,'shop')){
-                user_interface.openRightTab(null, '#inventory_tab', '#inventory_tablink');
+                user_interface.openRightTab(null, '#equipment_tab', '#equipment_tablink');
             }
         }else{
             user_interface.openLeftTab(null, '#attack_list_tab', '#attack_list_tablink');
