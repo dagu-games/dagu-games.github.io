@@ -395,7 +395,7 @@ let user_interface = {
 
     useConsumable: function(event){
         let $target = $(event.target);
-        let consumable_name = game.character.inventory.items[$target.data('index')];
+        let consumable_name = game.character.inventory.items[$target.data('index')].name;
         game.character.inventory.items.splice($target.data('index'),1);
         consumables.getConsumable(consumable_name).effect();
         map.render();

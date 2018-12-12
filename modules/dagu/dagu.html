@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <title>Dagu</title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../icon.ico"/>
+
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-8248287848652090",
+                enable_page_level_ads: true
+            });
+        </script>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+        <script src="../../lib/jquery-3.3.1.js"></script>
+        <script src="../../lib/lodash.js"></script>
+        <script src="../../lib/lz-string.js"></script>
+        <script src="src/constants.js"></script>
+        <script src="src/data/icons.js"></script>
+        <script src="src/data/npc_first_names.js"></script>
+        <script src="src/data/npc_middle_names.js"></script>
+        <script src="src/data/npc_last_names.js"></script>
+        <script src="src/data/town_names.js"></script>
+        <script src="src/data/monsters.js"></script>
+        <script src="src/data/equipment.js"></script>
+        <script src="src/data/dungeons.js"></script>
+        <script src="src/data/towns.js"></script>
+        <script src="src/data/quests.js"></script>
+        <script src="src/data/consumables.js"></script>
+        <script src="src/game.js"></script>
+        <script src="src/map.js"></script>
+        <script src="src/game_logic.js"></script>
+        <script src="src/pathfinder.js"></script>
+        <script src="src/util.js"></script>
+        <script src="src/data/upgrades.js"></script>
+        <script src="src/character_attack.js"></script>
+        <script src="src/monster_attack.js"></script>
+        <script src="src/user_interface.js"></script>
+        <script src="src/view_controller.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="src/style.css">
+    </head>
+    <body>
+        <div id="app">
+            <div class="container" id="map_container"></div>
+            <div class="container" id="context_menu_container">
+                <div class="tab">
+                    <button class="tablinks tablink_left button" id="attack_list_tablink" onclick="user_interface.openLeftTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
+                    <button class="tablinks tablink_left button" id="npc_tablink" onclick="user_interface.openLeftTab(event, '#npc_tab', '#npc_tablink')">NPC</button>
+                </div>
+
+                <div class="tabcontent tabcontent_left" id="attack_list_tab">
+                    <div id="attack_list_container" class="container"></div>
+                </div>
+
+                <div class="tabcontent tabcontent_left" id="npc_tab">
+
+                    <h3>Quests</h3>
+
+                    <div id="npc_quest_list_container" class="container"></div>
+
+                    <h3>Buy</h3>
+
+                    <div id="buy_item_list_container" class="container"></div>
+
+
+                    <h3>Sell</h3>
+
+                    <div id="sell_item_list_container" class="container"></div>
+
+                </div>
+            </div>
+            <div class="container" id="character_container">
+                <div class="tab">
+                    <button class="tablinks tablink_right button" id="settings_tablink" onclick="user_interface.openLeftTab(event, '#settings_tab', '#settings_tablink')">Settings</button>
+                    <button class="tablinks tablink_right button" id="stats_tablink" onclick="user_interface.openRightTab(event, '#stats_tab', '#stats_tablink')">Stats</button>
+                    <button class="tablinks tablink_right button" id="quests_tablink" onclick="user_interface.openRightTab(event, '#quests_tab', '#quests_tablink')">Quests</button>
+                    <button class="tablinks tablink_right button" id="equipped_items_tablink" onclick="user_interface.openRightTab(event, '#equipped_items_tab', '#equipped_items_tablink')">Equipped Items</button>
+                    <button class="tablinks tablink_right button" id="equipment_tablink" onclick="user_interface.openRightTab(event, '#equipment_tab', '#equipment_tablink')">Equipment</button>
+                    <button class="tablinks tablink_right button" id="consumables_tablink" onclick="user_interface.openRightTab(event, '#consumables_tab', '#consumables_tablink')">Consumables</button>
+                    <button class="tablinks tablink_right button" id="goal_items_tablink" onclick="user_interface.openRightTab(event, '#goal_items_tab', '#goal_items_tablink')">Quest Items</button>
+                    <button class="tablinks tablink_right button" id="upgrades_tablink" onclick="user_interface.openRightTab(event, '#upgrades_tab', '#upgrades_tablink')">Upgrades</button>
+                    <button class="tablinks tablink_right button" id="purchased_upgrades_tablink" onclick="user_interface.openRightTab(event, '#purchased_upgrades_tab', '#purchased_upgrades_tablink')">Purchased Upgrades</button>
+                    <button class="tablinks tablink_right button" id="completed_quests_tablink" onclick="user_interface.openRightTab(event, '#completed_quests_tab', '#completed_quests_tablink')">Completed Quests</button>
+                </div>
+
+                <div class="tabcontent tabcontent_right" id="settings_tab">
+                    <label for="load_game_select">Save Time:</label>
+                    <select id="load_game_select"></select>
+                    <div class="bottom_container">
+                        <button class="button" id="load_game_button" onclick=user_interface.loadGame()>Load Game</button>
+                        <button class="button" id="save_game_button" onclick=user_interface.saveGame()>Save Game</button>
+                    </div>
+                    <button class="button" title="Zoom Map In" id="zoom_in_button" onclick=user_interface.zoomIn()>Zoom Map In</button>
+                    <button class="button" title="Zoom Map Out" id="zoom_out_button" onclick=user_interface.zoomOut()>Zoom Map Out</button>
+                    <br>
+                    <button class="button" id="show_credits_button" type="button" onclick=user_interface.printCredits()>Show Credits</button>
+                    <br>
+                    <label for="teleport_x">x</label><input id="teleport_x" />
+                    <label for="teleport_y">y</label><input id="teleport_y" />
+                    <button class="button" id="teleport_button" type="button" onclick=user_interface.teleport()>Teleport</button>
+                    <br>
+                    <button class="button" id="set_home_button" type="button" onclick=user_interface.setHome()>Set Home</button>
+                    <br>
+                    <button class="button" id="go_home_button" type="button" onclick=user_interface.goHome()>Go Home</button>
+                </div>
+
+                <div class="tabcontent tabcontent_right" id="stats_tab">
+                    <div class="container" id="stats_container">
+                        <table class="stats_table">
+                            <tr>
+                                <td>Location</td>
+                                <td><span id="character_location"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Level</td>
+                                <td><span id="character_level"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Experience</td>
+                                <td><span id="character_experience"></span>/<span id="character_experience_next_level"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Unspent Skill Points</td>
+                                <td><span id="character_unspent_skill_points"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Health</td>
+                                <td><span id="character_current_health"></span>/<span id="character_max_health"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Health Regeneration</td>
+                                <td><span id="character_health_regeneration"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Mana</td>
+                                <td><span id="character_current_mana"></span>/<span id="character_max_mana"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Mana Regeneration</td>
+                                <td><span id="character_mana_regeneration"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Attack Power</td>
+                                <td><span id="character_attack_power"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Attack Lifesteal</td>
+                                <td><span id="character_attack_lifesteal"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Armor</td>
+                                <td><span id="character_armor"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Magic Power</td>
+                                <td><span id="character_magic_power"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Magic Lifesteal</td>
+                                <td><span id="character_magic_lifesteal"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Magic Resistance</td>
+                                <td><span id="character_magic_resistance"></span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Cooldown Reduction</td>
+                                <td><span id="character_cooldown_reduction"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tabcontent tabcontent_right" id="quests_tab">
+                    <div class="container" id="quest_list_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="equipped_items_tab">
+                    <div id="equipped_items_container" class="container">
+                        Helmet:
+                        <div id="character_helmet_container" class="container item_container"></div>
+                        Shoulders:
+                        <div id="character_shoulders_container" class="container item_container"></div>
+                        Gauntlets:
+                        <div id="character_gauntlets_container" class="container item_container"></div>
+                        Chest:
+                        <div id="character_chest_container" class="container item_container"></div>
+                        Belt:
+                        <div id="character_belt_container" class="container item_container"></div>
+                        Pants:
+                        <div id="character_pants_container" class="container item_container"></div>
+                        Boots:
+                        <div id="character_boots_container" class="container item_container"></div>
+                        Main Hand:
+                        <div id="character_main_hand_container" class="container item_container"></div>
+                        Off Hand:
+                        <div id="character_off_hand_container" class="container item_container"></div>
+                        Necklace:
+                        <div id="character_necklace_container" class="container item_container"></div>
+                        Ring 1:
+                        <div id="character_ring_1_container" class="container item_container"></div>
+                        Ring 2:
+                        <div id="character_ring_2_container" class="container item_container"></div>
+                    </div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="equipment_tab">
+                    Gold:<span class="character_gold"></span>
+                    <div class="container" id="equipment_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="consumables_tab">
+                    Gold:<span class="character_gold"></span>
+                    <div class="container" id="consumables_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="goal_items_tab">
+                    <div class="container" id="goal_items_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="upgrades_tab">
+                    <div class="container" id="upgrades_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="purchased_upgrades_tab">
+                    <div class="container" id="purchased_upgrades_container"></div>
+                </div>
+                <div class="tabcontent tabcontent_right" id="completed_quests_tab">
+                    <div class="container" id="completed_quest_list_container"></div>
+                </div>
+            </div>
+            <div class="container" id="output_container"></div>
+            <div class="container" id="movement_container">
+                <i title="Move Up" class="fa fa-chevron-circle-up" id="move_up_button" onclick=user_interface.moveUp()></i>
+                <i title="Move Left" class="fa fa-chevron-circle-left" id="move_left_button" onclick=user_interface.moveLeft()></i>
+                <i title="Move Right" class="fa fa-chevron-circle-right" id="move_right_button" onclick=user_interface.moveRight()></i>
+                <i title="Move Down" class="fa fa-chevron-circle-down" id="move_down_button" onclick=user_interface.moveDown()></i>
+            </div>
+            <div class="container" id="hotbar_container"></div>
+        </div>
+        <span id="portrait_message">Portrait mode is not supported, please rotate your screen.</span>
+        <script src="src/main.js"></script>
+    </body>
+</html>

@@ -181,11 +181,11 @@ let quests = {
                 return (quests.countGoalItems("Lost Dog") > 0);
             },
             findDirection: function(){
-                let monster_point = util.getNearestMonsterByNames("Hellhound");
+                let monster_point = utilities.getNearestMonsterByNames("Hellhound");
                 if(monster_point == null){
                     return '?';
                 }else{
-                    return util.findDirection(game.character.x,game.character.y,monster_point.x,monster_point.y);
+                    return utilities.findDirection(game.character.x,game.character.y,monster_point.x,monster_point.y);
                 }
             },
             onAccept: function(){},
@@ -193,7 +193,7 @@ let quests = {
                 quests.removeGoalItems("Lost Dog");
             },
             onMonsterKill: function(monster_name){
-                if(quests.countGoalItems("Lost Dog") < 1 && util.isInArray(["Hellhound"],monster_name)){
+                if(quests.countGoalItems("Lost Dog") < 1 && utilities.isInArray(["Hellhound"],monster_name)){
                     game.character.inventory.push({
                         name: "Lost Dog",
                         description: "You found the lost dog! Take him back to his owner and they will reward you!",
@@ -211,10 +211,10 @@ let quests = {
             },
             generateNPC: function(){
                 return {
-                    name: util.getRandomName(),
+                    name: utilities.getRandomName(),
                     type: "quest_giver",
-                    icon: util.getRandomItemInArray(ICONS.NPCS),
-                    description: util.getRandomItemInArray(NPC_RACES) + " " + util.getRandomItemInArray(NPC_PROFESSIONS) + " - " + util.getRandomItemInArray(NPC_DESCRIPTIONS),
+                    icon: utilities.getRandomItemInArray(ICONS.NPCS),
+                    description: utilities.getRandomItemInArray(NPC_RACES) + " " + utilities.getRandomItemInArray(NPC_PROFESSIONS) + " - " + utilities.getRandomItemInArray(NPC_DESCRIPTIONS),
                     quest: "Find my dog!",
                 };
             },

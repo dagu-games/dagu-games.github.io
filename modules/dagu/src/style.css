@@ -83,8 +83,8 @@ h1, h2, h3, h4 {
 
 .item_div {
     position: relative;
-    float: left;
     width: 10%;
+    display: inline-block;
 }
 
 .left_container {
@@ -318,8 +318,6 @@ h1, h2, h3, h4 {
 
 #npc_tab {
     text-align: left;
-    float: left;
-    width: 100%;
     position: relative;
 }
 

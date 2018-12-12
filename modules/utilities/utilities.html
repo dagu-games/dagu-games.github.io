@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <title>Doug's Utilities</title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../icon.ico"/>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-8248287848652090",
+                enable_page_level_ads: true
+            });
+        </script>
+        <script src="../../lib/jquery-3.3.1.js"></script>
+        <script src="../dagu/src/data/npc_first_names.js"></script>
+        <script src="../dagu/src/data/npc_middle_names.js"></script>
+        <script src="../dagu/src/data/npc_last_names.js"></script>
+        <script src="../dagu/src/data/town_names.js"></script>
+        <script src="src/main.js"></script>
+        <link rel="stylesheet" type="text/css" href="src/style.css">
+    </head>
+    <body>
+        <button class="button" onclick="util.generateName()">Generate Name</button>
+        <span id="npc_name_output"></span>
+        <br>
+        <button class="button" onclick="util.generateTownName()">Generate Town Name</button>
+        <span id="town_name_output"></span>
+    </body>
+</html>

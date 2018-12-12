@@ -33,7 +33,7 @@ let view_controller = {
         $('#character_attack_lifesteal').text(util.characterStats.attack_lifesteal());
         $('#character_magic_power').text(util.characterStats.magic_power());
         $('#character_magic_lifesteal').text(util.characterStats.magic_lifesteal());
-        $('#character_gold').text(game.character.inventory.gold);
+        $('.character_gold').text(game.character.inventory.gold);
         $('#character_health_regeneration').text(util.characterStats.health_regeneration());
         $('#character_mana_regeneration').text(util.characterStats.mana_regeneration());
 
@@ -273,7 +273,7 @@ let view_controller = {
             $item_img.data('index',data.index);
             $item_img.data('shop_x',data.shop_x);
             $item_img.data('shop_y',data.shop_y);
-            console.debug($item_img.mouseover(user_interface.hoverDiv));
+            $item_img.mouseover(user_interface.hoverDiv);
             $item_img.mouseleave(user_interface.hoverDiv);
             $item_img.click(user_interface.buyItem);
         }
@@ -282,6 +282,16 @@ let view_controller = {
             $item_img.data('tooltip_container','#item_tooltip_' + data.index);
             $item_tooltip.attr('id', 'item_tooltip_' + data.index);
             $item_img.click(user_interface.sellItem);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
+            $item_img.data('index',data.index);
+        }
+
+        if(mode === 'goal_item'){
+            $item_img.data('tooltip_container','#item_tooltip_' + data.index);
+            $item_tooltip.attr('id', 'item_tooltip_' + data.index);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
             $item_img.data('index',data.index);
         }
 

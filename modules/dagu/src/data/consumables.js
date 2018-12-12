@@ -6,7 +6,9 @@ let consumables = {
             value: 1,
             icon: "images/apple.png",
             effect: function(){
-                util.healCharacter(Math.floor(game.character.max_health * 0.1));
+                let heal_amount = Math.floor(util.characterStats.max_health() * 0.1);
+                util.healCharacter(heal_amount);
+                game.output.push("You eat the apple and get healed for " + heal_amount);
             },
         },
     ],

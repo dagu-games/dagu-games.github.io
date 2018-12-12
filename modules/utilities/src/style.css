@@ -1,0 +1,27 @@
+body {
+    font-family: "Courier New", monospace;
+    font-weight:bold;
+    word-wrap: break-word;
+    font-size: medium;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    background-color: #D5D5D5;
+}
+
+.button {
+    background-color:#D5D5D5;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    border:1px solid #909090;
+    display:inline-block;
+    cursor:pointer;
+    /*color:#6D7993;*/
+    padding: 2px 2px 2px 2px;
+    margin: 1px 1px 1px 1px;
+    font-size: medium;
+    text-decoration:none;
+    text-shadow:0 1px 0 #ffffff;
+    font-family: 'Press Start 2P', cursive;
+    transition: 0.3s;
+}
