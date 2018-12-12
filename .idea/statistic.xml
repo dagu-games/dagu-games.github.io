@@ -6,7 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/lib" />
         <option value="$PROJECT_DIR$/images" />
-        <option value="$PROJECT_DIR$/src/data" />
+        <option value="$PROJECT_DIR$/modules/dagu/src/data" />
       </list>
     </option>
   </component>
