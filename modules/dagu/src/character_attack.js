@@ -5,7 +5,7 @@ let character_attack = {
             mana_cost: 0,
             cooldown: 0,
             range: 2,
-            icon: "images/basic_attack.png",
+            icon: ICONS.CHARACTER_ATTACKS.BASIC_ATTACK,
             calculator: function(monster_x, monster_y){
                 let base_damage = 10;
                 let attack_random_factor = 5;
@@ -22,7 +22,7 @@ let character_attack = {
             mana_cost: 30,
             cooldown: 4,
             range: 50,
-            icon: "images/basic_attack.png",
+            icon: ICONS.CHARACTER_ATTACKS.BASIC_ATTACK,
             calculator: function(monster_x, monster_y){
                 let base_damage = 20;
                 let attack_random_factor = 10;
@@ -40,7 +40,7 @@ let character_attack = {
             mana_cost: 15,
             cooldown: 2,
             range: 25,
-            icon: "images/basic_attack.png",
+            icon: ICONS.CHARACTER_ATTACKS.BASIC_ATTACK,
             calculator: function(monster_x, monster_y){
                 let base_damage = 20;
                 let attack_random_factor = 10;

@@ -1,10 +1,17 @@
 const ICONS = {
+    MENU_BUTTONS: {
+        ZOOM_IN: "../../images/zoom_in.png",
+        ZOOM_OUT: "../../images/zoom_out.png",
+    },
     TILES: {
         GRASS: "../../images/grass.png",
         TREE: "../../images/tree.png",
         STONE: "../../images/stone.png",
         DIRT: "../../images/dirt.png",
         WALL: "../../images/wall.png",
+    },
+    CHARACTER_ATTACKS: {
+        BASIC_ATTACK: "../../images/basic_attack.png",
     },
     NPCS: [
         "../../images/npc.png",

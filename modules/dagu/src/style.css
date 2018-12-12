@@ -321,6 +321,20 @@ h1, h2, h3, h4 {
     position: relative;
 }
 
+#zoom_in_img {
+    position: fixed;
+    left: calc(2% + 4px);
+    top: 2px;
+    width: 2%;
+}
+
+#zoom_out_img {
+    position: fixed;
+    left: 2px;
+    top: 2px;
+    width: 2%;
+}
+
 @media only screen and (max-aspect-ratio: 31/18) {
     #map_container {
         height: 70vh;

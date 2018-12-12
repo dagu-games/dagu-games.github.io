@@ -46,6 +46,8 @@
     <body>
         <div id="app">
             <div class="container" id="map_container"></div>
+            <img id="zoom_out_img" onclick="user_interface.zoomOut()">
+            <img id="zoom_in_img" onclick="user_interface.zoomIn()">
             <div class="container" id="context_menu_container">
                 <div class="tab">
                     <button class="tablinks tablink_left button" id="attack_list_tablink" onclick="user_interface.openLeftTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
