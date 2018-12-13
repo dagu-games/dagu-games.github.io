@@ -403,12 +403,12 @@ let user_interface = {
     },
 
     openTutorial: function(){
-        $('#app').hide();
+        $('#app').css('opacity','.1');
         $('#tutorial').show();
     },
     
     closeTutorial: function(){
         $('#tutorial').hide();
-        $('#app').css('display','');
+        $('#app').css('opacity','');
     },
 };
