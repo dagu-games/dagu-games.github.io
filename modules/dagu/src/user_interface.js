@@ -401,4 +401,14 @@ let user_interface = {
         map.render();
         view_controller.render();
     },
+
+    openTutorial: function(){
+        $('#app').hide();
+        $('#tutorial').show();
+    },
+    
+    closeTutorial: function(){
+        $('#tutorial').hide();
+        $('#app').show();
+    },
 };

@@ -94,6 +94,8 @@ let game_logic = {
         if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1).type === undefined){
             game_logic.generateChunk(1, -1);
         }
+
+        user_interface.openTutorial();
     },
     generateChunk: function(chunk_x, chunk_y){
         let r = util.getRandomInt(100);
