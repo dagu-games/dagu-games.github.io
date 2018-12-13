@@ -409,6 +409,6 @@ let user_interface = {
     
     closeTutorial: function(){
         $('#tutorial').hide();
-        $('#app').show();
+        $('#app').css('display','');
     },
 };

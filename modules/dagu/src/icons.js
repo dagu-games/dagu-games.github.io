@@ -2,6 +2,7 @@ const ICONS = {
     MENU_BUTTONS: {
         ZOOM_IN: "../../images/zoom_in.png",
         ZOOM_OUT: "../../images/zoom_out.png",
+        CENTER: "../../images/center.png"
     },
     TILES: {
         GRASS: "../../images/grass.png",
