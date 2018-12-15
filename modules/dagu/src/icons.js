@@ -5,10 +5,10 @@ const ICONS = {
         CENTER: "../../images/center.png"
     },
     TILES: {
-        GRASS: "../../images/grass.png",
-        TREE: "../../images/tree.png",
+        GRASS: "../../images/pack2/trees_and_bushes_pack/grass.png",
+        TREE: "../../images/pack2/trees_and_bushes_pack/tree.png",
         STONE: "../../images/stone.png",
-        DIRT: "../../images/dirt.png",
+        DIRT: "../../images/pack2/trees_and_bushes_pack/bush.png",
         WALL: "../../images/wall.png",
     },
     CHARACTER_ATTACKS: {

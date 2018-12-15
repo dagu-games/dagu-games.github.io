@@ -40,31 +40,31 @@ let map = {
 
         let $health_bar = $('<div></div>');
         $health_bar.css({'position':'absolute','background-color':'gray'});
-        $health_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size))});
-        $health_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $health_bar.css({'right': '15px'});
+        $health_bar.css({'top': 0});
         $health_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $health_bar.css({'width': Math.floor(map.cell_size)});
+        $health_bar.css({'width': Math.floor(map.cell_size * 5)});
 
         let $red_bar = $('<div></div>');
         $red_bar.css({'position':'absolute','background-color':'red'});
-        $red_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size))});
-        $red_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $red_bar.css({'right': '15px'});
+        $red_bar.css({'top': 0});
         $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $red_bar.css({'width': Math.floor((map.cell_size * (game.character.current_health / util.characterStats.max_health())))});
+        $red_bar.css({'width': Math.floor((map.cell_size * 5 * (game.character.current_health / util.characterStats.max_health())))});
 
         let $mana_bar = $('<div></div>');
         $mana_bar.css({'position':'absolute','background-color':'gray'});
-        $mana_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size)) + (Math.floor(map.cell_size) / 10.0)});
-        $mana_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $mana_bar.css({'top': (Math.floor(map.cell_size / 10.0) + 2) + 'px'});
+        $mana_bar.css({'right': '15px'});
         $mana_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $mana_bar.css({'width': Math.floor(map.cell_size)});
+        $mana_bar.css({'width': Math.floor(map.cell_size * 5)});
 
         let $blue_bar = $('<div></div>');
         $blue_bar.css({'position':'absolute','background-color':'blue'});
-        $blue_bar.css({'top': ((((game.settings.zoom_factor - 1) / 2)+1) * Math.floor(map.cell_size)) + (Math.floor(map.cell_size) / 10.0)});
-        $blue_bar.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $blue_bar.css({'top': (Math.floor(map.cell_size / 10.0) + 2) + 'px'});
+        $blue_bar.css({'right': '15px'});
         $blue_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $blue_bar.css({'width': Math.floor((map.cell_size * (game.character.current_mana / util.characterStats.max_mana())))});
+        $blue_bar.css({'width': Math.floor((map.cell_size * 5 * (game.character.current_mana / util.characterStats.max_mana())))});
 
         map.$container.append($char);
         map.$container.append($health_bar);

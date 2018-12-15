@@ -134,7 +134,7 @@ let game_logic = {
                             map.get(i, j).type = 'grass';
                         }
                     }
-                    map.get(i, j).direction = util.getRandomInt(4);
+                    map.get(i, j).direction = 0;
                 }
             }
 
@@ -185,7 +185,7 @@ let game_logic = {
                     if(town.tiles[town_i][town_j].direction != null){
                         map.get(i, j).direction = town.tiles[town_i][town_j].direction;
                     }else{
-                        map.get(i, j).direction = util.getRandomInt(4);
+                        map.get(i, j).direction = 0;
                     }
                     if(town.tiles[town_i][town_j].npc && util.getRandomInt(100) < TOWN_NPC_CHANCE){
                         let npc_list = quests.requestNPCs();
@@ -223,7 +223,7 @@ let game_logic = {
                     if(dungeon.tiles[dungeon_i][dungeon_j].direction != null){
                         map.get(i, j).direction = dungeon.tiles[dungeon_i][dungeon_j].direction;
                     }else{
-                        map.get(i, j).direction = util.getRandomInt(4);
+                        map.get(i, j).direction = 0;
                     }
                     dungeon_j++;
                 }

@@ -197,10 +197,11 @@ let user_interface = {
             }
             game.character.equipped_items["ring1"] = item;
         }else{
-            game.character.inventory.items.push(game.character.equipped_items[item.slot]);
+            if(game.character.equipped_items[item.slot] != null){
+                game.character.inventory.items.push(game.character.equipped_items[item.slot]);
+            }
             game.character.equipped_items[item.slot] = item;
         }
-
         map.render();
         view_controller.render();
     },
@@ -266,6 +267,7 @@ let user_interface = {
 
     sellItem: function(event){
         let $target = $(event.target);
+        console.log($target.data('index'));
         let item = game.character.inventory.items[$target.data('index')];
         game.character.inventory.items.splice($target.data('index'),1);
         game.character.inventory.gold += item.value;
