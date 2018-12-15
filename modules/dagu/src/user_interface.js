@@ -406,11 +406,11 @@ let user_interface = {
 
     openTutorial: function(){
         $('#app').css('opacity','.1');
-        $('#tutorial').show();
+        $('#tutorial_container').show();
     },
     
     closeTutorial: function(){
-        $('#tutorial').hide();
+        $('#tutorial_container').hide();
         $('#app').css('opacity','');
     },
 };

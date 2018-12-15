@@ -335,28 +335,24 @@ h1, h2, h3, h4 {
     width: 2%;
 }
 
-#tutorial {
+#tutorial_container {
     z-index: 99;
-    /*position: fixed;
-    left: 15vw;
-    top: 15vh;
-    width: 70vw;
-    height: 70vh;*/
     background-color: #c3c3c3;
     display: none;
-
     width: 50vw;
     height: 50vh;
-
     position: absolute;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
-
     margin: auto;
+}
 
+#tutorial_content {
     overflow-y: auto;
+    width: 100%;
+    height: 100%;
 }
 
 @media only screen and (max-aspect-ratio: 31/18) {
@@ -433,7 +429,7 @@ h1, h2, h3, h4 {
         display: none;
     }
 
-    #tutorial {
+    #tutorial_container {
         display: none;
     }
 

@@ -44,8 +44,9 @@
         <link rel="stylesheet" type="text/css" href="src/style.css">
     </head>
     <body>
-        <div id="tutorial">
-            <button class="button" style="float: right;" onclick="user_interface.closeTutorial()">Close</button>
+        <div id="tutorial_container">
+            <button class="button" style="position: absolute;right: 18px; top: 0;" onclick="user_interface.closeTutorial()">Close</button>
+            <div id="tutorial_content"></div>
         </div>
         <div id="app">
             <div class="container" id="map_container"></div>

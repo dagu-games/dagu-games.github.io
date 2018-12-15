@@ -16,7 +16,7 @@ $('#zoom_in_img').attr('src',ICONS.MENU_BUTTONS.ZOOM_IN);
 $('#zoom_out_img').attr('src',ICONS.MENU_BUTTONS.ZOOM_OUT);
 
 
-let $tutorial = $('#tutorial');
+let $tutorial = $('#tutorial_content');
 
 $tutorial.append('Welcome to Dagu!<br><br>');
 $tutorial.append('You and your companion were traveling along one day when an evil wizard appeared before you. He declared his evil intentions and proclaimed that your companion\'s mythical magical amulet was the key to his plan. In a desperate attempt to save the world, your companion cast a spell of unknown power. The power of the amulet amplified the magic a thousand fold.<br><br>');
