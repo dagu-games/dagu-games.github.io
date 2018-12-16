@@ -2,28 +2,41 @@ let map = {
 
     $container: null,
 
+    $tiles_container: null,
+
+    $non_tiles_container: null,
+
     size: null,
 
     cell_size: null,
 
     cached_chunks: [],
 
+    init_run: false,
+
     render: function(){
         map.$container = $('#map_container');
+        map.$tiles_container = $('#map_tiles_container');
+        map.$non_tiles_container = $('#map_non_tiles_container');
         map.size = map.$container.width();
         map.cell_size = map.size / game.settings.zoom_factor;
-        map.$container.empty();
 
-        for(let i = 0; i < game.settings.zoom_factor; i++){
-            for(let j = 0; j < game.settings.zoom_factor; j++){
-                map.$container.append(map.constructTile(i, j));
-                map.constructNPCTile(i, j);
+        if(map.init_run === false){
+            map.$tiles_container.empty();
+            for(let i = 0; i < game.settings.zoom_factor; i++){
+                for(let j = 0; j < game.settings.zoom_factor; j++){
+                    map.initializeTile(i, j);
+                }
             }
+            map.init_run = true;
         }
+        map.$non_tiles_container.empty();
 
         for(let i = 0; i < game.settings.zoom_factor; i++){
             for(let j = 0; j < game.settings.zoom_factor; j++){
-                map.constructNPCTile(i, j);
+                map.updateTile(i, j);
+                map.constructNPC(i, j);
+                map.constructObject(i, j);
             }
         }
 
@@ -38,39 +51,12 @@ let map = {
         $char.data("y", game.character.y);
         $char.click(user_interface.inspect);
 
-        let $health_bar = $('<div></div>');
-        $health_bar.css({'position':'absolute','background-color':'gray'});
-        $health_bar.css({'right': '15px'});
-        $health_bar.css({'top': 0});
-        $health_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $health_bar.css({'width': Math.floor(map.cell_size * 5)});
+        $('#character_health_bar_red').css('width',((game.character.current_health / util.characterStats.max_health()) * 100.0) + '%');
+        $('#character_health_bar_text').text('Health: (' + game.character.current_health + '/' + util.characterStats.max_health() + ')');
+        $('#character_mana_bar_blue').css('width',((game.character.current_mana / util.characterStats.max_mana()) * 100.0) + '%');
+        $('#character_mana_bar_text').text('Mana: (' + game.character.current_mana + '/' + util.characterStats.max_mana() + ')');
 
-        let $red_bar = $('<div></div>');
-        $red_bar.css({'position':'absolute','background-color':'red'});
-        $red_bar.css({'right': '15px'});
-        $red_bar.css({'top': 0});
-        $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $red_bar.css({'width': Math.floor((map.cell_size * 5 * (game.character.current_health / util.characterStats.max_health())))});
-
-        let $mana_bar = $('<div></div>');
-        $mana_bar.css({'position':'absolute','background-color':'gray'});
-        $mana_bar.css({'top': (Math.floor(map.cell_size / 10.0) + 2) + 'px'});
-        $mana_bar.css({'right': '15px'});
-        $mana_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $mana_bar.css({'width': Math.floor(map.cell_size * 5)});
-
-        let $blue_bar = $('<div></div>');
-        $blue_bar.css({'position':'absolute','background-color':'blue'});
-        $blue_bar.css({'top': (Math.floor(map.cell_size / 10.0) + 2) + 'px'});
-        $blue_bar.css({'right': '15px'});
-        $blue_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-        $blue_bar.css({'width': Math.floor((map.cell_size * 5 * (game.character.current_mana / util.characterStats.max_mana())))});
-
-        map.$container.append($char);
-        map.$container.append($health_bar);
-        map.$container.append($red_bar);
-        map.$container.append($mana_bar);
-        map.$container.append($blue_bar);
+        map.$non_tiles_container.append($char);
     },
 
     indexToCoordinate: function(i, j){
@@ -80,41 +66,46 @@ let map = {
         };
     },
 
-    constructTile: function(i, j){
+    initializeTile: function(i, j){
         let $tile = $('<img>');
-        let point = map.indexToCoordinate(i, j);
-        let map_entry = map.get(point.x, point.y);
-        if(map_entry.type == null){
-            game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
-        }
-        map_entry = map.get(point.x, point.y);
-        $tile.attr('src', util.typeToSrcString(map_entry.type));
+        $tile.attr('id','map_tile_' + i + '_' + j);
         $tile.addClass('tile');
-        //$tile.css({'top': i * map.cell_size});
-        //$tile.css({'left': j * map.cell_size});
         $tile.css({'position': 'relative'});
         $tile.css({'height': Math.floor(map.cell_size)});
         $tile.css({'width': Math.floor(map.cell_size)});
+        map.$tiles_container.append($tile);
+    },
+
+    updateTile: function(i, j){
+        let $tile = $('#map_tile_' + i + '_' + j);
+        $tile.off('click');
+        let point = map.indexToCoordinate(i, j);
+        let map_entry = map.get(point.x, point.y);
+        if(map_entry.tile == null){
+            game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
+        }
+        map_entry = map.get(point.x, point.y);
+        $tile.attr('src', util.tileToSrcString(map_entry.tile));
         if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
             $tile.css({'opacity':0.5});
+        }else{
+            $tile.css({'opacity':''});
         }
         $tile.data("x", point.x);
         $tile.data("y", point.y);
         if(map_entry.direction != null){
             $tile.css('transform','rotate(' + (map_entry.direction * 90) + 'deg)');
-            //$tile.css('margin-right','-1px');
-            //$tile.css('margin-bottom','-1px');
+        }else{
+            $tile.css('transform','');
         }
-        if(map_entry.npc == null){
+        if(map_entry.npc == null && map_entry.object == null){
             $tile.click(user_interface.inspect);
         }
-        return $tile;
     },
 
-    constructNPCTile: function(i, j){
+    constructNPC: function(i, j){
         let point = map.indexToCoordinate(i, j);
         let map_entry = map.get(point.x, point.y);
-        //console.debug(map_entry);
         if(map_entry.npc != null){
             let $tile = $('<img>');
             $tile.css({'top': i * Math.floor(map.cell_size)});
@@ -138,7 +129,7 @@ let map = {
             if(point.x > game.character.x){
                 $tile.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
             }
-            map.$container.append($tile);
+            map.$non_tiles_container.append($tile);
 
             if(map_entry.npc.type === 'monster'){
                 let $health_bar = $('<div></div>');
@@ -153,9 +144,37 @@ let map = {
                 $red_bar.css({'left': j *Math.floor(map.cell_size)});
                 $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
                 $red_bar.css({'width': Math.floor((map.cell_size * (map_entry.npc.current_health / map_entry.npc.max_health)))});
-                map.$container.append($health_bar);
-                map.$container.append($red_bar);
+                map.$non_tiles_container.append($health_bar);
+                map.$non_tiles_container.append($red_bar);
             }
+        }
+    },
+
+
+
+    constructObject: function(i, j){
+        let point = map.indexToCoordinate(i, j);
+        let map_entry = map.get(point.x, point.y);
+        if(map_entry.object != null){
+            let $tile = $('<img>');
+            $tile.css({'top': i * Math.floor(map.cell_size)});
+            $tile.css({'left': j * Math.floor(map.cell_size)});
+            $tile.css({'height': Math.floor(map.cell_size)});
+            $tile.css({'width': Math.floor(map.cell_size)});
+            $tile.attr('src', util.objectToSrcString(map_entry.object));
+            $tile.addClass('tile');
+            $tile.data("x", point.x);
+            $tile.data("y", point.y);
+            if(game.status !== STATUS.COMBAT_ATTACK_SELECTED){
+                $tile.click(user_interface.inspect);
+            }else{
+                $tile.css({'opacity':0.5});
+            }
+
+            if(point.x > game.character.x){
+                $tile.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
+            }
+            map.$non_tiles_container.append($tile);
         }
     },
 
@@ -176,7 +195,7 @@ let map = {
     getAll: function(){
         let ans = [];
         for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].points[0].data.type != null){
+            if(game.chunks[i].points[0].data.tile != null){
                 for(let j = 0; j < game.chunks[i].points.length; j++){
                     ans.push({
                         x:game.chunks[i].points[j].x,

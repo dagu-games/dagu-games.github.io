@@ -1,4 +1,10 @@
 let util = {
+    UIRefresh: function(){
+        map.init_run = false;
+        map.render();
+        view_controller.render();
+    },
+
     loadGame: function(index){
         let str = localStorage.getItem(STORAGE_STRING);
         if(str === null){
@@ -38,7 +44,7 @@ let util = {
 
     isWalkable: function(x, y){
         let map_entry = map.get(x, y);
-        return (util.isInArray(WALKABLE_TILES, map_entry.type) && map_entry.npc == null);
+        return (map_entry.npc == null && map_entry.object == null);
     },
 
     isAround: function(x, y, npc_type){
@@ -73,15 +79,11 @@ let util = {
 
     hasLineOfSight: function(x1, y1, x2, y2){
         let points = util.getAllPointsBetween(x1, y1, x2, y2);
-        VISION_BLOCKING_TILES.forEach(
-            function(type){
-                points.forEach(
-                    function(point){
-                        if(map.get(point.x, point.y).type === type){
-                            return false;
-                        }
-                    }
-                );
+        points.forEach(
+            function(point){
+                if(map.get(point.x, point.y).object != null || map.get(point.x, point.y).npc != null){
+                    return false;
+                }
             }
         );
         return true;
@@ -308,18 +310,24 @@ let util = {
         return point.y - slope * point.y;
     },
 
-    typeToSrcString: function(type){
-        if(type === "grass"){
+    tileToSrcString: function(tile){
+        if(tile === "grass"){
             return ICONS.TILES.GRASS;
         }
-        if(type === "tree"){
-            return ICONS.TILES.TREE;
-        }
-        if(type === "dirt"){
-            return ICONS.TILES.DIRT;
-        }
-        if(type === "stone"){
+        if(tile === "stone"){
             return ICONS.TILES.STONE;
+        }
+    },
+
+    objectToSrcString: function(object){
+        if(object === "bush"){
+            return ICONS.OBJECTS.BUSH;
+        }
+        if(object === "tree"){
+            return ICONS.OBJECTS.TREE;
+        }
+        if(object === "wall"){
+            return ICONS.TILES.WALL;
         }
     },
 

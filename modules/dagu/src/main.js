@@ -5,7 +5,7 @@ util.loadGame();
 $(document).ready(map.render);
 $(document).ready(view_controller.render);
 
-$(window).resize(map.render);
+$(window).resize(util.UIRefresh);
 
 $(document).keydown(user_interface.handleKeyDown);
 

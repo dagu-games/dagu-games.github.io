@@ -70,28 +70,28 @@ let game_logic = {
         };
         game.status = STATUS.COMBAT;
         game_logic.generateChunk(0, 0);
-        if(map.get(CHUNK_SIZE,0).type === undefined){
+        if(map.get(CHUNK_SIZE,0).tile === undefined){
             game_logic.generateChunk(1, 0);
         }
-        if(map.get(CHUNK_SIZE,CHUNK_SIZE).type === undefined){
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE).tile === undefined){
             game_logic.generateChunk(1, 1);
         }
-        if(map.get(0,CHUNK_SIZE).type === undefined){
+        if(map.get(0,CHUNK_SIZE).tile === undefined){
             game_logic.generateChunk(0, 1);
         }
-        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE).type === undefined){
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE).tile === undefined){
             game_logic.generateChunk(-1, 1);
         }
-        if(map.get(CHUNK_SIZE*-1,0).type === undefined){
+        if(map.get(CHUNK_SIZE*-1,0).tile === undefined){
             game_logic.generateChunk(-1, 0);
         }
-        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE*-1).type === undefined){
+        if(map.get(CHUNK_SIZE*-1,CHUNK_SIZE*-1).tile === undefined){
             game_logic.generateChunk(-1, -1);
         }
-        if(map.get(0,CHUNK_SIZE*-1).type === undefined){
+        if(map.get(0,CHUNK_SIZE*-1).tile === undefined){
             game_logic.generateChunk(0, -1);
         }
-        if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1).type === undefined){
+        if(map.get(CHUNK_SIZE,CHUNK_SIZE*-1).tile === undefined){
             game_logic.generateChunk(1, -1);
         }
 
@@ -125,13 +125,12 @@ let game_logic = {
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     //console.log("generating point " + i + "," + j);
-                    if(util.getRandomInt(100) < 10){
-                        map.get(i, j).type = 'tree';
+                    map.get(i, j).tile = 'grass';
+                    if(util.getRandomInt(100) < 5){
+                        map.get(i, j).object = 'tree';
                     }else{
-                        if(util.getRandomInt(100) < 30){
-                            map.get(i, j).type = 'dirt';
-                        }else{
-                            map.get(i, j).type = 'grass';
+                        if(util.getRandomInt(100) < 3){
+                            map.get(i, j).object = 'bush';
                         }
                     }
                     map.get(i, j).direction = 0;
@@ -155,7 +154,7 @@ let game_logic = {
                 (chunk_x === 1 && chunk_y === -1)){
                 monsters = [];
             }
-            map.get(0, 0).type = 'grass';
+            map.get(0, 0).tile = 'grass';
             pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
                 let c = 0;
@@ -181,7 +180,7 @@ let game_logic = {
             let town_j = 0;
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
-                    map.get(i, j).type = town.tiles[town_i][town_j].type;
+                    map.get(i, j).tile = town.tiles[town_i][town_j].tile;
                     if(town.tiles[town_i][town_j].direction != null){
                         map.get(i, j).direction = town.tiles[town_i][town_j].direction;
                     }else{
@@ -200,7 +199,7 @@ let game_logic = {
                 town_j = 0;
                 town_i--;
             }
-            map.get(0, 0).type = 'grass';
+            map.get(0, 0).tile = 'grass';
             pathfinder.resetPFVariable();
         }else if(r >= 90){
             //generate dungeon
@@ -219,7 +218,7 @@ let game_logic = {
             let dungeon_j = 0;
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
-                    map.get(i, j).type = dungeon.tiles[dungeon_i][dungeon_j].type;
+                    map.get(i, j).tile = dungeon.tiles[dungeon_i][dungeon_j].tile;
                     if(dungeon.tiles[dungeon_i][dungeon_j].direction != null){
                         map.get(i, j).direction = dungeon.tiles[dungeon_i][dungeon_j].direction;
                     }else{
@@ -241,7 +240,7 @@ let game_logic = {
                 (chunk_x === 1 && chunk_y === -1)){
                 monsters = [];
             }
-            map.get(0, 0).type = 'grass';
+            map.get(0, 0).tile = 'grass';
             pathfinder.resetPFVariable();
 
             monsters = game_logic.generateChunkEnemies(dungeon.monsters, dungeon.boss_monsters);

@@ -59,10 +59,10 @@ let monster_attack = {
 
     attack: function(monster_x, monster_y, attack){
         let damage = attack.calculator(monster_x,monster_y);
-        util.damageCharacter(damage);
         let monster = map.get(monster_x,monster_y).npc;
-        map.get(monster_x,monster_y).npc.cooldowns[attack.name] = attack.cooldown;
         game.output.push(monster.name + ' attacked you with ' + attack.name + ' for ' + damage + ' damage');
+        util.damageCharacter(damage);
+        map.get(monster_x,monster_y).npc.cooldowns[attack.name] = attack.cooldown;
     },
 
     handleMonsterTurn: function(monster_x, monster_y){

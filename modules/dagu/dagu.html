@@ -49,9 +49,31 @@
             <div id="tutorial_content"></div>
         </div>
         <div id="app">
-            <div class="container" id="map_container"></div>
-            <img id="zoom_out_img" onclick="user_interface.zoomOut()">
-            <img id="zoom_in_img" onclick="user_interface.zoomIn()">
+            <div class="container" id="map_container">
+                <div id="map_tiles_container"></div>
+                <div id="map_non_tiles_container"></div>
+                <img id="zoom_out_img" onclick="user_interface.zoomOut()">
+                <img id="zoom_in_img" onclick="user_interface.zoomIn()">
+                <div id="character_status_bar_container">
+                    <div id="character_health_bar_gray"></div>
+                    <div id="character_health_bar_red"></div>
+                    <span id="character_health_bar_text"></span>
+                    <div id="character_mana_bar_gray"></div>
+                    <div id="character_mana_bar_blue"></div>
+                    <span id="character_mana_bar_text"></span>
+                </div>
+                <div class="container" id="movement_container">
+                    <div title="Move Up" id="move_up_circle" onclick=user_interface.moveUp()></div>
+                    <i title="Move Up" class="fa fa-chevron-circle-up" id="move_up_button" onclick=user_interface.moveUp()></i>
+                    <div title="Move Left" id="move_left_circle" onclick=user_interface.moveLeft()></div>
+                    <i title="Move Left" class="fa fa-chevron-circle-left" id="move_left_button" onclick=user_interface.moveLeft()></i>
+                    <div title="Move Right" id="move_right_circle" onclick=user_interface.moveRight()></div>
+                    <i title="Move Right" class="fa fa-chevron-circle-right" id="move_right_button" onclick=user_interface.moveRight()></i>
+                    <div title="Move Down" id="move_down_circle" onclick=user_interface.moveDown()></div>
+                    <i title="Move Down" class="fa fa-chevron-circle-down" id="move_down_button" onclick=user_interface.moveDown()></i>
+                </div>
+                <div class="container" id="hotbar_container"></div>
+            </div>
             <div class="container" id="context_menu_container">
                 <div class="tab">
                     <button class="tablinks tablink_left button" id="attack_list_tablink" onclick="user_interface.openLeftTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
@@ -68,11 +90,14 @@
 
                     <div id="npc_quest_list_container" class="container"></div>
 
+                    <br>
+                    <br>
                     <h3>Buy</h3>
 
                     <div id="buy_item_list_container" class="container"></div>
 
-
+                    <br>
+                    <br>
                     <h3>Sell</h3>
 
                     <div id="sell_item_list_container" class="container"></div>
@@ -244,13 +269,6 @@
                 </div>
             </div>
             <div class="container" id="output_container"></div>
-            <div class="container" id="movement_container">
-                <i title="Move Up" class="fa fa-chevron-circle-up" id="move_up_button" onclick=user_interface.moveUp()></i>
-                <i title="Move Left" class="fa fa-chevron-circle-left" id="move_left_button" onclick=user_interface.moveLeft()></i>
-                <i title="Move Right" class="fa fa-chevron-circle-right" id="move_right_button" onclick=user_interface.moveRight()></i>
-                <i title="Move Down" class="fa fa-chevron-circle-down" id="move_down_button" onclick=user_interface.moveDown()></i>
-            </div>
-            <div class="container" id="hotbar_container"></div>
         </div>
         <span id="portrait_message">Portrait mode is not supported, please rotate your screen.</span>
         <script src="src/main.js"></script>

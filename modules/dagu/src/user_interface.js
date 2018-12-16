@@ -78,6 +78,7 @@ let user_interface = {
         if(game.settings.zoom_factor > 3){
             game.settings.zoom_factor -= 2;
         }
+        map.init_run = false;
         game.output.push("Zoom increased to " + game.settings.zoom_factor);
         map.render();
     },
@@ -86,6 +87,7 @@ let user_interface = {
         if(game.settings.zoom_factor < ZOOM_MAX){
             game.settings.zoom_factor += 2;
         }
+        map.init_run = false;
         game.output.push("Zoom decreased to " + game.settings.zoom_factor);
         map.render();
     },
@@ -350,7 +352,8 @@ let user_interface = {
             if(event.which === KEY_CODES["0"] && game.character.hotbar[0] !== ""){
                 user_interface.keybindSelectAttack(game.character.hotbar[0]);
             }
-            setTimeout(function(){ game.key_lock = false }, 1);
+            //setTimeout(function(){ game.key_lock = false }, 1);
+            game.key_lock = false;
         }
     },
 

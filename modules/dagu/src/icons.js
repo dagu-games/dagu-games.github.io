@@ -6,9 +6,11 @@ const ICONS = {
     },
     TILES: {
         GRASS: "../../images/pack2/trees_and_bushes_pack/grass.png",
-        TREE: "../../images/pack2/trees_and_bushes_pack/tree.png",
         STONE: "../../images/stone.png",
-        DIRT: "../../images/pack2/trees_and_bushes_pack/bush.png",
+    },
+    OBJECTS: {
+        BUSH: "../../images/pack2/trees_and_bushes_pack/bush.png",
+        TREE: "../../images/pack2/trees_and_bushes_pack/tree.png",
         WALL: "../../images/wall.png",
     },
     CHARACTER_ATTACKS: {

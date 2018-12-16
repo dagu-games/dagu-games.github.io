@@ -32,7 +32,7 @@ let pathfinder = {
     },
     locationStatus: function(x, y, goal_x, goal_y){
         //console.log("checking status of " + x + "," + y);
-        if(map.get(x, y).type == null){
+        if(map.get(x, y).tile == null){
             //console.log('Invalid');
             return 'Invalid';
         }else if(x === goal_x && y === goal_y){

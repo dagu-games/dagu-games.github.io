@@ -41,19 +41,6 @@ const ITEM_TYPES = {
     GOAL_ITEM: "goal_item",
 };
 
-const WALKABLE_TILES = [
-    "grass",
-    "stone",
-    "dirt",
-];
-
-
-const VISION_BLOCKING_TILES = [
-    "tree",
-    "bush",
-    "wall",
-];
-
 const NPC_RACES = [
     "Human",
     "Elf",
