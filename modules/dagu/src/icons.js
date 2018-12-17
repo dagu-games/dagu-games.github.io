@@ -1,67 +1,67 @@
 const ICONS = {
     MENU_BUTTONS: {
-        ZOOM_IN: "../../images/zoom_in.png",
-        ZOOM_OUT: "../../images/zoom_out.png",
-        CENTER: "../../images/center.png"
+        ZOOM_IN: "../../images/zoom_in.svg",
+        ZOOM_OUT: "../../images/zoom_out.svg",
+        CENTER: "../../images/center.svg"
     },
     TILES: {
-        GRASS: "../../images/pack2/trees_and_bushes_pack/grass.png",
-        STONE: "../../images/stone.png",
+        GRASS: "../../images/pack2/trees_and_bushes_pack/grass.svg",
+        STONE: "../../images/stone.svg",
     },
     OBJECTS: {
-        BUSH: "../../images/pack2/trees_and_bushes_pack/bush.png",
-        TREE: "../../images/pack2/trees_and_bushes_pack/tree.png",
-        WALL: "../../images/wall.png",
+        BUSH: "../../images/pack2/trees_and_bushes_pack/bush.svg",
+        TREE: "../../images/pack2/trees_and_bushes_pack/tree.svg",
+        WALL: "../../images/wall.svg",
     },
     CHARACTER_ATTACKS: {
-        BASIC_ATTACK: "../../images/basic_attack.png",
+        BASIC_ATTACK: "../../images/basic_attack.svg",
     },
     NPCS: [
-        "../../images/npc.png",
+        "../../images/npc.svg",
     ],
     MONSTERS: {
-        HELLHOUND: "../../images/hellhound.png",
+        HELLHOUND: "../../images/hellhound.svg",
     },
-    HERO: "../../images/hero.png",
+    HERO: "../../images/hero.svg",
     GOAL_ITEMS: {
-        LOST_DOG: "../../images/lost_dog.png",
+        LOST_DOG: "../../images/lost_dog.svg",
     },
     CONSUMABLES: {
-        APPLE: "../../images/apple.png",
+        APPLE: "../../images/apple.svg",
     },
     EQUIPMENT: {
         helmet: [
-            "../../images/helmet.png",
+            "../../images/helmet.svg",
         ],
         shoulders: [
-            "../../images/shoulders.png",
+            "../../images/shoulders.svg",
         ],
         gauntlets: [
-            "../../images/gauntlets.png",
+            "../../images/gauntlets.svg",
         ],
         chest: [
-            "../../images/chest.png",
+            "../../images/chest.svg",
         ],
         belt: [
-            "../../images/belt.png",
+            "../../images/belt.svg",
         ],
         pants: [
-            "../../images/pants.png",
+            "../../images/pants.svg",
         ],
         boots: [
-            "../../images/boots.png",
+            "../../images/boots.svg",
         ],
         main_hand: [
-            "../../images/sword.png",
+            "../../images/sword.svg",
         ],
         off_hand: [
-            "../../images/shield.png",
+            "../../images/shield.svg",
         ],
         necklace: [
-            "../../images/necklace.png",
+            "../../images/necklace.svg",
         ],
         ring: [
-            "../../images/ring.png",
+            "../../images/ring.svg",
         ],
     },
 };

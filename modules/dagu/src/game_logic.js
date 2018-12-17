@@ -392,6 +392,13 @@ let game_logic = {
 
         util.giveCharacterMana(util.characterStats.mana_regeneration());
 
+        if(game.character.current_health > util.characterStats.max_health()){
+            game.character.current_health = util.characterStats.max_health();
+        }
+        if(game.character.current_mana > util.characterStats.max_mana()){
+            game.character.current_mana = util.characterStats.max_mana();
+        }
+
         quests.logTick();
     },
 
