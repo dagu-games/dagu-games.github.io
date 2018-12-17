@@ -84,17 +84,17 @@ let monster_attack = {
                 map.get(monster_x,monster_y).npc = null;
                 monster_x += 1;
             }
-            if(direction === 2){
+            if(direction === 1){
                 map.get(monster_x,monster_y+1).npc = map.get(monster_x,monster_y).npc;
                 map.get(monster_x,monster_y).npc = null;
                 monster_y += 1;
             }
-            if(direction === 4){
+            if(direction === 2){
                 map.get(monster_x-1,monster_y).npc = map.get(monster_x,monster_y).npc;
                 map.get(monster_x,monster_y).npc = null;
                 monster_x -= 1;
             }
-            if(direction === 6){
+            if(direction === 3){
                 map.get(monster_x,monster_y-1).npc = map.get(monster_x,monster_y).npc;
                 map.get(monster_x,monster_y).npc = null;
                 monster_y -= 1;

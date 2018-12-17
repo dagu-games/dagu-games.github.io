@@ -20,6 +20,7 @@ let pathfinder = {
                 if(newLocation.status === 'Goal'){
                     pathfinder.resetPFVariable();
                     //console.log("found a path in " + (((new Date).getTime() - start_time)/1000.0) + " seconds after " + count + " tiles checked. that comes to " + ((((new Date).getTime() - start_time)/1000.0)/count));
+                    //console.debug(newLocation.path);
                     return newLocation.path;
                 }else if(newLocation.status === 'Valid'){
                     queue.push(newLocation);

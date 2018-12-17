@@ -325,7 +325,7 @@ h1, h2, h3, h4 {
 #character_status_bar_container {
     position: absolute;
     top: 4px;
-    right: 10px;
+    right: 15px;
     height: 2%;
     width: 40%;
 }
@@ -355,7 +355,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_gray {
     position: absolute;
-    top: 101%;
+    top: 110%;
     right: 0;
     height: 100%;
     width: 100%;
@@ -364,7 +364,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_blue {
     position: absolute;
-    top: 101%;
+    top: 110%;
     right: 0;
     height: 100%;
     background-color: #0068ff;
@@ -372,7 +372,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_text {
     position: absolute;
-    top: 101%;
+    top: 110%;
     right: 0;
 }
 
