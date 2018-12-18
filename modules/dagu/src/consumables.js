@@ -5,6 +5,7 @@ let consumables = {
             description: "A regular apple. Heals you by 10%",
             value: 1,
             icon: ICONS.CONSUMABLES.APPLE,
+            rarity: 100,
             effect: function(){
                 let heal_amount = Math.floor(util.characterStats.max_health() * 0.1);
                 util.healCharacter(heal_amount);
@@ -19,5 +20,15 @@ let consumables = {
             }
         }
         return null;
+    },
+    getWeightedRandomConsumable: function(){
+        let r = util.getRandomInt(100);
+        let list = [];
+        for(let i = 0; i < consumables.consumable_list.length; i++){
+            if(r < consumables.consumable_list[i].rarity){
+                list.push(consumables.consumable_list[i]);
+            }
+        }
+        return util.getRandomItemInArray(list);
     },
 };

@@ -2,6 +2,7 @@ const DUNGEONS = [
     {
         name: "Dungeon of Canthdor the Wicked",
         description: "An old laboratory of an evil wizard. Experiments and toxic materials fill the rooms. Monsters roam the halls.",
+        rarity: 100,
         monsters: ["Hellhound", "Alpha Hellhound"],
         boss_monsters: ["Evil Wizard Canthdor"],
         tiles:[

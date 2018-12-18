@@ -445,6 +445,85 @@ let util = {
         return arr;
     },
 
+    getWeightedRandomDungeon: function(){
+        let r = util.getRandomInt(100);
+        let list = [];
+        for(let i = 0; i < DUNGEONS.length; i++){
+            if(r < DUNGEONS[i].rarity){
+                list.push(DUNGEONS[i]);
+            }
+        }
+        return util.getRandomItemInArray(list);
+    },
+
+    getWeightedRandomTown: function(){
+        let r = util.getRandomInt(100);
+        let list = [];
+        for(let i = 0; i < TOWNS.length; i++){
+            if(r < TOWNS[i].rarity){
+                list.push(TOWNS[i]);
+            }
+        }
+        return util.getRandomItemInArray(list);
+    },
+
+    getCondensedInventory: function(){
+        let ans = [];
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            let found = false;
+            for(let j = 0; j < ans.length; j++){
+                if(game.character.inventory.items[i].type !== ITEM_TYPES.EQUIPMENT && game.character.inventory.items[i].name === ans[j].name){
+                    ans[j].num = ans[j].num + 1;
+                    found = true;
+                }
+            }
+            if(!found){
+                ans.push(game.character.inventory.items[i]);
+                ans[ans.length-1].num = 1;
+                ans[ans.length-1].index = i;
+            }
+        }
+        return ans;
+    },
+
+    getCondensedGoalItems: function(){
+        let ans = [];
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            let found = false;
+            for(let j = 0; j < ans.length; j++){
+                if(game.character.inventory.items[i].type === ITEM_TYPES.GOAL_ITEM && game.character.inventory.items[i].name === ans[j].name){
+                    ans[j].num = ans[j].num + 1;
+                    found = true;
+                }
+            }
+            if(!found){
+                ans.push(game.character.inventory.items[i]);
+                ans[ans.length-1].num = 1;
+                ans[ans.length-1].index = i;
+            }
+        }
+        return ans;
+    },
+
+    getCondensedConsumables: function(){
+        let ans = [];
+        for(let i = 0; i < game.character.inventory.items.length; i++){
+            let found = false;
+            for(let j = 0; j < ans.length; j++){
+                if(game.character.inventory.items[i].type === ITEM_TYPES.CONSUMABLE && game.character.inventory.items[i].name === ans[j].name){
+                    ans[j].num = ans[j].num + 1;
+                    found = true;
+                }
+            }
+            if(!found){
+                ans.push(game.character.inventory.items[i]);
+                ans[ans.length-1].num = 1;
+                ans[ans.length-1].index = i;
+            }
+        }
+        return ans;
+    },
+
     characterStats: {
         attack_power:function(){
             let attack_power = game.character.attack_power;

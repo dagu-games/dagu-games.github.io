@@ -7,6 +7,7 @@ let game_logic = {
         game.character = {
             x: 0,
             y: 0,
+            isFacingRight: true,
             home_x:0,
             home_y:0,
             level: 1,
@@ -171,7 +172,7 @@ let game_logic = {
             }
         }else if(r >= 75 && r < 90){
             //generate town
-            let town = util.getRandomItemInArray(TOWNS);
+            let town = util.getWeightedRandomTown();
             map.getChunk(chunk_x,chunk_y).name = util.getRandomItemInArray(TOWN_NAMES);
             map.getChunk(chunk_x,chunk_y).type = 'town';
             map.getChunk(chunk_x,chunk_y).description = town.description;
@@ -206,7 +207,7 @@ let game_logic = {
             let dungeons = quests.requestDungeons();
             let dungeon;
             if(dungeons.length === 0){
-                dungeon = util.getRandomItemInArray(DUNGEONS);
+                dungeon = util.getWeightedRandomDungeon();
             }else{
                 dungeon = DUNGEONS[util.getRandomItemInArray(dungeons)];
             }
@@ -422,7 +423,7 @@ let game_logic = {
         let r = util.getRandomInt(100);
         let item = {};
         if(r < CONSUMABLE_CHANCE){
-            item = util.getRandomItemInArray(consumables.consumable_list);
+            item = consumables.getWeightedRandomConsumable();
             item.type = ITEM_TYPES.CONSUMABLE;
         }else{
             item = game_logic.generateEquipment();
@@ -471,7 +472,26 @@ let game_logic = {
         if(preferred_stats == null){
             preferred_stats = [];
         }
-        let rarity = preferred_stats.length + util.getRandomInt(6 - preferred_stats.length);
+
+        let rarity = 0;
+        let r = util.getRandomInt(100);
+        if(r < UNCOMMON_CHANCE){
+            rarity = 0;
+        }else if(r < RARE_CHANCE){
+            rarity = 1;
+        }else if(r < EPIC_CHANCE){
+            rarity = 2;
+        }else if(r < LEGENDARY_CHANCE){
+            rarity = 3;
+        }else if(r < MYTHIC_CHANCE){
+            rarity = 4;
+        }else{
+            rarity = 5;
+        }
+
+        if(rarity < preferred_stats.length){
+            rarity = preferred_stats.length;
+        }
 
         let stats = [
             "max_health",

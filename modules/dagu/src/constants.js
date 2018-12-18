@@ -19,6 +19,13 @@ const MONSTER_EXP_MULTIPLIER = 100;
 const CONSUMABLE_CHANCE = 50;
 const MONSTERS_PER_CHUNK = 10;
 const TOWN_NPC_CHANCE = 50;
+
+const UNCOMMON_CHANCE = 20;
+const RARE_CHANCE = 40;
+const EPIC_CHANCE = 60;
+const LEGENDARY_CHANCE = 80;
+const MYTHIC_CHANCE = 90;
+
 const DONATORS = [
     "Mackie Welter, love and support",
     "Anna Anderson, occasional food provider",

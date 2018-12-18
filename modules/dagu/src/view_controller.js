@@ -56,11 +56,18 @@ let view_controller = {
             $quest_list.append(view_controller.generateQuest(game.character.quests[i],"character"));
         }
 
-        let $inventory = $('#equipment_container');
+        let $inventory = $('#inventory_container');
         $inventory.empty();
+        let items = util.getCondensedInventory();
+        for(let i = 0; i < items.length; i++){
+            $inventory.append(view_controller.generateItem(items[i], 'inventory', null));
+        }
+
+        let $equipment = $('#equipment_container');
+        $equipment.empty();
         for(let i = 0; i < game.character.inventory.items.length; i++){
             if(game.character.inventory.items[i].type === ITEM_TYPES.EQUIPMENT){
-                $inventory.append(view_controller.generateItem(game.character.inventory.items[i], 'equipment', {index: i}));
+                $equipment.append(view_controller.generateItem(game.character.inventory.items[i], 'equipment', {index: i}));
             }
         }
 
@@ -142,9 +149,11 @@ let view_controller = {
         let $sell_item_list_container = $('#sell_item_list_container');
         $sell_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
-            for(let i = 0; i < game.character.inventory.items.length; i++){
-                if(game.character.inventory.items[i].type === ITEM_TYPES.CONSUMABLE || game.character.inventory.items[i].type === ITEM_TYPES.EQUIPMENT){
-                    $sell_item_list_container.append(view_controller.generateItem(game.character.inventory.items[i],'sell',{index:i}));
+            let items = util.getCondensedInventory();
+            console.debug(items);
+            for(let i = 0; i < items.length; i++){
+                if(items[i].type === ITEM_TYPES.CONSUMABLE || items[i].type === ITEM_TYPES.EQUIPMENT){
+                    $sell_item_list_container.append(view_controller.generateItem(items[i],'sell', null));
                 }
             }
         }
@@ -258,6 +267,21 @@ let view_controller = {
             $item_img.click(user_interface.equipItem);
         }
 
+        if(mode ==='inventory'){
+            $item_img.data('index',item.index);
+            $item_img.data('tooltip_container','#inventory_item_tooltip_' + item.index);
+            $item_tooltip.attr('id', 'inventory_item_tooltip_' + item.index);
+            $item_img.mouseover(user_interface.hoverDiv);
+            $item_img.mouseleave(user_interface.hoverDiv);
+
+            if(item.type === ITEM_TYPES.EQUIPMENT){
+                $item_img.click(user_interface.equipItem);
+            }
+            if(item.type === ITEM_TYPES.CONSUMABLE){
+                $item_img.click(user_interface.useConsumable);
+            }
+        }
+
         if(mode ==='consumable'){
             $item_img.data('index',data.index);
             $item_img.data('tooltip_container','#item_tooltip_' + data.index);
@@ -279,12 +303,12 @@ let view_controller = {
         }
 
         if(mode === 'sell'){
-            $item_img.data('tooltip_container','#item_tooltip_' + data.index);
-            $item_tooltip.attr('id', 'item_tooltip_' + data.index);
+            $item_img.data('tooltip_container','#sell_item_tooltip_' + item.index);
+            $item_tooltip.attr('id', 'sell_item_tooltip_' + item.index);
             $item_img.click(user_interface.sellItem);
             $item_img.mouseover(user_interface.hoverDiv);
             $item_img.mouseleave(user_interface.hoverDiv);
-            $item_img.data('index',data.index);
+            $item_img.data('index',item.index);
         }
 
         if(mode === 'goal_item'){
@@ -301,6 +325,10 @@ let view_controller = {
 
         if(item.type === ITEM_TYPES.EQUIPMENT){
             $item_tooltip.append('<tr><td colspan="2">Level ' + item.level + ' ' + item.stats.rarity + '</td></tr>');
+        }
+        if(    (mode === 'sell' && item.type === ITEM_TYPES.CONSUMABLE)
+            || (mode === 'inventory' && item.type !== ITEM_TYPES.EQUIPMENT)){
+            $item_tooltip.append('<tr><td>Quantity</td><td>' + item.num + '</td></tr>');
         }
 
         if(item.type === ITEM_TYPES.CONSUMABLE || item.type === ITEM_TYPES.EQUIPMENT){

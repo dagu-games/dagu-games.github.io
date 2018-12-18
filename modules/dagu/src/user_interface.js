@@ -95,6 +95,7 @@ let user_interface = {
     moveLeft: function(){
         if(util.isWalkable(game.character.x - 1, game.character.y)){
             game.character.x -= 1;
+            game.character.isFacingRight = false;
             game_logic.tick();
         }
         map.render();
@@ -113,6 +114,7 @@ let user_interface = {
     moveRight: function(){
         if(util.isWalkable(game.character.x + 1, game.character.y)){
             game.character.x += 1;
+            game.character.isFacingRight = true;
             game_logic.tick();
         }
         map.render();

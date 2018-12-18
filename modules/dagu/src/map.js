@@ -47,6 +47,9 @@ let map = {
         $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
         $char.css({'height': Math.floor(map.cell_size)});
         $char.css({'width': Math.floor(map.cell_size)});
+        if(!game.character.isFacingRight){
+            $char.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
+        }
         $char.data("x", game.character.x);
         $char.data("y", game.character.y);
         $char.click(user_interface.inspect);

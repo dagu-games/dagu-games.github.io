@@ -1,6 +1,7 @@
 let TOWNS = [
     {
         description: "Small, close-knit community",
+        rarity: 100,
         tiles:[
             [{tile:"grass",npc:true}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass",npc:true}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}],
             [{tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}, {tile:"grass"}],
