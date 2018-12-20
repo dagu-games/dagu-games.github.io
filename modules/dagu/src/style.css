@@ -135,19 +135,19 @@ h1, h2, h3, h4 {
 
 #context_menu_container {
     position: fixed;
-    max-width: 30vw;
-    max-height: 65vh;
+    max-width: 30%;
+    max-height: 65%;
     top: 0;
-    left: 0;
+    left: 4px;
     overflow-y: auto;
 }
 
 #output_container {
-    position: fixed;
-    height: 35vh;
-    width: 35vw;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    height: 35%;
+    width: 35%;
+    right: 2%;
+    bottom: 1%;
     overflow-y: auto;
     border: 2px solid #9099A2;
     background-color: #D5D5D5;
@@ -157,7 +157,7 @@ h1, h2, h3, h4 {
     width: 30vh;
     height: 30vh;
     position: absolute;
-    left: 0;
+    left: 4px;
     bottom: 10px;
 }
 
@@ -282,14 +282,14 @@ h1, h2, h3, h4 {
 
 #zoom_in_img {
     position: absolute;
-    right: 3%;
+    right: 2%;
     top: 5px;
     width: 4%;
 }
 
 #zoom_out_img {
     position: absolute;
-    right: 8%;
+    right: 7%;
     top: 5px;
     width: 4%;
 }

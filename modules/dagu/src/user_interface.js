@@ -287,13 +287,6 @@ let user_interface = {
         view_controller.render();
     },
 
-    teleport: function(){
-        game.character.x = game.character.x + Number($('#teleport_x').val());
-        game.character.y = game.character.y + Number($('#teleport_y').val());
-        map.render();
-        view_controller.render();
-    },
-
     setHome: function(){
         game.character.home_x = game.character.x;
         game.character.home_y = game.character.y;
@@ -372,21 +365,21 @@ let user_interface = {
     toggleTab: function(event, tab_name, tablink_name){
         let $tab = $(tab_name);
         if($tab.css('display') === 'none'){
-            $('.tabcontent_left').hide();
+            $('.tabcontent').hide();
             $tab.show();
-            $('.tablink_left').removeClass('selected_tab');
+            $('.tablink').removeClass('selected_tab');
             $(tablink_name).addClass('selected_tab');
         }else{
-            $('.tabcontent_left').hide();
-            $('.tablink_left').removeClass('selected_tab');
+            $('.tabcontent').hide();
+            $('.tablink').removeClass('selected_tab');
         }
     },
 
 
     openTab: function(event, tab_name, tablink_name){
-        $('.tabcontent_left').hide();
+        $('.tabcontent').hide();
         $(tab_name).show();
-        $('.tablink_left').removeClass('selected_tab');
+        $('.tablink').removeClass('selected_tab');
         $(tablink_name).addClass('selected_tab');
     },
 

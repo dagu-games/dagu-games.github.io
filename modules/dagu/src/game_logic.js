@@ -156,6 +156,8 @@ let game_logic = {
                 monsters = [];
             }
             map.get(0, 0).tile = 'grass';
+            map.get(0, 0).npc = null;
+            map.get(0, 0).object = null;
             pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
                 let c = 0;
@@ -201,6 +203,8 @@ let game_logic = {
                 town_i--;
             }
             map.get(0, 0).tile = 'grass';
+            map.get(0, 0).npc = null;
+            map.get(0, 0).object = null;
             pathfinder.resetPFVariable();
         }else if(r >= 90){
             //generate dungeon
@@ -242,6 +246,8 @@ let game_logic = {
                 monsters = [];
             }
             map.get(0, 0).tile = 'grass';
+            map.get(0, 0).npc = null;
+            map.get(0, 0).object = null;
             pathfinder.resetPFVariable();
 
             monsters = game_logic.generateChunkEnemies(dungeon.monsters, dungeon.boss_monsters);

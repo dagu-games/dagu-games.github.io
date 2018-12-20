@@ -28,6 +28,9 @@ let map = {
             map.horizontal_count += 2;
         }
 
+        map.$container.css('width',((map.horizontal_count * map.cell_size) + 1) + 'px');
+
+
         if(map.init_run === false){
             map.$tiles_container.empty();
             for(let i = 0; i < game.settings.zoom_factor; i++){
