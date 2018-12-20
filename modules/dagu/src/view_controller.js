@@ -7,12 +7,7 @@ let view_controller = {
         view_controller.updateHotbar();
 
         if(util.isAround(game.character.x,game.character.y,'quest_giver') || util.isAround(game.character.x,game.character.y,'shop')){
-            user_interface.openLeftTab(null, '#npc_tab', '#npc_tablink');
-            if(util.isAround(game.character.x,game.character.y,'shop')){
-                user_interface.openRightTab(null, '#equipment_tab', '#equipment_tablink');
-            }
-        }else{
-            user_interface.openLeftTab(null, '#attack_list_tab', '#attack_list_tablink');
+            user_interface.openTab(null, '#npc_tab', '#npc_tablink');
         }
     },
 
@@ -121,11 +116,16 @@ let view_controller = {
         let $npc_quest_list_container = $('#npc_quest_list_container');
         $npc_quest_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"quest_giver")){
+            let hqtv = false;
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
                 if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "quest_giver"){
                     let quest_name = map.get(points[i].x,points[i].y).npc.quest;
                     if(!quests.isQuestCompleted(quest_name) && !quests.hasQuest(quest_name)){
+                        if(!hqtv){
+                            $npc_quest_list_container.append("<h3>Quests</h3>");
+                            hqtv = true;
+                        }
                         $npc_quest_list_container.append(view_controller.generateQuest(map.get(points[i].x,points[i].y).npc.quest,'quest_giver'));
                     }
                 }
@@ -135,6 +135,8 @@ let view_controller = {
         let $buy_item_list_container = $('#buy_item_list_container');
         $buy_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
+            $buy_item_list_container.show();
+            $buy_item_list_container.append("<h3>Buy</h3>");
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
                 if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
@@ -144,18 +146,27 @@ let view_controller = {
                     }
                 }
             }
+        }else{
+            $buy_item_list_container.hide();
         }
 
         let $sell_item_list_container = $('#sell_item_list_container');
         $sell_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
             let items = util.getCondensedInventory();
-            console.debug(items);
+            if(items.length > 0){
+                $sell_item_list_container.append("<h3>Sell</h3>");
+                $sell_item_list_container.show();
+            }else{
+                $sell_item_list_container.hide();
+            }
             for(let i = 0; i < items.length; i++){
                 if(items[i].type === ITEM_TYPES.CONSUMABLE || items[i].type === ITEM_TYPES.EQUIPMENT){
                     $sell_item_list_container.append(view_controller.generateItem(items[i],'sell', null));
                 }
             }
+        }else{
+            $sell_item_list_container.hide();
         }
 
         let $attack_list = $('#attack_list_container');

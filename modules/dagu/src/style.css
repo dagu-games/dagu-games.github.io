@@ -57,6 +57,11 @@ h1, h2, h3, h4 {
     background-color: #909090;
 }
 
+.tabcontent {
+    background-color: #D5D5D5;
+    display: inline-block;
+}
+
 .tile {
     padding: 0 0 0 0;
     margin: 0 0 0 0;
@@ -83,8 +88,12 @@ h1, h2, h3, h4 {
 
 .item_div {
     position: relative;
-    width: 10%;
+    width: 10vh;
     display: inline-block;
+}
+
+#buy_item_list_container, #sell_item_list_container {
+    min-height: 10vh;
 }
 
 .left_container {
@@ -118,38 +127,30 @@ h1, h2, h3, h4 {
 #map_container {
     position: fixed;
     height: 100vh;
-    width: 100vh;
+    width: 100vw;
     top: 0;
-    left: calc((100vw - 100vh) / 2);
+    left: 0;
     cursor: default;
 }
 
 #context_menu_container {
     position: fixed;
-    width: calc(((100vw - 100vh) / 2) - 5px);
-    height: 65vh;
+    max-width: 30vw;
+    max-height: 65vh;
     top: 0;
     left: 0;
-    overflow-y: auto;
-}
-
-#character_container {
-    position: fixed;
-    width: calc((100vw - 100vh) / 2);
-    height: 99vh;
-    right: 0;
-    top: 0;
     overflow-y: auto;
 }
 
 #output_container {
     position: fixed;
-    height: 34vh;
-    width: calc(((100vw - 100vh) / 2) - 5px);
-    left: 0;
+    height: 35vh;
+    width: 35vw;
+    right: 0;
     bottom: 0;
     overflow-y: auto;
     border: 1px solid gray;
+    background-color: #D5D5D5;
 }
 
 #movement_container {
@@ -162,13 +163,13 @@ h1, h2, h3, h4 {
 
 #hotbar_container {
     position: absolute;
-    width: 70vh;
-    right: 0;
+    max-width: calc(65vw - 35vh);
+    left: 35vh;
     bottom: 10px;
 }
 
 .hotbar_div {
-    width: calc((100% / 10));
+    width: calc(((65vw - 35vh) / 10));
     margin: 0 0 0 0;
     position: relative;
     float: left;
@@ -282,16 +283,16 @@ h1, h2, h3, h4 {
 
 #zoom_in_img {
     position: absolute;
-    left: 5px;
+    right: 5px;
     top: 5px;
-    width: 5%;
+    width: 4%;
 }
 
 #zoom_out_img {
     position: absolute;
-    left: calc(5% + 10px);
+    right: calc(4% + 10px);
     top: 5px;
-    width: 5%;
+    width: 4%;
 }
 
 #tutorial_container {
@@ -324,10 +325,10 @@ h1, h2, h3, h4 {
 
 #character_status_bar_container {
     position: absolute;
-    top: 4px;
-    right: 15px;
+    top: 5px;
+    right: 35%;
     height: 2%;
-    width: 40%;
+    width: 30%;
 }
 
 #character_health_bar_gray {
@@ -376,8 +377,13 @@ h1, h2, h3, h4 {
     right: 0;
 }
 
+.map_row {
+    position: relative;
+    float: left;
+}
+
 @media only screen and (max-aspect-ratio: 31/18) {
-    #map_container {
+    /*#map_container {
         height: 60vw;
         width: 60vw;
         top: 0;
@@ -390,14 +396,6 @@ h1, h2, h3, h4 {
         height: 65vh;
         top: 0;
         left: 0;
-        overflow-y: auto;
-    }
-
-    #character_container {
-        width: 20vw;
-        height: 100vh;
-        right: 0;
-        top: 0;
         overflow-y: auto;
     }
 
@@ -417,7 +415,7 @@ h1, h2, h3, h4 {
 
     .hotbar_div {
          width: calc((100% / 6));
-    }
+    }*/
 }
 
 @media only screen and (max-height: 500px) {

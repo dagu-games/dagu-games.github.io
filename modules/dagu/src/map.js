@@ -6,7 +6,9 @@ let map = {
 
     $non_tiles_container: null,
 
-    size: null,
+    horizontal_count: null,
+
+    vertical_size: null,
 
     cell_size: null,
 
@@ -18,13 +20,19 @@ let map = {
         map.$container = $('#map_container');
         map.$tiles_container = $('#map_tiles_container');
         map.$non_tiles_container = $('#map_non_tiles_container');
-        map.size = map.$container.width();
-        map.cell_size = map.size / game.settings.zoom_factor;
+        map.vertical_size = map.$container.height();
+        map.cell_size = map.vertical_size / game.settings.zoom_factor;
+
+        map.horizontal_count = 3;
+        while(((map.horizontal_count+2) * map.cell_size) < map.$container.width()){
+            map.horizontal_count += 2;
+        }
 
         if(map.init_run === false){
             map.$tiles_container.empty();
             for(let i = 0; i < game.settings.zoom_factor; i++){
-                for(let j = 0; j < game.settings.zoom_factor; j++){
+                map.$tiles_container.append('<div id="map_tile_row_' + i + '" class="map_row"></div>');
+                for(let j = 0; j < map.horizontal_count; j++){
                     map.initializeTile(i, j);
                 }
             }
@@ -33,7 +41,7 @@ let map = {
         map.$non_tiles_container.empty();
 
         for(let i = 0; i < game.settings.zoom_factor; i++){
-            for(let j = 0; j < game.settings.zoom_factor; j++){
+            for(let j = 0; j < map.horizontal_count; j++){
                 map.updateTile(i, j);
                 map.constructNPC(i, j);
                 map.constructObject(i, j);
@@ -44,7 +52,7 @@ let map = {
         $char.attr('src', ICONS.HERO);
         $char.addClass('tile');
         $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
-        $char.css({'left': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
+        $char.css({'left': ((((map.horizontal_count - 1) / 2)) * Math.floor(map.cell_size))});
         $char.css({'height': Math.floor(map.cell_size)});
         $char.css({'width': Math.floor(map.cell_size)});
         if(!game.character.isFacingRight){
@@ -64,7 +72,7 @@ let map = {
 
     indexToCoordinate: function(i, j){
         return {
-            x: game.character.x - ((game.settings.zoom_factor - 1) / 2) + j,
+            x: game.character.x - ((map.horizontal_count - 1) / 2) + j,
             y: game.character.y  + ((game.settings.zoom_factor - 1) / 2) - i,
         };
     },
@@ -76,7 +84,7 @@ let map = {
         $tile.css({'position': 'relative'});
         $tile.css({'height': Math.floor(map.cell_size)});
         $tile.css({'width': Math.floor(map.cell_size)});
-        map.$tiles_container.append($tile);
+        $('#map_tile_row_' + i).append($tile);
     },
 
     updateTile: function(i, j){

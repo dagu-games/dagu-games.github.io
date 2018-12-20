@@ -80,7 +80,7 @@ let character_attack = {
                 game.character.inventory.items.unshift(item);
             });
             if(loot.length > 0){
-                user_interface.openRightTab(null, "#equipment_tab", "#equipment_tablink");
+                user_interface.openTab(null, "#equipment_tab", "#equipment_tablink");
             }
             game_logic.giveEXP(MONSTER_EXP_MULTIPLIER*map_entry.npc.level);
             map.get(monster_x, monster_y).npc = null;

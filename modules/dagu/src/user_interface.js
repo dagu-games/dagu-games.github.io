@@ -369,17 +369,23 @@ let user_interface = {
         view_controller.render();
     },
 
-    openLeftTab: function(event, tab_name, tablink_name){
-        $('.tabcontent_left').hide();
-        $(tab_name).show();
+    toggleTab: function(event, tab_name, tablink_name){
+        let $tab = $(tab_name);
+        if($tab.css('display') === 'none'){
+            $('.tabcontent_left').hide();
+            $tab.show();
+        }else{
+            $('.tabcontent_left').hide();
+        }
         $('.tablink_left').removeClass('selected_tab');
         $(tablink_name).addClass('selected_tab');
     },
 
-    openRightTab: function(event, tab_name, tablink_name){
-        $('.tabcontent_right').hide();
+
+    openTab: function(event, tab_name, tablink_name){
+        $('.tabcontent_left').hide();
         $(tab_name).show();
-        $('.tablink_right').removeClass('selected_tab');
+        $('.tablink_left').removeClass('selected_tab');
         $(tablink_name).addClass('selected_tab');
     },
 
