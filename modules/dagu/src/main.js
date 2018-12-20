@@ -30,7 +30,6 @@ for(let i = 0; i < DONATORS.length; i++){
     $tutorial.append(DONATORS[i] + "<br>");
 }
 
-
 $tutorial.append('<br>CHANGE LOG:<br>');
 for(let i = 0; i < CHANGE_LOG.length; i++){
     $tutorial.append(CHANGE_LOG[i] + "<br><br>");

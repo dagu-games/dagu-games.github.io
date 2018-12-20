@@ -336,6 +336,24 @@ let view_controller = {
 
         if(item.type === ITEM_TYPES.EQUIPMENT){
             $item_tooltip.append('<tr><td colspan="2">Level ' + item.level + ' ' + item.stats.rarity + '</td></tr>');
+            if(item.stats.rarity === 'Common'){
+                $item_img.css('background-color','#ffffff');
+            }
+            if(item.stats.rarity === 'Uncommon'){
+                $item_img.css('background-color','#c3bcb4');
+            }
+            if(item.stats.rarity === 'Rare'){
+                $item_img.css('background-color','#366f42');
+            }
+            if(item.stats.rarity === 'Epic'){
+                $item_img.css('background-color','#5076a3');
+            }
+            if(item.stats.rarity === 'Legendary'){
+                $item_img.css('background-color','#522f65');
+            }
+            if(item.stats.rarity === 'Mythic'){
+                $item_img.css('background-color','#ceae33');
+            }
         }
         if(    (mode === 'sell' && item.type === ITEM_TYPES.CONSUMABLE)
             || (mode === 'inventory' && item.type !== ITEM_TYPES.EQUIPMENT)){

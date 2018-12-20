@@ -20,11 +20,11 @@ const CONSUMABLE_CHANCE = 50;
 const MONSTERS_PER_CHUNK = 10;
 const TOWN_NPC_CHANCE = 50;
 
-const UNCOMMON_CHANCE = 20;
-const RARE_CHANCE = 40;
-const EPIC_CHANCE = 60;
-const LEGENDARY_CHANCE = 80;
-const MYTHIC_CHANCE = 90;
+const UNCOMMON_CHANCE = 65;
+const RARE_CHANCE = 75;
+const EPIC_CHANCE = 85;
+const LEGENDARY_CHANCE = 95;
+const MYTHIC_CHANCE = 98;
 
 const DONATORS = [
     "Mackie Welter, love and support",

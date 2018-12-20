@@ -374,11 +374,12 @@ let user_interface = {
         if($tab.css('display') === 'none'){
             $('.tabcontent_left').hide();
             $tab.show();
+            $('.tablink_left').removeClass('selected_tab');
+            $(tablink_name).addClass('selected_tab');
         }else{
             $('.tabcontent_left').hide();
+            $('.tablink_left').removeClass('selected_tab');
         }
-        $('.tablink_left').removeClass('selected_tab');
-        $(tablink_name).addClass('selected_tab');
     },
 
 
