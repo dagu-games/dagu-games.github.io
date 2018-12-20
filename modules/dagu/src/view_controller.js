@@ -136,6 +136,7 @@ let view_controller = {
         $buy_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
             $buy_item_list_container.show();
+            $buy_item_list_container.append("<h3>Gold: " + game.character.inventory.gold + "</h3>");
             $buy_item_list_container.append("<h3>Buy</h3>");
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
@@ -310,7 +311,12 @@ let view_controller = {
             $item_img.data('shop_y',data.shop_y);
             $item_img.mouseover(user_interface.hoverDiv);
             $item_img.mouseleave(user_interface.hoverDiv);
-            $item_img.click(user_interface.buyItem);
+
+            if(game.character.inventory.gold < item.value){
+                $item_img.css('opacity','0.5');
+            }else{
+                $item_img.click(user_interface.buyItem);
+            }
         }
 
         if(mode === 'sell'){
