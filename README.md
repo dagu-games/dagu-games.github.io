@@ -10,9 +10,11 @@ All Art and graphics are either credited to Douglas Allen Kihlken, another party
 
 ### Generic RPG pack by Bakudas and Gabe Fern
 Licensed under MIT license
+
 includes anything under images/pack1/
 
 
 ### Trees & Bushes Sprites by ansimuz
 Licensed under Creative Commons Attribution v4.0 International
+
 includes anything under images/pack2/
