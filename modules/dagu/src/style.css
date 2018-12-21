@@ -23,8 +23,8 @@ h1, h2, h3, h4 {
     border:2px solid #9099A2;
     display:inline-block;
     cursor:pointer;
-    padding: 2px 2px 2px 2px;
-    margin: 1px 1px 1px 1px;
+    padding: 4px 4px 4px 4px;
+    margin: 2px 2px 2px 2px;
     font-size: medium;
     text-decoration:none;
     text-shadow:0 1px 0 #ffffff;
@@ -133,9 +133,9 @@ h1, h2, h3, h4 {
 #context_menu_container {
     position: fixed;
     max-width: 30%;
-    max-height: 65%;
-    top: 5px;
-    left: 5px;
+    max-height: 70%;
+    top: 10px;
+    left: 10px;
     overflow-y: auto;
 }
 
@@ -150,15 +150,15 @@ h1, h2, h3, h4 {
     width: 27vh;
     height: 27vh;
     position: absolute;
-    left: 5px;
-    bottom: 5px;
+    left: 10px;
+    bottom: 10px;
 }
 
 #hotbar_container {
     position: absolute;
     max-width: calc(65vw - 35vh);
     left: 35vh;
-    bottom: 5px;
+    bottom: 10px;
 }
 
 .hotbar_div {
@@ -310,9 +310,9 @@ h1, h2, h3, h4 {
 
 #character_status_bar_container {
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: 35%;
-    height: 2%;
+    height: 3%;
     width: 30%;
 }
 
@@ -341,7 +341,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_gray {
     position: absolute;
-    top: 110%;
+    top: 130%;
     right: 0;
     height: 100%;
     width: 100%;
@@ -350,7 +350,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_blue {
     position: absolute;
-    top: 110%;
+    top: 130%;
     right: 0;
     height: 100%;
     background-color: #0068ff;
@@ -358,7 +358,7 @@ h1, h2, h3, h4 {
 
 #character_mana_bar_text {
     position: absolute;
-    top: 110%;
+    top: 130%;
     right: 0;
 }
 
