@@ -129,9 +129,7 @@ let user_interface = {
                 game.character.step_count = 0;
                 game_logic.tick();
             }
-            console.log(game.character.step_count);
             game.character.step_count++;
-            console.log(game.character.step_count);
         }
         map.render();
         view_controller.render();
@@ -318,7 +316,6 @@ let user_interface = {
 
     sellItem: function(event){
         let $target = $(event.target);
-        console.log($target.data('index'));
         let item = game.character.inventory.items[$target.data('index')];
         game.character.inventory.items.splice($target.data('index'),1);
         game.character.inventory.gold += item.value;

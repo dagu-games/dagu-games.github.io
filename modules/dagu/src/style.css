@@ -20,7 +20,7 @@ h1, h2, h3, h4 {
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
-    border:1px solid #909090;
+    border:2px solid #9099A2;
     display:inline-block;
     cursor:pointer;
     /*color:#6D7993;*/
@@ -30,11 +30,12 @@ h1, h2, h3, h4 {
     text-decoration:none;
     text-shadow:0 1px 0 #ffffff;
     font-family: 'Press Start 2P', cursive;
+    color: #6D7993;
     transition: 0.3s;
 }
 
 .button:hover {
-    background-color: #909090;
+    background-color: #9099A2;
 }
 
 .tab {
@@ -42,19 +43,15 @@ h1, h2, h3, h4 {
 }
 
 .tab button {
-    float: left;
-    -moz-border-radius:0;
-    -webkit-border-radius:0;
-    border-radius:0;
-    transition: 0.3s;
+    float: right;
 }
 
 .tab button:hover {
-    background-color: #909090;
+    background-color: #9099A2;
 }
 
 .tab .selected_tab {
-    background-color: #909090;
+    background-color: #9099A2;
 }
 
 .tabcontent {
@@ -144,19 +141,15 @@ h1, h2, h3, h4 {
 }
 
 #output_container {
-    position: absolute;
-    height: 35%;
-    width: 35%;
-    right: 5px;
-    bottom: 5px;
     overflow-y: auto;
+    max-height: 100%;
+    max-width: 100%;
     border: 2px solid #9099A2;
-    background-color: #D5D5D5;
 }
 
 #movement_container {
-    width: 30vh;
-    height: 30vh;
+    width: 27vh;
+    height: 27vh;
     position: absolute;
     left: 5px;
     bottom: 5px;
@@ -227,14 +220,6 @@ h1, h2, h3, h4 {
     padding: 1px 1px 1px 1px;
 }
 
-#move_down_button {
-    left: calc(30vh / 3);
-    bottom: 0;
-    position: absolute;
-    color: #909090;
-    font-size: calc(30vh / 3);
-}
-
 #move_up_circle, #move_down_circle, #move_left_circle, #move_right_circle {
     height: calc(30vh / 3.3);
     width: calc(30vh / 3.3);
@@ -246,28 +231,28 @@ h1, h2, h3, h4 {
 
 #move_up_button, #move_down_button, #move_left_button, #move_right_button{
     color: #909090;
-    font-size: calc(30vh / 3);
+    font-size: 10vh;
     position: absolute;
 }
 
 #move_up_button, #move_up_circle {
     top: 0;
-    left: calc(30vh / 3);
+    left: 8.5vh;
 }
 
 #move_down_button, #move_down_circle {
     bottom: 0;
-    left: calc(30vh / 3);
+    left: 8.5vh;
 }
 
 #move_left_button, #move_left_circle {
     left: 0;
-    top: calc(30vh / 3);
+    top: 8.5vh;
 }
 
 #move_right_button, #move_right_circle {
     right: 0;
-    top: calc(30vh / 3);
+    top: 8.5vh;
 }
 
 #buy_item_list_container, #sell_item_list_container, #npc_quest_list_container {
@@ -283,16 +268,16 @@ h1, h2, h3, h4 {
 
 #zoom_in_img {
     position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 4%;
+    left: 4px;
+    bottom: 4px;
+    width: 18%;
 }
 
 #zoom_out_img {
     position: absolute;
-    right: calc(4% + 10px);
-    top: 5px;
-    width: 4%;
+    right: 4px;
+    bottom: 4px;
+    width: 18%;
 }
 
 #tutorial_container {
@@ -381,6 +366,13 @@ h1, h2, h3, h4 {
 .map_row {
     position: relative;
     float: left;
+}
+
+#tab_selector_container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 35%;
 }
 
 @media only screen and (max-aspect-ratio: 31/18) {

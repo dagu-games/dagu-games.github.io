@@ -137,7 +137,7 @@ let view_controller = {
         if(util.isAround(game.character.x,game.character.y,"shop")){
             $buy_item_list_container.show();
             $buy_item_list_container.append("<h3>Gold: " + game.character.inventory.gold + "</h3>");
-            $buy_item_list_container.append("<h3>Buy</h3>");
+            $buy_item_list_container.append("<h3>NPC Shop (click to buy, hover for details)</h3>");
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
                 if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
@@ -156,7 +156,7 @@ let view_controller = {
         if(util.isAround(game.character.x,game.character.y,"shop")){
             let items = util.getCondensedInventory();
             if(items.length > 0){
-                $sell_item_list_container.append("<h3>Sell</h3>");
+                $sell_item_list_container.append("<h3>Your Sellable Items (click to sell, hover for details)</h3>");
                 $sell_item_list_container.show();
             }else{
                 $sell_item_list_container.hide();

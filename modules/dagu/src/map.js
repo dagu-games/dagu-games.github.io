@@ -29,7 +29,6 @@ let map = {
         }
 
         if(map.init_run === false){
-            console.log('re-evaluating the map');
             map.$tiles_container.empty();
             for(let i = 0; i < game.settings.zoom_factor+1; i++){
                 map.$tiles_container.append('<div id="map_tile_row_' + i + '" class="map_row" style="height:' + Math.floor(map.cell_size) + 'px;width:' + Math.floor((map.horizontal_count+2)*map.cell_size) + 'px;"></div>');

@@ -378,7 +378,7 @@ let game_logic = {
             let monsters = util.getAllMonsters();
             for(let i = 0; i < monsters.length; i++){
                 if(util.distanceBetween(game.character.x,game.character.y,monsters[i].x,monsters[i].y) <= TICK_THRESHOLD){
-                    //console.log('doing turn for ' + monsters[i].x + "," + monsters[i].y);
+                    console.log('doing turn for ' + monsters[i].x + "," + monsters[i].y);
                     monster_attack.handleMonsterTurn(monsters[i].x,monsters[i].y);
                 }
             }
