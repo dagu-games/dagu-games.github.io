@@ -92,11 +92,46 @@ let user_interface = {
         map.render();
     },
 
+    moveToward: function(event){
+        let x = $(event.target).data('x');
+        let y = $(event.target).data('y');
+
+        let path = pathfinder.findShortestPath(game.character.x,game.character.y,x,y);
+
+        if(path !== false){
+            let i = 0;
+            while(i < STEPS_PER_TICK*2 && i < path.length){
+                if(path[i] === 0 && util.isWalkable(game.character.x + 1, game.character.y)){
+                    game.character.x += 1;
+                }
+                if(path[i] === 1 && util.isWalkable(game.character.x, game.character.y + 1)){
+                    game.character.y += 1;
+                }
+                if(path[i] === 2 && util.isWalkable(game.character.x - 1, game.character.y)){
+                    game.character.x -= 1;
+                }
+                if(path[i] === 3 && util.isWalkable(game.character.x, game.character.y - 1)){
+                    game.character.y -= 1;
+                }
+                i++;
+            }
+            game_logic.tick();
+            map.render();
+            view_controller.render();
+        }
+    },
+
     moveLeft: function(){
         if(util.isWalkable(game.character.x - 1, game.character.y)){
             game.character.x -= 1;
             game.character.isFacingRight = false;
-            game_logic.tick();
+            if(game.character.step_count >= STEPS_PER_TICK){
+                game.character.step_count = 0;
+                game_logic.tick();
+            }
+            console.log(game.character.step_count);
+            game.character.step_count++;
+            console.log(game.character.step_count);
         }
         map.render();
         view_controller.render();
@@ -105,7 +140,11 @@ let user_interface = {
     moveUp: function(){
         if(util.isWalkable(game.character.x, game.character.y + 1)){
             game.character.y += 1;
-            game_logic.tick();
+            if(game.character.step_count >= STEPS_PER_TICK){
+                game.character.step_count = 0;
+                game_logic.tick();
+            }
+            game.character.step_count++;
         }
         map.render();
         view_controller.render();
@@ -115,7 +154,11 @@ let user_interface = {
         if(util.isWalkable(game.character.x + 1, game.character.y)){
             game.character.x += 1;
             game.character.isFacingRight = true;
-            game_logic.tick();
+            if(game.character.step_count >= STEPS_PER_TICK){
+                game.character.step_count = 0;
+                game_logic.tick();
+            }
+            game.character.step_count++;
         }
         map.render();
         view_controller.render();
@@ -124,7 +167,11 @@ let user_interface = {
     moveDown: function(){
         if(util.isWalkable(game.character.x, game.character.y - 1)){
             game.character.y -= 1;
-            game_logic.tick();
+            if(game.character.step_count >= STEPS_PER_TICK){
+                game.character.step_count = 0;
+                game_logic.tick();
+            }
+            game.character.step_count++;
         }
         map.render();
         view_controller.render();

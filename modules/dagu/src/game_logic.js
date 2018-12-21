@@ -8,6 +8,7 @@ let game_logic = {
             x: 0,
             y: 0,
             isFacingRight: true,
+            step_count: 0,
             home_x:0,
             home_y:0,
             level: 1,

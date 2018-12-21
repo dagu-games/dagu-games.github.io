@@ -28,14 +28,12 @@ let map = {
             map.horizontal_count += 2;
         }
 
-        map.$container.css('width',((map.horizontal_count * map.cell_size) + 1) + 'px');
-
-
         if(map.init_run === false){
+            console.log('re-evaluating the map');
             map.$tiles_container.empty();
-            for(let i = 0; i < game.settings.zoom_factor; i++){
-                map.$tiles_container.append('<div id="map_tile_row_' + i + '" class="map_row"></div>');
-                for(let j = 0; j < map.horizontal_count; j++){
+            for(let i = 0; i < game.settings.zoom_factor+1; i++){
+                map.$tiles_container.append('<div id="map_tile_row_' + i + '" class="map_row" style="height:' + Math.floor(map.cell_size) + 'px;width:' + Math.floor((map.horizontal_count+2)*map.cell_size) + 'px;"></div>');
+                for(let j = 0; j < map.horizontal_count+2; j++){
                     map.initializeTile(i, j);
                 }
             }
@@ -43,8 +41,8 @@ let map = {
         }
         map.$non_tiles_container.empty();
 
-        for(let i = 0; i < game.settings.zoom_factor; i++){
-            for(let j = 0; j < map.horizontal_count; j++){
+        for(let i = 0; i < game.settings.zoom_factor+1; i++){
+            for(let j = 0; j < map.horizontal_count+2; j++){
                 map.updateTile(i, j);
                 map.constructNPC(i, j);
                 map.constructObject(i, j);
@@ -54,6 +52,7 @@ let map = {
         let $char = $('<img>');
         $char.attr('src', ICONS.HERO);
         $char.addClass('tile');
+        $char.attr('id', 'map_character_icon');
         $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
         $char.css({'left': ((((map.horizontal_count - 1) / 2)) * Math.floor(map.cell_size))});
         $char.css({'height': Math.floor(map.cell_size)});
@@ -113,7 +112,7 @@ let map = {
             $tile.css('transform','');
         }
         if(map_entry.npc == null && map_entry.object == null){
-            $tile.click(user_interface.inspect);
+            $tile.click(user_interface.moveToward);
         }
     },
 
@@ -131,7 +130,7 @@ let map = {
             $tile.data("x", point.x);
             $tile.data("y", point.y);
             if(game.status !== STATUS.COMBAT_ATTACK_SELECTED){
-                $tile.click(user_interface.inspect);
+                $tile.click(user_interface.moveToward);
             }else{
                 if(map_entry.npc.type === 'monster' && util.distanceBetween(game.character.x,game.character.y,point.x,point.y) <= character_attack.getAttack(game.selected_attack).range){
                     $tile.click(user_interface.attackMonster);

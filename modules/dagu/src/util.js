@@ -226,6 +226,70 @@ let util = {
                 x:x+1,
                 y:y-1,
             },
+            {
+                x:x+2,
+                y:y,
+            },
+            {
+                x:x+2,
+                y:y+1,
+            },
+            {
+                x:x+2,
+                y:y+2,
+            },
+            {
+                x:x+1,
+                y:y+2,
+            },
+            {
+                x:x,
+                y:y+2,
+            },
+            {
+                x:x-1,
+                y:y+2,
+            },
+            {
+                x:x-2,
+                y:y+2,
+            },
+            {
+                x:x-2,
+                y:y+1,
+            },
+            {
+                x:x-2,
+                y:y,
+            },
+            {
+                x:x-2,
+                y:y-1,
+            },
+            {
+                x:x-2,
+                y:y-2,
+            },
+            {
+                x:x-1,
+                y:y-2,
+            },
+            {
+                x:x,
+                y:y-2,
+            },
+            {
+                x:x+1,
+                y:y-2,
+            },
+            {
+                x:x+2,
+                y:y-2,
+            },
+            {
+                x:x+2,
+                y:y-1,
+            },
         ];
     },
 
@@ -348,7 +412,7 @@ let util = {
         if(this.timerNum == null || this.timerNum === 0){
             this.timerNum = currTime;
         }else{
-            console.log("timer results " + (currTime-this.timerNum) + " milliseconds or " + ((currTime-this.timerNum)/1000.0));
+            console.log("timer results " + (currTime-this.timerNum) + " milliseconds or " + ((currTime-this.timerNum)/1000.0) + " seconds");
             this.timerNum = 0;
         }
     },
