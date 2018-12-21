@@ -1,4 +1,4 @@
-localStorage.removeItem(STORAGE_STRING);
+//localStorage.removeItem(STORAGE_STRING);
 
 util.loadGame();
 

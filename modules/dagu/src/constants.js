@@ -1,4 +1,5 @@
 const VERSION = 0.2;
+const BUILD_NUMBER = 4;
 const CHUNK_SIZE = 20;
 const STORAGE_STRING = "dagu_saves_array";
 const ZOOM_MAX = 30;
@@ -20,6 +21,8 @@ const CONSUMABLE_CHANCE = 50;
 const MONSTERS_PER_CHUNK = 10;
 const TOWN_NPC_CHANCE = 50;
 const STEPS_PER_TICK = 5;
+const SAVES_LIMIT = 5;
+const TICKS_PER_AUTO_SAVE = 5;
 
 const UNCOMMON_CHANCE = 65;
 const RARE_CHANCE = 75;

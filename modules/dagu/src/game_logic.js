@@ -3,6 +3,8 @@ let game_logic = {
         game.settings = {
             zoom_factor: 13,
         };
+        game.build_number = BUILD_NUMBER;
+        game.tick_counter = 0;
         game.chunks = [];
         game.character = {
             x: 0,
@@ -408,6 +410,12 @@ let game_logic = {
         }
 
         quests.logTick();
+
+        game.tick_counter++;
+        if(game.tick_counter > TICKS_PER_AUTO_SAVE){
+            game.tick_counter = 0;
+            util.saveGame();
+        }
     },
 
     generateEquipment: function(){

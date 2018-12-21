@@ -13,12 +13,27 @@ let util = {
             str = localStorage.getItem(STORAGE_STRING);
         }
         let saves = JSON.parse(LZString.decompressFromUTF16(str));
-        //console.log(LZString.decompressFromUTF16(str));
+
+        let save;
         if(index == null){
-            game = saves[0];
+            save = saves[0];
         }else{
-            game = saves[index];
+            save = saves[index];
         }
+
+        if(save.build_number < BUILD_NUMBER){
+            game_logic.init();
+            util.saveGame();
+            str = localStorage.getItem(STORAGE_STRING);
+            saves = JSON.parse(LZString.decompressFromUTF16(str));
+            if(index == null){
+                save = saves[0];
+            }else{
+                save = saves[index];
+            }
+        }
+
+        game = save;
     },
 
     saveGame: function(){
@@ -32,6 +47,10 @@ let util = {
         let d = new Date();
         game.save_time = d.getTime();
         saves.unshift(game);
+
+        if(saves.length > SAVES_LIMIT){
+            saves.pop();
+        }
 
         let ans = JSON.stringify(saves);
         //console.log("size before = " + ans.length);
