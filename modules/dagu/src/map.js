@@ -14,7 +14,7 @@ let map = {
         if(map_render_locked){
             return;
         }
-        util.resetCanvas();
+        util.resizeCanvas();
         map.canvas = document.getElementById('map');
         map.context = map.canvas.getContext('2d');
         map.cell_size = Math.floor(map.canvas.height / game.settings.zoom_factor);

@@ -7,14 +7,10 @@ let util = {
         }
     },
 
-    resetCanvas: function(){
+    resizeCanvas: function(){
         let canvas = document.getElementById('map');
-        let context = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        context.fillStyle = '#D5D5D5';
-        context.fillRect(0, 0, canvas.width, canvas.height);
     },
 
     loadGame: function(index){

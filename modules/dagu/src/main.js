@@ -6,7 +6,7 @@ $(document).ready(map.render);
 $(document).ready(view_controller.render);
 
 $(window).resize(function(){
-    util.resetCanvas();
+    util.resizeCanvas();
     map.render();
 });
 
