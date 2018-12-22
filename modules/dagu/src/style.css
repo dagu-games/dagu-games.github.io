@@ -58,13 +58,6 @@ h1, h2, h3, h4 {
     display: inline-block;
 }
 
-.tile {
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-    float: left;
-    position: absolute;
-}
-
 .container {
     /*border: 1px solid gray;*/
     padding: 0 0 0 0;
@@ -229,7 +222,7 @@ h1, h2, h3, h4 {
 }
 
 #move_up_button, #move_down_button, #move_left_button, #move_right_button{
-    color: #909090;
+    color: #9099A2;
     font-size: 10vh;
     position: absolute;
 }
@@ -300,12 +293,11 @@ h1, h2, h3, h4 {
     height: 100%;
 }
 
-#map_character_container, #map_npcs_container, #map_tiles_container, #map_objects_container {
-    width: 100%;
-    height: 100%;
+#map {
     position: absolute;
     left: 0;
     top: 0;
+    z-index: -1;
 }
 
 #character_status_bar_container {
@@ -322,7 +314,7 @@ h1, h2, h3, h4 {
     right: 0;
     height: 100%;
     width: 100%;
-    background-color: #D5D5D5;
+    background-color: #9099A2;
 }
 
 #character_health_bar_red {
@@ -345,7 +337,7 @@ h1, h2, h3, h4 {
     right: 0;
     height: 100%;
     width: 100%;
-    background-color: #D5D5D5;
+    background-color: #9099A2;
 }
 
 #character_mana_bar_blue {
@@ -360,11 +352,6 @@ h1, h2, h3, h4 {
     position: absolute;
     top: 130%;
     right: 0;
-}
-
-.map_row {
-    position: relative;
-    float: left;
 }
 
 #tab_selector_container {

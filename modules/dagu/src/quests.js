@@ -142,7 +142,7 @@ let quests = {
                     game.character.inventory.items.push({
                         name: "Lost Dog",
                         description: "You found the lost dog! Take him back to his owner and they will reward you!",
-                        icon: ICONS.GOAL_ITEMS.LOST_DOG,
+                        icon: INTERFACE_ICONS.GOAL_ITEMS.LOST_DOG,
                         type: ITEM_TYPES.GOAL_ITEM,
                     });
                 }
@@ -197,7 +197,7 @@ let quests = {
                     game.character.inventory.push({
                         name: "Lost Dog",
                         description: "You found the lost dog! Take him back to his owner and they will reward you!",
-                        icon: ICONS.GOAL_ITEMS.LOST_DOG,
+                        icon: INTERFACE_ICONS.GOAL_ITEMS.LOST_DOG,
                         type: ITEM_TYPES.GOAL_ITEM,
                     });
                 }
@@ -213,7 +213,7 @@ let quests = {
                 return {
                     name: utilities.getRandomName(),
                     type: "quest_giver",
-                    icon: utilities.getRandomItemInArray(ICONS.NPCS),
+                    icon: utilities.getRandomItemInArray(INTERFACE_ICONS.NPCS),
                     description: utilities.getRandomItemInArray(NPC_RACES) + " " + utilities.getRandomItemInArray(NPC_PROFESSIONS) + " - " + utilities.getRandomItemInArray(NPC_DESCRIPTIONS),
                     quest: "Find my dog!",
                 };

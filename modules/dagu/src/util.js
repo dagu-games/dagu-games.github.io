@@ -1,8 +1,20 @@
 let util = {
-    UIRefresh: function(){
-        map.init_run = false;
-        map.render();
-        view_controller.render();
+    imageLoader: function(){
+        map_icons_loaded++;
+        if(map_icons_loaded >= map_icons_to_load){
+            map_render_locked = false;
+            map.render();
+        }
+    },
+
+    resetCanvas: function(){
+        let canvas = document.getElementById('map');
+        let context = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        context.fillStyle = '#D5D5D5';
+        context.fillRect(0, 0, canvas.width, canvas.height);
     },
 
     loadGame: function(index){
@@ -393,24 +405,24 @@ let util = {
         return point.y - slope * point.y;
     },
 
-    tileToSrcString: function(tile){
+    tileToImage: function(tile){
         if(tile === "grass"){
-            return ICONS.TILES.GRASS;
+            return MAP_ICONS.TILES.GRASS;
         }
         if(tile === "stone"){
-            return ICONS.TILES.STONE;
+            return MAP_ICONS.TILES.STONE;
         }
     },
 
-    objectToSrcString: function(object){
+    objectToImage: function(object){
         if(object === "bush"){
-            return ICONS.OBJECTS.BUSH;
+            return MAP_ICONS.OBJECTS.BUSH;
         }
         if(object === "tree"){
-            return ICONS.OBJECTS.TREE;
+            return MAP_ICONS.OBJECTS.TREE;
         }
         if(object === "wall"){
-            return ICONS.TILES.WALL;
+            return MAP_ICONS.TILES.WALL;
         }
     },
 
@@ -449,19 +461,11 @@ let util = {
         }else if(direction === 0){
             return 'Right';
         }else if(direction === 1){
-            return 'Up and Right';
-        }else if(direction === 2){
             return 'Up';
-        }else if(direction === 3){
-            return 'Up and Left';
-        }else if(direction === 4){
+        }else if(direction === 2){
             return 'Left';
-        }else if(direction === 5){
-            return 'Down and Left';
-        }else if(direction === 6){
+        }else if(direction === 3){
             return 'Down';
-        }else if(direction === 7){
-            return 'Down and Right';
         }
     },
 

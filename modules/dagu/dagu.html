@@ -19,7 +19,9 @@
         <script src="../../lib/lodash.js"></script>
         <script src="../../lib/lz-string.js"></script>
         <script src="src/constants.js"></script>
-        <script src="src/icons.js"></script>
+        <script src="src/interface_icons.js"></script>
+        <script src="src/util.js"></script>
+        <script src="src/map_icons.js"></script>
         <script src="src/data/npc_first_names.js"></script>
         <script src="src/data/npc_middle_names.js"></script>
         <script src="src/data/npc_last_names.js"></script>
@@ -34,7 +36,6 @@
         <script src="src/map.js"></script>
         <script src="src/game_logic.js"></script>
         <script src="src/pathfinder.js"></script>
-        <script src="src/util.js"></script>
         <script src="src/upgrades.js"></script>
         <script src="src/character_attack.js"></script>
         <script src="src/monster_attack.js"></script>
@@ -50,8 +51,7 @@
         </div>
         <div id="app">
             <div class="container" id="map_container">
-                <div id="map_tiles_container"></div>
-                <div id="map_non_tiles_container"></div>
+                <canvas id="map" onclick="user_interface.handleMapClick(event)"></canvas>
                 <div id="character_status_bar_container">
                     <div id="character_health_bar_gray"></div>
                     <div id="character_health_bar_red"></div>

@@ -101,6 +101,7 @@ let game_logic = {
 
         user_interface.openTutorial();
     },
+
     generateChunk: function(chunk_x, chunk_y){
         let r = util.getRandomInt(100);
         map.get(chunk_x*CHUNK_SIZE,chunk_y*CHUNK_SIZE);
@@ -137,7 +138,6 @@ let game_logic = {
                             map.get(i, j).object = 'bush';
                         }
                     }
-                    map.get(i, j).direction = 0;
                 }
             }
 
@@ -187,11 +187,6 @@ let game_logic = {
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     map.get(i, j).tile = town.tiles[town_i][town_j].tile;
-                    if(town.tiles[town_i][town_j].direction != null){
-                        map.get(i, j).direction = town.tiles[town_i][town_j].direction;
-                    }else{
-                        map.get(i, j).direction = 0;
-                    }
                     if(town.tiles[town_i][town_j].npc && util.getRandomInt(100) < TOWN_NPC_CHANCE){
                         let npc_list = quests.requestNPCs();
                         if(npc_list.length === 0 || util.getRandomInt(100) < 50){
@@ -227,11 +222,6 @@ let game_logic = {
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     map.get(i, j).tile = dungeon.tiles[dungeon_i][dungeon_j].tile;
-                    if(dungeon.tiles[dungeon_i][dungeon_j].direction != null){
-                        map.get(i, j).direction = dungeon.tiles[dungeon_i][dungeon_j].direction;
-                    }else{
-                        map.get(i, j).direction = 0;
-                    }
                     dungeon_j++;
                 }
                 dungeon_j = 0;
@@ -430,7 +420,7 @@ let game_logic = {
             value: util.getRandomInt(100) + 1,
         };
         item.name = util.getRandomItemInArray(ITEM_NAMES[item.slot]);
-        item.icon = util.getRandomItemInArray(ICONS.EQUIPMENT[item.slot]);
+        item.icon = util.getRandomItemInArray(INTERFACE_ICONS.EQUIPMENT[item.slot]);
         return item;
     },
 
@@ -629,8 +619,43 @@ let game_logic = {
     generateBaseNPC: function(){
         return {
             name: util.getRandomName(),
-            icon: util.getRandomItemInArray(ICONS.NPCS),
+            icon: util.getRandomInt(MAP_ICONS.NPCS.length),
             description: util.getRandomItemInArray(NPC_RACES) + " " + util.getRandomItemInArray(NPC_PROFESSIONS) + " - " + util.getRandomItemInArray(NPC_DESCRIPTIONS),
         };
+    },
+
+    moveToward: function(x, y){
+        let path = pathfinder.findShortestPath(game.character.x,game.character.y,x,y);
+
+        if(path !== false){
+            let i = 0;
+            while(i < STEPS_PER_TICK*2 && i < path.length){
+                if(path[i] === 0 && util.isWalkable(game.character.x + 1, game.character.y)){
+                    game.character.x += 1;
+                }
+                if(path[i] === 1 && util.isWalkable(game.character.x, game.character.y + 1)){
+                    game.character.y += 1;
+                }
+                if(path[i] === 2 && util.isWalkable(game.character.x - 1, game.character.y)){
+                    game.character.x -= 1;
+                }
+                if(path[i] === 3 && util.isWalkable(game.character.x, game.character.y - 1)){
+                    game.character.y -= 1;
+                }
+                i++;
+            }
+            game_logic.tick();
+            map.render();
+            view_controller.render();
+        }
+    },
+
+    attackMonster: function(x, y){
+        character_attack.attack(x,y,game.selected_attack);
+        game.status = STATUS.COMBAT;
+        game.selected_attack = null;
+        game_logic.tick();
+        map.render();
+        view_controller.render();
     },
 };

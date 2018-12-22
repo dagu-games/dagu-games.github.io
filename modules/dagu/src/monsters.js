@@ -2,7 +2,8 @@ const monsters = {
     monster_list: [
         {
             name: "Hellhound",
-            icon: ICONS.MONSTERS.HELLHOUND,
+            icon: MAP_ICONS.MONSTERS.HELLHOUND,
+            icon_flipped: MAP_ICONS.MONSTERS_FLIPPED.HELLHOUND,
             description: "A red, slightly glowing hound. It looks fearsome and aggressive. If you touch it you would probably get burned.",
             preferred_stats: [
                 "attack_power",
@@ -14,7 +15,8 @@ const monsters = {
         },
         {
             name: "Alpha Hellhound",
-            icon: ICONS.MONSTERS.HELLHOUND,
+            icon: MAP_ICONS.MONSTERS.HELLHOUND,
+            icon_flipped: MAP_ICONS.MONSTERS_FLIPPED.HELLHOUND,
             description: "A large, red, glowing hound. It looks fearsome and aggressive. If you touch it you would probably get burned. This Hellhound seems to be exceptionally big and in charge of other Hellhounds.",
             preferred_stats: [
                 "max_health",
@@ -31,7 +33,8 @@ const monsters = {
     unique_monster_list: [
         {
             name: "Evil Wizard Canthdor",
-            icon: ICONS.MONSTERS.HELLHOUND,
+            icon: MAP_ICONS.MONSTERS.HELLHOUND,
+            icon_flipped: MAP_ICONS.MONSTERS_FLIPPED.HELLHOUND,
             description: "An old, evil wizard, long driven mad by his experiments.",
             preferred_stats: [
                 "max_health",

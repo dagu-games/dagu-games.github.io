@@ -92,35 +92,6 @@ let user_interface = {
         map.render();
     },
 
-    moveToward: function(event){
-        let x = $(event.target).data('x');
-        let y = $(event.target).data('y');
-
-        let path = pathfinder.findShortestPath(game.character.x,game.character.y,x,y);
-
-        if(path !== false){
-            let i = 0;
-            while(i < STEPS_PER_TICK*2 && i < path.length){
-                if(path[i] === 0 && util.isWalkable(game.character.x + 1, game.character.y)){
-                    game.character.x += 1;
-                }
-                if(path[i] === 1 && util.isWalkable(game.character.x, game.character.y + 1)){
-                    game.character.y += 1;
-                }
-                if(path[i] === 2 && util.isWalkable(game.character.x - 1, game.character.y)){
-                    game.character.x -= 1;
-                }
-                if(path[i] === 3 && util.isWalkable(game.character.x, game.character.y - 1)){
-                    game.character.y -= 1;
-                }
-                i++;
-            }
-            game_logic.tick();
-            map.render();
-            view_controller.render();
-        }
-    },
-
     moveLeft: function(){
         if(util.isWalkable(game.character.x - 1, game.character.y)){
             game.character.x -= 1;
@@ -396,16 +367,6 @@ let user_interface = {
         }
     },
 
-    attackMonster: function(event){
-        let $target = $(event.target);
-        character_attack.attack($target.data('x'),$target.data('y'),game.selected_attack);
-        game.status = STATUS.COMBAT;
-        game.selected_attack = null;
-        game_logic.tick();
-        map.render();
-        view_controller.render();
-    },
-
     toggleTab: function(event, tab_name, tablink_name){
         let $tab = $(tab_name);
         if($tab.css('display') === 'none'){
@@ -418,7 +379,6 @@ let user_interface = {
             $('.tablink').removeClass('selected_tab');
         }
     },
-
 
     openTab: function(event, tab_name, tablink_name){
         $('.tabcontent').hide();
@@ -461,5 +421,25 @@ let user_interface = {
     closeTutorial: function(){
         $('#tutorial_container').hide();
         $('#app').css('opacity','');
+    },
+
+    handleMapClick: function(event){
+        let click_x = event.pageX;
+        let click_y = event.pageY;
+        let j = Math.floor(click_x / map.cell_size);
+        let i = Math.floor(click_y / map.cell_size);
+        let point = map.indexToCoordinate(i,j);
+        console.log('clicked ' + point.x + ',' + point.y);
+
+        let map_entry = map.get(point.x, point.y);
+        
+        if(map_entry.npc != null &&
+            map_entry.npc.type === 'monster' &&
+            game.status === STATUS.COMBAT_ATTACK_SELECTED &&
+            util.distanceBetween(game.character.x,game.character.y,point.x,point.y) <= character_attack.getAttack(game.selected_attack).range){
+            game_logic.attackMonster(point.x, point.y);
+        }else{
+            game_logic.moveToward(point.x, point.y);
+        }
     },
 };

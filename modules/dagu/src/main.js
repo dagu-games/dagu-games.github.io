@@ -1,19 +1,22 @@
-//localStorage.removeItem(STORAGE_STRING);
+localStorage.removeItem(STORAGE_STRING);
 
 util.loadGame();
 
 $(document).ready(map.render);
 $(document).ready(view_controller.render);
 
-$(window).resize(util.UIRefresh);
+$(window).resize(function(){
+    util.resetCanvas();
+    map.render();
+});
 
 $(document).keydown(user_interface.handleKeyDown);
 
 user_interface.openTab(null, '#stats_tab', '#stats_tablink');
 user_interface.toggleTab(null, '#stats_tab', '#stats_tablink');
 
-$('#zoom_in_img').attr('src',ICONS.MENU_BUTTONS.ZOOM_IN);
-$('#zoom_out_img').attr('src',ICONS.MENU_BUTTONS.ZOOM_OUT);
+$('#zoom_in_img').attr('src',INTERFACE_ICONS.MENU_BUTTONS.ZOOM_IN);
+$('#zoom_out_img').attr('src',INTERFACE_ICONS.MENU_BUTTONS.ZOOM_OUT);
 
 
 let $tutorial = $('#tutorial_content');

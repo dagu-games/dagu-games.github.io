@@ -1,74 +1,47 @@
 let map = {
 
-    $container: null,
+    canvas: null,
 
-    $tiles_container: null,
-
-    $non_tiles_container: null,
+    context: null,
 
     horizontal_count: null,
-
-    vertical_size: null,
 
     cell_size: null,
 
     cached_chunks: [],
 
-    init_run: false,
-
     render: function(){
-        map.$container = $('#map_container');
-        map.$tiles_container = $('#map_tiles_container');
-        map.$non_tiles_container = $('#map_non_tiles_container');
-        map.vertical_size = map.$container.height();
-        map.cell_size = map.vertical_size / game.settings.zoom_factor;
+        if(map_render_locked){
+            return;
+        }
+        util.resetCanvas();
+        map.canvas = document.getElementById('map');
+        map.context = map.canvas.getContext('2d');
+        map.cell_size = Math.floor(map.canvas.height / game.settings.zoom_factor);
 
         map.horizontal_count = 3;
-        while(((map.horizontal_count+2) * map.cell_size) < map.$container.width()){
+        while(((map.horizontal_count+2) * map.cell_size) < map.canvas.width){
             map.horizontal_count += 2;
         }
-
-        if(map.init_run === false){
-            map.$tiles_container.empty();
-            for(let i = 0; i < game.settings.zoom_factor+1; i++){
-                map.$tiles_container.append('<div id="map_tile_row_' + i + '" class="map_row" style="height:' + Math.floor(map.cell_size) + 'px;width:' + Math.floor((map.horizontal_count+2)*map.cell_size) + 'px;"></div>');
-                for(let j = 0; j < map.horizontal_count+2; j++){
-                    map.initializeTile(i, j);
-                }
-            }
-            map.init_run = true;
-        }
-        map.$non_tiles_container.empty();
 
         for(let i = 0; i < game.settings.zoom_factor+1; i++){
             for(let j = 0; j < map.horizontal_count+2; j++){
                 map.updateTile(i, j);
-                map.constructNPC(i, j);
-                map.constructObject(i, j);
+                map.updateNPC(i, j);
+                map.updateObject(i, j);
             }
         }
 
-        let $char = $('<img>');
-        $char.attr('src', ICONS.HERO);
-        $char.addClass('tile');
-        $char.attr('id', 'map_character_icon');
-        $char.css({'top': ((((game.settings.zoom_factor - 1) / 2)) * Math.floor(map.cell_size))});
-        $char.css({'left': ((((map.horizontal_count - 1) / 2)) * Math.floor(map.cell_size))});
-        $char.css({'height': Math.floor(map.cell_size)});
-        $char.css({'width': Math.floor(map.cell_size)});
-        if(!game.character.isFacingRight){
-            $char.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
+        if(game.character.isFacingRight){
+            map.context.drawImage(MAP_ICONS.HERO, ((((map.horizontal_count - 1) / 2)) * map.cell_size), ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size), map.cell_size, map.cell_size);
+        }else{
+            map.context.drawImage(MAP_ICONS.HERO_FLIPPED, ((((map.horizontal_count - 1) / 2)) * map.cell_size), ((((game.settings.zoom_factor - 1) / 2)) * map.cell_size), map.cell_size, map.cell_size);
         }
-        $char.data("x", game.character.x);
-        $char.data("y", game.character.y);
-        $char.click(user_interface.inspect);
 
         $('#character_health_bar_red').css('width',((game.character.current_health / util.characterStats.max_health()) * 100.0) + '%');
         $('#character_health_bar_text').text('Health: (' + game.character.current_health + '/' + util.characterStats.max_health() + ')');
         $('#character_mana_bar_blue').css('width',((game.character.current_mana / util.characterStats.max_mana()) * 100.0) + '%');
         $('#character_mana_bar_text').text('Mana: (' + game.character.current_mana + '/' + util.characterStats.max_mana() + ')');
-
-        map.$non_tiles_container.append($char);
     },
 
     indexToCoordinate: function(i, j){
@@ -78,115 +51,78 @@ let map = {
         };
     },
 
-    initializeTile: function(i, j){
-        let $tile = $('<img>');
-        $tile.attr('id','map_tile_' + i + '_' + j);
-        $tile.addClass('tile');
-        $tile.css({'position': 'relative'});
-        $tile.css({'height': Math.floor(map.cell_size)});
-        $tile.css({'width': Math.floor(map.cell_size)});
-        $('#map_tile_row_' + i).append($tile);
-    },
-
     updateTile: function(i, j){
-        let $tile = $('#map_tile_' + i + '_' + j);
-        $tile.off('click');
         let point = map.indexToCoordinate(i, j);
         let map_entry = map.get(point.x, point.y);
         if(map_entry.tile == null){
             game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
         }
         map_entry = map.get(point.x, point.y);
-        $tile.attr('src', util.tileToSrcString(map_entry.tile));
+
         if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
-            $tile.css({'opacity':0.5});
-        }else{
-            $tile.css({'opacity':''});
+            map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
         }
-        $tile.data("x", point.x);
-        $tile.data("y", point.y);
-        if(map_entry.direction != null){
-            $tile.css('transform','rotate(' + (map_entry.direction * 90) + 'deg)');
-        }else{
-            $tile.css('transform','');
-        }
-        if(map_entry.npc == null && map_entry.object == null){
-            $tile.click(user_interface.moveToward);
+
+        map.context.drawImage(util.tileToImage(map_entry.tile), j * map.cell_size, i * map.cell_size, map.cell_size, map.cell_size);
+
+        if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+            map.context.globalAlpha = 1.0;
         }
     },
 
-    constructNPC: function(i, j){
+    updateNPC: function(i, j){
         let point = map.indexToCoordinate(i, j);
         let map_entry = map.get(point.x, point.y);
         if(map_entry.npc != null){
-            let $tile = $('<img>');
-            $tile.css({'top': i * Math.floor(map.cell_size)});
-            $tile.css({'left': j * Math.floor(map.cell_size)});
-            $tile.css({'height': Math.floor(map.cell_size)});
-            $tile.css({'width': Math.floor(map.cell_size)});
-            $tile.attr('src', map_entry.npc.icon);
-            $tile.addClass('tile');
-            $tile.data("x", point.x);
-            $tile.data("y", point.y);
-            if(game.status !== STATUS.COMBAT_ATTACK_SELECTED){
-                $tile.click(user_interface.moveToward);
-            }else{
-                if(map_entry.npc.type === 'monster' && util.distanceBetween(game.character.x,game.character.y,point.x,point.y) <= character_attack.getAttack(game.selected_attack).range){
-                    $tile.click(user_interface.attackMonster);
+
+            let image;
+            if(map_entry.npc.type === 'monster'){
+                if(point.x > game.character.x){
+                    image = monsters.getMonster(map_entry.npc.name).icon_flipped;
                 }else{
-                    $tile.css({'opacity':0.5});
+                    image = monsters.getMonster(map_entry.npc.name).icon;
+                }
+            }else{
+                if(point.x > game.character.x){
+                    image = MAP_ICONS.NPCS_FLIPPED[map_entry.npc.icon];
+                }else{
+                    image = MAP_ICONS.NPCS[map_entry.npc.icon];
                 }
             }
 
-            if(point.x > game.character.x){
-                $tile.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
+            if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+                if(map_entry.npc.type !== 'monster' || util.distanceBetween(game.character.x,game.character.y,point.x,point.y) > character_attack.getAttack(game.selected_attack).range){
+                    map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
+                }
             }
-            map.$non_tiles_container.append($tile);
+            map.context.drawImage(image, j * map.cell_size, i * map.cell_size, map.cell_size, map.cell_size);
+            if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+                map.context.globalAlpha = 1.0;
+            }
 
             if(map_entry.npc.type === 'monster'){
-                let $health_bar = $('<div></div>');
-                $health_bar.css({'position':'absolute','background-color':'gray'});
-                $health_bar.css({'top': ((i+1) * Math.floor(map.cell_size)) - (Math.floor(map.cell_size)/10.0)});
-                $health_bar.css({'left': j * Math.floor(map.cell_size)});
-                $health_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-                $health_bar.css({'width': Math.floor(map.cell_size)});
-                let $red_bar = $('<div></div>');
-                $red_bar.css({'position':'absolute','background-color':'red'});
-                $red_bar.css({'top': ((i+1) * Math.floor(map.cell_size)) - (Math.floor(map.cell_size)/10.0)});
-                $red_bar.css({'left': j *Math.floor(map.cell_size)});
-                $red_bar.css({'height': Math.floor(map.cell_size / 10.0)});
-                $red_bar.css({'width': Math.floor((map.cell_size * (map_entry.npc.current_health / map_entry.npc.max_health)))});
-                map.$non_tiles_container.append($health_bar);
-                map.$non_tiles_container.append($red_bar);
+                map.context.fillStyle = '#9099A2';
+                map.context.fillRect(j * map.cell_size, ((i+1) * map.cell_size), Math.floor(map.cell_size / 10.0), map.cell_size);
+                map.context.fillStyle = 'red';
+                map.context.fillRect(j * map.cell_size, ((i+1) * map.cell_size) - (Math.floor(map.cell_size)/10.0), Math.floor((map.cell_size * (map_entry.npc.current_health / map_entry.npc.max_health))), map.cell_size);
             }
         }
     },
 
-
-
-    constructObject: function(i, j){
+    updateObject: function(i, j){
         let point = map.indexToCoordinate(i, j);
         let map_entry = map.get(point.x, point.y);
+
         if(map_entry.object != null){
-            let $tile = $('<img>');
-            $tile.css({'top': i * Math.floor(map.cell_size)});
-            $tile.css({'left': j * Math.floor(map.cell_size)});
-            $tile.css({'height': Math.floor(map.cell_size)});
-            $tile.css({'width': Math.floor(map.cell_size)});
-            $tile.attr('src', util.objectToSrcString(map_entry.object));
-            $tile.addClass('tile');
-            $tile.data("x", point.x);
-            $tile.data("y", point.y);
-            if(game.status !== STATUS.COMBAT_ATTACK_SELECTED){
-                $tile.click(user_interface.inspect);
-            }else{
-                $tile.css({'opacity':0.5});
+            if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+                map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
             }
 
-            if(point.x > game.character.x){
-                $tile.css({'-webkit-transform': 'scaleX(-1)','transform': 'scaleX(-1)'});
+            map.context.drawImage(util.objectToImage(map_entry.object), j * map.cell_size, i * map.cell_size, map.cell_size, map.cell_size);
+
+            if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
+                map.context.globalAlpha = 1.0;
             }
-            map.$non_tiles_container.append($tile);
         }
     },
 
@@ -257,59 +193,5 @@ let map = {
 
         game.chunks.push(chunk);
         return game.chunks[game.chunks.length-1];
-    },
-
-    sortChunks: function(left, right){
-        if(left == null){
-            left = 0;
-        }
-        if(right == null){
-            left = game.chunks.length - 1;
-        }
-        let length = game.chunks.length;
-        let pivot;
-        let partitionIndex;
-
-
-        if(left < right){
-            pivot = right;
-            partitionIndex = map.partition(pivot, left, right);
-
-            //sort left and right
-            map.sortChunks(left, partitionIndex - 1);
-            map.sortChunks(partitionIndex + 1, right);
-        }
-        return game.chunks;
-    },
-
-    swap: function(i, j){
-        let temp = game.chunks[i];
-        game.chunks[i] = game.chunks[j];
-        game.chunks[j] = temp;
-    },
-
-    partition: function(pivot, left, right){
-        let partitionIndex = left;
-
-        for(let i = left; i < right; i++){
-            if(map.compare(i,pivot) === -1){
-                map.swap(i, partitionIndex);
-                partitionIndex++;
-            }
-        }
-        map.swap(right, partitionIndex);
-        return partitionIndex;
-    },
-
-    compare: function(i,j){
-        if(game.chunks[i].x < game.chunks[j].x){
-            return -1;
-        }else if(game.chunks[i].x > game.chunks[j].x){
-            return 1;
-        }else if(game.chunks[i].y > game.chunks[j].y){
-            return -1;
-        }else{
-            return 1;
-        }
     },
 };

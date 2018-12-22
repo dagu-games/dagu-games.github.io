@@ -649,7 +649,7 @@ let view_controller = {
         let $hotbar_img = $('<img>');
 
         if(attack_name === ""){
-            $hotbar_img.attr('src', ICONS.MENU_BUTTONS.CENTER);
+            $hotbar_img.attr('src', INTERFACE_ICONS.MENU_BUTTONS.CENTER);
         }else{
             let attack = character_attack.getAttack(attack_name);
             $hotbar_img.attr('src', attack.icon);
