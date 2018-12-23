@@ -99,6 +99,10 @@ let game_logic = {
             game_logic.generateChunk(1, -1);
         }
 
+        let map_entry = map.get(0, 0);
+        map_entry.tile = 'grass';
+        map_entry.npc = null;
+        map_entry.object = null;
         user_interface.openTutorial();
     },
 
@@ -124,18 +128,20 @@ let game_logic = {
 
         if(r < 75){
             //generate wilderness
-            map.getChunk(chunk_x,chunk_y).name = "Wilderness";
-            map.getChunk(chunk_x,chunk_y).type = "wilderness";
+            let chunk = map.getChunk(chunk_x,chunk_y);
+            chunk.name = "Wilderness";
+            chunk.type = "wilderness";
 
             for(i = CHUNK_SIZE * chunk_x; i < CHUNK_SIZE + (CHUNK_SIZE * chunk_x); i++){
                 for(j = CHUNK_SIZE * chunk_y; j < CHUNK_SIZE + (CHUNK_SIZE * chunk_y); j++){
                     //console.log("generating point " + i + "," + j);
-                    map.get(i, j).tile = 'grass';
+                    let map_entry = map.get(i, j);
+                    map_entry.tile = 'grass';
                     if(util.getRandomInt(100) < 5){
-                        map.get(i, j).object = 'tree';
+                        map_entry.object = 'tree';
                     }else{
                         if(util.getRandomInt(100) < 3){
-                            map.get(i, j).object = 'bush';
+                            map_entry.object = 'bush';
                         }
                     }
                 }
@@ -158,9 +164,6 @@ let game_logic = {
                 (chunk_x === 1 && chunk_y === -1)){
                 monsters = [];
             }
-            map.get(0, 0).tile = 'grass';
-            map.get(0, 0).npc = null;
-            map.get(0, 0).object = null;
             pathfinder.resetPFVariable();
             for(i = 0; i < monsters.length; i++){
                 let c = 0;
@@ -178,9 +181,10 @@ let game_logic = {
         }else if(r >= 75 && r < 90){
             //generate town
             let town = util.getWeightedRandomTown();
-            map.getChunk(chunk_x,chunk_y).name = util.getRandomItemInArray(TOWN_NAMES);
-            map.getChunk(chunk_x,chunk_y).type = 'town';
-            map.getChunk(chunk_x,chunk_y).description = town.description;
+            let chunk = map.getChunk(chunk_x,chunk_y);
+            chunk.name = util.getRandomItemInArray(TOWN_NAMES);
+            chunk.type = 'town';
+            chunk.description = town.description;
 
             let town_i = CHUNK_SIZE - 1;
             let town_j = 0;
@@ -200,9 +204,6 @@ let game_logic = {
                 town_j = 0;
                 town_i--;
             }
-            map.get(0, 0).tile = 'grass';
-            map.get(0, 0).npc = null;
-            map.get(0, 0).object = null;
             pathfinder.resetPFVariable();
         }else if(r >= 90){
             //generate dungeon
@@ -213,9 +214,10 @@ let game_logic = {
             }else{
                 dungeon = DUNGEONS[util.getRandomItemInArray(dungeons)];
             }
-            map.getChunk(chunk_x,chunk_y).name = dungeon.name;
-            map.getChunk(chunk_x,chunk_y).type = "dungeon";
-            map.getChunk(chunk_x,chunk_y).description = dungeon.description;
+            let chunk = map.getChunk(chunk_x,chunk_y);
+            chunk.name = dungeon.name;
+            chunk.type = "dungeon";
+            chunk.description = dungeon.description;
 
             let dungeon_i = CHUNK_SIZE - 1;
             let dungeon_j = 0;
@@ -227,6 +229,9 @@ let game_logic = {
                 dungeon_j = 0;
                 dungeon_i--;
             }
+            pathfinder.resetPFVariable();
+
+            monsters = game_logic.generateChunkEnemies(dungeon.monsters, dungeon.boss_monsters);
             if((chunk_x === 0 && chunk_y === 0) ||
                 (chunk_x === 1 && chunk_y === 0) ||
                 (chunk_x === 1 && chunk_y === 1) ||
@@ -238,12 +243,6 @@ let game_logic = {
                 (chunk_x === 1 && chunk_y === -1)){
                 monsters = [];
             }
-            map.get(0, 0).tile = 'grass';
-            map.get(0, 0).npc = null;
-            map.get(0, 0).object = null;
-            pathfinder.resetPFVariable();
-
-            monsters = game_logic.generateChunkEnemies(dungeon.monsters, dungeon.boss_monsters);
             for(i = 0; i < monsters.length; i++){
                 let c = 0;
                 while(c<10){

@@ -26,9 +26,11 @@ let map = {
 
         for(let i = 0; i < game.settings.zoom_factor+1; i++){
             for(let j = 0; j < map.horizontal_count+2; j++){
-                map.updateTile(i, j);
-                map.updateNPC(i, j);
-                map.updateObject(i, j);
+                let point = map.indexToCoordinate(i, j);
+                let map_entry = map.get(point.x, point.y);
+                map.updateTile(i, j, point.x, point.y, map_entry);
+                map.updateNPC(i, j, point.x, point.y, map_entry);
+                map.updateObject(i, j, point.x, point.y, map_entry);
             }
         }
 
@@ -51,13 +53,11 @@ let map = {
         };
     },
 
-    updateTile: function(i, j){
-        let point = map.indexToCoordinate(i, j);
-        let map_entry = map.get(point.x, point.y);
+    updateTile: function(i, j, x, y, map_entry){
         if(map_entry.tile == null){
-            game_logic.generateChunk(util.getChunk(point.x, point.y).x,util.getChunk(point.x, point.y).y);
+            game_logic.generateChunk(util.getChunk(x, y).x,util.getChunk(x, y).y);
         }
-        map_entry = map.get(point.x, point.y);
+        map_entry = map.get(x, y);
 
         if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
             map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
@@ -70,20 +70,18 @@ let map = {
         }
     },
 
-    updateNPC: function(i, j){
-        let point = map.indexToCoordinate(i, j);
-        let map_entry = map.get(point.x, point.y);
+    updateNPC: function(i, j, x, y, map_entry){
         if(map_entry.npc != null){
 
             let image;
             if(map_entry.npc.type === 'monster'){
-                if(point.x > game.character.x){
+                if(x > game.character.x){
                     image = monsters.getMonster(map_entry.npc.name).icon_flipped;
                 }else{
                     image = monsters.getMonster(map_entry.npc.name).icon;
                 }
             }else{
-                if(point.x > game.character.x){
+                if(x > game.character.x){
                     image = MAP_ICONS.NPCS_FLIPPED[map_entry.npc.icon];
                 }else{
                     image = MAP_ICONS.NPCS[map_entry.npc.icon];
@@ -91,7 +89,7 @@ let map = {
             }
 
             if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
-                if(map_entry.npc.type !== 'monster' || util.distanceBetween(game.character.x,game.character.y,point.x,point.y) > character_attack.getAttack(game.selected_attack).range){
+                if(map_entry.npc.type !== 'monster' || util.distanceBetween(game.character.x,game.character.y,x,y) > character_attack.getAttack(game.selected_attack).range){
                     map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
                 }
             }
@@ -109,10 +107,7 @@ let map = {
         }
     },
 
-    updateObject: function(i, j){
-        let point = map.indexToCoordinate(i, j);
-        let map_entry = map.get(point.x, point.y);
-
+    updateObject: function(i, j, x, y, map_entry){
         if(map_entry.object != null){
             if(game.status === STATUS.COMBAT_ATTACK_SELECTED){
                 map.context.globalAlpha = ATTACK_SELECTED_OPACITY;
