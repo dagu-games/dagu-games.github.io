@@ -76,26 +76,23 @@
             </div>
             <div class="container" id="context_menu_container">
                 <div class="tabcontent" id="output_tab">
+                    <h2>Text Log</h2>
                     <div class="container" id="output_container"></div>
                 </div>
 
                 <div class="tabcontent" id="attack_list_tab">
+                    <h2>Attack List</h2>
                     <div id="attack_list_container" class="container"></div>
                 </div>
 
                 <div class="tabcontent" id="npc_tab">
-
-
-
                     <div id="npc_quest_list_container" class="container"></div>
-
                     <div id="buy_item_list_container" class="container"></div>
-
                     <div id="sell_item_list_container" class="container"></div>
-
                 </div>
 
                 <div class="tabcontent" id="settings_tab">
+                    <h2>Settings</h2>
                     <label for="load_game_select">Save Time:</label>
                     <select id="load_game_select"></select>
                     <div class="bottom_container">
@@ -115,6 +112,7 @@
                 <div class="tabcontent" id="stats_tab">
                     <div class="container" id="stats_container">
                         <table class="stats_table">
+                            <tr><th colspan="2"><h2>Stats</h2></th></tr>
                             <tr>
                                 <td>Location</td>
                                 <td><span id="character_location"></span></td>
@@ -196,6 +194,7 @@
                     <div class="container" id="inventory_container"></div>
                 </div>
                 <div class="tabcontent" id="equipped_items_tab">
+                    <h2>Equipped Items</h2>
                     <div id="equipped_items_container" class="container">
                         Helmet:<div id="character_helmet_container" class="container item_container"></div>
                         Shoulders:<div id="character_shoulders_container" class="container item_container"></div>
@@ -233,19 +232,19 @@
                 </div>
             </div>
             <div id="tab_selector_container" class="tab">
-                <button class="tablink button" id="attack_list_tablink" onclick="user_interface.toggleTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
-                <button class="tablink button" id="settings_tablink" onclick="user_interface.toggleTab(event, '#settings_tab', '#settings_tablink')">Settings</button>
-                <button class="tablink button" id="stats_tablink" onclick="user_interface.toggleTab(event, '#stats_tab', '#stats_tablink')">Stats</button>
-                <button class="tablink button" id="quests_tablink" onclick="user_interface.toggleTab(event, '#quests_tab', '#quests_tablink')">Quests</button>
-                <button class="tablink button" id="inventory_tablink" onclick="user_interface.toggleTab(event, '#inventory_tab', '#inventory_tablink')">Inventory</button>
-                <button class="tablink button" id="equipped_items_tablink" onclick="user_interface.toggleTab(event, '#equipped_items_tab', '#equipped_items_tablink')">Equipped Items</button>
-                <button class="tablink button" id="equipment_tablink" onclick="user_interface.toggleTab(event, '#equipment_tab', '#equipment_tablink')">Equipment</button>
-                <button class="tablink button" id="consumables_tablink" onclick="user_interface.toggleTab(event, '#consumables_tab', '#consumables_tablink')">Consumables</button>
-                <button class="tablink button" id="goal_items_tablink" onclick="user_interface.toggleTab(event, '#goal_items_tab', '#goal_items_tablink')">Quest Items</button>
-                <button class="tablink button" id="upgrades_tablink" onclick="user_interface.toggleTab(event, '#upgrades_tab', '#upgrades_tablink')">Upgrades</button>
-                <button class="tablink button" id="purchased_upgrades_tablink" onclick="user_interface.toggleTab(event, '#purchased_upgrades_tab', '#purchased_upgrades_tablink')">Purchased Upgrades</button>
-                <button class="tablink button" id="completed_quests_tablink" onclick="user_interface.toggleTab(event, '#completed_quests_tab', '#completed_quests_tablink')">Completed Quests</button>
-                <button class="tablink button" id="output_tablink" onclick="user_interface.toggleTab(event, '#output_tab', '#output_tablink')">Text Log</button>
+                <button class="button tablink" id="output_tablink" onclick="user_interface.toggleTab(event, '#output_tab', '#output_tablink')">Text Log</button>
+                <button class="button tablink" id="settings_tablink" onclick="user_interface.toggleTab(event, '#settings_tab', '#settings_tablink')">Settings</button>
+                <button class="button tablink" id="stats_tablink" onclick="user_interface.toggleTab(event, '#stats_tab', '#stats_tablink')">Stats</button>
+                <button class="button tablink" id="attack_list_tablink" onclick="user_interface.toggleTab(event, '#attack_list_tab', '#attack_list_tablink')">Attack List</button>
+                <button class="button tablink" id="quests_tablink" onclick="user_interface.toggleTab(event, '#quests_tab', '#quests_tablink')">Quests</button>
+                <button class="button tablink" id="inventory_tablink" onclick="user_interface.toggleTab(event, '#inventory_tab', '#inventory_tablink')">Inventory</button>
+                <button class="button tablink tablink_short" id="equipped_items_tablink" onclick="user_interface.toggleTab(event, '#equipped_items_tab', '#equipped_items_tablink')">Equipped Items</button>
+                <button class="button tablink tablink_short" id="equipment_tablink" onclick="user_interface.toggleTab(event, '#equipment_tab', '#equipment_tablink')">Equipment</button>
+                <button class="button tablink tablink_short" id="consumables_tablink" onclick="user_interface.toggleTab(event, '#consumables_tab', '#consumables_tablink')">Consumables</button>
+                <button class="button tablink" id="goal_items_tablink" onclick="user_interface.toggleTab(event, '#goal_items_tab', '#goal_items_tablink')">Quest Items</button>
+                <button class="button tablink" id="upgrades_tablink" onclick="user_interface.toggleTab(event, '#upgrades_tab', '#upgrades_tablink')">Upgrades</button>
+                <button class="button tablink tablink_short" id="purchased_upgrades_tablink" onclick="user_interface.toggleTab(event, '#purchased_upgrades_tab', '#purchased_upgrades_tablink')">Purchased Upgrades</button>
+                <button class="button tablink tablink_short" id="completed_quests_tablink" onclick="user_interface.toggleTab(event, '#completed_quests_tab', '#completed_quests_tablink')">Completed Quests</button>
             </div>
         </div>
         <span id="portrait_message">Portrait mode is not supported, please rotate your screen.</span>

@@ -189,4 +189,8 @@ let map = {
         game.chunks.push(chunk);
         return game.chunks[game.chunks.length-1];
     },
+
+    getCount: function() {
+
+    },
 };

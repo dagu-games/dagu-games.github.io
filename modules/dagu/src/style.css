@@ -37,6 +37,20 @@ h1, h2, h3, h4 {
     background-color: #9099A2;
 }
 
+.tablink {
+    width: 100%;
+    padding: 2px;
+    margin: 1px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border:1px solid #9099A2;
+}
+
+.tablink_short {
+    width: 80%;
+}
+
 .tab {
     overflow: hidden;
 }
@@ -71,7 +85,7 @@ h1, h2, h3, h4 {
 }
 
 .item_img {
-    width: 10vh;
+    width: 8vh;
     border: 2px solid #9099A2;
     margin: 2px;
 }
@@ -356,45 +370,9 @@ h1, h2, h3, h4 {
 
 #tab_selector_container {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 35%;
-}
-
-@media only screen and (max-aspect-ratio: 31/18) {
-    /*#map_container {
-        height: 60vw;
-        width: 60vw;
-        top: 0;
-        left: 20vw;
-        cursor: default;
-    }
-
-    #context_menu_container {
-        width: 19vw;
-        height: 65vh;
-        top: 0;
-        left: 0;
-        overflow-y: auto;
-    }
-
-    #output_container {
-        position: fixed;
-        height: 34vh;
-        width: 20vw;
-        left: 0;
-        bottom: 0;
-        overflow-y: auto;
-        border: 1px solid gray;
-    }
-
-    #hotbar_container {
-        width: calc(60vw - 30vh);
-    }
-
-    .hotbar_div {
-         width: calc((100% / 6));
-    }*/
+    right: 0;
+    top: 5px;
+    width: 12%;
 }
 
 @media only screen and (max-height: 500px) {

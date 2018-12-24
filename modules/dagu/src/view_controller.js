@@ -47,61 +47,117 @@ let view_controller = {
 
         let $quest_list = $('#quest_list_container');
         $quest_list.empty();
-        for(let i = 0; i < game.character.quests.length; i++){
-            $quest_list.append(view_controller.generateQuest(game.character.quests[i],"character"));
+        if(game.character.quests.length > 0){
+            $quest_list.append('<h2>Quests</h2>');
+            for(let i = 0; i < game.character.quests.length; i++){
+                $quest_list.append(view_controller.generateQuest(game.character.quests[i],"character"));
+            }
+        }else{
+            $quest_list.append("You don't have any quests yet. Go fight some monsters or find a town and accept a quest!");
         }
 
         let $inventory = $('#inventory_container');
         $inventory.empty();
         let items = util.getCondensedInventory();
-        for(let i = 0; i < items.length; i++){
-            $inventory.append(view_controller.generateItem(items[i], 'inventory', null));
+        if(items.length > 0){
+            $inventory.append('<h2>Inventory</h2>');
+            for(let i = 0; i < items.length; i++){
+                $inventory.append(view_controller.generateItem(items[i], 'inventory', null));
+            }
+        }else{
+            $inventory.append("You don't have any items yet. Go fight some monsters or find a town and accept a quest!");
         }
 
         let $equipment = $('#equipment_container');
         $equipment.empty();
+        let item_found = false;
         for(let i = 0; i < game.character.inventory.items.length; i++){
             if(game.character.inventory.items[i].type === ITEM_TYPES.EQUIPMENT){
+                if(!item_found){
+                    $equipment.append('<h2>Equipment</h2>');
+                }
+                item_found = true;
                 $equipment.append(view_controller.generateItem(game.character.inventory.items[i], 'equipment', {index: i}));
             }
         }
+        if(!item_found){
+            $equipment.append("You don't have any equipment yet. Go fight some monsters or find a town and accept a quest!");
+        }
+
 
         let $goal_items_list = $('#goal_items_container');
         $goal_items_list.empty();
+        item_found = false;
         for(let i = 0; i < game.character.inventory.items.length; i++){
             if(game.character.inventory.items[i].type === ITEM_TYPES.GOAL_ITEM){
+                if(!item_found){
+                    $goal_items_list.append('<h2>Quest Items</h2>');
+                }
+                item_found = true;
                 $goal_items_list.append(view_controller.generateItem(game.character.inventory.items[i], 'goal_item', {}));
             }
+        }
+        if(!item_found){
+            $goal_items_list.append("You don't have any quest items yet. Go fight some monsters or find a town and accept a quest!");
         }
 
         let $consumables_list = $('#consumables_container');
         $consumables_list.empty();
+        item_found = false;
         for(let i = 0; i < game.character.inventory.items.length; i++){
             if(game.character.inventory.items[i].type === ITEM_TYPES.CONSUMABLE){
+                if(!item_found){
+                    $consumables_list.append('<h2>Consumables</h2>');
+                }
+                item_found = true;
                 $consumables_list.append(view_controller.generateItem(game.character.inventory.items[i], 'consumable', {index: i}));
             }
+        }
+        if(!item_found){
+            $consumables_list.append("You don't have any consumables yet. Go fight some monsters or find a town and accept a quest!");
         }
 
         let $upgrades_list = $('#upgrades_container');
         $upgrades_list.empty();
+        item_found = false;
         for(let i = 0; i < upgrades.length; i++){
             if(!util.hasUpgrade(i)){
+                if(!item_found){
+                    $upgrades_list.append('<h2>Upgrades</h2>');
+                }
+                item_found = true;
                 $upgrades_list.append(view_controller.generateUpgrade(upgrades[i],i));
             }
+        }
+        if(!item_found){
+            $upgrades_list.append("You have bought every upgrade! Great Job!");
         }
 
         let $purchased_upgrades_list = $('#purchased_upgrades_container');
         $purchased_upgrades_list.empty();
+        item_found = false;
         for(let i = 0; i < upgrades.length; i++){
             if(util.hasUpgrade(i)){
+                if(!item_found){
+                    $purchased_upgrades_list.append('<h2>Purchased Upgrades</h2>');
+                }
+                item_found = true;
                 $purchased_upgrades_list.append(view_controller.generateUpgrade(upgrades[i],i));
             }
+        }
+        if(!item_found){
+            $purchased_upgrades_list.append("You don't have any upgrades yet. Go level up to earn some skill points!");
         }
 
         let $completed_quest_list = $('#completed_quest_list_container');
         $completed_quest_list.empty();
-        for(let i = 0; i < game.character.completed_quests.length; i++){
-            $completed_quest_list.append(view_controller.generateQuest(game.character.completed_quests[i],"completed"));
+        if(game.character.completed_quests.length === 0){
+            $completed_quest_list.append("You haven't completed any quests yet. Go accept one and complete it to earn rewards!");
+        }else{
+            $completed_quest_list.append('<h2>Completed Quests</h2>');
+            for(let i = 0; i < game.character.completed_quests.length; i++){
+                $completed_quest_list.append(view_controller.generateQuest(game.character.completed_quests[i],"completed"));
+            }
         }
     },
 
@@ -116,16 +172,13 @@ let view_controller = {
         let $npc_quest_list_container = $('#npc_quest_list_container');
         $npc_quest_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"quest_giver")){
-            let hqtv = false;
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
-                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "quest_giver"){
-                    let quest_name = map.get(points[i].x,points[i].y).npc.quest;
+                let map_entry = map.get(points[i].x,points[i].y);
+                if(map_entry.npc != null && map_entry.npc.type === "quest_giver"){
+                    let quest_name = map_entry.npc.quest;
                     if(!quests.isQuestCompleted(quest_name) && !quests.hasQuest(quest_name)){
-                        if(!hqtv){
-                            $npc_quest_list_container.append("<h3>Quests</h3>");
-                            hqtv = true;
-                        }
+                        $npc_quest_list_container.append("<h2>" + map_entry.npc.name + " has a quest for you!</h2>");
                         $npc_quest_list_container.append(view_controller.generateQuest(map.get(points[i].x,points[i].y).npc.quest,'quest_giver'));
                     }
                 }
@@ -136,12 +189,14 @@ let view_controller = {
         $buy_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
             $buy_item_list_container.show();
-            $buy_item_list_container.append("<h3>Gold: " + game.character.inventory.gold + "</h3>");
-            $buy_item_list_container.append("<h3>NPC Shop (click to buy, hover for details)</h3>");
+            $buy_item_list_container.append("<h2>Gold: " + game.character.inventory.gold + "</h2>");
+            $buy_item_list_container.append("<h3>(click to buy/sell, hover for details)</h3>");
             let points = util.getAround(game.character.x,game.character.y);
             for(let i = 0; i < points.length; i++){
-                if(map.get(points[i].x,points[i].y).npc != null && map.get(points[i].x,points[i].y).npc.type === "shop"){
-                    let items = map.get(points[i].x,points[i].y).npc.items;
+                let map_entry = map.get(points[i].x,points[i].y);
+                if(map_entry.npc != null && map_entry.npc.type === "shop"){
+                    let items = map_entry.npc.items;
+                    $npc_quest_list_container.append("<h2>Welcome to " + map_entry.npc.name + "'s shop!</h2>");
                     for(let j = 0; j < items.length; j++){
                         $buy_item_list_container.append(view_controller.generateItem(items[j],'buy',{index:j,shop_x:points[i].x,shop_y:points[i].y}));
                     }
@@ -154,12 +209,11 @@ let view_controller = {
         let $sell_item_list_container = $('#sell_item_list_container');
         $sell_item_list_container.empty();
         if(util.isAround(game.character.x,game.character.y,"shop")){
+            $sell_item_list_container.show();
             let items = util.getCondensedInventory();
-            if(items.length > 0){
-                $sell_item_list_container.append("<h3>Your Sellable Items (click to sell, hover for details)</h3>");
-                $sell_item_list_container.show();
-            }else{
-                $sell_item_list_container.hide();
+            $sell_item_list_container.append("<h2>Your Sellable Items (click to sell, hover for details)</h2>");
+            if(items.length === 0){
+                $sell_item_list_container.append("<h3>(You don't have any items to sell)</h3>");
             }
             for(let i = 0; i < items.length; i++){
                 if(items[i].type === ITEM_TYPES.CONSUMABLE || items[i].type === ITEM_TYPES.EQUIPMENT){
