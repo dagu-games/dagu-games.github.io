@@ -1,7 +1,7 @@
 let game_logic = {
     init: function(){
         game.settings = {
-            zoom_factor: 13,
+            zoom_factor: 17,
         };
         game.build_number = BUILD_NUMBER;
         game.tick_counter = 0;
