@@ -8,8 +8,6 @@ let map = {
 
     cell_size: null,
 
-    cached_chunks: [],
-
     render: function(){
         if(map_render_locked){
             return;
@@ -122,75 +120,32 @@ let map = {
     },
 
     get: function(x, y){
-        x = Math.floor(x);
-        y = Math.floor(y);
-        let chunk_x = util.getChunk(x,y).x;
-        let chunk_y = util.getChunk(x,y).y;
-        let chunk = map.getChunk(chunk_x,chunk_y);
-
-        for(let i = 0; i < chunk.points.length; i++){
-            if(chunk.points[i].x === x && chunk.points[i].y === y){
-                return chunk.points[i].data;
-            }
+        let key = x + ',' + y;
+        if(game.map_data[key] == null){
+            game.map_data[key] = {};
         }
+        return game.map_data[key];
     },
 
     getAll: function(){
         let ans = [];
-        for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].points[0].data.tile != null){
-                for(let j = 0; j < game.chunks[i].points.length; j++){
+        for(let key in game.map_data){
+            if(game.map_data.hasOwnProperty(key)){
+                let arr = key.split(',');
                     ans.push({
-                        x:game.chunks[i].points[j].x,
-                        y:game.chunks[i].points[j].y,
+                        x:Number(arr[0]),
+                        y:Number(arr[1]),
                     });
-                }
             }
         }
         return ans;
     },
 
     getChunk: function(chunk_x,chunk_y){
-        for(let i = 0; i < map.cached_chunks.length; i++){
-            let k = map.cached_chunks[i];
-            if(game.chunks[k].x === chunk_x && game.chunks[k].y === chunk_y){
-                return game.chunks[k];
-            }
+        let key = chunk_x + ',' + chunk_y;
+        if(game.chunks[key] == null){
+            game.chunks[key] = {};
         }
-
-        for(let i = 0; i < game.chunks.length; i++){
-            if(game.chunks[i].x === chunk_x && game.chunks[i].y === chunk_y){
-                if(map.cached_chunks.length < CACHED_CHUNKS){
-                    map.cached_chunks.push(i);
-                }else{
-                    map.cached_chunks.unshift(i);
-                    map.cached_chunks.pop();
-                }
-                return game.chunks[i];
-            }
-        }
-
-        let chunk = {
-            x:chunk_x,
-            y:chunk_y,
-            points:[],
-        };
-
-        for(let i = CHUNK_SIZE*chunk_x; i < CHUNK_SIZE*(chunk_x+1); i++){
-            for(let j = CHUNK_SIZE*chunk_y; j < CHUNK_SIZE*(chunk_y+1); j++){
-                chunk.points.push({
-                    x:i,
-                    y:j,
-                    data:{},
-                });
-            }
-        }
-
-        game.chunks.push(chunk);
-        return game.chunks[game.chunks.length-1];
-    },
-
-    getCount: function() {
-
+        return game.chunks[key];
     },
 };

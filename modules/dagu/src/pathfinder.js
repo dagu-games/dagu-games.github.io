@@ -1,9 +1,9 @@
 let pathfinder = {
     findShortestPath: function(start_x, start_y, goal_x, goal_y){
         //console.log("pathing out " + x1 + "," + y1 + " to " + x2 + "," + y2);
-        let limit = map.getAll().length;
+        //let limit = map.getAll().length;
         //console.log("limit is " + limit);
-        let start_time = (new Date()).getTime();
+        //let start_time = (new Date()).getTime();
         let count = 0;
         let location = {
             x: start_x,
@@ -12,7 +12,7 @@ let pathfinder = {
             status: 'Start'
         };
         let queue = [location];
-        while(queue.length > 0 && count < limit){
+        while(queue.length > 0){
             count++;
             let currentLocation = queue.shift();
             for(let i = 0; i < 4; i++){
@@ -31,15 +31,17 @@ let pathfinder = {
         //console.log("failed to path " + x1 + "," + y1 + " to " + x2 + "," + y2);
         return false;
     },
+
     locationStatus: function(x, y, goal_x, goal_y){
         //console.log("checking status of " + x + "," + y);
-        if(map.get(x, y).tile == null){
+        let map_entry = map.get(x, y);
+        if(map_entry.tile == null){
             //console.log('Invalid');
             return 'Invalid';
         }else if(x === goal_x && y === goal_y){
             //console.log('Goal');
             return 'Goal';
-        }else if(!util.isWalkable(x, y) || (map.get(x, y).pf != null && map.get(x, y).pf.visited === true)){
+        }else if(!util.isWalkable(x, y) || (map_entry.pf != null && map_entry.pf.visited === true)){
             //console.log('Blocked');
             return 'Blocked';
         }else{
@@ -47,6 +49,7 @@ let pathfinder = {
             return 'Valid';
         }
     },
+
     exploreInDirection: function(currentLocation, direction, x1, y1, x2, y2){
         let newPath = currentLocation.path.slice();
         newPath.push(direction);
@@ -75,6 +78,7 @@ let pathfinder = {
         }
         return newLocation;
     },
+
     resetPFVariable: function(){
         let points = map.getAll();
 

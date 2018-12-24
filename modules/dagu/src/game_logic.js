@@ -5,7 +5,8 @@ let game_logic = {
         };
         game.build_number = BUILD_NUMBER;
         game.tick_counter = 0;
-        game.chunks = [];
+        game.map_data = {};
+        game.chunks = {};
         game.character = {
             x: 0,
             y: 0,
