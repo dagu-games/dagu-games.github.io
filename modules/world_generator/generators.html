@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8"/>
+    <script src="data.js"></script> 
+    <script src="util.js"></script>
+    <script src="user_interface.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+    
+<body>
+
+    <h1>Generators</h1>
+    <table>
+        <tr>
+            <td>
+                <button onclick="user_interface.generateFirstName()">First Name</button>
+            </td>
+            <td>
+                <span id="first_name_text"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="user_interface.generateMiddleName()">Middle Name</button>
+            </td>
+            <td>
+                <span id="middle_name_text"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="user_interface.generateLastName()">Last Name</button>
+            </td>
+            <td>
+                <span id="last_name_text"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="user_interface.generateTownName()">Town Name</button>
+            </td>
+            <td>
+                <span id="town_name_text"></span>
+            </td>
+        </tr>
+    </table>
+    
+    <script src="generators_init.js"></script>
+</body>
+
+</html>

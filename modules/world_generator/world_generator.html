@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8"/>
+    <script src="data.js"></script> 
+    <script src="util.js"></script>
+    <script src="user_interface.js"></script>
+    <script src="heightmap.js"></script>
+    <script src="generateWorld.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+    <h1>World Generator</h1>
+    <button onclick="generateWorld()">Generate World</button>
+    <table>
+        <tr>
+            <td>
+                World Width
+            </td>
+            <td>
+                <button type="button" onclick="user_interface.decreaseWorldWidth()">-</button>
+                <span id="world_width_span">65</span>
+                <button type="button" onclick="user_interface.increaseWorldWidth()">+</button>
+            </td>
+        </tr>
+    </table>
+    <br>
+    
+    
+    <div id="details_div"></div>
+    <br>
+    <table id="world_table"></table>
+    
+    
+    <script src="world_generator_init.js"></script>
+</body>
+
+</html>

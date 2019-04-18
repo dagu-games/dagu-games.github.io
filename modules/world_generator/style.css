@@ -1,0 +1,72 @@
+#world_table {
+/*
+    width:90vw;
+    height: 90vw;
+    table-layout: fixed;
+*/
+    font-size: x-small;
+    cursor: default;
+}
+
+.show_details_button {
+    border: 1px solid black;
+    background-color:  #e0e0e0;
+    
+}
+
+.show_details_button:hover {
+    border: 1px solid black;
+    background-color: #9e9e9e;
+    
+}
+
+table, tr, td {
+    border: 1px solid black;
+}
+
+td {
+    min-width: 50px;
+    min-height: 50px;
+}
+
+#details_div {
+    width: 50%;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
