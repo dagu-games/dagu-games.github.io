@@ -7,7 +7,7 @@
     <script src="util.js"></script>
     <script src="user_interface.js"></script>
     <script src="heightmap.js"></script>
-    <script src="generateWorld.js"></script>
+    <script src="world_generator.js"></script>
     
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -22,8 +22,18 @@
             </td>
             <td>
                 <button type="button" onclick="user_interface.decreaseWorldWidth()">-</button>
-                <span id="world_width_span">65</span>
+                <span id="world_width_span">102</span>
                 <button type="button" onclick="user_interface.increaseWorldWidth()">+</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Water Percentage
+            </td>
+            <td>
+                <button type="button" onclick="user_interface.decreaseWaterPercentage()">-</button>
+                <span id="water_percentage_span">40</span>
+                <button type="button" onclick="user_interface.increaseWaterPercentage()">+</button>
             </td>
         </tr>
     </table>

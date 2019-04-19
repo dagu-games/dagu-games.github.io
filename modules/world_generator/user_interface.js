@@ -33,6 +33,20 @@ var user_interface = {
             document.getElementById("world_width_span").innerHTML = width;
         }
     },
+    increaseWaterPercentage : function(){
+        let percentage = Number(document.getElementById("water_percentage_span").innerHTML);
+        if(percentage < 99){
+            percentage++;
+            document.getElementById("water_percentage_span").innerHTML = percentage;
+        }
+    },
+    decreaseWaterPercentage : function(){
+        let percentage = Number(document.getElementById("water_percentage_span").innerHTML);
+        if(percentage > 0){
+            percentage--;
+            document.getElementById("water_percentage_span").innerHTML = percentage;
+        }
+    },
     showDetails : function(i,j){
         details_i = i;
         details_j = j;

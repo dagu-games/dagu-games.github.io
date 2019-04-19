@@ -15,13 +15,16 @@ var util = {
 
         for (i = 0; i < coll.length; i++) {
             coll[i].addEventListener("click", function () {
-                console.log('hello');
                 this.classList.toggle("active");
                 var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
+                if (content.style.display) {
+                    content.style.display = null;
+//                    content.style.maxHeight = null;
                 } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.display = "block";
+//                    content.style.maxHeight = content.scrollHeight + "px";
+//                    console.log(this);
+//                    this.parentElement.style.maxHeight = this.parentElement.scrollHeight + "px";
                 }
             });
         }
@@ -173,6 +176,11 @@ var util = {
             }
             ans.buildings.push(building);
         }
+        ans.buildings.sort(function(a, b){
+            if(a.type < b.type) { return -1; }
+            if(a.type > b.type) { return 1; }
+            return 0;
+        });
         ans.wandering_npcs = [];
         let q = util.getRandomInt(50) + 25;
         let qc = 0;
