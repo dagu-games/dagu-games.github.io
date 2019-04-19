@@ -209,7 +209,7 @@ var util = {
         ans += "Bond: " + npc.bond + "<br>";
         ans += "Flaw: " + npc.flaw + "<br>";
         ans += "Profession: " + npc.profession + "<br>";
-        ans += "</div>";
+        ans += "</div><br>";
         return ans;
     },
 

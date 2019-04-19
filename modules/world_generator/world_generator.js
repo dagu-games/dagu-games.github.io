@@ -70,7 +70,7 @@ var updateDetails = function () {
                     for(let q = 0; q < world[details_i][details_j].buildings[x].staff.length; q++){
                         str += util.NPCtoHTML(world[details_i][details_j].buildings[x].staff[q]);
                     }
-                    str += "</div>";
+                    str += "</div><br>";
                 }
                 if(world[details_i][details_j].buildings[x].occupants.length > 0){
                     str += "<button class=\"collapsible\">Occupants</button><div class=\"content\">";
@@ -79,10 +79,10 @@ var updateDetails = function () {
                     }
                     str += "</div><br>";
                 }
-                str += "</div>";
+                str += "</div><br>";
             }
         }
-        str += "</div>";
+        str += "</div><br>";
         
         str += "<button class=\"collapsible\">Religious Buildings</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].buildings.length; x++) {
@@ -96,7 +96,7 @@ var updateDetails = function () {
                     for(let q = 0; q < world[details_i][details_j].buildings[x].staff.length; q++){
                         str += util.NPCtoHTML(world[details_i][details_j].buildings[x].staff[q]);
                     }
-                    str += "</div>";
+                    str += "</div><br>";
                 }
                 if(world[details_i][details_j].buildings[x].occupants.length > 0){
                     str += "<button class=\"collapsible\">Occupants</button><div class=\"content\">";
@@ -105,10 +105,10 @@ var updateDetails = function () {
                     }
                     str += "</div><br>";
                 }
-                str += "</div>";
+                str += "</div><br>";
             }
         }
-        str += "</div>";
+        str += "</div><br>";
         
         str += "<button class=\"collapsible\">Taverns</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].buildings.length; x++) {
@@ -121,7 +121,7 @@ var updateDetails = function () {
                     for(let q = 0; q < world[details_i][details_j].buildings[x].staff.length; q++){
                         str += util.NPCtoHTML(world[details_i][details_j].buildings[x].staff[q]);
                     }
-                    str += "</div>";
+                    str += "</div><br>";
                 }
                 if(world[details_i][details_j].buildings[x].occupants.length > 0){
                     str += "<button class=\"collapsible\">Occupants</button><div class=\"content\">";
@@ -130,10 +130,10 @@ var updateDetails = function () {
                     }
                     str += "</div><br>";
                 }
-                str += "</div>";
+                str += "</div><br>";
             }
         }
-        str += "</div>";
+        str += "</div><br>";
         str += "<button class=\"collapsible\">Warehouses</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].buildings.length; x++) {
             if(world[details_i][details_j].buildings[x].type === "Warehouse"){
@@ -145,7 +145,7 @@ var updateDetails = function () {
                     for(let q = 0; q < world[details_i][details_j].buildings[x].staff.length; q++){
                         str += util.NPCtoHTML(world[details_i][details_j].buildings[x].staff[q]);
                     }
-                    str += "</div>";
+                    str += "</div><br>";
                 }
                 if(world[details_i][details_j].buildings[x].occupants.length > 0){
                     str += "<button class=\"collapsible\">Occupants</button><div class=\"content\">";
@@ -154,10 +154,10 @@ var updateDetails = function () {
                     }
                     str += "</div><br>";
                 }
-                str += "</div>";
+                str += "</div><br>";
             }
         }
-        str += "</div>";
+        str += "</div><br>";
         str += "<button class=\"collapsible\">Shops</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].buildings.length; x++) {
             if(world[details_i][details_j].buildings[x].type === "Shop"){
@@ -168,7 +168,7 @@ var updateDetails = function () {
                     for(let q = 0; q < world[details_i][details_j].buildings[x].staff.length; q++){
                         str += util.NPCtoHTML(world[details_i][details_j].buildings[x].staff[q]);
                     }
-                    str += "</div>";
+                    str += "</div><br>";
                 }
                 if(world[details_i][details_j].buildings[x].occupants.length > 0){
                     str += "<button class=\"collapsible\">Occupants</button><div class=\"content\">";
@@ -177,16 +177,16 @@ var updateDetails = function () {
                     }
                     str += "</div><br>";
                 }
-                str += "</div>";
+                str += "</div><br>";
             }
         }
-        str += "</div>";
-        str += "</div>";
+        str += "</div><br>";
+        str += "</div><br><br>";
         str += "<button class=\"collapsible\">Wandering NPCs</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].wandering_npcs.length; x++) {
             str += util.NPCtoHTML(world[details_i][details_j].wandering_npcs[x]);
         }
-        str += "</div>";
+        str += "</div><br>";
     }else if(world[details_i][details_j].type === "dungeon"){
         
     }else{
