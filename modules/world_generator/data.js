@@ -727,6 +727,577 @@ var data = {
         "Spectacle",
         "Urchin",
     ],
+    monsters: [
+        {
+            name: "Aarakocra",
+            cr: .25,
+            health: "3d8",
+            terrains: [
+                "mountain"
+            ],
+            page: "mm12"
+        },
+        {
+            name: "Aboleth",
+            cr: 10,
+            health: "18d10+36",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm13"
+        },
+        {
+            name: "Deva",
+            cr: 10,
+            health: "16d8+64",
+            terrains: [],
+            page: "mm16"
+        },
+        {
+            name: "Planetar",
+            cr: 16,
+            health: "16d10+112",
+            terrains: [],
+            page: "mm17"
+        },
+        {
+            name: "Solar",
+            cr: 21,
+            health: "18d10+144",
+            terrains: [],
+            page: "mm18"
+        },
+        {
+            name: "Animated Armor",
+            cr: 1,
+            health: "6d8+6",
+            terrains: [],
+            page: "mm19"
+        },
+        {
+            name: "Flying Sword",
+            cr: .25,
+            health: "5d6",
+            terrains: [],
+            page: "mm20"
+        },
+        {
+            name: "Rug of Smothering",
+            cr: 2,
+            health: "6d10",
+            terrains: [],
+            page: "mm20"
+        },
+        {
+            name: "Ankheg",
+            cr: 2,
+            health: "6d10+6",
+            terrains: [],
+            page: "mm21"
+        },
+        {
+            name: "Azer",
+            cr: 2,
+            health: "6d8+12",
+            terrains: [],
+            page: "mm22"
+        },
+        {
+            name: "Banshee",
+            cr: 4,
+            health: "13d8",
+            terrains: [
+                "forest"
+            ],
+            page: "mm23"
+        },
+        {
+            name: "Basilisk",
+            cr: 3,
+            health: "8d8+16",
+            terrains: [
+                "mountain"
+            ],
+            page: "mm24"
+        },
+        {
+            name: "Behir",
+            cr: 11,
+            health: "l6d12+64",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm25"
+        },
+        {
+            name: "Beholder",
+            cr: 13,
+            health: "19d10+76",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm28"
+        },
+        {
+            name: "Death Tyrant",
+            cr: 14,
+            health: "25d10+50",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm29"
+        },
+        {
+            name: "Spectator",
+            cr: 3,
+            health: "6d8+12",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm30"
+        },
+        {
+            name: "Needle Blight",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "forest"
+            ],
+            page: "mm32"
+        },
+        {
+            name: "Twig Blight",
+            cr: .125,
+            health: "ld6+1",
+            terrains: [
+                "forest"
+            ],
+            page: "mm32"
+        },
+        {
+            name: "Vine Blight",
+            cr: .5,
+            health: "4d8+8",
+            terrains: [
+                "forest"
+            ],
+            page: "mm32"
+        },
+        {
+            name: "Bugbear",
+            cr: 1,
+            health: "5d8+5",
+            terrains: [
+                "forest",
+                "grassland",
+                "underdark",
+            ],
+            page: "mm33"
+        },
+        {
+            name: "Bugbear Chief",
+            cr: 3,
+            health: "10d8+20",
+            terrains: [
+                "forest",
+                "grassland",
+                "underdark",
+            ],
+            page: "mm33"
+        },
+        {
+            name: "Bulette",
+            cr: 5,
+            health: "9d10+45",
+            terrains: [
+                "mountain",
+                "grassland",
+                "hill",
+            ],
+            page: "mm34"
+        },
+        {
+            name: "Bullywug",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "swamp"
+            ],
+            page: "mm35"
+        },
+        {
+            name: "Cambion",
+            cr: 5,
+            health: "lld8+33",
+            terrains: [
+                "urban"
+            ],
+            page: "mm36"
+        },
+        {
+            name: "Carrion Crawler",
+            cr: 2,
+            health: "6d10+18",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm37"
+        },
+        {
+            name: "Centaur",
+            cr: 2,
+            health: "6d10+12",
+            terrains: [
+                "forest",
+                "grassland",
+            ],
+            page: "mm38"
+        },
+        {
+            name: "Chimera",
+            cr: 6,
+            health: "12d10+48",
+            terrains: [
+                "grassland",
+                "hill",
+                "underdark",
+                "mountain",
+            ],
+            page: "mm39"
+        },
+        {
+            name: "Chuul",
+            cr: 4,
+            health: "11d10+33",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm40"
+        },
+        {
+            name: "Cloaker",
+            cr: 8,
+            health: "12d10+12",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm41"
+        },
+        {
+            name: "Cockatrice",
+            cr: .5,
+            health: "6d6+6",
+            terrains: [
+                "grassland"
+            ],
+            page: "mm42"
+        },
+        {
+            name: "Couatl",
+            cr: 4,
+            health: "l3d8+39",
+            terrains: [
+                "forest",
+                "urban",
+                "desert",
+                "grassland",
+            ],
+            page: "mm43"
+        },
+        {
+            name: "Crawling Claw",
+            cr: 0,
+            health: "1d4",
+            terrains: [],
+            page: "mm44"
+        },
+        {
+            name: "Cyclops",
+            cr: 6,
+            health: "",
+            terrains: [
+                "underdark",
+                "coastal",
+                "grassland",
+                "hill",
+                "mountain",
+                "desert",
+            ],
+            page: "mm45"
+        },
+        {
+            name: "Darkmantle",
+            cr: .5,
+            health: "5d6+5",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm46"
+        },
+        {
+            name: "Death Knight",
+            cr: 17,
+            health: "19d8+95",
+            terrains: [],
+            page: "mm47"
+        },
+        {
+            name: "Demilich",
+            cr: 18,
+            health: "20d4",
+            terrains: [],
+            page: "mm48"
+        },
+        {
+            name: "Balor",
+            cr: 19,
+            health: "21d12+126",
+            terrains: [],
+            page: "mm55"
+        },
+        {
+            name: "Barlgura",
+            cr: 5,
+            health: "8dl0+24",
+            terrains: [],
+            page: "mm56"
+        },
+        {
+            name: "Chasme",
+            cr: 6,
+            health: "13d10+13",
+            terrains: [],
+            page: "mm57"
+        },
+        {
+            name: "Dretch",
+            cr: .25,
+            health: "4d6+4",
+            terrains: [],
+            page: "mm57"
+        },
+        {
+            name: "Glabrezu",
+            cr: 9,
+            health: "15d10+75",
+            terrains: [],
+            page: "mm58"
+        },
+        {
+            name: "Goristro",
+            cr: 17,
+            health: "23d12+161",
+            terrains: [],
+            page: "mm59"
+        },
+        {
+            name: "Hezrou",
+            cr: 8,
+            health: "13d10+65",
+            terrains: [],
+            page: "mm60"
+        },
+        {
+            name: "Manes",
+            cr: .125,
+            health: "2d6+2",
+            terrains: [],
+            page: "mm60"
+        },
+        {
+            name: "Marilith",
+            cr: 16,
+            health: "18d10+90",
+            terrains: [],
+            page: "mm61"
+        },
+        {
+            name: "Nalfeshnee",
+            cr: 13,
+            health: "16d10+96",
+            terrains: [],
+            page: "mm62"
+        },
+        {
+            name: "Quasit",
+            cr: 1,
+            health: "3d4",
+            terrains: [],
+            page: "mm63"
+        },
+        {
+            name: "Shadow Demon",
+            cr: 4,
+            health: "12d8+12",
+            terrains: [],
+            page: "mm64"
+        },
+        {
+            name: "Vrock",
+            cr: 6,
+            health: "lld10+44",
+            terrains: [],
+            page: "mm64"
+        },
+        {
+            name: "Yochlol",
+            cr: 10,
+            health: "16d8+64",
+            terrains: [],
+            page: "mm65"
+        },
+        {
+            name: "Barbed Devil",
+            cr: 5,
+            health: "13d8+52",
+            terrains: [],
+            page: "70mm"
+        },
+        {
+            name: "Bearded Devil",
+            cr: 3,
+            health: "8d8+16",
+            terrains: [],
+            page: "70mm"
+        },
+        {
+            name: "Bone Devil",
+            cr: 9,
+            health: "15d10+60",
+            terrains: [],
+            page: "mm71"
+        },
+        {
+            name: "Chain Devil",
+            cr: 8,
+            health: "l0d8+40",
+            terrains: [],
+            page: "mm72"
+        },
+        {
+            name: "Erinyes",
+            cr: 12,
+            health: "18d8+72",
+            terrains: [],
+            page: "mm73"
+        },
+        {
+            name: "Horned Devil",
+            cr: 11,
+            health: "17d10+55",
+            terrains: [],
+            page: "mm74"
+        },
+        {
+            name: "Ice Devil",
+            cr: 14,
+            health: "l9d10+76",
+            terrains: [],
+            page: "mm75"
+        },
+        {
+            name: "Imp",
+            cr: 1,
+            health: "3d4+3",
+            terrains: [],
+            page: "mm76"
+        },
+        {
+            name: "Lemure",
+            cr: 0,
+            health: "3d8",
+            terrains: [],
+            page: "mm76"
+        },
+        {
+            name: "Pit Fiend",
+            cr: 20,
+            health: "24d10+168",
+            terrains: [],
+            page: "mm77"
+        },
+        {
+            name: "Spined Devil",
+            cr: 2,
+            health: "5d6+5",
+            terrains: [],
+            page: "mm78"
+        },
+        {
+            name: "Allosaurus",
+            cr: 2,
+            health: "6d10+18",
+            terrains: [
+                "grassland"
+            ],
+            page: "mm79"
+        },
+        {
+            name: "Ankylosaurus",
+            cr: 3,
+            health: "8d12+16",
+            terrains: [
+                "grassland"
+            ],
+            page: "mm79"
+        },
+        {
+            name: "Plesiosaurus",
+            cr: 2,
+            health: "8d10+24",
+            terrains: [
+                "underwater",
+                "coastal",
+            ],
+            page: "mm80"
+        },
+        {
+            name: "Pteranodon",
+            cr: .25,
+            health: "3d8",
+            terrains: [
+                "grassland",
+                "mountain",
+                "coastal",
+            ],
+            page: "mm80"
+        },
+        {
+            name: "Triceratops",
+            cr: 5,
+            health: "10d12+30",
+            terrains: [
+                "grassland"
+            ],
+            page: "mm80"
+        },
+        {
+            name: "Tyrannosaurus Rex",
+            cr: 8,
+            health: "13d12+52",
+            terrains: [
+                "grassland"
+            ],
+            page: "mm80"
+        },
+        {
+            name: "Displacer Beast",
+            cr: 3,
+            health: "10d10+30",
+            terrains: [],
+            page: "mm82"
+        },
+        {
+            name: "",
+            cr: 0,
+            health: "",
+            terrains: [
+                ""
+            ],
+            page: "mm"
+        },
+    ],
+
     first_names: [
         "Aaren",
         "Aarika",

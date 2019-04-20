@@ -12,35 +12,67 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <div id="floating_window">
+        <h2>World Generator</h2>
+        <button onclick="user_interface.swapFloatingWindowSide()">Swap Menu Side</button>
+        <button onclick="generateWorld()">Generate World</button>
+        <table>
+            <tr>
+                <td>
+                    World Width
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreaseWorldWidth()">-</button>
+                    <span id="world_width_span">102</span>
+                    <button type="button" onclick="user_interface.increaseWorldWidth()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Water Percentage
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreaseWaterPercentage()">-</button>
+                    <span id="water_percentage_span">40</span>
+                    <button type="button" onclick="user_interface.increaseWaterPercentage()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Number of Players
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreasePlayerCount()">-</button>
+                    <span id="player_count_span">4</span>
+                    <button type="button" onclick="user_interface.increasePlayerCount()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Start Level
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreaseStartLevel()">-</button>
+                    <span id="start_level_span">1</span>
+                    <button type="button" onclick="user_interface.increaseStartLevel()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    End Level
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreaseEndLevel()">-</button>
+                    <span id="end_level_span">20</span>
+                    <button type="button" onclick="user_interface.increaseEndLevel()">+</button>
+                </td>
+            </tr>
+        </table>
+        <br>
 
-    <h1>World Generator</h1>
-    <button onclick="generateWorld()">Generate World</button>
-    <table>
-        <tr>
-            <td>
-                World Width
-            </td>
-            <td>
-                <button type="button" onclick="user_interface.decreaseWorldWidth()">-</button>
-                <span id="world_width_span">102</span>
-                <button type="button" onclick="user_interface.increaseWorldWidth()">+</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Water Percentage
-            </td>
-            <td>
-                <button type="button" onclick="user_interface.decreaseWaterPercentage()">-</button>
-                <span id="water_percentage_span">40</span>
-                <button type="button" onclick="user_interface.increaseWaterPercentage()">+</button>
-            </td>
-        </tr>
-    </table>
-    <br>
-    
-    
-    <div id="details_div"></div>
+
+        <div id="details_div"></div>
+    </div>
     <br>
     <table id="world_table"></table>
     

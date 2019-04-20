@@ -1,29 +1,38 @@
+table, tr, td {
+    border: 1px solid black;
+}
+
 #world_table {
     table-layout: fixed;
     padding: 0;
     margin: 0;
-    
-
-    font-size: 2px;
+    font-size: 6px;
     cursor: default;
-    border-collapse: collapse
+    overflow: hidden;
+    border-collapse: collapse;
+    border: 0;
 }
 
-table, tr, td {
-    /*border: 1px solid black;*/
+#world_table tr {
+    border: 0;
 }
 
-td {
-    width: 15px;
-    height: 15px;
+#world_table td {
+    width: 16px;
+    height: 16px;
     padding: 0;
     margin: 0;
+    border: 0;
 }
 
-#details_div {
-    width: 50%;
-    max-height: 50vh;
+#floating_window {
+    position: fixed;
+    right: 2vw;
+    top: 2vh;
+    width: 30vw;
+    max-height: 80vh;
     overflow-y: scroll;
+    background-color: #f1f1f1;
 }
 
 .collapsible {

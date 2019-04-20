@@ -6,6 +6,8 @@ var updateMap = function () {
     var len = world.length;
 
     var out = document.getElementById("world_table");
+    out.style.height = (len*16) + "px";
+    out.style.width = (len*16) + "px";
     out.innerHTML = "";
     var row;
     for (let i = 0; i < len; i++) {
@@ -37,6 +39,7 @@ var updateMap = function () {
 };
 
 var updateDetails = function () {
+    console.log(util.generateEncounter(world[details_i][details_j].terrain, Number(document.getElementById("player_count_span").innerHTML), world[details_i][details_j].level));
     var len = Number(document.getElementById("world_width_span").innerHTML);
 
     var out = document.getElementById("details_div");
@@ -44,18 +47,19 @@ var updateDetails = function () {
     str += "Type: " + world[details_i][details_j].type + "<br>";
     str += "Elevation: " + world[details_i][details_j].elevation + "<br>";
     str += "Terrain: " + world[details_i][details_j].terrain + "<br>";
+    str += "Level: " + world[details_i][details_j].level + "<br>";
     
     if (world[details_i][details_j].type === "town") {
-        str += "Name: " + world[details_i][details_j].name + "<br>";
-        str += "Size: " + world[details_i][details_j].size + "<br>";
-        str += "Population: " + world[details_i][details_j].population + "<br>";
-        str += "Race Relations: " + world[details_i][details_j].race_relations + "<br>";
-        str += "Government: " + world[details_i][details_j].government + "<br>";
-        str += "Ruler Status: " + world[details_i][details_j].ruler_status + "<br>";
-        str += "Notable Trait: " + world[details_i][details_j].notable_trait + "<br>";
-        str += "Known For: " + world[details_i][details_j].known_for + "<br>";
-        str += "Current Calamity: " + world[details_i][details_j].current_calamity + "<br>";
-        str += "Name: " + world[details_i][details_j].name + "<br><br>";
+        str += "<table>";
+        str += "<tr style=\"font-size:larger;font-weight:bold;\"><td>Name</td><td>" + world[details_i][details_j].name + "</td></tr>";
+        str += "<tr><td>Size</td><td>" + world[details_i][details_j].size + "</td></tr>";
+        str += "<tr><td>Population</td><td>" + world[details_i][details_j].population + "</td></tr>";
+        str += "<tr><td>Race Relations</td><td>" + world[details_i][details_j].race_relations + "</td></tr>";
+        str += "<tr><td>Government</td><td>" + world[details_i][details_j].government + "</td></tr>";
+        str += "<tr><td>Ruler Status</td><td>" + world[details_i][details_j].ruler_status + "</td></tr>";
+        str += "<tr><td>Notable Trait</td><td>" + world[details_i][details_j].notable_trait + "</td></tr>";
+        str += "<tr><td>Known For</td><td>" + world[details_i][details_j].known_for + "</td></tr>";
+        str += "<tr><td>Current Calamity</td><td>" + world[details_i][details_j].current_calamity + "</td></tr></table><br>";
         str += "<button class=\"collapsible\">Buildings</button><div class=\"content\">";
         
         
@@ -229,10 +233,26 @@ var generateWorld = function () {
     }
     for (let i = 0; i < len; i++) {
         for (let j = 0; j < len; j++) {
-            if (world[i][j].terrain === "grassland" && util.getRandomInt(25) < 1) {
+            if (world[i][j].terrain === "grassland" && util.getRandomInt(50) < 1) {
                 world[i][j] = util.generateTown();
                 world[i][j].elevation = heightmap.points[i][j].elevation;
             }
+            var start_level = Number(document.getElementById("start_level_span").innerHTML);
+            var end_level = Number(document.getElementById("end_level_span").innerHTML);
+            var start = Math.floor(len/2);
+            var dist_x = Math.abs(Math.floor(start-i));
+            var dist_y = Math.abs(Math.floor(start-j));
+            var dist_total = Math.floor(Math.sqrt((dist_x*dist_x)+(dist_y*dist_y)));
+            var perc = dist_total/(len/2.0);
+            var level = Math.floor(perc*(end_level-start_level)) + start_level;
+            
+            if(level > 20){
+                level = 20;
+            }
+            if(level < 1){
+                level = 1;
+            }
+            world[i][j].level = level;
         }
     }
     updateMap();

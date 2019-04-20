@@ -198,18 +198,338 @@ var util = {
         let ans = "";
         ans += "<button class=\"collapsible\">" + npc.name + "</button>";
         ans += "<div class=\"content\">";
-        ans += "Appearance: " + npc.appearance + "<br>";
-        ans += "High Stat: " + npc.high_stat + "<br>";
-        ans += "Low Stat: " + npc.low_stat + "<br>";
-        ans += "Talent: " + npc.talent + "<br>";
-        ans += "Mannerism: " + npc.mannerism + "<br>";
-        ans += "Interaction Trait: " + npc.interaction_trait + "<br>";
-        ans += "Alignment: " + npc.alignment1 + " " + npc.alignment2 + "<br>";
-        ans += "Ideals: " + npc.ideal1 + " and " + npc.ideal2 + "<br>";
-        ans += "Bond: " + npc.bond + "<br>";
-        ans += "Flaw: " + npc.flaw + "<br>";
-        ans += "Profession: " + npc.profession + "<br>";
+        ans += "<table>";
+        ans += "<tr><td>Appearance</td><td>" + npc.appearance + "</td></tr>";
+        ans += "<tr><td>High Stat</td><td>" + npc.high_stat + "</td></tr>";
+        ans += "<tr><td>Low Stat</td><td>" + npc.low_stat + "</td></tr>";
+        ans += "<tr><td>Talent</td><td>" + npc.talent + "</td></tr>";
+        ans += "<tr><td>Mannerism</td><td>" + npc.mannerism + "</td></tr>";
+        ans += "<tr><td>Interaction Trait</td><td>" + npc.interaction_trait + "</td></tr>";
+        ans += "<tr><td>Alignment</td><td>" + npc.alignment1 + " " + npc.alignment2 + "</td></tr>";
+        ans += "<tr><td>Ideals</td><td>" + npc.ideal1 + " and " + npc.ideal2 + "</td></tr>";
+        ans += "<tr><td>Bond</td><td>" + npc.bond + "</td></tr>";
+        ans += "<tr><td>Flaw</td><td>" + npc.flaw + "</td></tr>";
+        ans += "<tr><td>Profession: " + npc.profession + "</td></tr></table>";
         ans += "</div><br>";
+        return ans;
+    },
+
+    MonstertoHTML: function (monster) {
+        let ans = "";
+        ans += "<button class=\"collapsible\">" + monster.name + "</button>";
+        ans += "<div class=\"content\">";
+        ans += "<table>";
+        ans += "<tr><td>Appearance</td><td>" + monster.appearance + "</td></tr>";
+        ans += "</div><br>";
+        return ans;
+    },
+
+    generateEncounter: function (terrain, num_players, level) {
+        let ans = [];
+        let threshold = 0;
+        let threshold_table = {
+            easy:[
+                0,
+                25,
+                50,
+                75,
+                125,
+                250,
+                300,
+                350,
+                450,
+                550,
+                600,
+                800,
+                1000,
+                1100,
+                1250,
+                1400,
+                1600,
+                2000,
+                2100,
+                2400,
+                2800,
+            ],
+            medium:[
+                0,
+                50,
+                75,
+                125,
+                250,
+                500,
+                600,
+                750,
+                900,
+                1100,
+                1200,
+                1600,
+                2000,
+                2200,
+                2500,
+                2800,
+                3200,
+                3900,
+                4200,
+                4900,
+                5700,
+            ],
+            hard:[
+                0,
+                75,
+                150,
+                225,
+                375,
+                750,
+                900,
+                1100,
+                1400,
+                1600,
+                1900,
+                2400,
+                3000,
+                3400,
+                3800,
+                4300,
+                4800,
+                5900,
+                6300,
+                7300,
+                8500,
+            ],
+            deadly:[
+                0,
+                100,
+                200,
+                400,
+                500,
+                1100,
+                1400,
+                1700,
+                2100,
+                2400,
+                2800,
+                3600,
+                4500,
+                5100,
+                5700,
+                6400,
+                7200,
+                8800,
+                9500,
+                10900,
+                12700,
+            ],
+        };
+        let r = util.getRandomInt(100);
+        threshold = threshold_table.easy[level];
+        if(r > 50){
+            console.log('medium');
+            threshold = threshold_table.medium[level];
+        }
+        if(r > 75){
+            console.log('hard');
+            threshold = threshold_table.hard[level];
+        }
+        if(r > 95){
+            console.log('deadly');
+            threshold = threshold_table.deadly[level];
+        }
+        
+        threshold = threshold * num_players;
+        
+        let num_monsters = 1;
+        if(util.getRandomInt(3) === 0){
+            num_monsters = util.getRandomInt(10) + 1;
+        }
+        
+        let multiplier_table = [
+            1,
+            1,
+            1.5,
+            2,
+            2.5,
+            3,
+            4,
+        ];
+        
+        let pos = 1;
+        
+        if(num_monsters === 1){
+            pos = 1;
+        }else if(num_monsters === 2){
+            pos = 2;
+        }else if(num_monsters > 2 && num_monsters < 7){
+            pos = 3;
+        }else if(num_monsters > 6 && num_monsters < 11){
+            pos = 4;
+        }else if(num_monsters > 10 && num_monsters < 15){
+            pos = 5;
+        }else if(num_monsters > 15){
+            pos = 6;
+        }
+        if(num_players > 5 && pos < 6){
+            pos++;
+        }
+        if(num_players < 3 && pos > 1){
+            pos--;
+        }
+        
+        let multiplier = multiplier_table[pos];
+        let cr = 0;
+        if(num_monsters * multiplier * 25 < threshold){
+            cr = .125;
+        }
+        if(num_monsters * multiplier * 50 < threshold){
+            cr = .25;
+        }
+        if(num_monsters * multiplier * 100 < threshold){
+            cr = .5;
+        }
+        if(num_monsters * multiplier * 200 < threshold){
+            cr = 1;
+        }
+        if(num_monsters * multiplier * 450 < threshold){
+            cr = 2;
+        }
+        if(num_monsters * multiplier * 700 < threshold){
+            cr = 3;
+        }
+        if(num_monsters * multiplier * 1100 < threshold){
+            cr = 4;
+        }
+        if(num_monsters * multiplier * 1800 < threshold){
+            cr = 5;
+        }
+        if(num_monsters * multiplier * 2300 < threshold){
+            cr = 6;
+        }
+        if(num_monsters * multiplier * 2900 < threshold){
+            cr = 7;
+        }
+        if(num_monsters * multiplier * 3900 < threshold){
+            cr = 8;
+        }
+        if(num_monsters * multiplier * 5000 < threshold){
+            cr = 9;
+        }
+        if(num_monsters * multiplier * 5900 < threshold){
+            cr = 10;
+        }
+        if(num_monsters * multiplier * 7200 < threshold){
+            cr = 11;
+        }
+        if(num_monsters * multiplier * 8400 < threshold){
+            cr = 12;
+        }
+        if(num_monsters * multiplier * 10000 < threshold){
+            cr = 13;
+        }
+        if(num_monsters * multiplier * 11500 < threshold){
+            cr = 14;
+        }
+        if(num_monsters * multiplier * 13000 < threshold){
+            cr = 15;
+        }
+        if(num_monsters * multiplier * 15000 < threshold){
+            cr = 16;
+        }
+        if(num_monsters * multiplier * 18000 < threshold){
+            cr = 17;
+        }
+        if(num_monsters * multiplier * 20000 < threshold){
+            cr = 18;
+        }
+        if(num_monsters * multiplier * 22000 < threshold){
+            cr = 19;
+        }
+        if(num_monsters * multiplier * 25000 < threshold){
+            cr = 20;
+        }
+        if(num_monsters * multiplier * 33000 < threshold){
+            cr = 21;
+        }
+        if(num_monsters * multiplier * 41000 < threshold){
+            cr = 22;
+        }
+        if(num_monsters * multiplier * 50000 < threshold){
+            cr = 23;
+        }
+        if(num_monsters * multiplier * 62000 < threshold){
+            cr = 24;
+        }
+        if(num_monsters * multiplier * 75000 < threshold){
+            cr = 25;
+        }
+        if(num_monsters * multiplier * 90000 < threshold){
+            cr = 26;
+        }
+        if(num_monsters * multiplier * 105000 < threshold){
+            cr = 27;
+        }
+        if(num_monsters * multiplier * 120000 < threshold){
+            cr = 28;
+        }
+        if(num_monsters * multiplier * 135000 < threshold){
+            cr = 29;
+        }
+        if(num_monsters * multiplier * 155000 < threshold){
+            cr = 30;
+        }
+        
+        console.log("CR: " + cr + " with " + num_monsters + " monsters for " + num_players + " level " + level + " players");
+        
+        let mlist = [];
+        if(util.getRandomInt(10) !== 0){
+            for(let i = 0; i < data.monsters.length; i++){
+                for(let j = 0; j < data.monsters[i].terrains.length; j++){
+                    if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
+                        mlist.push(data.monsters[i]);   
+                    }
+                }
+            }
+        }else{
+            for(let i = 0; i < data.monsters.length; i++){
+                if(data.monsters[i].terrains.length > 0){
+                    for(let j = 0; j < data.monsters[i].terrains.length; j++){
+                        if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
+                            mlist.push(data.monsters[i]);   
+                        }
+                    }
+                }else{
+                    if(data.monsters[i].cr === cr){
+                        mlist.push(data.monsters[i]);
+                    }
+                }
+            }
+        }
+        
+        
+        let monster = util.getRandomValueInArray(mlist);
+        for(let i = 0; i < num_monsters; i++){
+            ans.push(monster);
+        }
+        //calculate number of monsters
+        //adjust threshold
+        
+        
+        //adjust threshold based on number of players
+        
+        
+        //determine rare or normal
+        
+        
+        //if normal, trim monster list to given terrain
+        //if rare, trim monster list to given terrain and no terrain
+        
+        
+        //trim monster list of challenge rating monsters that don't fit with the number chosen and threshold needed
+        
+        //pick random monster set of chosen number, push to ans, and return
+        
+        
+        
+        
         return ans;
     },
 
