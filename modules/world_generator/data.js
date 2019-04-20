@@ -1284,8 +1284,72 @@ var data = {
             name: "Displacer Beast",
             cr: 3,
             health: "10d10+30",
-            terrains: [],
+            terrains: [
+                "forest"
+            ],
+            page: "mm81"
+        },
+        {
+            name: "Doppelganger",
+            cr: 3,
+            health: "8d8+16",
+            terrains: [
+                "underdark",
+                "urban",
+            ],
             page: "mm82"
+        },
+        {
+            name: "Adult Blue Dracolich",
+            cr: 17,
+            health: "18d12+108",
+            terrains: [
+                "desert"
+            ],
+            page: "mm84"
+        },
+        {
+            name: "Young Red Shadow Dragon",
+            cr: 13,
+            health: "17d10+85",
+            terrains: [
+                "underdark"
+            ],
+            page: "mm85"
+        },
+        {
+            name: "Ancient Black Dragon",
+            cr: 21,
+            health: "21d20+147",
+            terrains: [
+                "swamp"
+            ],
+            page: "mm87"
+        },
+        {
+            name: "Adult Black Dragon",
+            cr: 14,
+            health: "17d12+85",
+            terrains: [
+                "swamp"
+            ],
+            page: "mm88"
+        },
+        {
+            name: "Young Black Dragon",
+            cr: 7,
+            health: "15d10+45",
+            terrains: [
+                "swamp"
+            ],
+            page: "mm88"
+        },
+        {
+            name: "Black Dragon Wyrmling",
+            cr: 2,
+            health: "6d8+6",
+            terrains: [],
+            page: "mm88"
         },
         {
             name: "",

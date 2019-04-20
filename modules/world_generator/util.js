@@ -480,28 +480,32 @@ var util = {
         console.log("CR: " + cr + " with " + num_monsters + " monsters for " + num_players + " level " + level + " players");
         
         let mlist = [];
-        if(util.getRandomInt(10) !== 0){
-            for(let i = 0; i < data.monsters.length; i++){
-                for(let j = 0; j < data.monsters[i].terrains.length; j++){
-                    if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
-                        mlist.push(data.monsters[i]);   
-                    }
-                }
-            }
-        }else{
-            for(let i = 0; i < data.monsters.length; i++){
-                if(data.monsters[i].terrains.length > 0){
+        
+        while(mlist.length === 0 && cr > -1){
+            if(util.getRandomInt(10) !== 0){
+                for(let i = 0; i < data.monsters.length; i++){
                     for(let j = 0; j < data.monsters[i].terrains.length; j++){
                         if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
                             mlist.push(data.monsters[i]);   
                         }
                     }
-                }else{
-                    if(data.monsters[i].cr === cr){
-                        mlist.push(data.monsters[i]);
+                }
+            }else{
+                for(let i = 0; i < data.monsters.length; i++){
+                    if(data.monsters[i].terrains.length > 0){
+                        for(let j = 0; j < data.monsters[i].terrains.length; j++){
+                            if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
+                                mlist.push(data.monsters[i]);   
+                            }
+                        }
+                    }else{
+                        if(data.monsters[i].cr === cr){
+                            mlist.push(data.monsters[i]);
+                        }
                     }
                 }
             }
+            cr--;
         }
         
         
