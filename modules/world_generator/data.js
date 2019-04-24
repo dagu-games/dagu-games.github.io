@@ -727,6 +727,175 @@ var data = {
         "Spectacle",
         "Urchin",
     ],
+    treasure: {
+        gemstones: {
+            "10gp": [
+                "",
+            ],
+            "50gp": [
+                "",
+            ],
+            "100gp": [
+                "",
+            ],
+            "500gp": [
+                "",
+            ],
+            "1000gp": [
+                "",
+            ],
+            "5000gp": [
+                "",
+            ]
+        },
+        art_objects: {
+            "25gp": [
+                "",
+            ],
+            "250gp": [
+                "",
+            ],
+            "750gp": [
+                "",
+            ],
+            "2500gp": [
+                "",
+            ],
+            "7500gp": [
+                "",
+            ]
+        },
+        magic_items: [
+            {
+                name: "",
+                page: ""
+            },
+        ],
+        magic_item_descriptions: {
+            creator: [
+                "",
+            ],
+            history: [
+                "",
+            ],
+            history_detail: [
+                "",
+            ],
+            minor_property: [
+                "",
+            ],
+            quirk: [
+                "",
+            ],
+        },
+    },
+    treasure_tables: {
+        individual: {
+            "4cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+            },
+            "10cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+            },
+            "16cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+            },
+            "17cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+            },
+        },
+        hoard: {
+            "4cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+                magic_table_count_1: "",
+                magic_table_1: "",
+                magic_table_count_2: "",
+                magic_table_2: "",
+            },
+            "10cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+                magic_table_count_1: "",
+                magic_table_1: "",
+                magic_table_count_2: "",
+                magic_table_2: "",
+            },
+            "16cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+                magic_table_count_1: "",
+                magic_table_1: "",
+                magic_table_count_2: "",
+                magic_table_2: "",
+            },
+            "17cr": {
+                cp_count: "",
+                sp_count: "",
+                ep_count: "",
+                gp_count: "",
+                pp_count: "",
+                magic_table_count_1: "",
+                magic_table_1: "",
+                magic_table_count_2: "",
+                magic_table_2: "",
+            },
+        }
+    },
+    magic_item_tables: {
+        a: [
+            "",
+        ],
+        b: [
+            "",
+        ],
+        c: [
+            "",
+        ],
+        d: [
+            "",
+        ],
+        e: [
+            "",
+        ],
+        f: [
+            "",
+        ],
+        g: [
+            "",
+        ],
+        h: [
+            "",
+        ],
+        i: [
+            "",
+        ],
+    },
     monsters: [
         {
             name: "Aarakocra",
@@ -1352,11 +1521,11 @@ var data = {
             page: "mm88"
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Ancient Blue Dragon",
+            cr: 23,
+            health: "26d20+208",
             terrains: [
-                ""
+                "desert"
             ],
             page: "mm"
         },
