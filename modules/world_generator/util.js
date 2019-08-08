@@ -1,3 +1,9 @@
+
+
+const roller = new rpgDiceRoller.DiceRoller();
+
+//console.log(roller.roll('4d20*100').total);
+
 var util = {
     sortInts: function (a, b) {
         if (a > b) {
@@ -209,7 +215,7 @@ var util = {
         ans += "<tr><td>Ideals</td><td>" + npc.ideal1 + " and " + npc.ideal2 + "</td></tr>";
         ans += "<tr><td>Bond</td><td>" + npc.bond + "</td></tr>";
         ans += "<tr><td>Flaw</td><td>" + npc.flaw + "</td></tr>";
-        ans += "<tr><td>Profession: " + npc.profession + "</td></tr></table>";
+        ans += "<tr><td>Profession</td><td>" + npc.profession + "</td></tr></table>";
         ans += "</div><br>";
         return ans;
     },
@@ -225,7 +231,10 @@ var util = {
     },
 
     generateEncounter: function (terrain, num_players, level) {
-        let ans = [];
+        let ans = {
+            monsters: [],
+            treasure: {},
+        };
         let threshold = 0;
         let threshold_table = {
             easy:[
@@ -324,15 +333,15 @@ var util = {
         let r = util.getRandomInt(100);
         threshold = threshold_table.easy[level];
         if(r > 50){
-            console.log('medium');
+            //console.log('medium');
             threshold = threshold_table.medium[level];
         }
         if(r > 75){
-            console.log('hard');
+            //console.log('hard');
             threshold = threshold_table.hard[level];
         }
         if(r > 95){
-            console.log('deadly');
+            //console.log('deadly');
             threshold = threshold_table.deadly[level];
         }
         
@@ -477,7 +486,7 @@ var util = {
             cr = 30;
         }
         
-        console.log("CR: " + cr + " with " + num_monsters + " monsters for " + num_players + " level " + level + " players");
+        //console.log("CR: " + cr + " with " + num_monsters + " monsters for " + num_players + " level " + level + " players");
         
         let mlist = [];
         
@@ -510,9 +519,13 @@ var util = {
         
         
         let monster = util.getRandomValueInArray(mlist);
+        let str = monster.health;
         for(let i = 0; i < num_monsters; i++){
-            ans.push(monster);
+            monster.health = util.rollDice(str);
+            ans.monsters.push(monster);
         }
+
+        ans.treasure = util.generateTreasure(cr, num_monsters);
         //calculate number of monsters
         //adjust threshold
         
@@ -537,4 +550,167 @@ var util = {
         return ans;
     },
 
+    generateTreasure: function(cr, num_monsters){
+        var ans = {
+            cp: 0,
+            sp: 0,
+            ep: 0,
+            gp: 0,
+            pp: 0,
+            items: [],
+        };
+
+        var cr_str = "4cr";
+        if(cr < 11 && cr > 4){
+            cr_str = "10cr";
+        }else if(cr < 17 && cr > 10){
+            cr_str = "16cr";
+        }else if(cr > 16){
+            cr_str = "17cr";
+        }
+
+        if(num_monsters < 2){
+            var currency = util.searchForMax(data.treasure_tables.individual[cr_str], (util.getRandomInt(99) + 1));
+            var items = {
+                gemstones_count: "",
+                gemstones_price: "",
+                art_objects_count: "",
+                art_objects_price: "",
+                magic_table_1_count: "",
+                magic_table_1: "",
+                magic_table_2_count: "",
+                magic_table_2: "",
+            };
+        }else{
+            var currency = data.treasure_tables.hoard_currency[cr_str];
+            var items = util.searchForMax(data.treasure_tables.hoard_items[cr_str], (util.getRandomInt(99) + 1));
+        }
+
+        if(currency.cp_count != ""){
+            ans.cp = util.rollDice(currency.cp_count);
+        }
+        if(currency.sp_count != ""){
+            ans.sp = util.rollDice(currency.sp_count);
+        }
+        if(currency.ep_count != ""){
+            ans.ep = util.rollDice(currency.ep_count);
+        }
+        if(currency.gp_count != ""){
+            ans.gp = util.rollDice(currency.gp_count);
+        }
+        if(currency.pp_count != ""){
+            ans.pp = util.rollDice(currency.pp_count);
+        }
+
+        if(items.gemstones_count != ""){
+            var c = util.rollDice(items.gemstones_count);
+
+            for(var i = 0; i < c; i++){
+                ans.items.push(util.generateMagicItemDescription(util.getRandomValueInArray(data.treasure.gemstones[items.gemstones_price]), true));
+            }
+        }
+        if(items.art_objects_count != ""){
+            var c = util.rollDice(items.art_objects_count);
+
+            for(var i = 0; i < c; i++){
+                ans.items.push(util.generateMagicItemDescription(util.getRandomValueInArray(data.treasure.art_objects[items.art_objects_price]), true));
+            }
+        }
+        if(items.magic_table_1_count != ""){
+            var c = util.rollDice(items.magic_table_1_count);
+
+            for(var i = 0; i < c; i++){
+                ans.items.push(util.generateMagicItemDescription(util.getRandomValueInArray(data.treasure.magic_item_tables[items.magic_table_1])));
+            }
+        }
+        if(items.magic_table_2_count != ""){
+            var c = util.rollDice(items.magic_table_2_count);
+
+            for(var i = 0; i < c; i++){
+                ans.items.push(util.generateMagicItemDescription(util.getRandomValueInArray(data.treasure.magic_item_tables[items.magic_table_2])));
+            }
+        }
+
+        for(var i = 0; i < ans.items.length; i++){
+            if(ans.items[i].name == "Figurine of wondrous power"){
+                ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.figurines);
+            }
+            if(ans.items[i].name == "Magic armor"){
+                ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.magic_armor);
+            }
+            if(ans.items[i].name == "Weapon, +1"){
+                ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.magic_weapons);
+            }
+            if(ans.items[i].name == "Weapon, +2"){
+                ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.magic_weapons);
+            }
+            if(ans.items[i].name == "Weapon, +3"){
+                ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.magic_weapons);
+            }
+            if(ans.items[i].name == "Spell scroll (cantrip)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["cantrip"]);
+            }
+            if(ans.items[i].name == "Spell scroll (1st level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["1"]);
+            }
+            if(ans.items[i].name == "Spell scroll (2nd level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["2"]);
+            }
+            if(ans.items[i].name == "Spell scroll (3rd level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["3"]);
+            }
+            if(ans.items[i].name == "Spell scroll (4th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["4"]);
+            }
+            if(ans.items[i].name == "Spell scroll (5th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["5"]);
+            }
+            if(ans.items[i].name == "Spell scroll (6th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["6"]);
+            }
+            if(ans.items[i].name == "Spell scroll (7th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["7"]);
+            }
+            if(ans.items[i].name == "Spell scroll (8th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["8"]);
+            }
+            if(ans.items[i].name == "Spell scroll (9th level)"){
+                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["9"]);
+            }
+        }
+
+        return ans;
+    },
+
+    generateMagicItemDescription: function(name, blank){
+        if(blank == undefined || blank == null || blank == false){
+            return {
+                name: name,
+                creator: util.getRandomValueInArray(data.treasure.magic_item_descriptions.creator),
+                history: util.getRandomValueInArray(data.treasure.magic_item_descriptions.creator),
+                minor_property: util.getRandomValueInArray(data.treasure.magic_item_descriptions.creator),
+                quirk: util.getRandomValueInArray(data.treasure.magic_item_descriptions.creator),
+            };
+        }else{
+            return {
+                name: name,
+                creator: "",
+                history: "",
+                minor_property: "",
+                quirk: "",
+            };
+        }
+    },
+
+    rollDice: function(str){
+        return roller.roll(str).total;
+    },
+
+    searchForMax: function(arr, roll){
+        for(var i = 0; i < arr.length; i++){
+            if(arr[i].max >= roll){
+                return arr[i];
+            }
+        }
+    },
 };

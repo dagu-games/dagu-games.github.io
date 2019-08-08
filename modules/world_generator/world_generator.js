@@ -39,7 +39,7 @@ var updateMap = function () {
 };
 
 var updateDetails = function () {
-    console.log(util.generateEncounter(world[details_i][details_j].terrain, Number(document.getElementById("player_count_span").innerHTML), world[details_i][details_j].level));
+    //console.log(util.generateEncounter(world[details_i][details_j].terrain, Number(document.getElementById("player_count_span").innerHTML), world[details_i][details_j].level));
     var len = Number(document.getElementById("world_width_span").innerHTML);
 
     var out = document.getElementById("details_div");
@@ -189,6 +189,11 @@ var updateDetails = function () {
         str += "<button class=\"collapsible\">Wandering NPCs</button><div class=\"content\">";
         for (let x = 0; x < world[details_i][details_j].wandering_npcs.length; x++) {
             str += util.NPCtoHTML(world[details_i][details_j].wandering_npcs[x]);
+        }
+        str += "</div><br>";
+        str += "<button class=\"collapsible\">Urban Encounters</button><div class=\"content\">";
+        for (let x = 0; x < world[details_i][details_j].urban_encounters.length; x++) {
+            str += world[details_i][details_j].urban_encounters[x] + "<br>";
         }
         str += "</div><br>";
     }else if(world[details_i][details_j].type === "dungeon"){

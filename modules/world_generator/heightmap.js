@@ -137,10 +137,10 @@ var heightmap = {
         }
         
         heightmap.max = max;
-        console.log("max = " + max);
-        console.log("min = " + min);
-        console.log("average = " + (total / count));
-        console.log("count = " + count);
+        // console.log("max = " + max);
+        // console.log("min = " + min);
+        // console.log("average = " + (total / count));
+        // console.log("count = " + count);
         
         for (let i = 0; i < tp.length; i++) {
             for (let j = 0; j < tp[i].length; j++) {
@@ -149,7 +149,7 @@ var heightmap = {
             }
         }
         heightmap.elevations_list.sort(util.sortInts);
-        console.log(heightmap.elevations_list);
+        //console.log(heightmap.elevations_list);
 
     },
 };
