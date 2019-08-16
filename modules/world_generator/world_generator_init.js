@@ -4,3 +4,7 @@ generateWorld();
 // 	console.log(util.generateTreasure(i,2));
 // }
 
+// for(var i = 1; i < 21; i++){
+//  	util.generateEncounter('grassland',4,i);
+//  	util.generateEncounter('urban',4,i);
+// }

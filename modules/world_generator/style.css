@@ -6,7 +6,7 @@ table, tr, td {
     table-layout: fixed;
     padding: 0;
     margin: 0;
-    font-size: 6px;
+    font-size: 16px;
     cursor: default;
     overflow: hidden;
     border-collapse: collapse;
@@ -27,7 +27,7 @@ table, tr, td {
 #floating_window {
     position: fixed;
     right: 2vw;
-    top: 2vh;
+    top: 4vh;
     width: 30vw;
     max-height: 80vh;
     overflow-y: scroll;

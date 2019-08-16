@@ -1,0 +1,10 @@
+gassland #93C989
+desert #C2BC8F
+water #4AB0C2
+mountain #D9D9D9
+hill #1FA64C
+forest #177A38
+swamp #689109
+urban black
+arctic white
+coastal #CCCC9F

@@ -25,12 +25,8 @@ var util = {
                 var content = this.nextElementSibling;
                 if (content.style.display) {
                     content.style.display = null;
-//                    content.style.maxHeight = null;
                 } else {
                     content.style.display = "block";
-//                    content.style.maxHeight = content.scrollHeight + "px";
-//                    console.log(this);
-//                    this.parentElement.style.maxHeight = this.parentElement.scrollHeight + "px";
                 }
             });
         }
@@ -102,11 +98,15 @@ var util = {
         return ans;
     },
 
-    generateTown: function () {
+    generateTown: function (current_entry) {
         let ans = {
-            name: util.generateTownName(),
+            name: current_entry.name,
             type: "town",
-            terrain: "urban",
+            terrain: current_entry.terrain,
+            elevation: current_entry.elevation,
+            temperature: current_entry.temperature,
+            precipitation: current_entry.precipitation,
+            wind: current_entry.wind,
             race_relations: util.getRandomValueInArray(data.race_relations),
             government: util.getRandomValueInArray(data.governments),
             ruler_status: util.getRandomValueInArray(data.ruler_status),
@@ -116,16 +116,17 @@ var util = {
             size: util.getRandomValueInArray(data.town_sizes),
             buildings: [],
             urban_encounters: [],
+            encounters: [],
         };
         let building_count = 0;
         if (ans.size === "Village") {
-            building_count = 50;
+            building_count = 25;
             ans.population = 250 + util.getRandomInt(750);
         } else if (ans.size === "Town") {
-            building_count = 250;
+            building_count = 50;
             ans.population = 2000 + util.getRandomInt(4000);
         } else {
-            building_count = 1250;
+            building_count = 60;
             ans.population = 7500 + util.getRandomInt(25000);
         }
 
@@ -188,7 +189,7 @@ var util = {
             return 0;
         });
         ans.wandering_npcs = [];
-        let q = util.getRandomInt(50) + 25;
+        let q = util.getRandomInt(25) + 10;
         let qc = 0;
         while (qc < q) {
             ans.wandering_npcs.push(util.generateNPC());
@@ -220,12 +221,59 @@ var util = {
         return ans;
     },
 
-    MonstertoHTML: function (monster) {
+    encountertoHTML: function (encounter, pos) {
         let ans = "";
-        ans += "<button class=\"collapsible\">" + monster.name + "</button>";
+        ans += "<button class=\"collapsible\">Encounter " + pos + "</button>";
+        ans += "<div class=\"content\">";
+        ans += "<table><tr><td>Level</td><td>" + encounter.level + "</td></tr><tr><td>Number of Players</td><td>" + encounter.num_players + "</td></tr></table>";
+        ans += "<button class=\"collapsible\">Monsters</button>";
+        ans += "<div class=\"content\">";
+        for(let i = 0; i < encounter.monsters.length; i++){
+            let monster = encounter.monsters[i];
+            ans += "<table>";
+            ans += "<tr><td>Name</td><td>" + monster.name + "</td></tr>";
+            ans += "<tr><td>Health</td><td>" + monster.health + "</td></tr>";
+            ans += "<tr><td>CR</td><td>" + monster.cr + "</td></tr></table><br>";
+        }
+        ans += "</div><br>";
+        ans += "<button class=\"collapsible\">Treasure</button>";
         ans += "<div class=\"content\">";
         ans += "<table>";
-        ans += "<tr><td>Appearance</td><td>" + monster.appearance + "</td></tr>";
+        if(encounter.treasure.cp != ""){
+            ans += "<tr><td>Copper</td><td>" + encounter.treasure.cp + "</td></tr>";          
+        }
+        if(encounter.treasure.sp != ""){
+            ans += "<tr><td>Silver</td><td>" + encounter.treasure.sp + "</td></tr>";
+        }
+        if(encounter.treasure.ep != ""){
+            ans += "<tr><td>Etherium</td><td>" + encounter.treasure.ep + "</td></tr>";
+        }
+        if(encounter.treasure.gp != ""){
+            ans += "<tr><td>Gold</td><td>" + encounter.treasure.gp + "</td></tr>";
+        }
+        if(encounter.treasure.pp != ""){
+            ans += "<tr><td>Platinum</td><td>" + encounter.treasure.pp + "</td></tr>";
+        }
+        ans += "</table><br>";
+        for(let i = 0; i < encounter.treasure.items.length; i++){
+            let item = encounter.treasure.items[i];
+            ans += "<table>";
+            ans += "<tr><td>Name</td><td>" + item.name + "</td></tr>";
+            if(item.creator != ""){
+                ans += "<tr><td>Creator</td><td>" + item.creator + "</td></tr>";
+            }
+            if(item.history != ""){
+                ans += "<tr><td>History</td><td>" + item.history + "</td></tr>";
+            }
+            if(item.minor_property != ""){
+                ans += "<tr><td>Minor Property</td><td>" + item.minor_property + "</td></tr>";
+            }
+            if(item.quirk != ""){
+                ans += "<tr><td>Quirk</td><td>" + item.quirk + "</td></tr>";
+            }
+            ans += "</table><br>";
+        }
+        ans += "</div><br>";
         ans += "</div><br>";
         return ans;
     },
@@ -234,6 +282,8 @@ var util = {
         let ans = {
             monsters: [],
             treasure: {},
+            level: level,
+            num_players: num_players,
         };
         let threshold = 0;
         let threshold_table = {
@@ -346,207 +396,337 @@ var util = {
         }
         
         threshold = threshold * num_players;
-        
-        let num_monsters = 1;
-        if(util.getRandomInt(3) === 0){
-            num_monsters = util.getRandomInt(10) + 1;
-        }
-        
-        let multiplier_table = [
-            1,
-            1,
-            1.5,
-            2,
-            2.5,
-            3,
-            4,
-        ];
-        
-        let pos = 1;
-        
-        if(num_monsters === 1){
-            pos = 1;
-        }else if(num_monsters === 2){
-            pos = 2;
-        }else if(num_monsters > 2 && num_monsters < 7){
-            pos = 3;
-        }else if(num_monsters > 6 && num_monsters < 11){
-            pos = 4;
-        }else if(num_monsters > 10 && num_monsters < 15){
-            pos = 5;
-        }else if(num_monsters > 15){
-            pos = 6;
-        }
-        if(num_players > 5 && pos < 6){
-            pos++;
-        }
-        if(num_players < 3 && pos > 1){
-            pos--;
-        }
-        
-        let multiplier = multiplier_table[pos];
-        let cr = 0;
-        if(num_monsters * multiplier * 25 < threshold){
-            cr = .125;
-        }
-        if(num_monsters * multiplier * 50 < threshold){
-            cr = .25;
-        }
-        if(num_monsters * multiplier * 100 < threshold){
-            cr = .5;
-        }
-        if(num_monsters * multiplier * 200 < threshold){
-            cr = 1;
-        }
-        if(num_monsters * multiplier * 450 < threshold){
-            cr = 2;
-        }
-        if(num_monsters * multiplier * 700 < threshold){
-            cr = 3;
-        }
-        if(num_monsters * multiplier * 1100 < threshold){
-            cr = 4;
-        }
-        if(num_monsters * multiplier * 1800 < threshold){
-            cr = 5;
-        }
-        if(num_monsters * multiplier * 2300 < threshold){
-            cr = 6;
-        }
-        if(num_monsters * multiplier * 2900 < threshold){
-            cr = 7;
-        }
-        if(num_monsters * multiplier * 3900 < threshold){
-            cr = 8;
-        }
-        if(num_monsters * multiplier * 5000 < threshold){
-            cr = 9;
-        }
-        if(num_monsters * multiplier * 5900 < threshold){
-            cr = 10;
-        }
-        if(num_monsters * multiplier * 7200 < threshold){
-            cr = 11;
-        }
-        if(num_monsters * multiplier * 8400 < threshold){
-            cr = 12;
-        }
-        if(num_monsters * multiplier * 10000 < threshold){
-            cr = 13;
-        }
-        if(num_monsters * multiplier * 11500 < threshold){
-            cr = 14;
-        }
-        if(num_monsters * multiplier * 13000 < threshold){
-            cr = 15;
-        }
-        if(num_monsters * multiplier * 15000 < threshold){
-            cr = 16;
-        }
-        if(num_monsters * multiplier * 18000 < threshold){
-            cr = 17;
-        }
-        if(num_monsters * multiplier * 20000 < threshold){
-            cr = 18;
-        }
-        if(num_monsters * multiplier * 22000 < threshold){
-            cr = 19;
-        }
-        if(num_monsters * multiplier * 25000 < threshold){
-            cr = 20;
-        }
-        if(num_monsters * multiplier * 33000 < threshold){
-            cr = 21;
-        }
-        if(num_monsters * multiplier * 41000 < threshold){
-            cr = 22;
-        }
-        if(num_monsters * multiplier * 50000 < threshold){
-            cr = 23;
-        }
-        if(num_monsters * multiplier * 62000 < threshold){
-            cr = 24;
-        }
-        if(num_monsters * multiplier * 75000 < threshold){
-            cr = 25;
-        }
-        if(num_monsters * multiplier * 90000 < threshold){
-            cr = 26;
-        }
-        if(num_monsters * multiplier * 105000 < threshold){
-            cr = 27;
-        }
-        if(num_monsters * multiplier * 120000 < threshold){
-            cr = 28;
-        }
-        if(num_monsters * multiplier * 135000 < threshold){
-            cr = 29;
-        }
-        if(num_monsters * multiplier * 155000 < threshold){
-            cr = 30;
-        }
-        
-        //console.log("CR: " + cr + " with " + num_monsters + " monsters for " + num_players + " level " + level + " players");
-        
         let mlist = [];
-        
-        while(mlist.length === 0 && cr > -1){
-            if(util.getRandomInt(10) !== 0){
-                for(let i = 0; i < data.monsters.length; i++){
-                    for(let j = 0; j < data.monsters[i].terrains.length; j++){
-                        if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
-                            mlist.push(data.monsters[i]);   
+
+        for(let i = 0; i < data.monsters.length; i++){
+            for(let j = 0; j < data.monsters[i].terrains.length; j++){
+                if(data.monsters[i].terrains[j] === terrain){
+                    
+                    for(let num_monsters = 0; num_monsters < 15; num_monsters++){
+                        let multiplier_table = [
+                            1,
+                            1,
+                            1.5,
+                            2,
+                            2.5,
+                            3,
+                            4,
+                        ];
+                        
+                        let pos = 1;
+                        
+                        if(num_monsters === 1){
+                            pos = 1;
+                        }else if(num_monsters === 2){
+                            pos = 2;
+                        }else if(num_monsters > 2 && num_monsters < 7){
+                            pos = 3;
+                        }else if(num_monsters > 6 && num_monsters < 11){
+                            pos = 4;
+                        }else if(num_monsters > 10 && num_monsters < 15){
+                            pos = 5;
+                        }else if(num_monsters > 15){
+                            pos = 6;
                         }
-                    }
-                }
-            }else{
-                for(let i = 0; i < data.monsters.length; i++){
-                    if(data.monsters[i].terrains.length > 0){
-                        for(let j = 0; j < data.monsters[i].terrains.length; j++){
-                            if(data.monsters[i].cr === cr && data.monsters[i].terrains[j] === terrain){
-                                mlist.push(data.monsters[i]);   
-                            }
+                        if(num_players > 5 && pos < 6){
+                            pos++;
                         }
-                    }else{
-                        if(data.monsters[i].cr === cr){
-                            mlist.push(data.monsters[i]);
+                        if(num_players < 3 && pos > 1){
+                            pos--;
                         }
-                    }
+                        
+                        let multiplier = multiplier_table[pos];
+                        let cr = 0;
+                        if(num_monsters * multiplier * 25 < threshold){
+                            cr = .125;
+                        }
+                        if(num_monsters * multiplier * 50 < threshold){
+                            cr = .25;
+                        }
+                        if(num_monsters * multiplier * 100 < threshold){
+                            cr = .5;
+                        }
+                        if(num_monsters * multiplier * 200 < threshold){
+                            cr = 1;
+                        }
+                        if(num_monsters * multiplier * 450 < threshold){
+                            cr = 2;
+                        }
+                        if(num_monsters * multiplier * 700 < threshold){
+                            cr = 3;
+                        }
+                        if(num_monsters * multiplier * 1100 < threshold){
+                            cr = 4;
+                        }
+                        if(num_monsters * multiplier * 1800 < threshold){
+                            cr = 5;
+                        }
+                        if(num_monsters * multiplier * 2300 < threshold){
+                            cr = 6;
+                        }
+                        if(num_monsters * multiplier * 2900 < threshold){
+                            cr = 7;
+                        }
+                        if(num_monsters * multiplier * 3900 < threshold){
+                            cr = 8;
+                        }
+                        if(num_monsters * multiplier * 5000 < threshold){
+                            cr = 9;
+                        }
+                        if(num_monsters * multiplier * 5900 < threshold){
+                            cr = 10;
+                        }
+                        if(num_monsters * multiplier * 7200 < threshold){
+                            cr = 11;
+                        }
+                        if(num_monsters * multiplier * 8400 < threshold){
+                            cr = 12;
+                        }
+                        if(num_monsters * multiplier * 10000 < threshold){
+                            cr = 13;
+                        }
+                        if(num_monsters * multiplier * 11500 < threshold){
+                            cr = 14;
+                        }
+                        if(num_monsters * multiplier * 13000 < threshold){
+                            cr = 15;
+                        }
+                        if(num_monsters * multiplier * 15000 < threshold){
+                            cr = 16;
+                        }
+                        if(num_monsters * multiplier * 18000 < threshold){
+                            cr = 17;
+                        }
+                        if(num_monsters * multiplier * 20000 < threshold){
+                            cr = 18;
+                        }
+                        if(num_monsters * multiplier * 22000 < threshold){
+                            cr = 19;
+                        }
+                        if(num_monsters * multiplier * 25000 < threshold){
+                            cr = 20;
+                        }
+                        if(num_monsters * multiplier * 33000 < threshold){
+                            cr = 21;
+                        }
+                        if(num_monsters * multiplier * 41000 < threshold){
+                            cr = 22;
+                        }
+                        if(num_monsters * multiplier * 50000 < threshold){
+                            cr = 23;
+                        }
+                        if(num_monsters * multiplier * 62000 < threshold){
+                            cr = 24;
+                        }
+                        if(num_monsters * multiplier * 75000 < threshold){
+                            cr = 25;
+                        }
+                        if(num_monsters * multiplier * 90000 < threshold){
+                            cr = 26;
+                        }
+                        if(num_monsters * multiplier * 105000 < threshold){
+                            cr = 27;
+                        }
+                        if(num_monsters * multiplier * 120000 < threshold){
+                            cr = 28;
+                        }
+                        if(num_monsters * multiplier * 135000 < threshold){
+                            cr = 29;
+                        }
+                        if(num_monsters * multiplier * 155000 < threshold){
+                            cr = 30;
+                        }
+
+                        if( cr == data.monsters[i].cr || 
+                            cr-1 == data.monsters[i].cr){
+                            mlist.push({
+                                name: data.monsters[i].name,
+                                cr: data.monsters[i].cr,
+                                health: data.monsters[i].health,
+                                terrains: data.monsters[i].terrains,
+                                count: num_monsters,
+                            });
+                            break;
+                        }
+                    }      
                 }
             }
-            cr--;
-        }
-        
-        
-        let monster = util.getRandomValueInArray(mlist);
-        let str = monster.health;
-        for(let i = 0; i < num_monsters; i++){
-            monster.health = util.rollDice(str);
-            ans.monsters.push(monster);
         }
 
-        ans.treasure = util.generateTreasure(cr, num_monsters);
-        //calculate number of monsters
-        //adjust threshold
-        
-        
-        //adjust threshold based on number of players
-        
-        
-        //determine rare or normal
-        
-        
-        //if normal, trim monster list to given terrain
-        //if rare, trim monster list to given terrain and no terrain
-        
-        
-        //trim monster list of challenge rating monsters that don't fit with the number chosen and threshold needed
-        
-        //pick random monster set of chosen number, push to ans, and return
-        
-        
-        
-        
+
+        if(mlist.length == 0){
+            for(let i = 0; i < data.monsters.length; i++){
+                for(let num_monsters = 0; num_monsters < 15; num_monsters++){
+                    let multiplier_table = [
+                        1,
+                        1,
+                        1.5,
+                        2,
+                        2.5,
+                        3,
+                        4,
+                    ];
+                    
+                    let pos = 1;
+                    
+                    if(num_monsters === 1){
+                        pos = 1;
+                    }else if(num_monsters === 2){
+                        pos = 2;
+                    }else if(num_monsters > 2 && num_monsters < 7){
+                        pos = 3;
+                    }else if(num_monsters > 6 && num_monsters < 11){
+                        pos = 4;
+                    }else if(num_monsters > 10 && num_monsters < 15){
+                        pos = 5;
+                    }else if(num_monsters > 15){
+                        pos = 6;
+                    }
+                    if(num_players > 5 && pos < 6){
+                        pos++;
+                    }
+                    if(num_players < 3 && pos > 1){
+                        pos--;
+                    }
+                    
+                    let multiplier = multiplier_table[pos];
+                    let cr = 0;
+                    if(num_monsters * multiplier * 25 < threshold){
+                        cr = .125;
+                    }
+                    if(num_monsters * multiplier * 50 < threshold){
+                        cr = .25;
+                    }
+                    if(num_monsters * multiplier * 100 < threshold){
+                        cr = .5;
+                    }
+                    if(num_monsters * multiplier * 200 < threshold){
+                        cr = 1;
+                    }
+                    if(num_monsters * multiplier * 450 < threshold){
+                        cr = 2;
+                    }
+                    if(num_monsters * multiplier * 700 < threshold){
+                        cr = 3;
+                    }
+                    if(num_monsters * multiplier * 1100 < threshold){
+                        cr = 4;
+                    }
+                    if(num_monsters * multiplier * 1800 < threshold){
+                        cr = 5;
+                    }
+                    if(num_monsters * multiplier * 2300 < threshold){
+                        cr = 6;
+                    }
+                    if(num_monsters * multiplier * 2900 < threshold){
+                        cr = 7;
+                    }
+                    if(num_monsters * multiplier * 3900 < threshold){
+                        cr = 8;
+                    }
+                    if(num_monsters * multiplier * 5000 < threshold){
+                        cr = 9;
+                    }
+                    if(num_monsters * multiplier * 5900 < threshold){
+                        cr = 10;
+                    }
+                    if(num_monsters * multiplier * 7200 < threshold){
+                        cr = 11;
+                    }
+                    if(num_monsters * multiplier * 8400 < threshold){
+                        cr = 12;
+                    }
+                    if(num_monsters * multiplier * 10000 < threshold){
+                        cr = 13;
+                    }
+                    if(num_monsters * multiplier * 11500 < threshold){
+                        cr = 14;
+                    }
+                    if(num_monsters * multiplier * 13000 < threshold){
+                        cr = 15;
+                    }
+                    if(num_monsters * multiplier * 15000 < threshold){
+                        cr = 16;
+                    }
+                    if(num_monsters * multiplier * 18000 < threshold){
+                        cr = 17;
+                    }
+                    if(num_monsters * multiplier * 20000 < threshold){
+                        cr = 18;
+                    }
+                    if(num_monsters * multiplier * 22000 < threshold){
+                        cr = 19;
+                    }
+                    if(num_monsters * multiplier * 25000 < threshold){
+                        cr = 20;
+                    }
+                    if(num_monsters * multiplier * 33000 < threshold){
+                        cr = 21;
+                    }
+                    if(num_monsters * multiplier * 41000 < threshold){
+                        cr = 22;
+                    }
+                    if(num_monsters * multiplier * 50000 < threshold){
+                        cr = 23;
+                    }
+                    if(num_monsters * multiplier * 62000 < threshold){
+                        cr = 24;
+                    }
+                    if(num_monsters * multiplier * 75000 < threshold){
+                        cr = 25;
+                    }
+                    if(num_monsters * multiplier * 90000 < threshold){
+                        cr = 26;
+                    }
+                    if(num_monsters * multiplier * 105000 < threshold){
+                        cr = 27;
+                    }
+                    if(num_monsters * multiplier * 120000 < threshold){
+                        cr = 28;
+                    }
+                    if(num_monsters * multiplier * 135000 < threshold){
+                        cr = 29;
+                    }
+                    if(num_monsters * multiplier * 155000 < threshold){
+                        cr = 30;
+                    }
+
+                    if( cr == data.monsters[i].cr || 
+                        cr-1 == data.monsters[i].cr){
+                        mlist.push({
+                            name: data.monsters[i].name,
+                            cr: data.monsters[i].cr,
+                            health: data.monsters[i].health,
+                            terrains: data.monsters[i].terrains,
+                            count: num_monsters,
+                        });
+                        break;
+                    }
+                }      
+            }
+        }
+
+        //console.log(mlist);
+        let monster = util.getRandomValueInArray(mlist);
+        monster = {
+            name: monster.name,
+            cr: monster.cr,
+            health: monster.health,
+            terrains: monster.terrains,
+            count: monster.count,
+        }
+        let str = monster.health;
+        for(let i = 0; i < monster.count; i++){
+            monster.health = util.rollDice(str);
+            ans.monsters.push({
+                name: monster.name,
+                cr: monster.cr,
+                health: monster.health,
+                terrains: monster.terrains,
+            });
+        }
+
+        ans.treasure = util.generateTreasure(monster.cr, monster.count);
         return ans;
     },
 
@@ -648,34 +828,34 @@ var util = {
                 ans.items[i].name += " - " + util.getRandomValueInArray(data.treasure.magic_item_tables.magic_weapons);
             }
             if(ans.items[i].name == "Spell scroll (cantrip)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["cantrip"]);
+                ans.items[i].name = "Spell scroll (cantrip) - " + util.getRandomValueInArray(data.spells["cantrip"]);
             }
             if(ans.items[i].name == "Spell scroll (1st level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["1"]);
+                ans.items[i].name = "Spell scroll (1st level) - " + util.getRandomValueInArray(data.spells["1"]);
             }
             if(ans.items[i].name == "Spell scroll (2nd level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["2"]);
+                ans.items[i].name = "Spell scroll (2nd level) - " + util.getRandomValueInArray(data.spells["2"]);
             }
             if(ans.items[i].name == "Spell scroll (3rd level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["3"]);
+                ans.items[i].name = "Spell scroll (3rd level) - " + util.getRandomValueInArray(data.spells["3"]);
             }
             if(ans.items[i].name == "Spell scroll (4th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["4"]);
+                ans.items[i].name = "Spell scroll (4th level) - " + util.getRandomValueInArray(data.spells["4"]);
             }
             if(ans.items[i].name == "Spell scroll (5th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["5"]);
+                ans.items[i].name = "Spell scroll (5th level) - " + util.getRandomValueInArray(data.spells["5"]);
             }
             if(ans.items[i].name == "Spell scroll (6th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["6"]);
+                ans.items[i].name = "Spell scroll (6th level) - " + util.getRandomValueInArray(data.spells["6"]);
             }
             if(ans.items[i].name == "Spell scroll (7th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["7"]);
+                ans.items[i].name = "Spell scroll (7th level) - " + util.getRandomValueInArray(data.spells["7"]);
             }
             if(ans.items[i].name == "Spell scroll (8th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["8"]);
+                ans.items[i].name = "Spell scroll (8th level) - " + util.getRandomValueInArray(data.spells["8"]);
             }
             if(ans.items[i].name == "Spell scroll (9th level)"){
-                ans.items[i].name = "Spell scroll - " + util.getRandomValueInArray(data.spells["9"]);
+                ans.items[i].name = "Spell scroll (9th level) - " + util.getRandomValueInArray(data.spells["9"]);
             }
         }
 
@@ -710,6 +890,516 @@ var util = {
         for(var i = 0; i < arr.length; i++){
             if(arr[i].max >= roll){
                 return arr[i];
+            }
+        }
+    },
+
+    getRandomShape: function(i,j){
+        let ans = [];
+
+        let r = util.getRandomInt(7);
+
+        if(r == 0){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j-1
+            });
+            ans.push({
+                i: i,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j
+            });
+            ans.push({
+                i: i+1,
+                j: j+1
+            });
+            ans.push({
+                i: i,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j
+            });
+        }
+
+        if(r == 1){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j-1
+            });
+            ans.push({
+                i: i,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j
+            });
+            ans.push({
+                i: i+1,
+                j: j+1
+            });
+            ans.push({
+                i: i,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j
+            });
+            ans.push({
+                i: i,
+                j: j-2
+            });
+            ans.push({
+                i: i,
+                j: j+2
+            });
+            ans.push({
+                i: i,
+                j: j+2
+            });
+            ans.push({
+                i: i-2,
+                j: j
+            });
+        }
+
+        if(r == 2){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j-1
+            });
+            ans.push({
+                i: i,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j
+            });
+            ans.push({
+                i: i+1,
+                j: j+1
+            });
+            ans.push({
+                i: i,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j
+            });
+            ans.push({
+                i: i-2,
+                j: j-2
+            });
+            ans.push({
+                i: i+2,
+                j: j+2
+            });
+            ans.push({
+                i: i-2,
+                j: j+2
+            });
+            ans.push({
+                i: i+2,
+                j: j-2
+            });
+        }
+
+        if(r == 3){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j-1
+            });
+            ans.push({
+                i: i,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j-1
+            });
+            ans.push({
+                i: i-1,
+                j: j-2
+            });
+            ans.push({
+                i: i,
+                j: j-2
+            });
+            ans.push({
+                i: i+1,
+                j: j-2
+            });
+            ans.push({
+                i: i-2,
+                j: j-2
+            });
+            ans.push({
+                i: i+2,
+                j: j-2
+            });
+        }
+
+        if(r == 4){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j+1
+            });
+            ans.push({
+                i: i,
+                j: j+1
+            });
+            ans.push({
+                i: i+1,
+                j: j+1
+            });
+            ans.push({
+                i: i-1,
+                j: j+2
+            });
+            ans.push({
+                i: i,
+                j: j+2
+            });
+            ans.push({
+                i: i+1,
+                j: j+2
+            });
+            ans.push({
+                i: i-2,
+                j: j+2
+            });
+            ans.push({
+                i: i+2,
+                j: j+2
+            });
+        }
+
+        if(r == 5){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i+1,
+                j: j-1
+            });
+            ans.push({
+                i: i+1,
+                j: j
+            });
+            ans.push({
+                i: i+1,
+                j: j+1
+            });
+            ans.push({
+                i: i+2,
+                j: j-1
+            });
+            ans.push({
+                i: i+2,
+                j: j
+            });
+            ans.push({
+                i: i+2,
+                j: j+1
+            });
+            ans.push({
+                i: i+2,
+                j: j+2
+            });
+            ans.push({
+                i: i+2,
+                j: j-2
+            });
+        }
+
+
+
+        if(r == 6){
+            ans.push({
+                i: i,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j-1
+            });
+            ans.push({
+                i: i-1,
+                j: j
+            });
+            ans.push({
+                i: i-1,
+                j: j+1
+            });
+            ans.push({
+                i: i-2,
+                j: j-1
+            });
+            ans.push({
+                i: i-2,
+                j: j
+            });
+            ans.push({
+                i: i-2,
+                j: j+1
+            });
+            ans.push({
+                i: i-2,
+                j: j+2
+            });
+            ans.push({
+                i: i-2,
+                j: j-2
+            });
+        }
+
+        for(let x = 0; x < ans.length; x++){
+            if(ans[x].i < 0 || ans[x].i > world.length-1 || ans[x].j < 0 || ans[x].j > world.length-1){
+                ans.splice(x,1);
+                x--;
+            }
+        }
+        return ans;
+    },
+
+    getRandomBlob: function(i,j, blob_count, radius){
+        let ans = [];
+
+        if(blob_count == undefined){
+            blob_count = 15;
+        }
+
+        if(radius == undefined){
+            radius = 3;
+        }
+
+        let r = util.getRandomInt(blob_count)+5;
+
+        let ti = i;
+        let tj = j;
+        for(let x = 0; x < r; x++){
+            ti = i + radius - util.getRandomInt((radius*2)+1);
+            tj = j + radius - util.getRandomInt((radius*2)+1);
+            ans = ans.concat(util.getRandomShape(ti,tj));
+        }
+
+        return ans;
+    },
+
+    generateArctic: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {                
+                let pos = 0;
+                for(let z = 0; z < heightmap.elevations_list.length; z++){
+                    if(world[i][j].elevation === heightmap.elevations_list[z]){
+                        pos = z;
+                        break;
+                    }
+                }
+                let percentage = ((pos / heightmap.elevations_list.length) * 100);
+                
+                if (percentage > data.settings.arctic_low
+                    || i < 2
+                    || i > world.length-3
+                    || ((i < 3 || i > world.length-4) && util.getRandomInt(6) == 0)) {
+                    world[i][j].terrain = "arctic";
+                }
+            }
+        }
+    },
+
+    generateCoastal: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {
+                let next_to_water = false;
+
+                if(i-1 > 0 && j-1 > 0){
+                    if(world[i-1][j-1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(j-1 > 0){
+                    if(world[i][j-1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(i+1 < world.length-1 && j-1 > 0){
+                    if(world[i+1][j-1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(i+1 < world.length-1){
+                    if(world[i+1][j].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(i+1 < world.length-1 && j+1 < world.length-1){
+                    if(world[i+1][j+1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(j+1 < world.length-1){
+                    if(world[i][j+1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(i-1 > 0 && j+1 < world.length-1){
+                    if(world[i-1][j+1].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+                if(i-1 > 0){
+                    if(world[i-1][j].terrain == "underwater"){
+                        next_to_water = true;
+                    }
+                }
+
+                if(next_to_water && world[i][j].terrain != "underwater"){
+                    world[i][j].terrain = "coastal";
+                }
+            }
+        }
+    },
+
+    generateDesert: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {
+                if (util.getRandomInt(data.settings.desert_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill")) {
+                    let blob = util.getRandomBlob(i,j, data.settings.desert_blob_count, data.settings.desert_blob_radius);
+                    for(let x = 0; x < blob.length; x++){
+                        world[blob[x].i][blob[x].j].terrain = "desert";
+                    }
+                }
+            }
+        }
+    },
+
+    generateForest: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {
+                if (util.getRandomInt(data.settings.forest_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill" || world[i][j].terrain == "mountain")) {
+                    let blob = util.getRandomBlob(i,j, data.settings.forest_blob_count, data.settings.forest_blob_radius);
+                    for(let x = 0; x < blob.length; x++){
+                        world[blob[x].i][blob[x].j].terrain = "forest";
+                    }
+                }
+            }
+        }
+    },
+
+    generateHill: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {                
+                let pos = 0;
+                for(let z = 0; z < heightmap.elevations_list.length; z++){
+                    if(world[i][j].elevation === heightmap.elevations_list[z]){
+                        pos = z;
+                        break;
+                    }
+                }
+                let percentage = ((pos / heightmap.elevations_list.length) * 100);
+                
+                if (percentage > data.settings.hill_low && percentage <= data.settings.mountain_low) {
+                    world[i][j].terrain = "hill";
+                }
+            }
+        }
+    },
+
+    generateMountain: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {                
+                let pos = 0;
+                for(let z = 0; z < heightmap.elevations_list.length; z++){
+                    if(world[i][j].elevation === heightmap.elevations_list[z]){
+                        pos = z;
+                        break;
+                    }
+                }
+                let percentage = ((pos / heightmap.elevations_list.length) * 100);
+                
+                if (percentage > data.settings.mountain_low && percentage <= data.settings.arctic_low) {
+                    world[i][j].terrain = "mountain";
+                }
+            }
+        }
+    },
+
+    generateSwamp: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {
+                if (util.getRandomInt(data.settings.swamp_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill")) {
+                    let blob = util.getRandomBlob(i,j, data.settings.swamp_blob_count, data.settings.swamp_blob_radius);
+                    for(let x = 0; x < blob.length; x++){
+                        world[blob[x].i][blob[x].j].terrain = "swamp";
+                    }
+                }
+            }
+        }
+    },
+
+    generateLakes: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {
+                if (util.getRandomInt(data.settings.lake_chance) < 1) {
+                    let blob = util.getRandomBlob(i,j, data.settings.lake_blob_count, data.settings.lake_blob_radius);
+                    for(let x = 0; x < blob.length; x++){
+                        world[blob[x].i][blob[x].j].terrain = "underwater";
+                    }
+                }
             }
         }
     },

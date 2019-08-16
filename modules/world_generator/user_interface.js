@@ -11,6 +11,26 @@ var user_interface = {
     generateTownName : function(){
         document.getElementById("town_name_text").innerHTML = util.generateTownName();
     },
+    generateEncounterButton : function(){
+        var player_count = Number(document.getElementById("player_count_span").innerHTML);
+        var level = Number(document.getElementById("level_span").innerHTML);
+        if(world[details_i][details_j].type == "town"){
+            world[details_i][details_j].encounters.push(util.generateEncounter('urban', player_count, level));
+        }else{
+            world[details_i][details_j].encounters.push(util.generateEncounter(world[details_i][details_j].terrain, player_count, level));
+        }
+        updateDetails();
+    },
+    generateTownButton : function(){
+        world[details_i][details_j] = util.generateTown(world[details_i][details_j]);
+        updateDetails();
+    },
+    generateUnderdarkEncounterButton : function(){
+        var player_count = Number(document.getElementById("player_count_span").innerHTML);
+        var level = Number(document.getElementById("level_span").innerHTML);
+        world[details_i][details_j].encounters.push(util.generateEncounter('underdark', player_count, level));
+        updateDetails();
+    },
     increaseWorldWidth : function(){
         let width = Number(document.getElementById("world_width_span").innerHTML);
         if(width < 700){
@@ -24,7 +44,7 @@ var user_interface = {
     },
     decreaseWorldWidth : function(){
         let width = Number(document.getElementById("world_width_span").innerHTML);
-        if(width > 51){
+        if(width > 65){
             width--;
             width = Math.floor(Math.sqrt(width));
             width--;
@@ -61,32 +81,18 @@ var user_interface = {
             document.getElementById("player_count_span").innerHTML = count;
         }
     },
-    increaseStartLevel : function(){
-        let level = Number(document.getElementById("start_level_span").innerHTML);
+    increaseLevel : function(){
+        let level = Number(document.getElementById("level_span").innerHTML);
         if(level < 20){
             level++;
-            document.getElementById("start_level_span").innerHTML = level;
+            document.getElementById("level_span").innerHTML = level;
         }
     },
-    decreaseStartLevel : function(){
-        let level = Number(document.getElementById("start_level_span").innerHTML);
+    decreaseLevel : function(){
+        let level = Number(document.getElementById("level_span").innerHTML);
         if(level > 1){
             level--;
-            document.getElementById("start_level_span").innerHTML = level;
-        }
-    },
-    increaseEndLevel : function(){
-        let level = Number(document.getElementById("end_level_span").innerHTML);
-        if(level < 20){
-            level++;
-            document.getElementById("end_level_span").innerHTML = level;
-        }
-    },
-    decreaseEndLevel : function(){
-        let level = Number(document.getElementById("end_level_span").innerHTML);
-        if(level > 1){
-            level--;
-            document.getElementById("end_level_span").innerHTML = level;
+            document.getElementById("level_span").innerHTML = level;
         }
     },
     showDetails : function(i,j){
@@ -103,5 +109,27 @@ var user_interface = {
             elem.style.right = "2vw";
             elem.style.left = "auto";
         }
-    }
+    },
+
+    copySaveFile: function(){
+        let elem = document.getElementById("save_file_input");
+        elem.select();
+        document.execCommand("copy");
+        elem.value = "done";
+    },
+
+    generateSaveFile: function(){
+        let elem = document.getElementById("save_file_input");
+        elem.value = "working...";
+        elem.value = LZString.compressToEncodedURIComponent(JSON.stringify(world)).trim();
+    },
+
+
+    loadSaveFile: function(){
+        let elem = document.getElementById("save_file_input");
+        world = JSON.parse(LZString.decompressFromEncodedURIComponent(elem.value));
+        updateDetails();
+        updateMap();
+        elem.value = "done";
+    },
 };

@@ -1,4 +1,23 @@
 var data = {
+    settings: {
+        lake_chance: 1000,
+        lake_blob_count: 50,
+        lake_blob_radius: 4,
+        desert_chance: 800,
+        desert_blob_count: 50,
+        desert_blob_radius: 6,
+        forest_chance: 400,
+        forest_blob_count: 15,
+        forest_blob_radius: 3,
+        swamp_chance: 600,
+        swamp_blob_count: 15,
+        swamp_blob_radius: 3,
+        arctic_low: 95,
+        mountain_low: 75,
+        hill_low: 65,
+        town_chance: 200,
+        dungeon_chance: 200,
+    },
     classes: [
         "Barbarian",
         "Bard",
@@ -3767,6 +3786,353 @@ var data = {
             "Wish",
         ],
     },
+    dungeon_locations: [
+        "A building in a city",
+        "A building in a city",
+        "A building in a city",
+        "A building in a city",
+        "Catacombs or sewers beneath a city",
+        "Catacombs or sewers beneath a city",
+        "Catacombs or sewers beneath a city",
+        "Catacombs or sewers beneath a city",
+        "Beneath a farmhouse",
+        "Beneath a farmhouse",
+        "Beneath a farmhouse",
+        "Beneath a farmhouse",
+        "Beneath a graveyard",
+        "Beneath a graveyard",
+        "Beneath a graveyard",
+        "Beneath a graveyard",
+        "Beneath a ruined castle",
+        "Beneath a ruined castle",
+        "Beneath a ruined castle",
+        "Beneath a ruined castle",
+        "Beneath a ruined castle",
+        "Beneath a ruined castle",
+        "Beneath a ruined city",
+        "Beneath a ruined city",
+        "Beneath a ruined city",
+        "Beneath a ruined city",
+        "Beneath a temple",
+        "Beneath a temple",
+        "Beneath a temple",
+        "Beneath a temple",
+        "In a chasm",
+        "In a chasm",
+        "In a chasm",
+        "In a chasm",
+        "In a cliff face",
+        "In a cliff face",
+        "In a cliff face",
+        "In a cliff face",
+        "In a desert",
+        "In a desert",
+        "In a desert",
+        "In a desert",
+        "In a forest",
+        "In a forest",
+        "In a forest",
+        "In a forest",
+        "In a glacier",
+        "In a glacier",
+        "In a glacier",
+        "In a glacier",
+        "In a gorge",
+        "In a gorge",
+        "In a gorge",
+        "In a gorge",
+        "In a jungle",
+        "In a jungle",
+        "In a jungle",
+        "In a jungle",
+        "In a mountain pass",
+        "In a mountain pass",
+        "In a mountain pass",
+        "In a mountain pass",
+        "In a swamp",
+        "In a swamp",
+        "In a swamp",
+        "In a swamp",
+        "Beneath or on top of a mesa",
+        "Beneath or on top of a mesa",
+        "Beneath or on top of a mesa",
+        "Beneath or on top of a mesa",
+        "In sea caves",
+        "In sea caves",
+        "In sea caves",
+        "In sea caves",
+        "In several connected mesas",
+        "In several connected mesas",
+        "In several connected mesas",
+        "In several connected mesas",
+        "On a mountain peak ",
+        "On a mountain peak ",
+        "On a mountain peak ",
+        "On a mountain peak ",
+        "On a promontory",
+        "On a promontory",
+        "On a promontory",
+        "On a promontory",
+        "On an island",
+        "On an island",
+        "On an island",
+        "On an island",
+        "Underwater",
+        "Underwater",
+        "Underwater",
+        "Underwater",
+        "Underwater",
+        "exotic",
+        "exotic",
+        "exotic",
+        "exotic",
+        "exotic",
+    ],
+    dungeon_exotic_locations: [
+        "Among the branches of a tree",
+        "Around a geyser",
+        "Behind a waterfall",
+        "Buried in an avalanche",
+        "Buried in a sandstorm",
+        "Buried in volcanic ash",
+        "Castle or structure sunken in a swamp",
+        "Castle or structure at the bottom of a sinkhole",
+        "Floating on the sea",
+        "In a meteorite",
+        "On a demiplane or in a pocket  dimension",
+        "In an area devastated by a magical catastrophe",
+        "On a cloud",
+        "In the Feywild",
+        "In the Shadowfell",
+        "On an island in an underground sea",
+        "In a volcano",
+        "On the back of a Gargantuan living creature",
+        "Sealed inside a magical dome of force",
+        "Inside a Mordenkainen's magnificent mansion",
+    ],
+    dungeon_creators: [
+        "Beholder",
+        "cult",
+        "cult",
+        "cult",
+        "Dwarves",
+        "Dwarves",
+        "Dwarves",
+        "Dwarves",
+        "Elves (including drow)",
+        "Giants",
+        "Hobgoblins",
+        "humans",
+        "humans",
+        "humans",
+        "humans",
+        "Kuo-toa",
+        "Lich",
+        "Mind flayers",
+        "Yuan-ti",
+        "No creator (natural caverns)",
+    ],
+    dungeon_creator_cults: [
+        "Demon-worshiping cult",
+        "Devil-worshiping cult",
+        "Elemental Air cult",
+        "Elemental Air cult",
+        "Elemental Earth cult",
+        "Elemental Earth cult",
+        "Elemental Fire cult",
+        "Elemental Fire cult",
+        "Elemental Water cult",
+        "Elemental Water cult",
+        "Worshipers of an evil deity",
+        "Worshipers of an evil deity",
+        "Worshipers of an evil deity",
+        "Worshipers of an evil deity",
+        "Worshipers of an evil deity",
+        "Worshipers of a good deity",
+        "Worshipers of a good deity",
+        "Worshipers of a neutral deity",
+        "Worshipers of a neutral deity",
+        "Worshipers of a neutral deity",
+    ],
+    dungeon_creator_classes: [
+        "Barbarian",
+        "Bard",
+        "Cleric",
+        "Cleric",
+        "Druid",
+        "Fighter",
+        "Fighter",
+        "Monk",
+        "Paladin",
+        "Ranger",
+        "Rogue",
+        "Rogue",
+        "Rogue",
+        "Rogue",
+        "Sorcerer",
+        "Warlock",
+        "Wizard",
+        "Wizard",
+        "Wizard",
+        "Wizard",
+    ],
+    dungeon_purposes: [
+        "Death trap",
+        "Lair",
+        "Lair",
+        "Lair",
+        "Lair",
+        "Maze",
+        "Mine",
+        "Mine",
+        "Mine",
+        "Planar gate",
+        "Stronghold",
+        "Stronghold",
+        "Stronghold",
+        "Stronghold",
+        "Temple or shrine",
+        "Temple or shrine",
+        "Temple or shrine",
+        "Tomb",
+        "Tomb",
+        "Treasure vault",
+    ],
+    dungeon_histories: [
+        "Abandoned by creators",
+        "Abandoned by creators",
+        "Abandoned by creators",
+        "Abandoned due to plague",
+        "Conquered by invaders",
+        "Conquered by invaders",
+        "Conquered by invaders",
+        "Conquered by invaders",
+        "Creators destroyed by attacking raiders",
+        "Creators destroyed by attacking raiders",
+        "Creators destroyed by discovery made within the site",
+        "Creators destroyed by internal conflict",
+        "Creators destroyed by magical catastrophe",
+        "Creators destroyed by natural disaster",
+        "Creators destroyed by natural disaster",
+        "Location cursed by the gods and shunned",
+        "Original creator still in control",
+        "Original creator still in control",
+        "Overrun by planar creatures",
+        "Site of a great miracle",
+    ],
+    wilderness_monuments: [
+        "Sealed burial mound or pyramid",
+        "Plundered burial mound or pyramid",
+        "Faces carved into a mountainside or cliff",
+        "Giant statues carved out of a mountainside or cliff",
+        "Intact obelisk etched with a warning, historical lore, dedication, or religious iconography",
+        "Intact obelisk etched with a warning, historical lore, dedication, or religious iconography",
+        "Ruined or toppled obelisk",
+        "Ruined or toppled obelisk",
+        "Intact statue of a person or deity",
+        "Intact statue of a person or deity",
+        "Ruined or toppled statue of a person or deity",
+        "Ruined or toppled statue of a person or deity",
+        "Great stone wall, intact, with tower fortifications spaced at one-mile intervals",
+        "Great stone wall in ruins",
+        "Great stone arch",
+        "Fountain",
+        "Intact circle of standing stones",
+        "Ruined or toppled circle of standing stones",
+        "Totem pole",
+    ],
+    wilderness_weird_locales: [
+        "Dead magic zone (similar to an anti magic field)",
+        "Dead magic zone (similar to an anti magic field)",
+        "Wild magic zone (roll on the Wild Magic Surge table in the Player's Handbook whenever a spell is cast within the zone)",
+        "Boulder carved with talking faces",
+        "Crystal cave that mystically answers questions",
+        "Ancient tree containing a trapped spirit",
+        "Battlefield where lingering fog occasionally assumes humanoid forms",
+        "Battlefield where lingering fog occasionally assumes humanoid forms",
+        "Permanent portal to another plane of existence",
+        "Permanent portal to another plane of existence",
+        "Wishing well",
+        "Giant cr ystal shard protruding from the ground",
+        "Wrecked ship, which might be nowhere near water",
+        "Haunted hill or barrow mound",
+        "Haunted hill or barrow mound",
+        "River ferry guided by a skeletal captain",
+        "Field of petrified soldiers or other creatures",
+        "Forest of petrified or awakened trees",
+        "Canyon containing a dragons' graveyard",
+        "Floating earth mote with a tower on it",
+    ],
+    weather_temperatures: [
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "Normal for the season",
+        "10 degrees Fahrenheit colder than normal",
+        "20 degrees Fahrenheit colder than normal",
+        "30 degrees Fahrenheit colder than normal",
+        "40 degrees Fahrenheit colder than normal",
+        "10 degrees Fahrenheit hotter than normal",
+        "20 degrees Fahrenheit hotter than normal",
+        "30 degrees Fahrenheit hotter than normal",
+        "40 degrees Fahrenheit hotter than normal",
+    ],
+    weather_wind: [
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "Light",
+        "Light",
+        "Light",
+        "Light",
+        "Light",
+        "Strong",
+        "Strong",
+        "Strong",
+    ],
+    weather_precipitation: [
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "None",
+        "Light rain or light snowfall",
+        "Light rain or light snowfall",
+        "Light rain or light snowfall",
+        "Light rain or light snowfall",
+        "Light rain or light snowfall",
+        "Heavy rain or heavy snowfall",
+        "Heavy rain or heavy snowfall",
+        "Heavy rain or heavy snowfall",
+    ],
     monsters: [
         {
             name: "Aarakocra",
@@ -4022,7 +4388,7 @@ var data = {
         {
             name: "Cyclops",
             cr: 6,
-            health: "",
+            health: "12d12+60",
             terrains: [
                 "underdark",
                 "coastal",
@@ -4321,443 +4687,3170 @@ var data = {
             cr: 23,
             health: "26d20+208",
             terrains: [
+                "desert",
+                "coastal",
+            ],
+        },
+        {
+            name: "Adult Blue Dragon",
+            cr: 16,
+            health: "18d12+108",
+            terrains: [
+                "desert",
+                "coastal",
+            ],
+        },
+        {
+            name: "Young Blue Dragon",
+            cr: 9,
+            health: "16d10+64",
+            terrains: [
+                "desert",
+                "coastal",
+            ],
+        },
+        {
+            name: "Blue Dragon Wyrmling",
+            cr: 3,
+            health: "8d8+16",
+            terrains: [],
+        },
+        {
+            name: "Ancient Green Dragon",
+            cr: 22,
+            health: "22d20+154",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Adult Green Dragon",
+            cr: 15,
+            health: "18d12+90",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Young Green Dragon",
+            cr: 8,
+            health: "16d10+48",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Green Dragon Wyrmling",
+            cr: 2,
+            health: "7d8+7",
+            terrains: [],
+        },
+        {
+            name: "Ancient Red Dragon",
+            cr: 24,
+            health: "28d20+252",
+            terrains: [
+                "hill",
+                "mountain",
+            ],
+        },
+        {
+            name: "Adult Red Dragon",
+            cr: 17,
+            health: "19d12+133",
+            terrains: [
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Young Red Dragon",
+            cr: 10,
+            health: "17d10+85",
+            terrains: [
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Red Dragon Wyrmling",
+            cr: 4,
+            health: "10d8+30",
+            terrains: [],
+        },
+        {
+            name: "Ancient White Dragon",
+            cr: 20,
+            health: "18d20+144",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Adult White Dragon",
+            cr: 13,
+            health: "16d12+96",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Young White Dragon",
+            cr: 6,
+            health: "14d10+56",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "White Dragon Wyrmling",
+            cr: 2,
+            health: "5d8+10",
+            terrains: [],
+        },
+        {
+            name: "Ancient Brass Dragon",
+            cr: 20,
+            health: "17d20+119",
+            terrains: [
                 "desert"
             ],
         },
         {
-            name: "",
+            name: "Adult Brass Dragon",
+            cr: 13,
+            health: "15d12+75",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Young Brass Dragon",
+            cr: 6,
+            health: "13d10+39",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Brass Dragon Wyrmling",
+            cr: 1,
+            health: "3d8+3",
+            terrains: [],
+        },
+        {
+            name: "Ancient Bronze Dragon",
+            cr: 22,
+            health: "24d20+192",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Adult Bronze Dragon",
+            cr: 15,
+            health: "17d12+102",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Young Bronze Dragon",
+            cr: 8,
+            health: "15d10+60",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Bronze Dragon Wyrmling",
+            cr: 2,
+            health: "5d8+10",
+            terrains: [],
+        },
+        {
+            name: "Ancient Copper Dragon",
+            cr: 21,
+            health: "20d20+140",
+            terrains: [
+                "hill"
+            ],
+        },
+        {
+            name: "Adult Copper Dragon",
+            cr: 14,
+            health: "16d12+80",
+            terrains: [
+                "hill"
+            ],
+        },
+        {
+            name: "Young Copper Dragon",
+            cr: 7,
+            health: "14d10+42",
+            terrains: [
+                "hill"
+            ],
+        },
+        {
+            name: "Copper Dragon Wyrmling",
+            cr: 1,
+            health: "4d8+4",
+            terrains: [],
+        },
+        {
+            name: "Ancient Gold Dragon",
+            cr: 24,
+            health: "28d20+252",
+            terrains: [
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Adult Gold Dragon",
+            cr: 17,
+            health: "19d12+133",
+            terrains: [
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Young Gold Dragon",
+            cr: 10,
+            health: "17d10+85",
+            terrains: [
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Gold Dragon Wyrmling",
+            cr: 3,
+            health: "8d8+24",
+            terrains: [],
+        },
+        {
+            name: "Ancient Silver Dragon",
+            cr: 23,
+            health: "25d20+225",
+            terrains: [
+                "mountain",
+                "urban"
+            ],
+        },
+        {
+            name: "Adult Silver Dragon",
+            cr: 16,
+            health: "18d12+126",
+            terrains: [
+                "mountain",
+                "urban"
+            ],
+        },
+        {
+            name: "Young Silver Dragon",
+            cr: 9,
+            health: "16d10+80",
+            terrains: [
+                "mountain",
+                "urban"
+            ],
+        },
+        {
+            name: "Silver Dragon Wyrmling",
+            cr: 2,
+            health: "6d8+18",
+            terrains: [],
+        },
+        {
+            name: "Dragon Turtle",
+            cr: 17,
+            health: "22d20+110",
+            terrains: [
+                "underwater",
+                "coastal"
+            ],
+        },
+        {
+            name: "Drider",
+            cr: 6,
+            health: "13d10+52",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Dryad",
+            cr: 1,
+            health: "5d8",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Duergar",
+            cr: 1,
+            health: "4d8+8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Air Elemental",
+            cr: 5,
+            health: "12d10+24",
+            terrains: [
+                "desert",
+                "mountain"
+            ],
+        },
+        {
+            name: "Earth Elemental",
+            cr: 5,
+            health: "12d10+60",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Water Elemental",
+            cr: 5,
+            health: "12d10+48",
+            terrains: [
+                "coastal",
+                "swamp"
+            ],
+        },
+        {
+            name: "Fire Elemental",
+            cr: 5,
+            health: "12d10+36",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Drow",
+            cr: .25,
+            health: "3d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Drow Elite Warrior",
+            cr: 5,
+            health: "11d8+22",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Drow Mage",
+            cr: 7,
+            health: "10d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Drow Priestess of Lolth",
+            cr: 8,
+            health: "13d8+13",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Empyrean",
+            cr: 23,
+            health: "19d12+190",
+            terrains: [],
+        },
+        {
+            name: "Ettercap",
+            cr: 2,
+            health: "8d8+8",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Ettin",
+            cr: 4,
+            health: "10d10+30",
+            terrains: [
+                "hill",
+                "mountain",
+                "underdark"
+            ],
+        },
+        {
+            name: "Faerie Dragon",
+            cr: 1,
+            health: "4d4+4",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Flameskull",
+            cr: 4,
+            health: "9d4+18",
+            terrains: [],
+        },
+        {
+            name: "Flumph",
+            cr: .125,
+            health: "2d6",
+            terrains: [],
+        },
+        {
+            name: "Fomorian",
+            cr: 8,
+            health: "13d12+65",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Gas Spore",
+            cr: .5,
+            health: "1d10-4",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Shrieker",
             cr: 0,
-            health: "",
+            health: "3d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Violet Fungus",
+            cr: .25,
+            health: "4d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Galeb Duhr",
+            cr: 6,
+            health: "9d8+45",
+            terrains: [
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Gargoyle",
+            cr: 2,
+            health: "7d8+21",
+            terrains: [
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Dao",
+            cr: 11,
+            health: "15d10+105",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Djinni",
+            cr: 11,
+            health: "14d10+84",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Efreeti",
+            cr: 11,
+            health: "16d10+112",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Marid",
+            cr: 11,
+            health: "17d10+136",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Ghost",
+            cr: 4,
+            health: "10d8",
+            terrains: [
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Ghast",
+            cr: 2,
+            health: "8d8",
+            terrains: [
+                "swamp",
+                "urban",
+                "underdark"
+            ],
+        },
+        {
+            name: "Ghoul",
+            cr: 1,
+            health: "5d8",
+            terrains: [
+                "swamp",
+                "urban",
+                "underdark"
+            ],
+        },
+        {
+            name: "Cloud Giant",
+            cr: 9,
+            health: "16d12+96",
+            terrains: [
+                "mountain"
+            ],
+        },
+        {
+            name: "Fire Giant",
+            cr: 9,
+            health: "13d12+78",
+            terrains: [
+                "underdark",
+                "mountain"
+            ],
+        },
+        {
+            name: "Frost Giant",
+            cr: 8,
+            health: "12d12+60",
+            terrains: [
+                "mountain",
+                "arctic"
+            ],
+        },
+        {
+            name: "Hill Giant",
+            cr: 5,
+            health: "10d12+40",
+            terrains: [
+                "hill"
+            ],
+        },
+        {
+            name: "Stone Giant",
+            cr: 7,
+            health: "11d12+55",
+            terrains: [
+                "hill",
+                "mountain",
+                "underdark"
+            ],
+        },
+        {
+            name: "Storm Giant",
+            cr: 13,
+            health: "20d12+100",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Gibbering Mouther",
+            cr: 2,
+            health: "9d8+27",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Githyanki Warrior",
+            cr: 3,
+            health: "9d8+9",
+            terrains: [],
+        },
+        {
+            name: "Githyanki Knight",
+            cr: 8,
+            health: "14d8+28",
+            terrains: [],
+        },
+        {
+            name: "Githzerai Monk",
+            cr: 2,
+            health: "7d8+7",
+            terrains: [],
+        },
+        {
+            name: "Githzerai Zerth",
+            cr: 6,
+            health: "13d8+26",
+            terrains: [],
+        },
+        {
+            name: "Gnoll",
+            cr: .5,
+            health: "5d8",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Gnoll Pack Lord",
+            cr: 2,
+            health: "9d+9",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Gnoll Fang of Yeenoghu",
+            cr: 4,
+            health: "10d8+20",
+            terrains: [
+                "desert",
+                "forest",
+                "grasslnd",
+                "hill"
+            ],
+        },
+        {
+            name: "Deep Gnome (Svirfneblin)",
+            cr: .5,
+            health: "3d6+6",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Goblin",
+            cr: .25,
+            health: "2d6",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill",
+                "underdark"
+            ],
+        },
+        {
+            name: "Goblin Boss",
+            cr: 1,
+            health: "6d6",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill",
+                "underdark"
+            ],
+        },
+        {
+            name: "Clay Golem",
+            cr: 9,
+            health: "14d10+56",
+            terrains: [],
+        },
+        {
+            name: "Flesh Golem",
+            cr: 5,
+            health: "11d8+44",
+            terrains: [],
+        },
+        {
+            name: "Iron Golem",
+            cr: 16,
+            health: "20d10+100",
+            terrains: [],
+        },
+        {
+            name: "Stone Golem",
+            cr: 10,
+            health: "17d10+85",
+            terrains: [],
+        },
+        {
+            name: "Gorgon",
+            cr: 5,
+            health: "12d10+48",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Grell",
+            cr: 3,
+            health: "10d8+10",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Grick",
+            cr: 2,
+            health: "6d8",
+            terrains: [
+                "underdark",
+                "forest"
+            ],
+        },
+        {
+            name: "Grick Alpha",
+            cr: 7,
+            health: "10d10+20",
+            terrains: [
+                "underdark",
+                "forest"
+            ],
+        },
+        {
+            name: "Griffon",
+            cr: 2,
+            health: "7d10+21",
+            terrains: [
+                "hill",
+                "mountain",
+                "arctic",
+                "coastal",
+                "grassland"
+            ],
+        },
+        {
+            name: "Grimlock",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Green Hag",
+            cr: 3,
+            health: "11d8+33",
+            terrains: [
+                "forest",
+                "hill",
+                "swamp"
+            ],
+        },
+        {
+            name: "Night Hag",
+            cr: 5,
+            health: "15d8+45",
+            terrains: [],
+        },
+        {
+            name: "Sea Hag",
+            cr: 2,
+            health: "7d8+21",
+            terrains: [
+                "underwater",
+                "coastal"
+            ],
+        },
+        {
+            name: "Half-Red Dragon Veteran",
+            cr: 5,
+            health: "10d8+20",
+            terrains: [],
+        },
+        {
+            name: "Harpy",
+            cr: 1,
+            health: "7d8+7",
+            terrains: [
+                "coastal",
+                "forest",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Hell Hound",
+            cr: 3,
+            health: "7d8+14",
+            terrains: [
+                "mountain",
+                "underdark"
+            ],
+        },
+        {
+            name: "Helmed Horror",
+            cr: 4,
+            health: "8d8+24",
+            terrains: [],
+        },
+        {
+            name: "Hippogriff",
+            cr: 1,
+            health: "3d10+3",
+            terrains: [
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Hobgoblin",
+            cr: .5,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill",
+                "underdark"
+            ],
+        },
+        {
+            name: "Hobgoblin Captain",
+            cr: 3,
+            health: "6d8+12",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill",
+                "underdark"
+            ],
+        },
+        {
+            name: "Hobgoblin Warlord",
+            cr: 6,
+            health: "13d8+39",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill",
+                "underdark"
+            ],
+        },
+        {
+            name: "Homunculus",
+            cr: 0,
+            health: "2d4",
+            terrains: [],
+        },
+        {
+            name: "Hook Horror",
+            cr: 3,
+            health: "10d10+20",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Hydra",
+            cr: 8,
+            health: "15d12+75",
+            terrains: [
+                "swamp"
+            ],
+        },
+        {
+            name: "Intellect Decourer",
+            cr: 2,
+            health: "6d4+6",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Invisible Stalker",
+            cr: 6,
+            health: "16d8+32",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Jackalwere",
+            cr: .5,
+            health: "4d8",
+            terrains: [
+                "desert",
+                "grassland"
+            ],
+        },
+        {
+            name: "Kenku",
+            cr: .25,
+            health: "3d8",
+            terrains: [
+                "urban",
+                "forest"
+            ],
+        },
+        {
+            name: "Winged Kobold",
+            cr: .25,
+            health: "3d6-3",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Kobold",
+            cr: .125,
+            health: "2d6-2",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Kraken",
+            cr: 23,
+            health: "27d20+189",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Kuo-Toa",
+            cr: .25,
+            health: "4d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Kuo-Toa Archpriest",
+            cr: 6,
+            health: "13d8+39",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Kuo-Toa Whip",
+            cr: 1,
+            health: "10d8+20",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Lamia",
+            cr: 4,
+            health: "13d10+26",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Lich",
+            cr: 21,
+            health: "18d8+54",
+            terrains: [],
+        },
+        {
+            name: "Lizardfolk",
+            cr: .5,
+            health: "4d8+4",
+            terrains: [
+                "forest",
+                "swamp"
+            ],
+        },
+        {
+            name: "Lizardfold Shaman",
+            cr: 2,
+            health: "5d8+5",
+            terrains: [
+                "forest",
+                "swamp"
+            ],
+        },
+        {
+            name: "Lizard King",
+            cr: 4,
+            health: "12d8+24",
+            terrains: [],
+        },
+        {
+            name: "Lizard Queen",
+            cr: 4,
+            health: "12d8+24",
+            terrains: [],
+        },
+        {
+            name: "Werebear",
+            cr: 5,
+            health: "18d8+54",
+            terrains: [
+                "arctic",
+                "forest",
+                "hill"
+            ],
+        },
+        {
+            name: "Wereboar",
+            cr: 4,
+            health: "12d8+24",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Wererat",
+            cr: 2,
+            health: "6d8+6",
+            terrains: [
+                "urban",
+                "forest"
+            ],
+        },
+        {
+            name: "Weretiger",
+            cr: 4,
+            health: "16d8+48",
+            terrains: [
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Werewolf",
+            cr: 3,
+            health: "9d8+18",
+            terrains: [
+                "forest",
+                "hill"
+            ],
+        },
+        {
+            name: "Magmin",
+            cr: .5,
+            health: "2d6+2",
+            terrains: [],
+        },
+        {
+            name: "Manticore",
+            cr: 3,
+            health: "8d10+24",
+            terrains: [
+                "arctic",
+                "coastal",
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Medusa",
+            cr: 6,
+            health: "17d8+51",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Dust Mephit",
+            cr: .5,
+            health: "5d6",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Ice Mephit",
+            cr: .5,
+            health: "6d6",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Magma Mephit",
+            cr: .5,
+            health: "5d6+5",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Mud Mephit",
+            cr: .25,
+            health: "6d6+6",
+            terrains: [
+                "swamp"
+            ],
+        },
+        {
+            name: "Smoke Mephit",
+            cr: .25,
+            health: "5d6+5",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Steam Mephit",
+            cr: .25,
+            health: "6d6",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Merfolk",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Merrow",
+            cr: 2,
+            health: "6d10+12",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Mimic",
+            cr: 2,
+            health: "9d8+18",
+            terrains: [
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Mind Flayer",
+            cr: 7,
+            health: "13d8+13",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Minotaur",
+            cr: 3,
+            health: "9d10+27",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Monodrone",
+            cr: .125,
+            health: "1d8+1",
+            terrains: [],
+        },
+        {
+            name: "Duodrone",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [],
+        },
+        {
+            name: "Tridone",
+            cr: .5,
+            health: "3d8+3",
+            terrains: [],
+        },
+        {
+            name: "Quadrone",
+            cr: 1,
+            health: "4d8+4",
+            terrains: [],
+        },
+        {
+            name: "Pentadrone",
+            cr: 2,
+            health: "5d10+5",
+            terrains: [],
+        },
+        {
+            name: "Mummy",
+            cr: 3,
+            health: "9d8+18",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Mummy Lord",
+            cr: 15,
+            health: "13d8+39",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Myconid Sprout",
+            cr: 0,
+            health: "2d6",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Quaggoth Spore Servant",
+            cr: 1,
+            health: "6d8+18",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Myconid Adult",
+            cr: .5,
+            health: "4d8+4",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Myconid Sovereign",
+            cr: 2,
+            health: "8d10+16",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Bone Naga",
+            cr: 4,
+            health: "9d10+9",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Spirit Naga",
+            cr: 8,
+            health: "10d10+20",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Guardian Naga",
+            cr: 10,
+            health: "15d10+45",
+            terrains: [
+                "desert",
+                "forest"
+            ],
+        },
+        {
+            name: "Nightmare",
+            cr: 3,
+            health: "8d10+24",
+            terrains: [],
+        },
+        {
+            name: "Nothic",
+            cr: 2,
+            health: "6d8+18",
+            terrains: [],
+        },
+        {
+            name: "Ogre",
+            cr: 2,
+            health: "7d10+21",
+            terrains: [
+                "arctic",
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Half-Ogre",
+            cr: 1,
+            health: "4d10+8",
+            terrains: [
+                "arctic",
+                "desert",
+                "forest",
+                "hill",
+                "mountain",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Oni",
+            cr: 7,
+            health: "13d10+39",
+            terrains: [
+                "urban",
+                "forest"
+            ],
+        },
+        {
+            name: "Black Pudding",
+            cr: 4,
+            health: "10d10+30",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Gelatinous Cube",
+            cr: 2,
+            health: "8d10+40",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Gray Ooze",
+            cr: .5,
+            health: "3d8+9",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Ochre Jelly",
+            cr: 2,
+            health: "6d10+12",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Orc",
+            cr: .5,
+            health: "2d8+6",
+            terrains: [
+                "grassland",
+                "hill",
+                "desert"
+            ],
+        },
+        {
+            name: "Orc War Chief",
+            cr: 4,
+            health: "11d8+44",
+            terrains: [
+                "grassland",
+                "hill",
+                "desert"
+            ],
+        },
+        {
+            name: "Orc Eye of Gruumsh",
+            cr: 2,
+            health: "6d8+18",
+            terrains: [
+                "grassland",
+                "hill",
+                "desert"
+            ],
+        },
+        {
+            name: "Orog",
+            cr: 2,
+            health: "5d8+20",
+            terrains: [
+                "underdark",
+                "arctic",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Otyugh",
+            cr: 5,
+            health: "12d10+48",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Owlbear",
+            cr: 3,
+            health: "7d10+21",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Pegasus",
+            cr: 2,
+            health: "7d10+21",
+            terrains: [
+                "grassland",
+                "hill",
+                "forest"
+            ],
+        },
+        {
+            name: "Peryton",
+            cr: 2,
+            health: "6d8+6",
+            terrains: [
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Piercer",
+            cr: .5,
+            health: "3d8+9",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Pixie",
+            cr: .25,
+            health: "1d4-1",
+            terrains: [
+                "forest",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Pseudodragon",
+            cr: .25,
+            health: "2d4+2",
+            terrains: [
+                "forest",
+                "urban",
+                "desert",
+                "coastal",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Purple Worm",
+            cr: 15,
+            health: "15d20+90",
+            terrains: [
+                "underdark",
+                "desert"
+            ],
+        },
+        {
+            name: "Quaggoth",
+            cr: 2,
+            health: "6d8+18",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Rakshasa",
+            cr: 13,
+            health: "13d8+52",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Young Remorhaz",
+            cr: 5,
+            health: "11d10+33",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Remorhaz",
+            cr: 11,
+            health: "17d12+85",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Revenant",
+            cr: 5,
+            health: "16d8+64",
+            terrains: [
+                "desert",
+                "forest",
+                "hill",
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Roc",
+            cr: 11,
+            health: "16d20+80",
+            terrains: [
+                "arctic",
+                "desert",
+                "coastal",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Roper",
+            cr: 5,
+            health: "11d10+33",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Rust Monster",
+            cr: .5,
+            health: "5d8+5",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Sahuagin",
+            cr: .5,
+            health: "4d8+4",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Sahuagin Priestess",
+            cr: 2,
+            health: "6d8+6",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Sahuagin Baron",
+            cr: 5,
+            health: "9d10+27",
+            terrains: [
+                "coastal",
+                "underwater"
+            ],
+        },
+        {
+            name: "Fire Snake",
+            cr: 1,
+            health: "5d8",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Salamander",
+            cr: 5,
+            health: "12d10+24",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Satyr",
+            cr: .5,
+            health: "7d8",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Scarecrow",
+            cr: 1,
+            health: "8d8",
+            terrains: [
+                "grassland"
+            ],
+        },
+        {
+            name: "Shadow",
+            cr: .5,
+            health: "3d8+3",
+            terrains: [
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Shambling Mound",
+            cr: 5,
+            health: "16d10+48",
+            terrains: [
+                "forest",
+                "swamp"
+            ],
+        },
+        {
+            name: "Shield Guardian",
+            cr: 7,
+            health: "15d10+60",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Skeleton",
+            cr: .25,
+            health: "2d8+4",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Minotaur Skeleton",
+            cr: 2,
+            health: "9d10+18",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Warhorse Skeleton",
+            cr: .25,
+            health: "3d10+6",
             terrains: [
                 ""
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Red Slaad",
+            cr: 5,
+            health: "11d10+33",
+            terrains: [],
+        },
+        {
+            name: "Slaad Tadpole",
+            cr: .125,
+            health: "4d4",
+            terrains: [],
+        },
+        {
+            name: "Blue Slaad",
+            cr: 7,
+            health: "13d10+52",
+            terrains: [],
+        },
+        {
+            name: "Green Slaad",
+            cr: 8,
+            health: "15d10+45",
+            terrains: [],
+        },
+        {
+            name: "Gray Slaad",
+            cr: 9,
+            health: "17d8+51",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Death Slaad",
+            cr: 10,
+            health: "20d8+80",
+            terrains: [],
+        },
+        {
+            name: "Specter",
+            cr: 1,
+            health: "5d8",
             terrains: [
-                ""
+                "underdark",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Androsphinx",
+            cr: 17,
+            health: "19d10+95",
             terrains: [
-                ""
+                "desert"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Gynosphinx",
+            cr: 11,
+            health: "16d10+48",
             terrains: [
-                ""
+                "desert"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Sprite",
+            cr: .25,
+            health: "1d4",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Stirge",
+            cr: .125,
+            health: "1d4",
             terrains: [
-                ""
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "swamp",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Succubus",
+            cr: 4,
+            health: "12d8+12",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Incubus",
+            cr: 4,
+            health: "12d8+12",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Tarrasque",
+            cr: 30,
+            health: "33d20+330",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Thri-kreen",
+            cr: 1,
+            health: "6d8+6",
             terrains: [
-                ""
+                "desert",
+                "grassland"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Treant",
+            cr: 9,
+            health: "12d12+60",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Troglodyte",
+            cr: .25,
+            health: "2d8+4",
             terrains: [
-                ""
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Troll",
+            cr: 5,
+            health: "8d10+40",
             terrains: [
-                ""
+                "underdark",
+                "arctic",
+                "forest",
+                "hill",
+                "mountain",
+                "swamp"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Umber Hulk",
+            cr: 5,
+            health: "11d10+33",
             terrains: [
-                ""
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Unicorn",
+            cr: 5,
+            health: "9d10+18",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Vampire",
+            cr: 13,
+            health: "17d8+68",
             terrains: [
-                ""
+                "underdark",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Vampire Spawn",
+            cr: 5,
+            health: "11d8+33",
             terrains: [
-                ""
+                "underdark",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Water Weird",
+            cr: 3,
+            health: "9d10+9",
             terrains: [
-                ""
+                "underdark",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Wight",
+            cr: 3,
+            health: "6d8+18",
             terrains: [
-                ""
+                "underdark",
+                "urban",
+                "desert",
+                "swamp"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Will-o-Wisp",
+            cr: 2,
+            health: "9d4",
             terrains: [
-                ""
+                "forest",
+                "swamp"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Wraith",
+            cr: 5,
+            health: "9d8+27",
             terrains: [
-                ""
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Wyvern",
+            cr: 6,
+            health: "13d10+39",
             terrains: [
-                ""
+                "hill",
+                "mountain"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Xorn",
+            cr: 5,
+            health: "7d8+42",
             terrains: [
-                ""
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Yeti",
+            cr: 3,
+            health: "6d10+18",
             terrains: [
-                ""
+                "arctic"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Abominable Yeti",
+            cr: 9,
+            health: "11d12+66",
             terrains: [
-                ""
+                "arctic"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Yuan-ti Abomination",
+            cr: 7,
+            health: "15d10+45",
             terrains: [
-                ""
+                "desert",
+                "forest",
+                "swamp"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Yuan-ti Malison",
+            cr: 3,
+            health: "12d8+12",
             terrains: [
-                ""
+                "forest",
+                "swamp",
+                "desert"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Yuan-ti Pureblood",
+            cr: 1,
+            health: "9d8",
             terrains: [
-                ""
+                "forest",
+                "swamp",
+                "urban",
+                "desert"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Arcanaloth",
+            cr: 12,
+            health: "16d8+32",
+            terrains: [],
+        },
+        {
+            name: "Mezzoloth",
+            cr: 5,
+            health: "10d8+30",
+            terrains: [],
+        },
+        {
+            name: "Nycaloth",
+            cr: 9,
+            health: "13d10+52",
+            terrains: [],
+        },
+        {
+            name: "Ultroloth",
+            cr: 13,
+            health: "18d8+72",
+            terrains: [],
+        },
+        {
+            name: "Zombie",
+            cr: .25,
+            health: "3d8+9",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Ogre Zombie",
+            cr: 2,
+            health: "9d10+36",
+            terrains: [],
+        },
+        {
+            name: "Beholder Zombie",
+            cr: 5,
+            health: "11d10+33",
             terrains: [
-                ""
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Ape",
+            cr: .5,
+            health: "3d8+6",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
+            name: "Awakened Shrub",
             cr: 0,
-            health: "",
+            health: "3d6",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Awakened Tree",
+            cr: 2,
+            health: "7d12+14",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Axe Beak",
+            cr: .25,
+            health: "3d10+3",
             terrains: [
-                ""
+                "grassland",
+                "hill"
             ],
         },
         {
-            name: "",
+            name: "Baboon",
             cr: 0,
-            health: "",
+            health: "1d6",
             terrains: [
-                ""
+                "forest",
+                "hill"
             ],
         },
         {
-            name: "",
+            name: "Badger",
             cr: 0,
-            health: "",
+            health: "1d4+1",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Black Bear",
+            cr: .5,
+            health: "3d8+6",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
+            name: "Bat",
             cr: 0,
-            health: "",
+            health: "1d4-1",
             terrains: [
-                ""
+                "urban",
+                "forest",
+                "hill",
+                "mountain",
+                "underdark"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Blink Dog",
+            cr: .25,
+            health: "4d8+4",
             terrains: [
-                ""
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Blood Hawk",
+            cr: .125,
+            health: "2d6",
             terrains: [
-                ""
+                "grassland",
+                "hill",
+                "mountain",
+                "arctic",
+                "coastal",
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Boar",
+            cr: .25,
+            health: "2d8+2",
             terrains: [
-                ""
+                "grassland",
+                "hill",
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Brown Bear",
+            cr: 1,
+            health: "4d10+12",
             terrains: [
-                ""
+                "hill",
+                "arctic",
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Camel",
+            cr: .125,
+            health: "2d10+4",
             terrains: [
-                ""
+                "desert"
             ],
         },
         {
-            name: "",
+            name: "Cat",
             cr: 0,
-            health: "",
+            health: "1d4",
             terrains: [
-                ""
+                "forest",
+                "grassland",
+                "urban",
+                "desert"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Constrictor Snake",
+            cr: .25,
+            health: "2d10+2",
             terrains: [
-                ""
+                "forest",
+                "swamp",
+                "underwater",
+                "underdark",
+                "desert"
             ],
         },
         {
-            name: "",
+            name: "Crab",
             cr: 0,
-            health: "",
+            health: "1d4",
             terrains: [
-                ""
+                "coastal"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Crocodile",
+            cr: .5,
+            health: "3d10+3",
             terrains: [
-                ""
+                "swamp",
+                "urban"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Death Dog",
+            cr: 1,
+            health: "6d8+12",
             terrains: [
-                ""
+                "desert"
             ],
         },
         {
-            name: "",
+            name: "Deer",
             cr: 0,
-            health: "",
+            health: "1d8",
             terrains: [
-                ""
+                "forest",
+                "grassland"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Dire Wolf",
+            cr: 1,
+            health: "5d10+10",
             terrains: [
-                ""
+                "hill",
+                "forest"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Draft Horse",
+            cr: .25,
+            health: "3d10+3",
             terrains: [
-                ""
+                "urban"
             ],
         },
         {
-            name: "",
+            name: "Eagle",
             cr: 0,
-            health: "",
+            health: "1d6",
             terrains: [
-                ""
+                "coastal",
+                "grassland",
+                "hill",
+                "mountain"
             ],
         },
         {
-            name: "",
-            cr: 0,
-            health: "",
+            name: "Elephant",
+            cr: 4,
+            health: "8d12+24",
             terrains: [
-                ""
+                "grassland"
+            ],
+        },
+        {
+            name: "Elk",
+            cr: .25,
+            health: "2d10+2",
+            terrains: [
+                "hill",
+                "forest",
+                "grassland",
+                "mountain"
+            ],
+        },
+        {
+            name: "Flying Snake",
+            cr: .125,
+            health: "2d4",
+            terrains: [
+                "desert",
+                "grassland"
+            ],
+        },
+        {
+            name: "Frog",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "swamp",
+                "forest"
+            ],
+        },
+        {
+            name: "Giant Ape",
+            cr: 7,
+            health: "15d12+60",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Giant Badger",
+            cr: .25,
+            health: "2d8+4",
+            terrains: [
+                "forest"
+            ],
+        },
+        {
+            name: "Giant Bat",
+            cr: .25,
+            health: "4d10",
+            terrains: [
+                "urban",
+                "forest",
+                "hill",
+                "mountain",
+                "underdark"
+            ],
+        },
+        {
+            name: "Giant Boar",
+            cr: 2,
+            health: "5d10+15",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Giant Centipede",
+            cr: .25,
+            health: "1d6+1",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Giant Constrictor Snake",
+            cr: 2,
+            health: "8d12+8",
+            terrains: [
+                "forest",
+                "swamp",
+                "underwater",
+                "underdark",
+                "desert"
+            ],
+        },
+        {
+            name: "Giant Crab",
+            cr: .125,
+            health: "3d8",
+            terrains: [
+                "coastal"
+            ],
+        },
+        {
+            name: "Giant Crocodile",
+            cr: 5,
+            health: "9d12+27",
+            terrains: [
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Giant Eagle",
+            cr: 1,
+            health: "4d10+4",
+            terrains: [
+                "coastal",
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Giant Elk",
+            cr: 2,
+            health: "5d12+10",
+            terrains: [
+                "hill",
+                "forest",
+                "grassland",
+                "mountain"
+            ],
+        },
+        {
+            name: "Giant Fire Beetle",
+            cr: 0,
+            health: "1d6+1",
+            terrains: [
+                "underdark"
+            ],
+        },
+        {
+            name: "Giant Frog",
+            cr: .25,
+            health: "4d8",
+            terrains: [
+                "forest",
+                "swamp"
+            ],
+        },
+        {
+            name: "Giant Goat",
+            cr: .5,
+            health: "3d10+3",
+            terrains: [
+                "urban",
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Giant Hyena",
+            cr: 1,
+            health: "6d10+12",
+            terrains: [
+                "grassland",
+                "hill",
+                "desert",
+                "forest"
+            ],
+        },
+        {
+            name: "Giant Lizard",
+            cr: .25,
+            health: "3d10+3",
+            terrains: [
+                "swamp",
+                "underdark",
+                "desert",
+                "coastal",
+                "forest"
+            ],
+        },
+        {
+            name: "Giant Octopus",
+            cr: 1,
+            health: "8d10+8",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Giant Owl",
+            cr: .25,
+            health: "3d10+3",
+            terrains: [
+                "arctic",
+                "forest",
+                "hill"
+            ],
+        },
+        {
+            name: "Giant Poisonous Snake",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Giant Rat",
+            cr: .125,
+            health: "2d6",
+            terrains: [
+                "forest",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Giant Scorpion",
+            cr: 3,
+            health: "7d10+14",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Giant Sea Horse",
+            cr: .5,
+            health: "3d10",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Giant Shark",
+            cr: 5,
+            health: "11d12+55",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Giant Spider",
+            cr: 1,
+            health: "4d10+4",
+            terrains: [
+                "desert",
+                "forest",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Giant Toad",
+            cr: 1,
+            health: "6d10+6",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Giant Vulture",
+            cr: 1,
+            health: "3d10+6",
+            terrains: [
+                "desert",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Giant Wasp",
+            cr: .5,
+            health: "3d8",
+            terrains: [
+                "urban",
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Giant Weasel",
+            cr: .125,
+            health: "2d8",
+            terrains: [
+                "hill",
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Giant Wolf Spider",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Goat",
+            cr: 0,
+            health: "1d8",
+            terrains: [
+                "grassland",
+                "hill",
+                "mountain",
+                "urban"
+            ],
+        },
+        {
+            name: "Hawk",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "coastal",
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Hunter Shark",
+            cr: 2,
+            health: "6d10+12",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Hyena",
+            cr: 0,
+            health: "1d8+1",
+            terrains: [
+                "grassland",
+                "hill",
+                "desert",
+                "forest"
+            ],
+        },
+        {
+            name: "Jackal",
+            cr: 0,
+            health: "1d6",
+            terrains: [
+                "desert",
+                "grassland"
+            ],
+        },
+        {
+            name: "Killer Whale",
+            cr: 3,
+            health: "12d12+12",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Lion",
+            cr: 1,
+            health: "4d10+4",
+            terrains: [
+                "desert",
+                "grassland",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Lizard",
+            cr: 0,
+            health: "1d4",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Mammoth",
+            cr: 6,
+            health: "11d12+55",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Mastiff",
+            cr: .125,
+            health: "1d8+1",
+            terrains: [
+                "forest",
+                "hill",
+                "urban"
+            ],
+        },
+        {
+            name: "Mule",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "hill",
+                "urban"
+            ],
+        },
+        {
+            name: "Octopus",
+            cr: 0,
+            health: "1d6",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Owl",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "arctic",
+                "forest",
+                "hill"
+            ],
+        },
+        {
+            name: "Panther",
+            cr: .25,
+            health: "3d8",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Phase Spider",
+            cr: 3,
+            health: "5d10+5",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Poisonous Snake",
+            cr: .125,
+            health: "1d4",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Polar Bear",
+            cr: 2,
+            health: "5d10+15",
+            terrains: [
+                "arctic",
+                "underdark"
+            ],
+        },
+        {
+            name: "Pony",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Quipper",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Rat",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "forest",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Raven",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "forest",
+                "hill",
+                "swamp",
+                "raven"
+            ],
+        },
+        {
+            name: "Reef Shark",
+            cr: .5,
+            health: "4d8+4",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Rhinoceros",
+            cr: 2,
+            health: "6d10+12",
+            terrains: [
+                "grassland"
+            ],
+        },
+        {
+            name: "Riding Horse",
+            cr: .25,
+            health: "2d10+2",
+            terrains: [
+                "urban",
+                "grassland"
+            ],
+        },
+        {
+            name: "Saber-Toothed Tiger",
+            cr: 2,
+            health: "7d10+14",
+            terrains: [
+                "arctic",
+                "mountain"
+            ],
+        },
+        {
+            name: "Scorpion",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "desert"
+            ],
+        },
+        {
+            name: "Sea Horse",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Spider",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "desert",
+                "forest",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Swarm of Bats",
+            cr: .25,
+            health: "5d8",
+            terrains: [
+                "urban",
+                "forest",
+                "hill",
+                "mountain",
+                "underdark"
+            ],
+        },
+        {
+            name: "Swarm of Insects",
+            cr: .5,
+            health: "5d8",
+            terrains: [
+                "desert",
+                "forest",
+                "grassland",
+                "hill",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Swarm of Poisonous Snakes",
+            cr: 2,
+            health: "8d8",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "swamp",
+                "urban"
+            ],
+        },
+        {
+            name: "Swarm of Quippers",
+            cr: 1,
+            health: "8d8-8",
+            terrains: [
+                "underwater"
+            ],
+        },
+        {
+            name: "Swarm of Rats",
+            cr: .25,
+            health: "7d8-7",
+            terrains: [
+                "forest",
+                "swamp",
+                "underdark",
+                "urban"
+            ],
+        },
+        {
+            name: "Swarm of Ravens",
+            cr: .25,
+            health: "7d8-7",
+            terrains: [
+                "forest",
+                "hill",
+                "swamp",
+                "raven"
+            ],
+        },
+        {
+            name: "Tiger",
+            cr: 1,
+            health: "5d10+10",
+            terrains: [
+                "forest",
+                "grassland"
+            ],
+        },
+        {
+            name: "Vulture",
+            cr: 0,
+            health: "1d8+1",
+            terrains: [
+                "desert",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Warhorse",
+            cr: .5,
+            health: "3d10+3",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Weasel",
+            cr: 0,
+            health: "1d4-1",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Winter Wolf",
+            cr: 3,
+            health: "10d10+20",
+            terrains: [
+                "arctic"
+            ],
+        },
+        {
+            name: "Wolf",
+            cr: .25,
+            health: "2d8+2",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Worg",
+            cr: .5,
+            health: "4d10+4",
+            terrains: [
+                "forest",
+                "grassland",
+                "hill"
+            ],
+        },
+        {
+            name: "Acolyte",
+            cr: .25,
+            health: "2d8",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Archmage",
+            cr: 12,
+            health: "18d8+18",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Assassin",
+            cr: 8,
+            health: "12d8+24",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Bandit",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "hill",
+                "urban"
+            ],
+        },
+        {
+            name: "Bandit Captain",
+            cr: 2,
+            health: "10d8+20",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "hill",
+                "urban"
+            ],
+        },
+        {
+            name: "Berserker",
+            cr: 2,
+            health: "9d8+27",
+            terrains: [
+                "arctic",
+                "desert",
+                "coastal",
+                "forest",
+                "hill",
+                "mountain"
+            ],
+        },
+        {
+            name: "Commoner",
+            cr: 0,
+            health: "1d8",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "urban"
+            ],
+        },
+        {
+            name: "Cultist",
+            cr: .125,
+            health: "2d8",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Cult Fanatic",
+            cr: 2,
+            health: "6d8+6",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Druid",
+            cr: 2,
+            health: "5d8+5",
+            terrains: [
+                "arctic",
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Gladiator",
+            cr: 5,
+            health: "15d8+45",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Guard",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "urban"
+            ],
+        },
+        {
+            name: "Knight",
+            cr: 3,
+            health: "8d8+16",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Mage",
+            cr: 6,
+            health: "9d8",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Noble",
+            cr: .125,
+            health: "2d8",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Priest",
+            cr: 2,
+            health: "5d8+5",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Scout",
+            cr: .5,
+            health: "3d8+3",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Spy",
+            cr: 1,
+            health: "6d8",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Thug",
+            cr: .5,
+            health: "5d8+10",
+            terrains: [
+                "urban"
+            ],
+        },
+        {
+            name: "Tribal Warrior",
+            cr: .125,
+            health: "2d8+2",
+            terrains: [
+                "desert",
+                "arctic",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "swamp",
+                "underdark"
+            ],
+        },
+        {
+            name: "Veteran",
+            cr: 3,
+            health: "9d8+18",
+            terrains: [
+                "arctic",
+                "coastal",
+                "forest",
+                "grassland",
+                "hill",
+                "mountain",
+                "underdark",
+                "urban"
             ],
         },
     ],
-
     first_names: [
         "Aaren",
         "Aarika",
