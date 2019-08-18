@@ -98,39 +98,31 @@ var util = {
         return ans;
     },
 
-    generateTown: function (current_entry) {
-        let ans = {
-            name: current_entry.name,
-            type: "town",
-            terrain: current_entry.terrain,
-            elevation: current_entry.elevation,
-            temperature: current_entry.temperature,
-            precipitation: current_entry.precipitation,
-            wind: current_entry.wind,
-            race_relations: util.getRandomValueInArray(data.race_relations),
-            government: util.getRandomValueInArray(data.governments),
-            ruler_status: util.getRandomValueInArray(data.ruler_status),
-            notable_trait: util.getRandomValueInArray(data.notable_traits),
-            known_for: util.getRandomValueInArray(data.known_for),
-            current_calamity: util.getRandomValueInArray(data.current_calamity),
-            size: util.getRandomValueInArray(data.town_sizes),
-            buildings: [],
-            urban_encounters: [],
-            encounters: [],
-        };
+    generateTown: function (i,j) {
+        world[i][j].type = "town";
+        world[i][j].race_relations = util.getRandomValueInArray(data.race_relations);
+        world[i][j].government = util.getRandomValueInArray(data.governments);
+        world[i][j].ruler_status = util.getRandomValueInArray(data.ruler_status);
+        world[i][j].notable_trait = util.getRandomValueInArray(data.notable_traits);
+        world[i][j].known_for = util.getRandomValueInArray(data.known_for);
+        world[i][j].current_calamity = util.getRandomValueInArray(data.current_calamity);
+        world[i][j].size = util.getRandomValueInArray(data.town_sizes);
+        world[i][j].buildings = [];
+        world[i][j].urban_encounters = [];
+        world[i][j].encounters = [];
         let building_count = 0;
-        if (ans.size === "Village") {
+        if (world[i][j].size === "Village") {
             building_count = 25;
-            ans.population = 250 + util.getRandomInt(750);
-        } else if (ans.size === "Town") {
+            world[i][j].population = 250 + util.getRandomInt(750);
+        } else if (world[i][j].size === "Town") {
             building_count = 50;
-            ans.population = 2000 + util.getRandomInt(4000);
+            world[i][j].population = 2000 + util.getRandomInt(4000);
         } else {
             building_count = 60;
-            ans.population = 7500 + util.getRandomInt(25000);
+            world[i][j].population = 7500 + util.getRandomInt(25000);
         }
 
-        for (let i = 0; i < building_count; i++) {
+        for (let x = 0; x < building_count; x++) {
             let building = {
                 type: util.getRandomValueInArray(data.building_types),
                 occupants: [],
@@ -181,24 +173,23 @@ var util = {
                 building.occupants.push(util.generateNPC());
                 c--;
             }
-            ans.buildings.push(building);
+            world[i][j].buildings.push(building);
         }
-        ans.buildings.sort(function(a, b){
+        world[i][j].buildings.sort(function(a, b){
             if(a.type < b.type) { return -1; }
             if(a.type > b.type) { return 1; }
             return 0;
         });
-        ans.wandering_npcs = [];
+        world[i][j].wandering_npcs = [];
         let q = util.getRandomInt(25) + 10;
         let qc = 0;
         while (qc < q) {
-            ans.wandering_npcs.push(util.generateNPC());
+            world[i][j].wandering_npcs.push(util.generateNPC());
             qc++;
         }
-        for (let i = 0; i < 5; i++) {
-            ans.urban_encounters.push(util.getRandomValueInArray(data.urban_encounters));
+        for (let x = 0; x < 5; x++) {
+            world[i][j].urban_encounters.push(util.getRandomValueInArray(data.urban_encounters));
         }
-        return ans;
     },
 
     NPCtoHTML: function (npc) {
@@ -895,317 +886,415 @@ var util = {
     },
 
     getRandomShape: function(i,j){
-        let ans = [];
-
-        let r = util.getRandomInt(7);
-
-        if(r == 0){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j-1
-            });
-            ans.push({
-                i: i,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j
-            });
-            ans.push({
-                i: i+1,
-                j: j+1
-            });
-            ans.push({
-                i: i,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j
-            });
-        }
-
-        if(r == 1){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j-1
-            });
-            ans.push({
-                i: i,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j
-            });
-            ans.push({
-                i: i+1,
-                j: j+1
-            });
-            ans.push({
-                i: i,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j
-            });
-            ans.push({
-                i: i,
-                j: j-2
-            });
-            ans.push({
-                i: i,
-                j: j+2
-            });
-            ans.push({
-                i: i,
-                j: j+2
-            });
-            ans.push({
-                i: i-2,
-                j: j
-            });
-        }
-
-        if(r == 2){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j-1
-            });
-            ans.push({
-                i: i,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j
-            });
-            ans.push({
-                i: i+1,
-                j: j+1
-            });
-            ans.push({
-                i: i,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j
-            });
-            ans.push({
-                i: i-2,
-                j: j-2
-            });
-            ans.push({
-                i: i+2,
-                j: j+2
-            });
-            ans.push({
-                i: i-2,
-                j: j+2
-            });
-            ans.push({
-                i: i+2,
-                j: j-2
-            });
-        }
-
-        if(r == 3){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j-1
-            });
-            ans.push({
-                i: i,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j-1
-            });
-            ans.push({
-                i: i-1,
-                j: j-2
-            });
-            ans.push({
-                i: i,
-                j: j-2
-            });
-            ans.push({
-                i: i+1,
-                j: j-2
-            });
-            ans.push({
-                i: i-2,
-                j: j-2
-            });
-            ans.push({
-                i: i+2,
-                j: j-2
-            });
-        }
-
-        if(r == 4){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j+1
-            });
-            ans.push({
-                i: i,
-                j: j+1
-            });
-            ans.push({
-                i: i+1,
-                j: j+1
-            });
-            ans.push({
-                i: i-1,
-                j: j+2
-            });
-            ans.push({
-                i: i,
-                j: j+2
-            });
-            ans.push({
-                i: i+1,
-                j: j+2
-            });
-            ans.push({
-                i: i-2,
-                j: j+2
-            });
-            ans.push({
-                i: i+2,
-                j: j+2
-            });
-        }
-
-        if(r == 5){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i+1,
-                j: j-1
-            });
-            ans.push({
-                i: i+1,
-                j: j
-            });
-            ans.push({
-                i: i+1,
-                j: j+1
-            });
-            ans.push({
-                i: i+2,
-                j: j-1
-            });
-            ans.push({
-                i: i+2,
-                j: j
-            });
-            ans.push({
-                i: i+2,
-                j: j+1
-            });
-            ans.push({
-                i: i+2,
-                j: j+2
-            });
-            ans.push({
-                i: i+2,
-                j: j-2
-            });
-        }
-
-
-
-        if(r == 6){
-            ans.push({
-                i: i,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j-1
-            });
-            ans.push({
-                i: i-1,
-                j: j
-            });
-            ans.push({
-                i: i-1,
-                j: j+1
-            });
-            ans.push({
-                i: i-2,
-                j: j-1
-            });
-            ans.push({
-                i: i-2,
-                j: j
-            });
-            ans.push({
-                i: i-2,
-                j: j+1
-            });
-            ans.push({
-                i: i-2,
-                j: j+2
-            });
-            ans.push({
-                i: i-2,
-                j: j-2
-            });
-        }
-
+        let shapes = [
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1},
+            ],
+            [
+                {i:i-2,j:j-2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1},
+                {i:i+2,j:j-2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1},
+            ],
+            [
+                {i:i-2,j:j-2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1},
+                {i:i+2,j:j-2},
+            ],
+            [
+                
+                {i:i-1,j:j-2},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2},
+                
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-2},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2},
+                {i:i,j:j-2},
+                {i:i+1,j:j-2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2},
+                
+                {i:i+1,j:j-2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j},
+                {i:i,j:j-2},   {i:i,j:j-1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1},
+            ],
+            [
+                {i:i-2,j:j-2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1},
+                {i:i,j:j-2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1},
+                {i:i+2,j:j-2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-2}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-2},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-2}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-2}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-2},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-2}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-1}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-1},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-1}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+2},
+                
+            ],
+        ];
+        let ans = util.getRandomValueInArray(shapes);
         for(let x = 0; x < ans.length; x++){
             if(ans[x].i < 0 || ans[x].i > world.length-1 || ans[x].j < 0 || ans[x].j > world.length-1){
                 ans.splice(x,1);

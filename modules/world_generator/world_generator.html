@@ -15,7 +15,8 @@
 </head>
 <body>
     <div id="save_window">
-        <button onclick="user_interface.generateSaveFile()">Generate Save File</button>
+        <button onclick="user_interface.generateSaveFile()">Generate DM Save File</button>
+        <button onclick="user_interface.generatePlayerSaveFile()">Generate Player Save File</button>
 
         <button onclick="user_interface.loadSaveFile()">Load Save File</button>
 
@@ -45,7 +46,7 @@
                 </td>
                 <td>
                     <button type="button" onclick="user_interface.decreaseWaterPercentage()">-</button>
-                    <span id="water_percentage_span">30</span>
+                    <span id="water_percentage_span">15</span>
                     <button type="button" onclick="user_interface.increaseWaterPercentage()">+</button>
                 </td>
             </tr>

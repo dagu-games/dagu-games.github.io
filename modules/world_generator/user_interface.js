@@ -22,7 +22,7 @@ var user_interface = {
         updateDetails();
     },
     generateTownButton : function(){
-        world[details_i][details_j] = util.generateTown(world[details_i][details_j]);
+        util.generateTown(details_i,details_j);
         updateDetails();
     },
     generateUnderdarkEncounterButton : function(){
@@ -119,6 +119,13 @@ var user_interface = {
     },
 
     generateSaveFile: function(){
+        let elem = document.getElementById("save_file_input");
+        elem.value = "working...";
+        elem.value = LZString.compressToEncodedURIComponent(JSON.stringify(world)).trim();
+    },
+
+    generatePlayerSaveFile: function(){
+        world[0][0].mode = "player";
         let elem = document.getElementById("save_file_input");
         elem.value = "working...";
         elem.value = LZString.compressToEncodedURIComponent(JSON.stringify(world)).trim();
