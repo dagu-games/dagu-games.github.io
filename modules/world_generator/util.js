@@ -39,6 +39,10 @@ var util = {
         return arr[util.getRandomInt(arr.length)];
     },
 
+    getRandomIndexInArray: function (arr) {
+        return util.getRandomInt(arr.length);
+    },
+
     generateFirstName: function () {
         return util.getRandomValueInArray(data.first_names);
     },
@@ -100,21 +104,21 @@ var util = {
 
     generateTown: function (i,j) {
         world[i][j].type = "town";
-        world[i][j].race_relations = util.getRandomValueInArray(data.race_relations);
-        world[i][j].government = util.getRandomValueInArray(data.governments);
-        world[i][j].ruler_status = util.getRandomValueInArray(data.ruler_status);
-        world[i][j].notable_trait = util.getRandomValueInArray(data.notable_traits);
-        world[i][j].known_for = util.getRandomValueInArray(data.known_for);
-        world[i][j].current_calamity = util.getRandomValueInArray(data.current_calamity);
-        world[i][j].size = util.getRandomValueInArray(data.town_sizes);
+        world[i][j].race_relations = util.getRandomIndexInArray(data.race_relations);
+        world[i][j].government = util.getRandomIndexInArray(data.governments);
+        world[i][j].ruler_status = util.getRandomIndexInArray(data.ruler_status);
+        world[i][j].notable_trait = util.getRandomIndexInArray(data.notable_traits);
+        world[i][j].known_for = util.getRandomIndexInArray(data.known_for);
+        world[i][j].current_calamity = util.getRandomIndexInArray(data.current_calamity);
+        world[i][j].size = util.getRandomIndexInArray(data.town_sizes);
         world[i][j].buildings = [];
         world[i][j].urban_encounters = [];
         world[i][j].encounters = [];
         let building_count = 0;
-        if (world[i][j].size === "Village") {
+        if (data.town_sizes[world[i][j].size] === "Village") {
             building_count = 25;
             world[i][j].population = 250 + util.getRandomInt(750);
-        } else if (world[i][j].size === "Town") {
+        } else if (data.town_sizes[world[i][j].size] === "Town") {
             building_count = 50;
             world[i][j].population = 2000 + util.getRandomInt(4000);
         } else {
@@ -1293,6 +1297,286 @@ var util = {
                 {i:i+1,j:j+2},
                 
             ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+2},
+                
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j+2},
+                {i:i,j:j+2},
+                {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j+2},
+                
+                {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j+2},
+                {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1},
+            ],
+            [
+                {i:i-2,j:j}, {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+1}, {i:i-2,j:j+2},
+                {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j+2},
+                {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j+2},
+                {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-2}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-2},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-2}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-2}, {i:i-2,j:j+2},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-2}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-2},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-2}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                {i:i-2,j:j-1}, {i:i-2,j:j+1},
+                {i:i-1,j:j-2}, {i:i-1,j:j-1}, {i:i-1,j:j}, {i:i-1,j:j+1}, {i:i-1,j:j+2},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                {i:i-1,j:j-1}, {i:i-1,j:j+1},
+                {i:i,j:j-2},   {i:i,j:j-1},   {i:i,j:j},   {i:i,j:j+1},   {i:i,j:j+2},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                {i:i,j:j-1},   {i:i,j:j+1},
+                {i:i+1,j:j-2}, {i:i+1,j:j-1}, {i:i+1,j:j}, {i:i+1,j:j+1}, {i:i+1,j:j+2},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
+            [
+                
+                
+                
+                {i:i+1,j:j-1}, {i:i+1,j:j+1},
+                {i:i+2,j:j-2}, {i:i+2,j:j-1}, {i:i+2,j:j}, {i:i+2,j:j+1}, {i:i+2,j:j+2},
+            ],
         ];
         let ans = util.getRandomValueInArray(shapes);
         for(let x = 0; x < ans.length; x++){
@@ -1308,29 +1592,30 @@ var util = {
         let ans = [];
 
         if(blob_count == undefined){
-            blob_count = 15;
+            blob_count = 50;
         }
 
         if(radius == undefined){
             radius = 3;
         }
 
-        let r = util.getRandomInt(blob_count)+5;
+        let r = util.getRandomInt(blob_count)+30;
 
         let ti = i;
         let tj = j;
         for(let x = 0; x < r; x++){
-            ti = i + radius - util.getRandomInt((radius*2)+1);
-            tj = j + radius - util.getRandomInt((radius*2)+1);
+            let angle = Math.random()*Math.PI*2;
+            ti = Math.floor(i + Math.sin(angle)*radius*Math.random());
+            tj = Math.floor(j + Math.cos(angle)*radius*Math.random());
             ans = ans.concat(util.getRandomShape(ti,tj));
         }
 
         return ans;
     },
 
-    generateArctic: function(){
+    generateCoastal: function(){
         for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {                
+            for (let j = 0; j < world.length; j++) {
                 let pos = 0;
                 for(let z = 0; z < heightmap.elevations_list.length; z++){
                     if(world[i][j].elevation === heightmap.elevations_list[z]){
@@ -1339,84 +1624,37 @@ var util = {
                     }
                 }
                 let percentage = ((pos / heightmap.elevations_list.length) * 100);
-                
-                if (percentage > data.settings.arctic_low
-                    || i < 2
-                    || i > world.length-3
-                    || ((i < 3 || i > world.length-4) && util.getRandomInt(6) == 0)) {
-                    world[i][j].terrain = "arctic";
-                }
-            }
-        }
-    },
-
-    generateCoastal: function(){
-        for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {
                 let next_to_water = false;
+                let pts = [{i:i-2,j:j-2},{i:i-2,j:j-1},{i:i-2,j:j},{i:i-2,j:j+1},{i:i-2,j:j+2},{i:i-1,j:j-2},
+                {i:i-1,j:j-1},{i:i-1,j:j},{i:i-1,j:j+1},{i:i-1,j:j+2},{i:i,j:j-2},{i:i,j:j-1},{i:i,j:j},
+                {i:i,j:j+1},{i:i,j:j+2},{i:i+1,j:j-2},{i:i+1,j:j-1},{i:i+1,j:j},{i:i+1,j:j+1},{i:i+1,j:j+2},
+                {i:i+2,j:j-2},{i:i+2,j:j-1},{i:i+2,j:j},{i:i+2,j:j+1},{i:i+2,j:j+2}];
 
-                if(i-1 > 0 && j-1 > 0){
-                    if(world[i-1][j-1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(j-1 > 0){
-                    if(world[i][j-1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(i+1 < world.length-1 && j-1 > 0){
-                    if(world[i+1][j-1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(i+1 < world.length-1){
-                    if(world[i+1][j].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(i+1 < world.length-1 && j+1 < world.length-1){
-                    if(world[i+1][j+1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(j+1 < world.length-1){
-                    if(world[i][j+1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(i-1 > 0 && j+1 < world.length-1){
-                    if(world[i-1][j+1].terrain == "underwater"){
-                        next_to_water = true;
-                    }
-                }
-                if(i-1 > 0){
-                    if(world[i-1][j].terrain == "underwater"){
-                        next_to_water = true;
+                for(let x = 0; x < pts.length; x++){
+                    if(pts[x].i > 0 && pts[x].i < world.length && pts[x].j > 0 && pts[x].j < world.length){
+                        if(world[pts[x].i][pts[x].j].terrain === 'underwater'){
+                            next_to_water = true;
+                            break;
+                        }
                     }
                 }
 
                 if(next_to_water && world[i][j].terrain != "underwater"){
                     world[i][j].terrain = "coastal";
                 }
-            }
-        }
-    },
-
-    generateDesert: function(){
-        for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {
-                if (util.getRandomInt(data.settings.desert_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill")) {
-                    let blob = util.getRandomBlob(i,j, data.settings.desert_blob_count, data.settings.desert_blob_radius);
-                    for(let x = 0; x < blob.length; x++){
-                        world[blob[x].i][blob[x].j].terrain = "desert";
-                    }
+                if (percentage > data.settings.arctic_low
+                    || i < 2
+                    || i > world.length-3
+                    || ((i < 3 || i > world.length-4) && util.getRandomInt(100) <= 75)
+                    || ((i < 4 || i > world.length-5) && util.getRandomInt(100) <= 50)
+                    || ((i < 5 || i > world.length-6) && util.getRandomInt(100) <= 25)) {
+                    world[i][j].terrain = "arctic";
                 }
             }
         }
     },
 
-    generateForest: function(){
+    generateDesertAndForestAndSwamp: function(){
         for (let i = 0; i < world.length; i++) {
             for (let j = 0; j < world.length; j++) {
                 if (util.getRandomInt(data.settings.forest_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill" || world[i][j].terrain == "mountain")) {
@@ -1425,56 +1663,46 @@ var util = {
                         world[blob[x].i][blob[x].j].terrain = "forest";
                     }
                 }
-            }
-        }
-    },
-
-    generateHill: function(){
-        for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {                
-                let pos = 0;
-                for(let z = 0; z < heightmap.elevations_list.length; z++){
-                    if(world[i][j].elevation === heightmap.elevations_list[z]){
-                        pos = z;
-                        break;
+                if (util.getRandomInt(data.settings.desert_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill")) {
+                    let blob = util.getRandomBlob(i,j, data.settings.desert_blob_count, data.settings.desert_blob_radius);
+                    for(let x = 0; x < blob.length; x++){
+                        world[blob[x].i][blob[x].j].terrain = "desert";
                     }
                 }
-                let percentage = ((pos / heightmap.elevations_list.length) * 100);
-                
-                if (percentage > data.settings.hill_low && percentage <= data.settings.mountain_low) {
-                    world[i][j].terrain = "hill";
-                }
-            }
-        }
-    },
-
-    generateMountain: function(){
-        for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {                
-                let pos = 0;
-                for(let z = 0; z < heightmap.elevations_list.length; z++){
-                    if(world[i][j].elevation === heightmap.elevations_list[z]){
-                        pos = z;
-                        break;
-                    }
-                }
-                let percentage = ((pos / heightmap.elevations_list.length) * 100);
-                
-                if (percentage > data.settings.mountain_low && percentage <= data.settings.arctic_low) {
-                    world[i][j].terrain = "mountain";
-                }
-            }
-        }
-    },
-
-    generateSwamp: function(){
-        for (let i = 0; i < world.length; i++) {
-            for (let j = 0; j < world.length; j++) {
                 if (util.getRandomInt(data.settings.swamp_chance) < 1 && (world[i][j].terrain == "grassland" || world[i][j].terrain == "hill")) {
                     let blob = util.getRandomBlob(i,j, data.settings.swamp_blob_count, data.settings.swamp_blob_radius);
                     for(let x = 0; x < blob.length; x++){
                         world[blob[x].i][blob[x].j].terrain = "swamp";
                     }
+                }
+            }
+        }
+    },
+
+    generateHillAndMountain: function(){
+        for (let i = 0; i < world.length; i++) {
+            for (let j = 0; j < world.length; j++) {                
+                let pos = 0;
+                for(let z = 0; z < heightmap.elevations_list.length; z++){
+                    if(world[i][j].elevation === heightmap.elevations_list[z]){
+                        pos = z;
+                        break;
+                    }
+                }
+                let percentage = ((pos / heightmap.elevations_list.length) * 100);
+                if (percentage > data.settings.hill_low && percentage <= data.settings.mountain_low) {
+                    world[i][j].terrain = "hill";
+                }
+                if (percentage > data.settings.mountain_low && percentage <= data.settings.arctic_low) {
+                    world[i][j].terrain = "mountain";
+                }
+                if (percentage > data.settings.arctic_low
+                    || i < 2
+                    || i > world.length-3
+                    || ((i < 3 || i > world.length-4) && util.getRandomInt(100) <= 75)
+                    || ((i < 4 || i > world.length-5) && util.getRandomInt(100) <= 50)
+                    || ((i < 5 || i > world.length-6) && util.getRandomInt(100) <= 25)) {
+                    world[i][j].terrain = "arctic";
                 }
             }
         }

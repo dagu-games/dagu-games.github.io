@@ -1,34 +1,96 @@
-table, tr, td {
-    border: 1px solid black;
+body {
+  background-color: #D5D5D5;
 }
 
-#world_table {
-    table-layout: fixed;
+table {
+  border: 3px solid #000000;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+table td, table th {
+  border: 1px solid #000000;
+  padding: 5px 4px;
+}
+table tbody td {
+  font-size: 18px;
+}
+table thead {
+  background: #CFCFCF;
+  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  border-bottom: 3px solid #000000;
+}
+table thead th {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  text-align: left;
+}
+table tfoot {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  border-top: 3px solid #000000;
+}
+table tfoot td {
+  font-size: 18px;
+}
+
+.styledButton {
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf));
+  background:-moz-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-webkit-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-o-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:-ms-linear-gradient(top, #ededed 5%, #dfdfdf 100%);
+  background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf',GradientType=0);
+  background-color:#ededed;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  cursor:pointer;
+  color:#777777;
+  font-family:Arial;
+  font-size:18px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #ffffff;
+} 
+.styledButton {  
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
+  background:-moz-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-webkit-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-o-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:-ms-linear-gradient(top, #dfdfdf 5%, #ededed 100%);
+  background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed',GradientType=0);
+  background-color:#dfdfdf;
+} 
+.styledButton {  
+  position:relative;
+  top:1px;
+}
+
+#world_canvas {
     padding: 0;
     margin: 0;
-    font-size: 16px;
+    outline: black 2px solid;
     cursor: default;
-    overflow: hidden;
-    border-collapse: collapse;
-}
-
-#world_table tr {
-    border: 0;
-}
-
-#world_table td {
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    margin: 0;
-    border: 1px solid black;
 }
 
 #floating_window {
     position: fixed;
     right: 2vw;
     top: 4vh;
-    width: 30vw;
+    width: 20vw;
     max-height: 80vh;
     overflow-y: scroll;
     background-color: #f1f1f1;
@@ -68,3 +130,7 @@ table, tr, td {
     transition: display 0.3s;
     background-color: #f1f1f1;
 }
+
+
+
+

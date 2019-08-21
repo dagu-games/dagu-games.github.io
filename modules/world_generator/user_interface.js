@@ -25,6 +25,11 @@ var user_interface = {
         util.generateTown(details_i,details_j);
         updateDetails();
     },
+    setMarker : function(){
+        world[0][0].marker_i = details_i;
+        world[0][0].marker_j = details_j;
+        updateMap();
+    },
     generateUnderdarkEncounterButton : function(){
         var player_count = Number(document.getElementById("player_count_span").innerHTML);
         var level = Number(document.getElementById("level_span").innerHTML);
@@ -51,6 +56,24 @@ var user_interface = {
             width = width*width;
             width++;
             document.getElementById("world_width_span").innerHTML = width;
+        }
+    },
+    increaseWorldScale : function(){
+        let scale = Number(document.getElementById("world_scale_span").innerHTML);
+        if(scale < 50){
+            scale++;
+            document.getElementById("world_scale_span").innerHTML = scale;
+            world[0][0].scale = scale;
+            updateMap();
+        }
+    },
+    decreaseWorldScale : function(){
+        let scale = Number(document.getElementById("world_scale_span").innerHTML);
+        if(scale > 2){
+            scale--;
+            document.getElementById("world_scale_span").innerHTML = scale;
+            world[0][0].scale = scale;
+            updateMap();
         }
     },
     increaseWaterPercentage : function(){
@@ -100,6 +123,14 @@ var user_interface = {
         details_j = j;
         updateDetails();
     },
+    showCanvasDetails : function(canvas, event){
+        let rect = canvas.getBoundingClientRect();
+        details_j = Math.floor((event.clientX - rect.left)/world[0][0].scale);
+        details_i = Math.floor((event.clientY - rect.top)/world[0][0].scale);
+
+        updateMap();
+        updateDetails();
+    },
     swapFloatingWindowSide: function(){
         let elem = document.getElementById("floating_window");
         if(elem.style.left == "auto" || elem.style.left == ""){
@@ -119,9 +150,11 @@ var user_interface = {
     },
 
     generateSaveFile: function(){
-        let elem = document.getElementById("save_file_input");
-        elem.value = "working...";
-        elem.value = LZString.compressToEncodedURIComponent(JSON.stringify(world)).trim();
+        if(world[0][0].mode === "dm"){
+            let elem = document.getElementById("save_file_input");
+            elem.value = "working...";
+            elem.value = LZString.compressToEncodedURIComponent(JSON.stringify(world)).trim();
+        }
     },
 
     generatePlayerSaveFile: function(){

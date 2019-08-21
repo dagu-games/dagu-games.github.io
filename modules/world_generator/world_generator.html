@@ -15,20 +15,22 @@
 </head>
 <body>
     <div id="save_window">
-        <button onclick="user_interface.generateSaveFile()">Generate DM Save File</button>
-        <button onclick="user_interface.generatePlayerSaveFile()">Generate Player Save File</button>
+        <button class="styledButton" onclick="user_interface.generateSaveFile()">Generate DM Save File</button>
+        <button class="styledButton" onclick="user_interface.generatePlayerSaveFile()">Generate Player Save File</button>
 
-        <button onclick="user_interface.loadSaveFile()">Load Save File</button>
+        <button class="styledButton" onclick="user_interface.loadSaveFile()">Load Save File</button>
 
         Copy this text into a file and save it, then copy that text back into here, click load and you'll have the data back that you had before.
         <input type="text" size="40" id="save_file_input">
-        <button onclick="user_interface.copySaveFile()">Copy Text</button>
+        <button class="styledButton" onclick="user_interface.copySaveFile()">Copy Text</button>
+        <a id="dl_link">Open map image in new tab</a>
 
     </div>
     <div id="floating_window">
         <h2>World Generator</h2>
-        <button onclick="user_interface.swapFloatingWindowSide()">Swap Menu Side</button>
-        <button onclick="generateWorld()">Generate World</button>
+        <button class="styledButton" onclick="user_interface.swapFloatingWindowSide()">Swap Menu Side</button>
+        <button class="styledButton" onclick="generateWorld()">Generate World</button>
+        <br><br>
         <table>
             <tr>
                 <td>
@@ -38,6 +40,16 @@
                     <button type="button" onclick="user_interface.decreaseWorldWidth()">-</button>
                     <span id="world_width_span">170</span>
                     <button type="button" onclick="user_interface.increaseWorldWidth()">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    World Scale
+                </td>
+                <td>
+                    <button type="button" onclick="user_interface.decreaseWorldScale()">-</button>
+                    <span id="world_scale_span">16</span>
+                    <button type="button" onclick="user_interface.increaseWorldScale()">+</button>
                 </td>
             </tr>
             <tr>
@@ -77,7 +89,10 @@
         <div id="details_div"></div>
     </div>
     <br>
-    <table id="world_table"></table>
+    <canvas id="world_canvas" height="10" width="10"></canvas>
+
+    <img id="town_img" src="images/town.png" style="display:none;">
+    <img id="dungeon_img" src="images/dungeon.png" style="display:none;">
     
     
     <script src="world_generator_init.js"></script>

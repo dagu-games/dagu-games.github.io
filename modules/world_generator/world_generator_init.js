@@ -1,4 +1,11 @@
-generateWorld();
+window.onload = function(){
+	generateWorld();
+	var canvas = document.getElementById("world_canvas");
+
+    canvas.addEventListener('mousedown', function(e){
+        user_interface.showCanvasDetails(canvas, e);
+    });
+};
 //console.log(util.rollDice('37d20+4'));
 // for(var i = 1; i < 29; i++){
 // 	console.log(util.generateTreasure(i,2));

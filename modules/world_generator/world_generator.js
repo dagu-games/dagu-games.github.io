@@ -5,61 +5,67 @@ var details_j = 0;
 var updateMap = function () {
     var len = world.length;
 
-    var out = document.getElementById("world_table");
-    out.style.height = (len*16) + "px";
-    out.style.width = (len*16) + "px";
-    out.innerHTML = "";
-    var row;
+    var canvas = document.getElementById("world_canvas");
+
+    let ctx = canvas.getContext('2d');
+    let scale = world[0][0].scale;
+    ctx.canvas.height = len*scale;
+    ctx.canvas.width = len*scale;
+
+
+    let dungeon_img = document.getElementById("dungeon_img");
+    let town_img = document.getElementById("town_img");
     for (let i = 0; i < len; i++) {
-        row = document.createElement("TR");
         for (let j = 0; j < len; j++) {
-            let cell = document.createElement("TD");
-            cell.setAttribute('onclick',"user_interface.showDetails(" + i + "," + j + ")");
-            let str = "";
-            if(world[i][j].type === "town"){
-                str += "<img src='town.png'>";
-            }else if(world[i][j].type === "dungeon" && world[0][0].mode == "dm"){ 
-                str += "<img src='dungeon.png'>";
-            }else{
-                //str += world[i][j].terrain + "<br>";
-                str += " <br>";
-            }
-            //str += world[i][j].elevation + "<br>";
             if(world[i][j].terrain === "underwater"){
-                cell.style.backgroundColor = "#4AB0C2";
+                ctx.fillStyle = "#4AB0C2";
             }
             if(world[i][j].terrain === "grassland"){
-                cell.style.backgroundColor = "#93C989";
+                ctx.fillStyle = "#93C989";
             }
             if(world[i][j].terrain === "desert"){
-                cell.style.backgroundColor = "#C2BC8F";
+                ctx.fillStyle = "#C2BC8F";
             }
             if(world[i][j].terrain === "mountain"){
-                cell.style.backgroundColor = "#D9D9D9";
+                ctx.fillStyle = "#D9D9D9";
             }
             if(world[i][j].terrain === "hill"){
-                cell.style.backgroundColor = "#1FA64C";
+                ctx.fillStyle = "#1FA64C";
             }
             if(world[i][j].terrain === "forest"){
-                cell.style.backgroundColor = "#177A38";
+                ctx.fillStyle = "#177A38";
             }
             if(world[i][j].terrain === "swamp"){
-                cell.style.backgroundColor = "#689109";
+                ctx.fillStyle = "#689109";
             }
             if(world[i][j].terrain === "arctic"){
-                cell.style.backgroundColor = "white";
+                ctx.fillStyle = "white";
             }
             if(world[i][j].terrain === "urban"){
-                cell.style.backgroundColor = "black";
+                ctx.fillStyle = "black";
             }
             if(world[i][j].terrain === "coastal"){
-                cell.style.backgroundColor = "#CCCC9F";
+                ctx.fillStyle = "#CCCC9F";
             }
-            cell.innerHTML = str;
-            row.appendChild(cell);
+            if(world[0][0].marker_i == i && world[0][0].marker_j == j){
+                ctx.fillStyle = "red";
+            }
+            if(details_i == i && details_j == j){
+                ctx.fillStyle = "blue";
+            }
+
+            ctx.fillRect(j*scale, i*scale, scale, scale);
+
+            if(world[i][j].type === "town"){
+                ctx.drawImage(town_img, j*scale, i*scale, scale, scale);
+            }else if(world[i][j].type === "dungeon" && world[0][0].mode == "dm"){ 
+                ctx.drawImage(dungeon_img, j*scale, i*scale, scale, scale);
+            }
         }
-        out.appendChild(row);
     }
+    var a = document.getElementById('dl_link');
+    console.log(canvas.toDataURL("image/png"));
+    a.setAttribute('href',canvas.toDataURL("image/png"));
 };
 
 var updateDetails = function () {
@@ -68,13 +74,15 @@ var updateDetails = function () {
 
     var out = document.getElementById("details_div");
     var str = "";
+    str += "<button class=\"styledButton\" onclick=\"user_interface.setMarker()\">Set Marker Here</button>";
+    str += "<br><br>";
     str += "<table>";
     str += "<tr><td>Type</td><td>" + world[details_i][details_j].type + "</td></tr>";
     str += "<tr><td>Elevation</td><td>" + world[details_i][details_j].elevation + "</td></tr>";
     str += "<tr><td>Terrain</td><td>" + world[details_i][details_j].terrain + "</td></tr>";
-    str += "<tr><td>Temperature</td><td>" + world[details_i][details_j].temperature + "</td></tr>";
-    str += "<tr><td>Precipitation</td><td>" + world[details_i][details_j].precipitation + "</td></tr>";
-    str += "<tr><td>Wind</td><td>" + world[details_i][details_j].wind + "</td></tr>";
+    str += "<tr><td>Temperature</td><td>" + data.weather_temperatures[world[details_i][details_j].temperature] + "</td></tr>";
+    str += "<tr><td>Precipitation</td><td>" + data.weather_precipitation[world[details_i][details_j].precipitation] + "</td></tr>";
+    str += "<tr><td>Wind</td><td>" + data.weather_wind[world[details_i][details_j].wind] + "</td></tr>";
     str += "</table>";
     
     if (world[details_i][details_j].type === "town") {
@@ -84,18 +92,18 @@ var updateDetails = function () {
             if(world[0][0].mode == "dm"){
                 str += "<tr><td>Size</td><td>" + world[details_i][details_j].size + "</td></tr>";
                 str += "<tr><td>Population</td><td>" + world[details_i][details_j].population + "</td></tr>";
-                str += "<tr><td>Race Relations</td><td>" + world[details_i][details_j].race_relations + "</td></tr>";
-                str += "<tr><td>Government</td><td>" + world[details_i][details_j].government + "</td></tr>";
-                str += "<tr><td>Ruler Status</td><td>" + world[details_i][details_j].ruler_status + "</td></tr>";
-                str += "<tr><td>Notable Trait</td><td>" + world[details_i][details_j].notable_trait + "</td></tr>";
-                str += "<tr><td>Known For</td><td>" + world[details_i][details_j].known_for + "</td></tr>";
-                str += "<tr><td>Current Calamity</td><td>" + world[details_i][details_j].current_calamity + "</td></tr></table><br>";
+                str += "<tr><td>Race Relations</td><td>" + data.race_relations[world[details_i][details_j].race_relations] + "</td></tr>";
+                str += "<tr><td>Government</td><td>" + data.governments[world[details_i][details_j].government] + "</td></tr>";
+                str += "<tr><td>Ruler Status</td><td>" + data.ruler_status[world[details_i][details_j].ruler_status] + "</td></tr>";
+                str += "<tr><td>Notable Trait</td><td>" + data.notable_traits[world[details_i][details_j].notable_trait] + "</td></tr>";
+                str += "<tr><td>Known For</td><td>" + data.known_for[world[details_i][details_j].known_for] + "</td></tr>";
+                str += "<tr><td>Current Calamity</td><td>" + data.current_calamity[world[details_i][details_j].current_calamity] + "</td></tr></table><br>";
 
                 str += "<table>";
                 str += "<tr><td>Dungeon Location</td><td>" + world[details_i][details_j].dungeon_location + "</td></tr>";
                 str += "<tr><td>Dungeon Creator</td><td>" + world[details_i][details_j].dungeon_creator + "</td></tr>";
-                str += "<tr><td>Dungeon Purpose</td><td>" + world[details_i][details_j].dungeon_purpose + "</td></tr>";
-                str += "<tr><td>Dungeon History</td><td>" + world[details_i][details_j].dungeon_history + "</td></tr>";
+                str += "<tr><td>Dungeon Purpose</td><td>" + data.dungeon_purposes[world[details_i][details_j].dungeon_purpose] + "</td></tr>";
+                str += "<tr><td>Dungeon History</td><td>" + data.dungeon_histories[world[details_i][details_j].dungeon_history] + "</td></tr>";
                 str += "</table>";
 
 
@@ -241,14 +249,14 @@ var updateDetails = function () {
                 str += "<table>";
                 str += "<tr><td>Dungeon Location</td><td>" + world[details_i][details_j].dungeon_location + "</td></tr>";
                 str += "<tr><td>Dungeon Creator</td><td>" + world[details_i][details_j].dungeon_creator + "</td></tr>";
-                str += "<tr><td>Dungeon Purpose</td><td>" + world[details_i][details_j].dungeon_purpose + "</td></tr>";
-                str += "<tr><td>Dungeon History</td><td>" + world[details_i][details_j].dungeon_history + "</td></tr>";
+                str += "<tr><td>Dungeon Purpose</td><td>" + data.dungeon_purposes[world[details_i][details_j].dungeon_purpose] + "</td></tr>";
+                str += "<tr><td>Dungeon History</td><td>" + data.dungeon_histories[world[details_i][details_j].dungeon_history] + "</td></tr>";
                 str += "</table>";
             }
             str += "<table>";
             str += "<tr><th>" + world[details_i][details_j].name + "</th>";
             if(world[0][0].mode == "dm"){
-                str += "<th><button onclick=\"user_interface.generateTownButton()\">Generate Town Data</button></th>";
+                str += "<th><button class=\"styledButton\" onclick=\"user_interface.generateTownButton()\">Generate Town Data</button></th>";
             }
             str += "</tr></table>";
         }
@@ -256,22 +264,22 @@ var updateDetails = function () {
             str += "<table>";
             str += "<tr><td>Dungeon Location</td><td>" + world[details_i][details_j].dungeon_location + "</td></tr>";
             str += "<tr><td>Dungeon Creator</td><td>" + world[details_i][details_j].dungeon_creator + "</td></tr>";
-            str += "<tr><td>Dungeon Purpose</td><td>" + world[details_i][details_j].dungeon_purpose + "</td></tr>";
-            str += "<tr><td>Dungeon History</td><td>" + world[details_i][details_j].dungeon_history + "</td></tr>";
+            str += "<tr><td>Dungeon Purpose</td><td>" + data.dungeon_purposes[world[details_i][details_j].dungeon_purpose] + "</td></tr>";
+            str += "<tr><td>Dungeon History</td><td>" + data.dungeon_histories[world[details_i][details_j].dungeon_history] + "</td></tr>";
             str += "</table>";
     }
     if(world[0][0].mode == "dm"){
         if(world[details_i][details_j].encounters.length > 0){
-            str += "<button onclick=\"user_interface.generateEncounterButton()\">Generate Encounter</button>";
-            str += "<button onclick=\"user_interface.generateUnderdarkEncounterButton()\">Generate Underdark Encounter</button>";
+            str += "<button class=\"styledButton\" onclick=\"user_interface.generateEncounterButton()\">Generate Encounter</button>";
+            str += "<button class=\"styledButton\" onclick=\"user_interface.generateUnderdarkEncounterButton()\">Generate Underdark Encounter</button>";
             str += "<button class=\"collapsible\">Encounters</button><div class=\"content\">";
             for(let x = 0; x < world[details_i][details_j].encounters.length; x++){
                 str += util.encountertoHTML(world[details_i][details_j].encounters[x], x);
             }
             str += "</div><br>";
         }else{
-            str += "<button onclick=\"user_interface.generateEncounterButton()\">Generate Encounter</button>";
-            str += "<button onclick=\"user_interface.generateUnderdarkEncounterButton()\">Generate Underdark Encounter</button>";
+            str += "<button class=\"styledButton\" onclick=\"user_interface.generateEncounterButton()\">Generate Encounter</button>";
+            str += "<button class=\"styledButton\" onclick=\"user_interface.generateUnderdarkEncounterButton()\">Generate Underdark Encounter</button>";
         }
     }
 
@@ -311,6 +319,7 @@ var generateWorld = function () {
         }
     }
     util.generateLakes();
+    let towns_arr = [];
     for (let i = 0; i < len; i++) {
         for (let j = 0; j < len; j++) {
             if (world[i][j].terrain === "grassland" && util.getRandomInt(data.settings.town_chance) == 0) {
@@ -328,14 +337,10 @@ var generateWorld = function () {
                 if(world[i][j].dungeon_creator == 'humans'){
                     world[i][j].dungeon_creator = util.getRandomValueInArray(data.npc_descriptions.alignments_1) + " " + util.getRandomValueInArray(data.npc_descriptions.alignments_2) + " " + util.getRandomValueInArray(data.dungeon_creator_classes);
                 }
-                world[i][j].dungeon_purpose = util.getRandomValueInArray(data.dungeon_purposes);
-                world[i][j].dungeon_history = util.getRandomValueInArray(data.dungeon_histories);
+                world[i][j].dungeon_purpose = util.getRandomIndexInArray(data.dungeon_purposes);
+                world[i][j].dungeon_history = util.getRandomIndexInArray(data.dungeon_histories);
             }
             world[i][j].encounters = [];
-        }
-    }
-    for (let i = 0; i < len; i++) {
-        for (let j = 0; j < len; j++) {
             if (world[i][j].type !== "town" && util.getRandomInt(data.settings.dungeon_chance) == 0) {
                 world[i][j].type = "dungeon";
                 world[i][j].dungeon_location = util.getRandomValueInArray(data.dungeon_locations[world[i][j].terrain]);
@@ -349,27 +354,43 @@ var generateWorld = function () {
                 if(world[i][j].dungeon_creator == 'humans'){
                     world[i][j].dungeon_creator = util.getRandomValueInArray(data.npc_descriptions.alignments_1) + " " + util.getRandomValueInArray(data.npc_descriptions.alignments_2) + " " + util.getRandomValueInArray(data.dungeon_creator_classes);
                 }
-                world[i][j].dungeon_purpose = util.getRandomValueInArray(data.dungeon_purposes);
-                world[i][j].dungeon_history = util.getRandomValueInArray(data.dungeon_histories);
+                world[i][j].dungeon_purpose = util.getRandomIndexInArray(data.dungeon_purposes);
+                world[i][j].dungeon_history = util.getRandomIndexInArray(data.dungeon_histories);
             }
             if (world[i][j].type === "wilderness") {
                 world[i][j].wilderness_monument = util.getRandomValueInArray(data.wilderness_monuments);
                 world[i][j].wilderness_weird_locale = util.getRandomValueInArray(data.wilderness_weird_locales);
             }
-            world[i][j].temperature = util.getRandomValueInArray(data.weather_temperatures);
-            world[i][j].precipitation = util.getRandomValueInArray(data.weather_precipitation);
-            world[i][j].wind = util.getRandomValueInArray(data.weather_wind);
+            world[i][j].temperature = util.getRandomIndexInArray(data.weather_temperatures);
+            world[i][j].precipitation = util.getRandomIndexInArray(data.weather_precipitation);
+            world[i][j].wind = util.getRandomIndexInArray(data.weather_wind);
+            if (world[i][j].type=='town') {
+                towns_arr.push({
+                    i:i,
+                    j:j
+                });
+            }
         }
     }
-    util.generateHill();
-    util.generateMountain();
-    util.generateArctic();
-    util.generateDesert();
-    util.generateForest();
-    util.generateSwamp();
+    util.generateHillAndMountain();
+    util.generateDesertAndForestAndSwamp();
     util.generateCoastal();
-    util.generateArctic();
     world[0][0].mode = "dm";
+    world[0][0].scale = 16;
+
+
+
+    if(towns_arr.length == 0){
+        world[0][0].marker_i = Math.floor(world.length/2);
+        world[0][0].marker_j = Math.floor(world.length/2);
+    }else{
+        let pt = util.getRandomValueInArray(towns_arr);
+        world[0][0].marker_i = pt.i;
+        world[0][0].marker_j = pt.j;
+    }
+
+    details_i = world[0][0].marker_i;
+    details_j = world[0][0].marker_j;
     updateMap();
     updateDetails();
 };
