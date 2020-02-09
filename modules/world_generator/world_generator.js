@@ -68,6 +68,34 @@ var updateMap = function () {
     a.setAttribute('href',canvas.toDataURL("image/png"));
 };
 
+var renderTownMap = function(){
+  var canvas = document.getElementById("town_map_canvas");
+  let ctx = canvas.getContext('2d');
+  var border = world[details_i][details_j].border;
+  var buildings = world[details_i][details_j].map_buildings;
+  ctx.fillStyle = "black";
+  
+  for(var i = 0; i < border.length; i++){
+    ctx.fillRect(border[i].x,border[i].y,3,3);
+  }
+  
+  for(var i = 0; i < border.length-1; i++){
+    ctx.moveTo(border[i].x,border[i].y);
+    ctx.lineTo(border[i+1].x,border[i+1].y);
+    ctx.stroke();
+  }
+  
+  for(var i = 0; i < buildings.length; i++){
+    ctx.fillRect(
+      buildings[i][0].x,
+      buildings[i][0].y,
+      buildings[i][1].x-buildings[i][0].x,
+      buildings[i][1].y-buildings[i][0].y
+    );
+  }
+  
+};
+
 var updateDetails = function () {
     //console.log(util.generateEncounter(world[details_i][details_j].terrain, Number(document.getElementById("player_count_span").innerHTML), world[details_i][details_j].level));
     var len = Number(document.getElementById("world_width_span").innerHTML);
@@ -87,6 +115,7 @@ var updateDetails = function () {
     
     if (world[details_i][details_j].type === "town") {
         if(world[details_i][details_j].size != null){
+            str += "<canvas id=\"town_map_canvas\" height=\"500\" width=\"500\"></canvas>";
             str += "<table>";
             str += "<tr style=\"font-size:larger;font-weight:bold;\"><td>Name</td><td>" + world[details_i][details_j].name + "</td></tr>";
             if(world[0][0].mode == "dm"){
@@ -285,6 +314,7 @@ var updateDetails = function () {
 
     out.innerHTML = str;
     util.applyOnClicks();
+    renderTownMap();
 };
 
 var generateWorld = function () {

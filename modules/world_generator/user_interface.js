@@ -141,6 +141,15 @@ var user_interface = {
             elem.style.left = "auto";
         }
     },
+    expandFloatingWindow: function(){
+        let elem = document.getElementById("floating_window");
+        elem.style.width = "94vw";
+    },
+    
+    closeFloatingWindow: function(){
+        let elem = document.getElementById("floating_window");
+        elem.style.width = "20vw";
+    },
 
     copySaveFile: function(){
         let elem = document.getElementById("save_file_input");

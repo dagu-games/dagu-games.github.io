@@ -21,7 +21,6 @@
 </head>
 <body>
     <div id="save_window">
-      testerrrrr
         <button class="styledButton" onclick="user_interface.generateSaveFile()">Generate DM Save File</button>
         <button class="styledButton" onclick="user_interface.generatePlayerSaveFile()">Generate Player Save File</button>
 
@@ -31,12 +30,7 @@
         <input type="text" size="40" id="save_file_input">
         <button class="styledButton" onclick="user_interface.copySaveFile()">Copy Text</button>
         <a id="dl_link">Open map image in new tab</a>
-
-    </div>
-    <div id="floating_window">
-        <h2>World Generator</h2>
-        <button class="styledButton" onclick="user_interface.swapFloatingWindowSide()">Swap Menu Side</button>
-        <button class="styledButton" onclick="generateWorld()">Generate World</button>
+<button class="styledButton" onclick="generateWorld()">Generate World</button>
         <br><br>
         <table>
             <tr>
@@ -90,9 +84,14 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div id="floating_window">
+        <h2>World Generator</h2>
+        <button class="styledButton" onclick="user_interface.closeFloatingWindow()">Close</button>
+        <button class="styledButton" onclick="user_interface.expandFloatingWindow()">Expand</button>
+        <button class="styledButton" onclick="user_interface.swapFloatingWindowSide()">Swap Menu Side</button>
+        
         <br>
-
-
         <div id="details_div"></div>
     </div>
     <br>

@@ -194,7 +194,146 @@ var util = {
         for (let x = 0; x < 5; x++) {
             world[i][j].urban_encounters.push(util.getRandomValueInArray(data.urban_encounters));
         }
+        
+        
+        let points = [];
+        for(let x = 0; x < 1000; x++){
+          if(util.getRandomInt(1)==1){
+            if(util.getRandomInt(1)==1){
+              points.push(
+                {
+                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                 y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                }
+              );
+            }else{
+              points.push(
+                {
+                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                  y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                }
+              );
+            }
+          }else{
+            if(util.getRandomInt(1)==1){
+              points.push(
+                {
+                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                 y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                }
+              );
+            }else{
+              points.push(
+                {
+                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                  y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                }
+              );
+            }
+          }
+        }
+        console.log(points);
+        
+        world[i][j].border = util.convexHull(points);
+        
+        var buildings = [];
+        
+        for(var i = 0; i < 1000; i++){
+          var p;
+          if(util.getRandomInt(1)==1){
+            if(util.getRandomInt(1)==1){
+              p = {
+                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                 y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+              };
+            }else{
+              p = {
+                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                  y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+              };
+            }
+          }else{
+            if(util.getRandomInt(1)==1){
+              p = {
+                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+                 y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+              };
+            }else{
+              p = {
+                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
+                  y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
+              };
+            }
+          }
+          var lx = util.getRandomInt(5) + 2;
+          var ly = util.getRandomInt(5) + 2;
+          var p2 = {
+            x:p.x+lx,
+            y:p.y+ly,
+          };
+          if(util.inside(p, border) && util.inside(p2, border)){
+            buildings.push([p,p2]);
+          }
+        }
+        world[i][j].map_buildings = buildings;
     },
+    
+    inside: function(point, vs) {
+      var x = point.x, y = point.y;
+      var inside = false;
+      
+      for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+          var xi = vs[i].x, yi = vs[i].y;
+          var xj = vs[j].x, yj = vs[j].y;
+  
+          var intersect = ((yi > y) != (yj > y))
+              && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+      }
+  
+      return inside;
+    },
+    
+    convexHull: function(points){
+      var ans = [];
+      
+      var orientation = function (p,q,r){
+        var val = (q.y - p.y) * (r.x - q.x) - 
+                  (q.x - p.x) * (r.y - q.y); 
+       
+        if(val == 0){ 
+          return 0;
+        }
+        return (val > 0)? 1: 2;
+      };
+      
+      var l = 0;
+      
+      for (var i = 1; i < points.length; i++){
+        if (points[i].x < points[l].x){
+            l = i;
+        }
+      }
+      
+      var p = l;
+      var q;
+      
+      do{ 
+          ans.push(points[p]); 
+          q = (p + 1) % points.length; 
+            
+          for (var i = 0; i < n; i++) { 
+             if (orientation(points[p], points[i], points[q]) == 2) {
+                 q = i; 
+             }
+          } 
+          p = q;
+      }while(p != l);
+      
+      return ans;
+    },
+    
+    
 
     NPCtoHTML: function (npc) {
         let ans = "";
