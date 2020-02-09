@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <script src="lib/lz-string.js"></script>
+    <link href="lib/fontawesome/css/all.css" rel="stylesheet">
     <script src="node_modules/rpg-dice-roller/lib/umd/bundle.min.js"></script> 
     <script src="data.js"></script> 
     <script src="util.js"></script>
@@ -20,6 +21,13 @@
 	</script>
 </head>
 <body>
+    <div id="toolbar">
+      <i class="fas fa-search-location toolbar_icon"></i>
+      <i class="fas fa-cog toolbar_icon"></i>
+      <i class="fas fa-info-circle toolbar_icon"></i>
+      <i class="fas fa-sticky-note toolbar_icon"></i>
+      <i class="fas fa-question-circle toolbar_icon"></i>
+    </div>
     <div id="save_window">
         <button class="styledButton" onclick="user_interface.generateSaveFile()">Generate DM Save File</button>
         <button class="styledButton" onclick="user_interface.generatePlayerSaveFile()">Generate Player Save File</button>
@@ -30,7 +38,7 @@
         <input type="text" size="40" id="save_file_input">
         <button class="styledButton" onclick="user_interface.copySaveFile()">Copy Text</button>
         <a id="dl_link">Open map image in new tab</a>
-<button class="styledButton" onclick="generateWorld()">Generate World</button>
+        <button class="styledButton" onclick="generateWorld()">Generate World</button>
         <br><br>
         <table>
             <tr>

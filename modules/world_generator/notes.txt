@@ -8,3 +8,21 @@ swamp #689109
 urban black
 arctic white
 coastal #CCCC9F
+
+
+font awesome
+
+details
+<i class="fas fa-search-location toolbar_icon"></i>
+
+settings
+<i class="fas fa-cog toolbar_icon"></i>
+
+general campain info
+<i class="fas fa-info-circle toolbar_icon"></i>
+
+notes
+<i class="fas fa-sticky-note toolbar_icon"></i>
+
+tutorial
+<i class="fas fa-question-circle toolbar_icon"></i>
