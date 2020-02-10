@@ -198,8 +198,8 @@ var util = {
         
         let points = [];
         for(let x = 0; x < 1000; x++){
-          if(util.getRandomInt(1)==1){
-            if(util.getRandomInt(1)==1){
+          if(util.getRandomInt(2)==1){
+            if(util.getRandomInt(2)==1){
               points.push(
                 {
                  x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
@@ -215,7 +215,7 @@ var util = {
               );
             }
           }else{
-            if(util.getRandomInt(1)==1){
+            if(util.getRandomInt(2)==1){
               points.push(
                 {
                  x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
@@ -238,8 +238,8 @@ var util = {
         
         for(var x = 0; x < 1000; x++){
           var p;
-          if(util.getRandomInt(1)==1){
-            if(util.getRandomInt(1)==1){
+          if(util.getRandomInt(2)==1){
+            if(util.getRandomInt(2)==1){
               p = {
                  x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
                  y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
@@ -251,7 +251,7 @@ var util = {
               };
             }
           }else{
-            if(util.getRandomInt(1)==1){
+            if(util.getRandomInt(2)==1){
               p = {
                  x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
                  y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,

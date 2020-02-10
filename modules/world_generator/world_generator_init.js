@@ -5,6 +5,10 @@ window.onload = function(){
     canvas.addEventListener('mousedown', function(e){
         user_interface.showCanvasDetails(canvas, e);
     });
+    
+    for(var i = 1; i < 29; i++){
+ 	    console.log(util.getRandomInt(1));
+    }
 };
 //console.log(util.rollDice('37d20+4'));
 // for(var i = 1; i < 29; i++){
