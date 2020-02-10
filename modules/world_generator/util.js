@@ -260,7 +260,38 @@ var util = {
             y:p.y+ly,
           };
           if(util.inside(p, world[i][j].border) && util.inside(p2, world[i][j].border)){
-            buildings.push([p,p2]);
+            var pass = true;
+            for(var ti = 0; ti < buildings.length; ti++){
+                tbuilding = [
+                    {
+                        buildings[ti][0].x,
+                        buildings[ti][0].y,
+                    },
+                    {
+                        buildings[ti][1].x,
+                        buildings[ti][0].y,
+                    },
+                    {
+                        buildings[ti][0].x,
+                        buildings[ti][1].y,
+                    },
+                    {
+                        buildings[ti][1].x,
+                        buildings[ti][1].y,
+                    },
+                ];
+                if(
+                    util.inside(p,tbuilding) ||
+                    util.inside(p2,tbuilding) ||
+                    util.inside({x:p.x,y:p2.y},tbuilding) ||
+                    util.inside({x:p2.x,y:p.y},tbuilding) ||
+                ){
+                    pass = false;
+                }
+            }
+            if(pass){
+                buildings.push([p,p2]);
+            }
           }
         }
         world[i][j].map_buildings = buildings;
