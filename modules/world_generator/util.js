@@ -264,20 +264,20 @@ var util = {
             for(var ti = 0; ti < buildings.length; ti++){
                 tbuilding = [
                     {
-                        buildings[ti][0].x,
-                        buildings[ti][0].y,
+                        x:buildings[ti][0].x,
+                        y:buildings[ti][0].y,
                     },
                     {
-                        buildings[ti][1].x,
-                        buildings[ti][0].y,
+                        x:buildings[ti][1].x,
+                        y:buildings[ti][0].y,
                     },
                     {
-                        buildings[ti][0].x,
-                        buildings[ti][1].y,
+                        x:buildings[ti][0].x,
+                        y:buildings[ti][1].y,
                     },
                     {
-                        buildings[ti][1].x,
-                        buildings[ti][1].y,
+                        x:buildings[ti][1].x,
+                        y:buildings[ti][1].y,
                     },
                 ];
                 if(
