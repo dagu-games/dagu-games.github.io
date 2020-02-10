@@ -115,7 +115,6 @@ var updateDetails = function () {
     
     if (world[details_i][details_j].type === "town") {
         if(world[details_i][details_j].size != null){
-            str += "<canvas id=\"town_map_canvas\" height=\"500\" width=\"500\"></canvas>";
             str += "<table>";
             str += "<tr style=\"font-size:larger;font-weight:bold;\"><td>Name</td><td>" + world[details_i][details_j].name + "</td></tr>";
             if(world[0][0].mode == "dm"){
