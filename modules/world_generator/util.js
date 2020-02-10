@@ -271,7 +271,7 @@ var util = {
             x:p.x+lx,
             y:p.y+ly,
           };
-          if(util.inside(p, border) && util.inside(p2, border)){
+          if(util.inside(p, world[i][j].border) && util.inside(p2, world[i][j].border)){
             buildings.push([p,p2]);
           }
         }
