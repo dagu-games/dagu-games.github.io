@@ -284,7 +284,7 @@ var util = {
                     util.inside(p,tbuilding) ||
                     util.inside(p2,tbuilding) ||
                     util.inside({x:p.x,y:p2.y},tbuilding) ||
-                    util.inside({x:p2.x,y:p.y},tbuilding) ||
+                    util.inside({x:p2.x,y:p.y},tbuilding)
                 ){
                     pass = false;
                 }
