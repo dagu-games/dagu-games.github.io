@@ -85,6 +85,10 @@ var renderTownMap = function(){
     ctx.stroke();
   }
   
+    ctx.moveTo(border[border.length-1].x,border[border.length-1].y);
+    ctx.lineTo(border[0].x,border[0].y);
+    ctx.stroke();
+  
   for(var i = 0; i < buildings.length; i++){
     ctx.fillRect(
       buildings[i][0].x,
