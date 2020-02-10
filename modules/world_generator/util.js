@@ -201,8 +201,8 @@ var util = {
             var d = util.getRandomInt(500);
             var theta = Math.random()*2*Math.PI;
             points.push({
-                x:Math.floor(d*Math.cos(theta)),
-                y:Math.floor(d*Math.sin(theta)),
+                x:Math.floor(d*Math.cos(theta))+500,
+                y:Math.floor(d*Math.sin(theta))+500,
             });
             
             
@@ -250,8 +250,8 @@ var util = {
             var d = util.getRandomInt(500);
             var theta = Math.random()*2*Math.PI;
             p = {
-                x:Math.floor(d*Math.cos(theta)),
-                y:Math.floor(d*Math.sin(theta)),
+                x:Math.floor(d*Math.cos(theta))+500,
+                y:Math.floor(d*Math.sin(theta))+500,
             };
           var lx = util.getRandomInt(25) + 10;
           var ly = util.getRandomInt(25) + 10;
