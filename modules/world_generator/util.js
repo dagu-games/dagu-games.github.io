@@ -235,7 +235,7 @@ var util = {
         console.log(points);
         
         world[i][j].border = util.convexHull(points);
-        
+        console.log(world[i][j].border);
         var buildings = [];
         
         for(var i = 0; i < 1000; i++){
