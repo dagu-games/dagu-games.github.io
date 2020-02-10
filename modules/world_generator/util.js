@@ -252,7 +252,7 @@ var util = {
             p = {
                 x:Math.floor(d*Math.cos(theta)),
                 y:Math.floor(d*Math.sin(theta)),
-            });
+            };
           var lx = util.getRandomInt(25) + 10;
           var ly = util.getRandomInt(25) + 10;
           var p2 = {
