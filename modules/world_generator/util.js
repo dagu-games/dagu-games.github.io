@@ -322,7 +322,7 @@ var util = {
           ans.push(points[p]); 
           q = (p + 1) % points.length; 
             
-          for (var i = 0; i < n; i++) { 
+          for (var i = 0; i < points.length; i++) { 
              if (orientation(points[p], points[i], points[q]) == 2) {
                  q = i; 
              }
