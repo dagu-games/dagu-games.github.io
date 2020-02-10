@@ -238,7 +238,7 @@ var util = {
         console.log(world[i][j].border);
         var buildings = [];
         
-        for(var i = 0; i < 1000; i++){
+        for(var x = 0; x < 1000; x++){
           var p;
           if(util.getRandomInt(1)==1){
             if(util.getRandomInt(1)==1){
