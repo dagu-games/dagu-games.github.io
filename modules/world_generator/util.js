@@ -32,7 +32,7 @@ var util = {
         }
     },
     getRandomInt: function (max) {
-        return Math.floor(Math.random() * (Math.floor(max) + 1));
+        return Math.floor(Math.random() * (Math.floor(max-1) + 1));
     },
 
     getRandomValueInArray: function (arr) {
