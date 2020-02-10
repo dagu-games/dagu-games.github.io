@@ -198,7 +198,16 @@ var util = {
         
         let points = [];
         for(let x = 0; x < 1000; x++){
-          if(util.getRandomInt(2)==1){
+            var d = util.getRandomInt(500);
+            var theta = Math.random()*2*Math.PI;
+            points.push({
+                x:Math.floor(d*Math.cos(theta)),
+                y:Math.floor(d*Math.sin(theta)),
+            });
+            
+            
+            
+          /*if(util.getRandomInt(2)==1){
             if(util.getRandomInt(2)==1){
               points.push(
                 {
@@ -230,41 +239,22 @@ var util = {
                 }
               );
             }
-          }
+          }*/
         }
         
         world[i][j].border = util.convexHull(points);
         var buildings = [];
         
         for(var x = 0; x < 1000; x++){
-          var p;
-          if(util.getRandomInt(2)==1){
-            if(util.getRandomInt(2)==1){
-              p = {
-                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
-                 y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
-              };
-            }else{
-              p = {
-                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
-                  y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
-              };
-            }
-          }else{
-            if(util.getRandomInt(2)==1){
-              p = {
-                 x:(util.getRandomInt(22)*util.getRandomInt(22))+500,
-                 y:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
-              };
-            }else{
-              p = {
-                  x:(util.getRandomInt(22)*util.getRandomInt(22)* -1)+500,
-                  y:(util.getRandomInt(22)*util.getRandomInt(22))+500,
-              };
-            }
-          }
-          var lx = util.getRandomInt(5) + 2;
-          var ly = util.getRandomInt(5) + 2;
+            var p;
+            var d = util.getRandomInt(500);
+            var theta = Math.random()*2*Math.PI;
+            p = {
+                x:Math.floor(d*Math.cos(theta)),
+                y:Math.floor(d*Math.sin(theta)),
+            });
+          var lx = util.getRandomInt(25) + 10;
+          var ly = util.getRandomInt(25) + 10;
           var p2 = {
             x:p.x+lx,
             y:p.y+ly,
